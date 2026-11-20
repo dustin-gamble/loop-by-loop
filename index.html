@@ -80,9 +80,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 #stage{flex:1;position:relative;background:radial-gradient(circle at 50% 42%,var(--stage-a),var(--stage-b));overflow:hidden}
 #gl{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
 #gl:active{cursor:grabbing}
-.toggles{position:absolute;z-index:3;right:12px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.toggles .pill{font-size:.78rem;padding:6px 11px}
-#legend{position:absolute;z-index:3;left:12px;bottom:10px;display:flex;flex-direction:column;gap:3px;font-size:.76rem;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:7px 10px}
+.toggles{display:flex;gap:6px;flex-wrap:wrap}
+.toggles .pill{font-size:.82rem;padding:8px 13px}
+#legend{position:absolute;z-index:3;left:12px;bottom:12px;display:flex;flex-direction:column;gap:3px;font-size:.76rem;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:7px 10px}
 #legend span{display:flex;align-items:center;gap:6px}
 #legend i{width:11px;height:11px;border-radius:50%}
 #labels{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
@@ -95,7 +95,16 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 #phase b{grid-row:1/3;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:.9rem}
 #phase em{grid-column:2;font-style:normal;font-weight:700;font-size:.72rem;opacity:.78}
 #phase.held b{background:transparent;box-shadow:inset 0 0 0 2px var(--accent);color:var(--paper)}
-#cta{position:absolute;z-index:4;left:0;right:0;bottom:52px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px}
+.big.start{display:flex;align-items:center;gap:12px;font-size:1.3rem;padding:17px 30px 17px 22px;box-shadow:0 10px 28px rgba(207,47,104,.45),0 0 0 6px rgba(207,47,104,.16);animation:beckon 1.8s ease-in-out infinite}
+.big.start svg{flex:none;width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+@keyframes beckon{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+#fab{position:absolute;z-index:4;right:12px;bottom:12px;display:flex;align-items:center;gap:8px}
+#fab button{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;height:54px;min-width:54px;padding:0 15px;display:grid;place-items:center;font-weight:800;font-size:.88rem;box-shadow:0 4px 14px rgba(30,20,50,.2);touch-action:manipulation}
+#fab button svg{width:22px;height:22px;fill:currentColor}
+#fab #fNext{height:70px;min-width:128px;padding:0 20px 0 26px;display:flex;align-items:center;justify-content:center;gap:6px;border:0;background:linear-gradient(90deg,rgba(255,255,255,.3) var(--p,0%),rgba(255,255,255,0) 0),var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:600;font-size:1.3rem;box-shadow:0 8px 22px rgba(207,47,104,.45)}
+#fab #fNext svg{width:28px;height:28px}
+#fab button:active{transform:scale(.96)}
+#cta{position:absolute;z-index:4;left:0;right:0;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 16px}
 .big{border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:600;font-size:1.05rem;padding:13px 22px;box-shadow:0 6px 18px rgba(40,20,60,.25)}
 .deck{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px 28px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
 .now{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
@@ -187,7 +196,7 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
   .stagewrap{flex:1 1 60%}
   .deck{flex:0 0 420px;border-top:0;border-left:1px solid var(--line);padding:18px 18px 32px}
 }
-@media (prefers-reduced-motion:reduce){.card{transition:none}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.big.start{animation:none}}
 </style>
 </head>
 <body>
@@ -230,14 +239,14 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
       </div>
       <div id="labels" hidden aria-hidden="true"><svg></svg></div>
       <div id="phase" hidden aria-live="polite"><b></b><span></span><em></em></div>
-      <div class="toggles">
-        <button class="pill" id="tTurn" type="button" aria-pressed="true">Auto-turn</button>
-        <button class="pill" id="tTypes" type="button" aria-pressed="false">Color by stitch</button>
-        <button class="pill" id="tExpert" type="button" aria-pressed="false" title="Close-up from the crocheter's side, with every loop named (E)">Expert view</button>
-      </div>
       <div id="cta" hidden>
-        <button class="big" id="follow" type="button">Crochet along, stitch by stitch</button>
-        <button class="pill" id="resume" type="button" hidden></button>
+        <button class="big start" id="follow" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M4.2 8.6c5 1.6 10.6 1.6 15.6 0M3.4 13.4c5.6 2 11.6 2 17.2 0M8.2 3.8c-2.2 5.4-2.2 11 0 16.4M15.4 3.6c2.6 5.4 2.6 11.4 0 16.8"/></svg><span>Start crocheting</span></button>
+        <button class="pill" id="resume" type="button" hidden>Start from the beginning</button>
+      </div>
+      <div id="fab" hidden>
+        <button type="button" id="fBack" aria-label="Back one stitch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5v14L6 12z"/></svg></button>
+        <button type="button" id="fMove" title="One hook move, then wait" hidden>1 move</button>
+        <button type="button" id="fNext" aria-label="Next stitch"><span>Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l10-7z"/></svg></button>
       </div>
     </div>
   </div>
@@ -269,8 +278,13 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
       <div class="row"><label for="scrub">Progress</label><input type="range" id="scrub" min="0" max="100" value="0" step="1"><output id="scrubOut" for="scrub"></output></div>
       <div class="row" id="motionRow" hidden><label for="motion">This stitch</label><input type="range" id="motion" min="0" max="1000" value="1000" step="1" aria-label="Drag the hook through this stitch by hand"><output id="motionOut" for="motion"></output></div>
       <div class="row" id="moveRow" hidden><label>Hook moves</label><button type="button" class="pill" id="bMovePrev" title="Back one hook move (Up arrow)">&#9666; Back</button><button type="button" class="pill grow" id="bMoveNext" title="Do the next hook move, then wait (Down arrow)">Next move &#9656;</button><button type="button" class="pill" id="bReplay" title="Replay this stitch (R)">Replay</button></div>
-      <div class="row" id="paceRow" hidden><label for="pace">Hook pace</label><input type="range" id="pace" min="2" max="16" value="6" step=".5"><output id="paceOut" for="pace"></output></div>
+      <div class="row" id="paceRow" hidden><label for="pace">Hook pace</label><input type="range" id="pace" min="4" max="30" value="12" step="1"><output id="paceOut" for="pace"></output></div>
       <div class="row" id="speedRow" hidden><label for="speed">Slow speed</label><input type="range" id="speed" min="0.3" max="4" value="1.2" step="0.1"><output id="speedOut" for="speed"></output></div>
+    </div>
+    <div class="toggles" role="group" aria-label="View">
+      <button class="pill" id="tExpert" type="button" aria-pressed="false" title="Close-up from the crocheter's side, with every loop named (E)">Expert view</button>
+      <button class="pill" id="tTypes" type="button" aria-pressed="false">Color by stitch</button>
+      <button class="pill" id="tTurn" type="button" aria-pressed="true">Auto-turn</button>
     </div>
     <p class="keys"><kbd>Space</kbd> next stitch <kbd>&larr;</kbd> back <kbd>&darr;</kbd> one hook move <kbd>&uarr;</kbd> back a move <kbd>E</kbd> expert view <kbd>R</kbd> replay</p>
     <details open><summary>Written pattern</summary><div class="inner" id="pattern"></div></details>
@@ -1881,18 +1895,18 @@ scene.environment=(()=>{
 /* ---- yarn: a plied strand, as a normal map and a shading map that wrap around every tube ---- */
 const YARN_R=.178, LU=1.6, TOP_X=.5;   // strand radius · strand length one texture repeat covers · where along a top loop the next round's hook goes in
 const yarnMaps=(()=>{
-  const N=LOW?256:1024, P=4, G=32, h=new Float32Array(N*N), lat=new Float32Array(G*G);
+  const N=LOW?256:1024, P=4, G=64, h=new Float32Array(N*N), lat=new Float32Array(G*G);
   let seed=11; for(let i=0;i<G*G;i++){ seed=seed*16807%2147483647; lat[i]=seed/2147483647; }
   const noise=(x,y,f)=>{ x*=f; y*=f; const xi=Math.floor(x), yi=Math.floor(y), fx=x-xi, fy=y-yi, sx=fx*fx*(3-2*fx), sy=fy*fy*(3-2*fy);
     const g=(a,b)=>lat[(b%f)*G+(a%f)], a=g(xi,yi), b=g(xi+1,yi), c=g(xi,yi+1), d=g(xi+1,yi+1);
     return a+(b-a)*sx+(c-a)*sy+(a-b-c+d)*sx*sy; };
   for(let j=0;j<N;j++) for(let i=0;i<N;i++){
     const a=i/N, b=j/N, c=(P*(a+b))%1, ply=Math.pow(Math.sin(Math.PI*c),.7);       // a runs along the strand, b around it; four plies twist one way
-    const n1=noise(a,b,8), n2=noise(a,b,16), n3=noise(a,b,32);
+    const n1=noise(a,b,8), n2=noise(a,b,16), n3=noise(a,b,32), n4=noise(a,b,64);
     const fib=.5*Math.sin(TAU*(31*b-12*a)+7*n1)+.35*Math.sin(TAU*(47*b-17*a)+10*n2)+.7*(n3-.5);   // the fibres inside each ply run back the other way, unevenly
-    h[j*N+i]=ply*(1+.06*fib)+.05*(n3-.5)-.03*(Math.floor(P*(a+b))%2);
+    h[j*N+i]=ply*(1+.06*fib)+.05*(n3-.5)+.07*(n4-.5)-.03*(Math.floor(P*(a+b))%2);      // plies, the fibres in them, and a fine fuzz on top
   }
-  const nrm=new Uint8Array(N*N*4), alb=new Uint8Array(N*N*4), depth=.042, ka=depth/LU*N/2, kb=depth/(TAU*YARN_R)*N/2;
+  const nrm=new Uint8Array(N*N*4), alb=new Uint8Array(N*N*4), depth=.034, ka=depth/LU*N/2, kb=depth/(TAU*YARN_R)*N/2;
   for(let j=0;j<N;j++) for(let i=0;i<N;i++){
     const o=(j*N+i)*4, dx=(h[j*N+(i+1)%N]-h[j*N+(i+N-1)%N])*ka, dy=(h[((j+1)%N)*N+i]-h[((j+N-1)%N)*N+i])*kb, l=1/Math.hypot(dx,dy,1);
     nrm[o]=(-dx*l*.5+.5)*255; nrm[o+1]=(-dy*l*.5+.5)*255; nrm[o+2]=(l*.5+.5)*255; nrm[o+3]=255;
@@ -1903,14 +1917,16 @@ const yarnMaps=(()=>{
   return {nrm:tex(nrm,false),alb:tex(alb,true)};
 })();
 // uniforms shared by every stitch: which loops to tint in the expert view
-const U={uExpert:{value:0},uCount:{value:1e7},uCur:{value:-1},uNext:{value:new V3(-1,-1,1)},uPulse:{value:0},uOpen:{value:.8},uCurK:{value:1},uSolo:{value:-1},uFocus:{value:new V3()},uHookA:{value:new V3(0,1e3,0)},uHookB:{value:new V3(0,1e3+1,0)},uHookR:{value:new THREE.Vector2(0,.58)},
+const U={uExpert:{value:0},uCount:{value:1e7},uCur:{value:-1},uNext:{value:new V3(-1,-1,1)},uPulse:{value:0},uOpen:{value:.8},uCurK:{value:1},uSolo:{value:-1},uTuck:{value:new THREE.Vector2(-1,0)},uFocus:{value:new V3()},uHookA:{value:new V3(0,1e3,0)},uHookB:{value:new V3(0,1e3+1,0)},uHookR:{value:new THREE.Vector2(0,.58)},
          uFL:{value:new THREE.Color('#ffa51f')},uBL:{value:new THREE.Color('#2f7df6')}};
-const yarnProps={roughness:.86,metalness:0,map:yarnMaps.alb,normalMap:yarnMaps.nrm,normalScale:new THREE.Vector2(1.25,1.25),sheen:.22,sheenRoughness:.5,sheenColor:new THREE.Color(0xffffff),envMapIntensity:.8};
+const yarnProps={roughness:.96,metalness:0,map:yarnMaps.alb,normalMap:yarnMaps.nrm,normalScale:new THREE.Vector2(1.15,1.15),sheen:.5,sheenRoughness:.72,sheenColor:new THREE.Color(0xffffff),envMapIntensity:.8};      // matt, with the soft bright edge that fuzz gives
 const yarnMat=new THREE.MeshPhysicalMaterial({...yarnProps,vertexColors:true});
 const strandMat=new THREE.MeshPhysicalMaterial({...yarnProps});       // loose strands: embroidery, the working loop
-const SKIN_PARS='attribute vec3 aSkin; attribute vec3 aBase; attribute vec3 aMeta; uniform vec3 uHookA,uHookB; uniform vec2 uHookR; uniform float uSolo;\n';
+const SKIN_PARS='attribute vec3 aSkin; attribute vec3 aBase; attribute vec3 aMeta; uniform vec3 uHookA,uHookB; uniform vec2 uHookR,uTuck; uniform float uSolo,uCount;\n';
 // each post is pulled over to the stitch it was really worked into: aBase = where its foot goes, aSkin.x = how much of that a vertex takes
-const SKIN_MOVE='#include <begin_vertex>\ntransformed.x+=aSkin.x*(aBase.x+aSkin.y*aBase.z); transformed.y+=aSkin.x*aBase.y;\ntransformed*=1.-step(-.5,uSolo)*step(.5,abs(aMeta.z-uSolo));\n';   // …and uSolo shows one piece alone
+const SKIN_MOVE='#include <begin_vertex>\ntransformed.x+=aSkin.x*(aBase.x+aSkin.y*aBase.z); transformed.y+=aSkin.x*aBase.y;\n'
+  +'{ float lp=step(.5,aSkin.z)*(1.-step(2.5,aSkin.z)), wk=max(1.-step(uCount-.5,aMeta.y),(1.-step(.5,abs(aMeta.y-uTuck.x)))*uTuck.y); transformed.z-=lp*wk*.17; transformed.y-=lp*wk*.03; }\n'      // top loops that have been worked into sit back behind the legs wrapped round them
+  +'transformed*=1.-step(-.5,uSolo)*step(.5,abs(aMeta.z-uSolo));\n';   // …and uSolo shows one piece alone
 // …and every strand near the hook is pushed off it, so the fabric opens as the hook goes in
 const HOOK_PUSH=`vec4 mvPosition=vec4(transformed,1.0);
   #ifdef USE_INSTANCING
@@ -1922,7 +1938,7 @@ const HOOK_PUSH=`vec4 mvPosition=vec4(transformed,1.0);
   gl_Position=projectionMatrix*mvPosition;`;
 yarnMat.onBeforeCompile=sh=>{
   Object.assign(sh.uniforms,U);
-  sh.vertexShader=SKIN_PARS+'uniform float uExpert,uCount,uCur,uCurK,uPulse,uOpen; uniform vec3 uNext,uFL,uBL,uFocus; varying vec3 vGlow;\n'+sh.vertexShader
+  sh.vertexShader=SKIN_PARS+'uniform float uExpert,uCur,uCurK,uPulse,uOpen; uniform vec3 uNext,uFL,uBL,uFocus; varying vec3 vGlow;\n'+sh.vertexShader
     .replace('#include <begin_vertex>',SKIN_MOVE).replace('#include <project_vertex>',HOOK_PUSH)
     .replace('#include <uv_vertex>',`#include <uv_vertex>
       float lbShift=fract(aMeta.x*.61803398);
@@ -1963,7 +1979,7 @@ function tubeInto(B,pts,o){
     T.subVectors(P[Math.min(n-1,i+1)],P[Math.max(0,i-1)]).normalize();
     if(!i){ Nn.set(0,0,1); if(Math.abs(T.z)>.9) Nn.set(1,0,0); } else len+=P[i].distanceTo(P[i-1]);
     Nn.addScaledVector(T,-Nn.dot(T)).normalize(); Bn.crossVectors(T,Nn);
-    const t=i/(n-1), r=o.rad*(o.taper?o.taper(t):1), sk=o.skin?o.skin(P[i],t):[0,0,0];
+    const t=i/(n-1), r=o.rad*(o.taper?o.taper(t):1)*(1+.035*Math.sin(len*9.1+(o.u0||0)*20)+.025*Math.sin(len*23.7+1)), sk=o.skin?o.skin(P[i],t):[0,0,0];
     for(let k=0;k<=rs;k++){
       const a=TAU*k/rs; v.copy(Nn).multiplyScalar(Math.cos(a)).addScaledVector(Bn,Math.sin(a)); q.copy(P[i]).addScaledVector(v,r);
       B.pos.push(q.x,q.y,q.z); B.nrm.push(v.x,v.y,v.z); B.uv.push(len/LU+(o.u0||0),k/rs);
@@ -1985,7 +2001,7 @@ function strandGeo(pts,rad,segs,radial){ const B=newB(); tubeInto(B,pts,{rad,seg
    - the top loops: one flat loop lying along the top edge, trailing back to the stitch before.
      Its near strand is the front loop, its far strand the back loop; the next round goes under both.
    - a pad of shadowed fabric behind, so the piece is not see-through */
-const LEG=[[.03,-.50,-.12],[.06,-.62,.08],[.10,-.58,.27],[.17,-.28,.33],[.26,.05,.31],[.32,.27,.21],[.27,.40,.03],[.14,.42,-.12]];      // one leg of the post; the other is its mirror
+const LEG=[[.08,-.52,-.16],[.14,-.80,-.02],[.17,-.74,.27],[.20,-.42,.38],[.27,-.05,.33],[.34,.24,.22],[.30,.40,.04],[.17,.43,-.12]];      // one leg of the post; the other is its mirror
 const TEAR=[[.99,.28,0],[.88,.42,.035],[.6,.47,.09],[.3,.475,.165],[.05,.45,.2],[-.12,.33,.03],[0,.44,-.15],[.3,.485,-.145],[.6,.48,-.075],[.88,.43,-.03],[.99,.29,-.02]];   // the top loops
 const stitchGeo=(()=>{
   const B=newB(), rs=LOW?7:10, ends=t=>t<.12?.7+.3*t/.12:t>.88?.7+.3*(1-t)/.12:1;
@@ -2059,7 +2075,7 @@ function makeView(cr){
     a.set(0,0,0);
     for(const p of s.par){ a.add(q.set(TOP_X,H/2,0).applyMatrix4(mats[p])); if(aMeta[p*3+1]>i) aMeta[p*3+1]=i; }
     a.multiplyScalar(1/s.par.length).applyMatrix4(inv.copy(mats[i]).invert());
-    aBase[i*3]=clamp(a.x,-.7,.7); aBase[i*3+1]=clamp(a.y+H/2,-.3,.3); aBase[i*3+2]=s.t==='dec'?.2:0;
+    aBase[i*3]=clamp(a.x,-.7,.7); aBase[i*3+1]=clamp(a.y+H/2,-.3,.3); aBase[i*3+2]=s.t==='dec'?.12:0;
   });
   geo.setAttribute('aBase',new THREE.InstancedBufferAttribute(aBase,3)); geo.setAttribute('aMeta',new THREE.InstancedBufferAttribute(aMeta,3));
   const pre=new THREE.InstancedMesh(geo,preMat,n); pre.instanceMatrix=mesh.instanceMatrix; pre.frustumCulled=false; pre.renderOrder=-1;
@@ -2173,7 +2189,7 @@ function thumbTick(){
 /* =====================================================================
    STUDIO
    ===================================================================== */
-const S={cr:null,view:null,cur:0,mode:'lapse',playing:false,acc:0,speed:1.2,autoTurn:true,types:false,expert:false,wasXp:false,focus:-1,pace:6,fwd:false,stopNext:0,solo:null,holdUntil:0,hl:[],popAt:0,lastPainted:-1,raf:0,lastT:0,done:false};
+const S={cr:null,view:null,cur:0,mode:'lapse',playing:false,acc:0,speed:1.2,autoTurn:true,types:false,expert:false,wasXp:false,focus:-1,pace:12,beat:.5,fwd:false,stopNext:0,solo:null,holdUntil:0,hl:[],popAt:0,lastPainted:-1,raf:0,lastT:0,done:false};
 const XP={az:-.22,el:.85,zoom:1};                   // expert view: where the camera sits relative to the stitch being worked
 const Q={ema:1/60,bad:0,level:0,hold:0,probe:null};             // steps resolution and the shadow pass down if frames run steadily slow
 let stageW=1, stageH=1;
@@ -2195,8 +2211,7 @@ function openCreature(id){
   S.types=false; $('#tTypes').setAttribute('aria-pressed','false'); $('#legend').hidden=true;
   S.cur=0; S.lastPainted=-1; S.hl=[]; S.done=false; S.focus=-1; S.wasXp=false; S.solo=null; U.uSolo.value=-1; XP.az=-.22; XP.el=.85; XP.zoom=1;
   const saved=store.entry(id).c; S.saved = saved>0 && saved<cr.steps.length ? saved : 0;
-  if(S.saved){ S.mode='step'; setCursor(S.saved); setMode('step'); }      // you were in the middle of this one: straight back to your stitch
-  else{ setMode('lapse'); setCursor(0); play(true); }
+  setMode('lapse'); setCursor(0); play(true);
   $('.deck').scrollTop=0;
   if(!S.raf){ S.lastT=performance.now(); S.raf=requestAnimationFrame(frame); }
 }
@@ -2209,18 +2224,23 @@ function closeStudio(){
 function saveProgress(){ if(!S.cr || S.mode==='lapse') return; const n=S.cr.steps.length, end=S.cur>=n; store.set(S.cr.def.id,Object.assign({c:end?0:S.cur,n},end?{made:true}:{})); }
 
 function setMode(m){
+  if(m==='lapse' && S.mode!=='lapse' && S.cr && S.cur>0 && S.cur<S.cr.steps.length) S.saved=S.cur;      // remember your place while you watch
   S.mode=m;
   document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
-  syncRows();
+  syncRows(); syncStage();
   if(m==='step') play(false);
   repaint(); renderNow();
+}
+function syncStage(){
+  const lapse=S.mode==='lapse', q=S.saved?S.cr.steps[Math.max(0,S.saved-1)]:null;
+  $('#cta').hidden=!lapse; $('#fab').hidden=lapse; $('#fMove').hidden=!S.expert;
+  $('#follow').lastChild.textContent=q?`Carry on: ${q.copy.pd.name}, round ${q.round+1}`:'Start crocheting'; $('#resume').hidden=!q;
 }
 function syncRows(){ $('#speedRow').hidden=S.mode!=='slow'||S.expert; $('#motionRow').hidden=$('#moveRow').hidden=$('#paceRow').hidden=!S.expert||S.mode==='lapse'; }
 function play(on){
   S.playing=on; S.acc=0;
   $('#playIcon').setAttribute('d', on ? 'M6 4h4.5v16H6zM13.5 4H18v16h-4.5z' : 'M7 4v16l13-8z');
   $('#bPlay').setAttribute('aria-label', on?'Pause':'Play');
-  if(on) $('#cta').hidden=true;
   if(!on){ saveProgress(); renderNow(); }
   repaint();
 }
@@ -2232,23 +2252,19 @@ function setCursor(c, fromUser){
   S.popAt=performance.now();
   $('#scrub').value=c;
   if(c<cr.steps.length) S.done=false;
-  if(fromUser) $('#cta').hidden=true;
   repaint(); renderNow();
 }
 function syncExtras(){ for(const x of S.view.ex) x.o.visible = S.cur>x.step && (!S.solo || x.copy===S.solo); }      // eyes, embroidery, ring centres: there once their step is done
 function finish(){
-  play(false); S.done=true; repaint();
-  const cta=$('#cta'); cta.hidden=false;
-  const r=$('#resume');
-  if(S.saved){ const s=S.cr.steps[Math.max(0,S.saved-1)]; r.hidden=false; r.textContent=`Pick up where you stopped: ${s.copy.pd.name}, round ${s.round+1}`; } else r.hidden=true;
+  play(false); S.done=true; repaint(); syncStage();
 }
 function showsDetail(){ return S.mode!=='lapse' && S.cur>0 && S.cur<=S.cr.steps.length && !S.done; }
 // Expert view: the camera drops to where your eyes are, working edge up, and the loops are named
 function setExpert(on){
-  S.expert=on; $('#tExpert').setAttribute('aria-pressed',String(on)); $('#tTurn').hidden=on; syncRows();
+  S.expert=on; $('#tExpert').setAttribute('aria-pressed',String(on)); $('#tTurn').hidden=on; syncRows(); if(S.cr) syncStage();
   const cr=S.cr; if(!cr) return;
   if(on){
-    XP.az=-.22; XP.el=.85; XP.zoom=1; $('#cta').hidden=true;
+    XP.az=-.22; XP.el=.85; XP.zoom=1;
     if(S.mode==='lapse') setMode('step');
     S.done=false;
     let i=Math.min(S.cur,cr.steps.length)-1; while(i>=0 && cr.steps[i].kind!=='st') i--;      // land on a stitch, not on a note
@@ -2266,8 +2282,9 @@ function repaint(){
   for(const i of S.hl) mesh.setColorAt(i, S.types?TYPE_COL[cr.insts[i].t]:v.base[i]);
   S.hl=[]; ring.visible=marker.visible=false;
   const ms=S.cur>0&&showsDetail()?cr.steps[S.cur-1]:null;
-  if(ms){ const i=ms.copy.first+ms.copy.info.rstart[ms.round], F=v.frames[i]; marker.visible=true; marker.position.set(.42,.62,.02).applyMatrix4(v.mats[i]); marker.quaternion.setFromRotationMatrix(_m.makeBasis(F.X,F.Y,F.N)).multiply(_qy); }
-  U.uCount.value=cr.instAt[S.cur]; U.uCur.value=-1; U.uNext.value.set(-1,-1,1);
+  S.markAt=-1;
+  if(ms){ const i=ms.copy.first+ms.copy.info.rstart[ms.round], F=v.frames[i]; S.markAt=i; marker.visible=true; marker.position.set(.42,.62,.02).applyMatrix4(v.mats[i]); marker.quaternion.setFromRotationMatrix(_m.makeBasis(F.X,F.Y,F.N)).multiply(_qy); }
+  U.uCount.value=cr.instAt[S.cur]; U.uCur.value=-1; U.uNext.value.set(-1,-1,1); U.uTuck.value.set(-1,0);
   const st = S.cur>0 ? cr.steps[S.cur-1] : null, detail=showsDetail() && st && st.kind==='st', xp=detail && S.expert;
   if(detail){
     const s=cr.insts[st.inst];
@@ -2301,7 +2318,7 @@ const PHASE_TIP={
   mr:['Under both strands of the ring.','Bring the yarn over the hook from behind and catch it in the mouth.','Draw it back through the ring. Two loops on the hook.','Catch the yarn in the mouth again.','Draw it through both loops. One loop is left and the stitch is made.']
 };
 const smooth=(a,b,x)=>{ x=clamp((x-a)/(b-a),0,1); return x*x*(3-2*x); };
-const hookRad=s=>s<=0?.1:s<.3?.1+.1*s/.3:s<.5?.2:s<.56?.12:s<1.25?.12+.05*(s-.56)/.69:.17;      // how thick the hook is, s along from the tip
+const hookRad=s=>s<.5?.2:s<.56?.12:s<1.25?.12+.05*(s-.56)/.69:.17;      // how thick the hook is, s along from the tip
 const _t1=new V3(), _t2=new V3(), _t3=new V3();
 class Strand{
   constructor(n,segs,rs,mat){
@@ -2319,7 +2336,7 @@ class Strand{
       T.subVectors(P[Math.min(n-1,i+1)],P[Math.max(0,i-1)]).normalize();
       if(!i){ N.set(0,0,1); if(Math.abs(T.z)>.9) N.set(1,0,0); } else len+=P[i].distanceTo(P[i-1]);
       N.addScaledVector(T,-N.dot(T)).normalize(); B.crossVectors(T,N);
-      const t=i/(n-1), r=rad*(t<.06?.6+.4*t/.06:t>.94?.6+.4*(1-t)/.06:1);
+      const t=i/(n-1), r=rad*(t<.06?.6+.4*t/.06:t>.94?.6+.4*(1-t)/.06:1)*(1+.035*Math.sin(len*9.1)+.025*Math.sin(len*23.7+1));
       for(let k=0;k<=rs;k++){
         const a=TAU*k/rs, c=Math.cos(a), s=Math.sin(a), x=c*N.x+s*B.x, y=c*N.y+s*B.y, z=c*N.z+s*B.z;
         pos[o]=P[i].x+x*r; pos[o+1]=P[i].y+y*r; pos[o+2]=P[i].z+z*r; nrm[o]=x; nrm[o+1]=y; nrm[o+2]=z; o+=3; uv[q++]=len/LU; uv[q++]=k/rs;
@@ -2330,10 +2347,10 @@ class Strand{
 }
 /* A loop hanging on the hook: in → base → (m along the way) → five around the shaft → (m along) → base → in.
    pA / pB are the fixed ends of its two sides; s is how far from the tip it rides (below 0 it has slipped off). */
-function hang(out,pA,pB,m,T,A,s,D){
+function hang(out,pA,pB,m,T,A,s,D,extra){
   const C=new V3().copy(T).addScaledVector(A,s), bA=pA[pA.length-1], bB=pB[pB.length-1];
   const Uv=new V3().addVectors(bA,bB).multiplyScalar(.5).sub(C); Uv.addScaledVector(A,-Uv.dot(A)).addScaledVector(D,.22).normalize();
-  const Vv=new V3().crossVectors(A,Uv), R=hookRad(s)+YARN_R*.78;
+  const Vv=new V3().crossVectors(A,Uv), R=hookRad(s)+YARN_R+(extra||0);
   const ring=d=>new V3().copy(C).addScaledVector(Uv,-R*Math.cos(d*DEG)).addScaledVector(Vv,R*Math.sin(d*DEG)), rA=ring(-125), rB=ring(125);
   let k=0;
   for(const p of pA) out[k++].copy(p);
@@ -2373,7 +2390,7 @@ function makeKit(v){
   const guide=new Strand(9,LOW?20:32,6,guideMat), head=new THREE.Mesh(guideHead,guideMat); guide.mesh.castShadow=guide.mesh.receiveShadow=false; guide.mesh.renderOrder=head.renderOrder=10;
   g.add(hook,...arrows,guide.mesh,head);
   const K={g,mats,hook,arrows,guide,head,a:mk(11,LOW?22:36),b:mk(17,LOW?32:56),c:mk(11,LOW?22:36),feed:mk(9,LOW?32:60),tmp:Array.from({length:17},()=>new V3()),
-    x:null,t:1,stop:1,playing:false,shown:true,curK:1,tilt:0,pose:null,cur:{par:[],dec:false},next:{par:[],dec:false},nextAt:null,top:null,bTop:null,drawnT:-1,drawnX:null,chip:'',
+    x:null,t:1,stop:1,wait:0,ph:5,playing:false,shown:true,curK:1,tilt:0,pose:null,cur:{par:[],dec:false},next:{par:[],dec:false},nextAt:null,top:null,bTop:null,drawnT:-1,drawnX:null,chip:'',
     dispose(){ for(const s of [K.a,K.b,K.c,K.feed,K.guide]) s.mesh.geometry.dispose(); for(const m of mats) m.dispose(); }};
   return K;
 }
@@ -2385,7 +2402,7 @@ function prepStitch(v,cr,st,from){
   const leg=sd=>LEG.map(p=>{ const w=clamp((.36-p[1])/.9,0,1); return L(p[0]*sd+w*(bx+sd*sp),p[1]+w*by,p[2]); });
   const lf=leg(-1), rt=leg(1), finalA=TEAR.map(p=>L(p[0],p[1],p[2])), rest=restPose(M);
   if(!from) from = i-1>=c.first ? restPose(v.mats[i-1]) : restPose(new THREE.Matrix4().copy(M).multiply(new THREE.Matrix4().makeTranslation(1,0,0)));
-  const h=L(bx,-.62+by,0);                       // the gap under the loops this stitch is worked into
+  const h=L(bx,-.76+by,0);                       // the gap under the loops this stitch is worked into
   const keys=[]; let sA=HOOK_LOOP, sB=.6, sC=.6;
   const key=(t,T,A,r,o)=>{ if(o){ if(o.sA!=null) sA=o.sA; if(o.sB!=null) sB=o.sB; if(o.sC!=null) sC=o.sC; } keys.push({t,T,A,r,sA,sB,sC}); };
   key(0,from.tip,from.A,from.r||0);
@@ -2399,12 +2416,12 @@ function prepStitch(v,cr,st,from){
     const Ai=Dn(.5,.12,.86), ins=add(h,Ai,-1.3);
     key(.10,add(h,Ai,.42),Ai,.3,{sA:1.5}); key(.24,ins,Ai,.6,{sA:2.05});
     key(.30,ins,Ai,2.3); key(.36,ins,Ai,2.3); key(.45,add(h,Ai,-.25),Ai,1,{sA:1.35});
-    hb=L(bx,-.62+by,-.34);
+    hb=L(bx,-.8+by,-.34);
   }
   const A4=Dn(.8,.3,.5), A5=Dn(.8,.25,.55), T5=L(bx-.75,.3,-.2);
-  key(.52,L(bx-.25,.12,.38),A4,.5,{sA:1.15,sB:.62});
-  key(.61,T5,A5,2.3,{sA:1.02,sB:.78}); key(.66,T5,A5,2.3);
-  key(.84,add(T5,A5,1.2).add(Dn(0,.8,.4).multiplyScalar(.1)),Dn(.74,.42,.52),.5,{sA:-.18,sB:-.42});
+  key(.52,L(bx-.25,.12,.38),A4,.5,{sA:1.2,sB:.66});
+  key(.61,T5,A5,2.3,{sA:1.12,sB:.74}); key(.66,T5,A5,2.3);
+  key(.84,add(T5,A5,1.3).add(Dn(0,.8,.4).multiplyScalar(.1)),Dn(.74,.42,.52),.5,{sA:-.18,sB:-.56});
   key(1,rest.tip,rest.A,0,{sC:HOOK_LOOP});
   const S3=[[.9,.36,-.2],[bx,-.55+by,-.3],[-.1,.36,-.2]];      // where the ball-end yarn leaves the fabric: last stitch, the gap, this stitch
   const side=(k,Sl)=>{ const {lip}=lipOf(k.A,k.r,F.Y), Cw=add(k.T,k.A,.6); return L(Sl[0],Sl[1],Sl[2]).sub(Cw).dot(new V3().crossVectors(k.A,lip))>=0?1:-1; };
@@ -2424,7 +2441,7 @@ function syncExpert(st){
   const nx=cr.steps[S.cur], next=nx&&nx.kind==='st'&&nx.copy===st.copy?nx:null, np=next?cr.insts[next.inst].par:[];
   K.cur={par:cr.insts[i].par,dec:K.x.dec}; K.next={par:np,dec:!!next&&next.st.t==='dec'&&np.length>1};
   K.nextTxt=!np.length?'':K.next.dec?'Next: front loops only, both stitches':next.st.t==='inc'&&next.st.k===2?'Next: same stitch again':'Next: under both loops';
-  K.t=S.fwd&&!reduceMotion?0:1; K.playing=K.t<1; K.stop=K.playing&&S.stopNext?S.stopNext:1; S.stopNext=0; K.shown=null; K.curK=K.t<1?0:1; K.drawnT=-1; S.fwd=false; S.focus=i;
+  K.t=S.fwd&&!reduceMotion?0:1; K.wait=0; K.playing=K.t<1; K.stop=K.playing&&S.stopNext?S.stopNext:1; S.stopNext=0; K.shown=null; K.curK=K.t<1?0:1; K.drawnT=-1; S.fwd=false; S.focus=i;
   $('#motion').value=Math.round(K.t*1000);
 }
 function hookAt(x,t){                            // where the hook is at time t of the clip, and where each loop rides on it
@@ -2440,14 +2457,15 @@ function evalStitch(v,K,t){
   K.a.mesh.visible=live; K.b.mesh.visible=live&&t>=.36; K.c.mesh.visible=t>=.66;
   if(live){
     // a: rides the hook, slips off the tip as the hook pulls back, and lies down along the top
-    hang(K.a.pts,x.aA,x.aB,1,tip,A,P.sA,D);
+    const open=smooth(.6,.68,t), give=q=>.17*open*Math.exp(-Math.pow((q-.62)/.32,2));      // a loop stretches as the mouth, full of yarn, is drawn through it
+    hang(K.a.pts,x.aA,x.aB,1,tip,A,P.sA,D,give(P.sA));
     const wA=smooth(.74,.95,t); if(wA>0) K.a.pts.forEach((p,j)=>p.lerp(x.finalA[j],wA));
     K.a.update(rad);
     if(t>=.36){
       // b: caught behind the fabric, drawn through to the front, then tightened into the two legs of the post
       const through=smooth(.38,.5,t);
-      hang(K.b.pts,x.bA,x.bB,3,tip,A,P.sB,D);
-      if(through<1){ hang(K.tmp,x.hbA,x.hbB,5,tip,A,P.sB,D); K.b.pts.forEach((p,j)=>p.lerpVectors(K.tmp[j],p,through)); }
+      hang(K.b.pts,x.bA,x.bB,3,tip,A,P.sB,D,give(P.sB));
+      if(through<1){ hang(K.tmp,x.hbA,x.hbB,5,tip,A,P.sB,D,give(P.sB)); K.b.pts.forEach((p,j)=>p.lerpVectors(K.tmp[j],p,through)); }
       const wB=smooth(.72,.95,t); if(wB>0) K.b.pts.forEach((p,j)=>p.lerp(x.finalB[j],wB));
       K.b.update(rad);
     }
@@ -2481,9 +2499,10 @@ function runKit(now,dt){
   const v=S.view, cr=S.cr, K=v.kit, x=K.x, t=K.t, show=t>=SWAP;
   if(show!==K.shown){ K.shown=show; v.mesh.setMatrixAt(x.i,show?v.mats[x.i]:_m.copy(v.mats[x.i]).scale(_a.setScalar(1e-4))); v.mesh.instanceMatrix.needsUpdate=true; }
   K.curK=show?Math.min(1,K.curK+dt*2.5):0;
+  if(S.markAt===x.i) marker.visible=show;                              // no marker on a stitch that is not made yet
   const tg=show?K.next:K.cur;
   U.uCount.value=cr.instAt[S.cur]-(show?0:1); U.uCur.value=show?x.i:-1; U.uCurK.value=K.curK; U.uNext.value.set(tg.par[0]??-1,tg.par[1]??-1,tg.dec?0:1);
-  U.uFocus.value.copy(cr.insts[x.i].p);
+  U.uFocus.value.copy(cr.insts[x.i].p); U.uTuck.value.set(show?-1:x.i,smooth(.38,.6,t));
   if(K.drawnT!==t || K.drawnX!==x){ K.drawnT=t; K.drawnX=x; evalStitch(v,K,t); }
   U.uHookA.value.copy(K.pose.tip); U.uHookB.value.copy(K.pose.tip).addScaledVector(K.pose.A,3.6);      // the fabric gives way around the hook
   K.tilt=.3*smooth(.08,.2,t)*(1-smooth(.4,.52,t));                      // look further over the edge while the hook is behind the fabric
@@ -2499,6 +2518,8 @@ function runKit(now,dt){
   // the strand that is moving right now glows a little
   const glow=held?0:.16+.1*Math.sin(now*.008), lit=ph===2?K.b:ph===4?K.c:(ph===1||ph===3)?K.feed:null;
   for(const s of [K.a,K.b,K.c,K.feed]) s.mesh.material.emissiveIntensity=s===lit?glow:0;
+  K.ph=ph;
+  const fp=t>=1?'0%':Math.round(t*100)+'%'; if(fp!==K.fp){ K.fp=fp; $('#fNext').style.setProperty('--p',fp); }
   const chip=x.kind+ph+(K.playing?'p':held?'h':'')+x.i;
   if(chip!==K.chip){
     K.chip=chip; const n=ph<5?(x.dec?ON_HOOK.dec:ON_HOOK.sc)[held?Math.max(0,ph-1):ph]:1, loops=`${n} ${n>1?'loops':'loop'} on the hook`;
@@ -2522,17 +2543,21 @@ function updateLabels(){
     const L=LAB[id]; L.el.style.visibility=L.ln.style.visibility=L.dot.style.visibility=p?'visible':'hidden'; if(!p) return;
     p.applyMatrix4(v.group.matrixWorld).project(camera);
     const sx=(p.x*.5+.5)*stageW, sy=(-p.y*.5+.5)*stageH; if(!L.w){ L.w=L.el.offsetWidth; L.h=L.el.offsetHeight; }
-    boxes.push({L,x:sx,y:sy,bx:clamp(sx+L.off[0]*k-L.w/2,6,stageW-L.w-6),by:clamp(sy+L.off[1]*k-L.h/2,88,stageH-L.h-48)});
+    const bx=clamp(sx+L.off[0]*k-L.w/2,6,stageW-L.w-6); let by=clamp(sy+L.off[1]*k-L.h/2,88,stageH-L.h-14);
+    if(bx+L.w>stageW-fabW-10 && by+L.h>stageH-96) by=stageH-96-L.h;          // keep clear of the Next button
+    boxes.push({L,x:sx,y:sy,bx,by});
   };
   // name the two loops the hook is going under: this stitch's while it is being made, the next one's once it is done
   const tg=K.shown?K.next:K.cur, T=tg.par.length?v.mats[tg.par[0]]:K.shown?null:undefined, on=(a,b,c)=>T===undefined?null:new V3(a,b,c).applyMatrix4(T||M);
   LAB.bl.off=T?[-132,4]:[104,-64]; LAB.fl.off=T?[-136,44]:[124,4];
   setLabel('post',K.shown?(narrow?'Post':'Post: the two legs of the V'):narrow?'New loop':'New loop: this becomes the post'); setLabel('next',K.nextTxt);
-  place('wl',K.top&&K.top.clone()); place('bl',tg.dec?null:on(T?.3:.46,.5,-.16)); place('fl',on(T?.3:.46,.49,.2));
-  place('post',K.shown?x.postAt.clone():K.bTop&&K.bTop.clone()); place('next',K.nextAt&&K.nextAt.clone());
+  const fabW=$('#fab').offsetWidth;
+  const live=!K.shown, ph=K.ph, loops=!live||ph===0;      // while the hook is moving, name only what the move in hand is about
+  place('wl',(!live||ph===4)&&K.top?K.top.clone():null); place('bl',loops&&!tg.dec?on(T?.3:.46,.5,-.16):null); place('fl',loops?on(T?.3:.46,.49,.2):null);
+  place('post',K.shown?x.postAt.clone():ph===2&&K.bTop?K.bTop.clone():null); place('next',K.nextAt&&K.nextAt.clone());
   for(let i=0;i<boxes.length;i++) for(let j=i+1;j<boxes.length;j++){      // nudge apart any two that collide
     const a=boxes[i], b=boxes[j];
-    if(a.bx<b.bx+b.L.w+6 && b.bx<a.bx+a.L.w+6 && a.by<b.by+b.L.h+5 && b.by<a.by+a.L.h+5) b.by = b.by>=a.by && a.by+a.L.h+5<=stageH-b.L.h-48 ? a.by+a.L.h+5 : a.by-b.L.h-5;
+    if(a.bx<b.bx+b.L.w+6 && b.bx<a.bx+a.L.w+6 && a.by<b.by+b.L.h+5 && b.by<a.by+a.L.h+5) b.by = b.by>=a.by && a.by+a.L.h+5<=stageH-b.L.h-(b.bx+b.L.w>stageW-fabW-10?96:14) ? a.by+a.L.h+5 : a.by-b.L.h-5;
   }
   for(const b of boxes){
     b.L.el.style.transform=`translate(${b.bx.toFixed(1)}px,${b.by.toFixed(1)}px)`;
@@ -2674,7 +2699,7 @@ function buildMaterials(cr){
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
   const m=b.dataset.mode;
   if(S.cur>=S.cr.steps.length && m!=='step') setCursor(0,true);
-  setMode(m); $('#cta').hidden=true; if(m!=='step') play(true);
+  setMode(m); if(m!=='step') play(true);
 }));
 $('#bPlay').addEventListener('click',()=>{
   if(S.playing){ play(false); return; }
@@ -2699,7 +2724,7 @@ $('#tTurn').addEventListener('click',e=>{ S.autoTurn=!S.autoTurn; e.currentTarge
 $('#tTypes').addEventListener('click',e=>{ S.types=!S.types; e.currentTarget.setAttribute('aria-pressed',String(S.types)); $('#legend').hidden=!S.types; repaint(); });
 $('#tExpert').addEventListener('click',()=>setExpert(!S.expert));
 const kitNow=()=>{ const K=S.view&&S.view.kit; return K&&S.wasXp?K:null; };
-function replay(){ const K=kitNow(); if(K){ K.t=0; K.stop=1; K.playing=!reduceMotion; if(reduceMotion) K.t=1; } }
+function replay(){ const K=kitNow(); if(K){ K.t=0; K.stop=1; K.wait=0; K.playing=!reduceMotion; if(reduceMotion) K.t=1; } }
 // one hook move at a time: forward plays the next of the five moves and waits; back returns to the start of the move before
 function moveStep(dir){
   if(!S.cr) return;
@@ -2708,19 +2733,25 @@ function moveStep(dir){
   if(!K){ (dir>0?$('#bNext'):$('#bPrev')).click(); return; }             // on a note: just move on
   if(dir>0){
     if(K.t>=1-1e-6){ S.stopNext=STOPS[0]; $('#bNext').click(); return; }       // stitch done: start the next one, first move only
-    K.stop=STOPS.find(b=>b>K.t+1e-4); K.playing=true; if(reduceMotion){ K.t=K.stop; K.playing=false; }
+    K.stop=STOPS.find(b=>b>K.t+1e-4); K.wait=0; K.playing=true; if(reduceMotion){ K.t=K.stop; K.playing=false; }
   }else{
     if(K.t<=1e-4){ $('#bPrev').click(); return; }
     K.t=K.stop=[0,...STOPS].filter(b=>b<K.t-1e-4).pop(); K.playing=false;
   }
 }
-function gotoMove(i){ const K=kitNow(); if(!K) return; if(S.playing) play(false); K.t=PHASES[i]; K.stop=STOPS[i]; K.playing=!reduceMotion; if(reduceMotion) K.t=K.stop; }
+function gotoMove(i){ const K=kitNow(); if(!K) return; if(S.playing) play(false); K.t=PHASES[i]; K.stop=STOPS[i]; K.wait=0; K.playing=!reduceMotion; if(reduceMotion) K.t=K.stop; }
 $('#bMoveNext').addEventListener('click',()=>moveStep(1)); $('#bMovePrev').addEventListener('click',()=>moveStep(-1));
 $('#motion').addEventListener('input',e=>{ const K=kitNow(); if(!K) return; if(S.playing) play(false); K.playing=false; K.t=K.stop=+e.target.value/1000; });
-$('#pace').addEventListener('input',e=>{ S.pace=+e.target.value; $('#paceOut').textContent=`${S.pace} s a stitch`; });
-$('#paceOut').textContent='6 s a stitch'; $('#bReplay').addEventListener('click',replay);
-$('#follow').addEventListener('click',()=>{ setCursor(0,true); setMode('slow'); play(true); });
-$('#resume').addEventListener('click',()=>{ setMode('step'); setCursor(S.saved,true); });
+$('#pace').addEventListener('input',e=>{ S.pace=+e.target.value; $('#paceOut').textContent=`${S.pace} s a stitch`; try{ localStorage.setItem('lbl-pace',S.pace); }catch(err){} });
+try{ const q=+localStorage.getItem('lbl-pace'); if(q>=4&&q<=30) S.pace=q; }catch(err){}
+$('#pace').value=S.pace; $('#paceOut').textContent=`${S.pace} s a stitch`; $('#bReplay').addEventListener('click',replay);
+// Start: out of the time-lapse, into the close-up, and the hook makes stitch one
+function startYarn(at){
+  play(false); S.mode='step'; S.done=false; S.saved=0; setCursor(at,true); setMode('step');
+  if(!S.expert) setExpert(true); else if(!at) setCursor(1,true);
+}
+$('#follow').addEventListener('click',()=>startYarn(S.saved)); $('#resume').addEventListener('click',()=>startYarn(0));
+$('#fNext').addEventListener('click',()=>$('#bNext').click()); $('#fBack').addEventListener('click',()=>$('#bPrev').click()); $('#fMove').addEventListener('click',()=>moveStep(1));
 $('#back').addEventListener('click',()=>{ location.hash=''; });
 addEventListener('keydown',e=>{
   if(!S.cr || e.metaKey || e.ctrlKey || e.altKey) return;
@@ -2805,7 +2836,14 @@ function frame(now){
   const detail=showsDetail() && st, xp=!!(detail && S.expert && st.kind==='st' && K && S.focus===st.inst);
   if(xp){
     if(S.lastPainted>=0){ v.mesh.setMatrixAt(S.lastPainted,v.mats[S.lastPainted]); v.mesh.instanceMatrix.needsUpdate=true; S.lastPainted=-1; }
-    if(K.playing){ K.t=Math.min(K.stop,K.t+dt/S.pace); if(K.t>=K.stop) K.playing=false; }
+    if(K.playing){
+      if(K.wait>0) K.wait-=dt;                                           // a beat between moves, so each one reads on its own
+      else{
+        const was=K.t; K.t=Math.min(K.stop,K.t+dt/S.pace);
+        const b=STOPS.find(q=>q<K.stop&&was<q&&K.t>=q); if(b){ K.t=b; K.wait=S.beat; }
+        if(K.t>=K.stop) K.playing=false;
+      }
+    }
   }else{
     if(K && K.shown===false){ v.mesh.setMatrixAt(K.x.i,v.mats[K.x.i]); v.mesh.instanceMatrix.needsUpdate=true; K.shown=true; }
     // newest stitch pops in

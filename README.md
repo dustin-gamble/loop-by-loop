@@ -21,8 +21,12 @@ checked to add up, but the patterns have not been test-crocheted.
 | **E** | Expert view on and off |
 | **R** | Replay the stitch |
 
-- **Time-lapse / Slow / Step** set how the build plays. *Hook pace* sets seconds per stitch in Expert view,
-  and *This stitch* drags the hook through the stitch by hand.
+- Every pattern opens on its time-lapse with one big **Start crocheting** button (or **Carry on** if you
+  were in the middle of it). That drops you into the close-up, where a large **Next** button sits over the
+  bottom right of the model, with **Back** and **1 move** beside it, sized for a thumb on a phone or tablet.
+- **Time-lapse / Slow / Step** set how the build plays. *Hook pace* sets seconds per stitch in Expert view
+  (12 by default, remembered), and *This stitch* drags the hook through the stitch by hand. There is a short
+  beat between the five moves.
 - **Tracking:** one dot per stitch of the round in hand (grouped by repeat, colored by increase and decrease),
   a running stitch total, a checklist of pieces, and checked-off rounds in the written pattern.
   A teal marker in the model sits in the first stitch of the round. The gallery remembers how far you got
@@ -54,6 +58,9 @@ A close-up from the crocheter's side: working edge up, hook coming in from the r
 - A pink arrow shows what happens next: the path of the hook, or the way the yarn goes over it. The strand
   that is moving glows, the fabric gives way around the hook (`HOOK_PUSH`), and the view tips further over
   the edge while the hook is behind the fabric.
+- Yarn should not pass through yarn. Loops ride on the hook a strand's width apart and stretch open to let
+  the hook's mouth through (`hang`), and top loops that have been worked into sit back behind the legs
+  wrapped around them (`uTuck` and the worked test in `SKIN_MOVE`).
 
 ## Writing patterns
 
