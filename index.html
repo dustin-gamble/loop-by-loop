@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop by Loop Crochet Studio</title>
+<meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
+<meta property="og:title" content="Loop by Loop">
+<meta property="og:description" content="A 3D crochet stitch-along: 41 amigurumi patterns, every stitch shown as real yarn.">
+<meta property="og:image" content="https://dustin-gamble.github.io/loop-by-loop/preview.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: gallery grid of creatures -> studio with a pinned 3D stage above a scrolling instruction deck (side by side on wide screens) */
+  --paper:#edf1f6; --surface:#ffffff; --ink:#2a2340; --muted:#676180; --line:#d9deea;
+  --accent:#cf2f68; --accent-ink:#ffffff; --sun:#f2b33d; --teal:#17858e;
+  --stage-a:#ffffff; --stage-b:#d7dfee; --fl:#f59a0c; --bl:#2f7df6;
+  --font-display:'Fredoka',ui-rounded,'Arial Rounded MT Bold',system-ui,sans-serif;
+  --font-body:'Nunito',ui-rounded,system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#181524; --surface:#242035; --ink:#f2effb; --muted:#aaa4c4; --line:#3a3552;
+    --accent:#ff6f9f; --accent-ink:#2b0a18; --sun:#f5c056; --teal:#58c7cf;
+    --stage-a:#3a3456; --stage-b:#1c192b; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#181524; --surface:#242035; --ink:#f2effb; --muted:#aaa4c4; --line:#3a3552;
+  --accent:#ff6f9f; --accent-ink:#2b0a18; --sun:#f5c056; --teal:#58c7cf;
+  --stage-a:#3a3456; --stage-b:#1c192b; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.45;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:balance}
+
+/* ---------- gallery ---------- */
+#home{max-width:1080px;margin:0 auto;padding:28px 16px 40px;display:flex;flex-direction:column;gap:24px}
+.hero{display:flex;flex-direction:column;gap:8px;max-width:38rem}
+.eyebrow{margin:0;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(2rem,7vw,3rem);line-height:1.05}
+.hero p{margin:0;color:var(--muted);font-size:1.02rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:0;padding:0;border:1px solid var(--line);border-radius:18px;background:var(--surface);text-align:left;overflow:hidden;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.card .thumb{aspect-ratio:1;background:radial-gradient(circle at 50% 42%,var(--stage-a),var(--stage-b));display:grid;place-items:center}
+.card .thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.card .thumb .ph{width:36%;aspect-ratio:1;border-radius:50%;border:3px dashed var(--line)}
+.card .meta{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px}
+.card .nm{font-family:var(--font-display);font-weight:600;font-size:1.08rem;line-height:1.15}
+.card .sub{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.lvl{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.lvl i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--line)}
+.lvl i.on{background:var(--teal)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#tally{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+#none{margin:0;color:var(--muted)}
+.card .prog{display:block;height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:3px}
+.card .prog i{display:block;height:100%;width:0;background:var(--accent)}
+.card.made .prog i{background:var(--teal)}
+.card .state{font-size:.74rem;font-weight:800;color:var(--accent)}
+.card.made .state{color:var(--teal)}
+.card .state:empty{display:none}
+#home footer{color:var(--muted);font-size:.82rem;max-width:44rem}
+
+/* ---------- studio ---------- */
+#studio{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--paper)}
+.stagewrap{flex:0 0 46%;min-height:240px;display:flex;flex-direction:column;position:relative}
+.topbar{position:absolute;z-index:3;top:0;left:0;right:0;display:flex;align-items:center;gap:10px;padding:10px 12px;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.pill{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 13px;font-weight:700;font-size:.86rem;line-height:1.1}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.topbar h2{font-size:1.15rem;margin-right:auto;text-shadow:0 1px 0 var(--stage-a)}
+#stage{flex:1;position:relative;background:radial-gradient(circle at 50% 42%,var(--stage-a),var(--stage-b));overflow:hidden}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#gl:active{cursor:grabbing}
+.toggles{position:absolute;z-index:3;right:12px;bottom:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.toggles .pill{font-size:.78rem;padding:6px 11px}
+#legend{position:absolute;z-index:3;left:12px;bottom:10px;display:flex;flex-direction:column;gap:3px;font-size:.76rem;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:7px 10px}
+#legend span{display:flex;align-items:center;gap:6px}
+#legend i{width:11px;height:11px;border-radius:50%}
+#labels{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+#labels svg{position:absolute;inset:0;width:100%;height:100%}
+#labels line{stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;opacity:.7}
+#labels circle{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+.lab{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;padding:4px 10px 4px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:.74rem;font-weight:800;line-height:1.2;white-space:nowrap;box-shadow:0 3px 10px rgba(30,20,50,.2)}
+.lab i{flex:none;width:9px;height:9px;border-radius:50%}
+#phase{position:absolute;z-index:3;left:12px;right:12px;top:50px;margin:0 auto;width:fit-content;display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;padding:6px 16px 6px 7px;border-radius:22px;background:var(--ink);color:var(--paper);font-weight:800;font-size:.92rem;line-height:1.15;box-shadow:0 6px 18px rgba(30,20,50,.28);pointer-events:none}
+#phase b{grid-row:1/3;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:.9rem}
+#phase em{grid-column:2;font-style:normal;font-weight:700;font-size:.72rem;opacity:.78}
+#phase.held b{background:transparent;box-shadow:inset 0 0 0 2px var(--accent);color:var(--paper)}
+#cta{position:absolute;z-index:4;left:0;right:0;bottom:52px;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 16px}
+.big{border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-family:var(--font-display);font-weight:600;font-size:1.05rem;padding:13px 22px;box-shadow:0 6px 18px rgba(40,20,60,.25)}
+.deck{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px 28px;display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line)}
+.now{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.now-head{display:flex;align-items:center;gap:11px}
+.badge{flex:none;min-width:50px;height:50px;padding:0 8px;border-radius:14px;display:grid;place-items:center;font-family:var(--font-display);font-weight:600;font-size:1.02rem;letter-spacing:.03em;background:var(--ink);color:var(--paper)}
+.badge.inc{background:var(--accent);color:var(--accent-ink)}
+.badge.dec{background:var(--teal);color:var(--paper)}
+.badge.mr{background:var(--sun);color:#2a2340}
+.badge.note{background:transparent;border:2px solid var(--ink);color:var(--ink)}
+.now-txt{flex:1;min-width:0}
+#nTitle{font-family:var(--font-display);font-weight:600;font-size:1.04rem;line-height:1.2}
+#nFormula{color:var(--muted);font-size:.88rem;font-weight:600}
+#nCount{flex:none;text-align:right;font-variant-numeric:tabular-nums;font-weight:800;font-size:1.05rem;line-height:1.1}
+#nCount small{display:block;font-weight:700;font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+#nAction{margin:0;font-size:1rem;font-weight:600;min-height:2.9em}
+#nMoves{margin:0;padding:0;list-style:none;counter-reset:mv;display:flex;flex-direction:column;gap:2px}
+#nMoves li{counter-increment:mv;display:grid;grid-template-columns:24px 1fr;column-gap:9px;align-items:start;padding:5px 8px;border-radius:10px;cursor:pointer;color:var(--muted)}
+#nMoves li::before{content:counter(mv);grid-row:1/3;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);font-weight:800;font-size:.76rem}
+#nMoves li b{font-weight:800;font-size:.9rem;line-height:1.3}
+#nMoves li small{display:none;font-size:.82rem;line-height:1.35}
+#nMoves li.done::before{content:'\2713';background:var(--teal);border-color:var(--teal);color:var(--paper)}
+#nMoves li.now,#nMoves li.next{background:var(--paper);color:var(--ink)}
+#nMoves li.now small,#nMoves li.next small{display:block}
+#nMoves li.now::before{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+#nMoves li.next::before{border-color:var(--accent);color:var(--accent)}
+.strip{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:center}
+.strip:empty{display:none}
+.strip button{width:15px;height:15px;padding:0;border-radius:50%;border:2px solid var(--line);background:transparent}
+.strip button.g{margin-left:8px}
+.strip button.inc{border-color:var(--accent)}.strip button.dec{border-color:var(--teal)}.strip button.mr{border-color:var(--sun)}
+.strip button.done{background:var(--muted);border-color:var(--muted)}
+.strip button.done.inc{background:var(--accent);border-color:var(--accent)}.strip button.done.dec{background:var(--teal);border-color:var(--teal)}.strip button.done.mr{background:var(--sun);border-color:var(--sun)}
+.strip button.cur{background:var(--ink);border-color:var(--ink);outline:2px solid var(--ink);outline-offset:2px}
+.tot{display:flex;align-items:center;gap:10px;font-size:.78rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.tot span{flex:none}
+.tbar{flex:1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.tbar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px}
+summary small{font-family:var(--font-body);font-weight:700;color:var(--muted);font-size:.8rem;margin-left:6px}
+.pc{display:grid;grid-template-columns:1fr 90px 4.6em;gap:10px;align-items:center;width:100%;border:0;background:transparent;text-align:left;padding:6px 8px;border-radius:9px;font-size:.9rem;font-weight:700}
+.pc:hover{background:var(--paper)}
+.pc.on{background:var(--ink);color:var(--paper)}
+.pc em{font-style:normal;text-align:right;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.pc.on em{color:var(--paper)}
+.pc.done span:first-child::before{content:'\2713  ';color:var(--teal)}
+.pcb{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.pcb i{display:block;height:100%;width:0;background:var(--teal);border-radius:3px}
+#pieces{gap:2px}
+.rnd.done:not(.on) b{color:var(--teal)}
+.rnd.done:not(.on) b::before{content:'\2713  '}
+.rnd.done:not(.on) span{color:var(--muted)}
+.transport{display:flex;flex-direction:column;gap:10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:3px;gap:3px}
+.seg button{border:0;background:transparent;border-radius:11px;padding:9px 4px;font-weight:800;font-size:.9rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.btns{display:grid;grid-template-columns:1fr 1fr 1.5fr 1fr 1fr;gap:6px}
+.btns button{border:1px solid var(--line);background:var(--surface);border-radius:14px;height:50px;display:grid;place-items:center}
+.btns button svg{width:22px;height:22px;fill:currentColor}
+.btns #bPlay{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.row{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;color:var(--muted)}
+.row label{flex:none;min-width:5.2em}
+.row output{flex:none;min-width:4.6em;text-align:right;font-variant-numeric:tabular-nums}
+.row .pill{flex:none;font-size:.8rem;padding:8px 12px;color:var(--ink)}
+.row .pill.grow{flex:1;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.keys{margin:0;font-size:.78rem;color:var(--muted);font-weight:700;display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+.keys kbd{font:inherit;font-weight:800;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 6px;margin-left:6px}
+.keys kbd:first-child{margin-left:0}
+@media (pointer:coarse){.keys{display:none}}
+input[type=range]{flex:1;min-width:0;accent-color:var(--accent);height:28px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:16px}
+summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-size:1.02rem;cursor:pointer}
+.inner{padding:0 14px 14px;display:flex;flex-direction:column;gap:14px}
+.part h3{font-size:.95rem;display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px}
+.part h3 small{font-family:var(--font-body);font-weight:700;color:var(--muted);font-size:.78rem}
+.sw{display:inline-block;width:13px;height:13px;border-radius:50%;border:1px solid var(--line);flex:none}
+.rnd{display:grid;grid-template-columns:4.4em 1fr auto;gap:8px;align-items:baseline;width:100%;border:0;background:transparent;text-align:left;padding:6px 8px;border-radius:9px;font-size:.9rem}
+.rnd b{font-variant-numeric:tabular-nums;font-weight:800;font-size:.8rem;color:var(--muted)}
+.rnd em{font-style:normal;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700;font-size:.82rem}
+.rnd:hover{background:var(--paper)}
+.rnd.on{background:var(--ink);color:var(--paper)}
+.rnd.on b,.rnd.on em{color:var(--paper)}
+.pnote{margin:2px 0 2px 8px;padding-left:10px;border-left:3px solid var(--sun);font-size:.84rem;color:var(--muted)}
+.mat{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.mat li{display:flex;align-items:center;gap:8px}
+.key{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.88rem;margin:0}
+.key dt{font-weight:800}.key dd{margin:0;color:var(--muted)}
+#err{margin:16px;padding:14px;border-radius:14px;background:var(--surface);border:1px solid var(--accent)}
+@media (min-width:900px){
+  #studio{flex-direction:row}
+  .stagewrap{flex:1 1 60%}
+  .deck{flex:0 0 420px;border-top:0;border-left:1px solid var(--line);padding:18px 18px 32px}
+}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+
+<main id="home">
+  <header class="hero">
+    <p class="eyebrow">3D crochet stitch-along</p>
+    <h1>Loop by Loop</h1>
+    <p>Pick a pattern. Watch it grow in a time-lapse, then slow it down and crochet along one stitch at a time. Switch on Expert view to watch the hook and the yarn make each stitch, close up and in slow motion.</p>
+  </header>
+  <div class="filters" id="filters" role="group" aria-label="Show">
+    <button class="pill" type="button" data-f="all" aria-pressed="true">All</button>
+    <button class="pill" type="button" data-f="creature" aria-pressed="false">Creatures</button>
+    <button class="pill" type="button" data-f="object" aria-pressed="false">Things</button>
+    <button class="pill" type="button" data-f="going" aria-pressed="false">In progress</button>
+    <button class="pill" type="button" data-f="made" aria-pressed="false">Made</button>
+    <span id="tally"></span>
+  </div>
+  <div id="grid" class="grid"></div>
+  <p id="none" hidden>Nothing here yet. Open a pattern and step through it, and it will show up.</p>
+  <footer>
+    Every model is drawn from its own pattern: each loop you see is one stitch in the written rounds, in the order you make it.
+    These are original beginner patterns in the single-crochet-in-the-round style, with stitch counts checked to add up. They have not been test-crocheted, so trust your hands if a shape wants an extra round.
+  </footer>
+</main>
+
+<section id="studio" hidden>
+  <div class="stagewrap">
+    <div class="topbar">
+      <button class="pill" id="back" type="button">&larr; All</button>
+      <h2 id="sname"></h2>
+    </div>
+    <div id="stage">
+      <canvas id="gl" aria-label="3D model of the crochet piece. Drag to turn, pinch to zoom."></canvas>
+      <div id="legend" hidden>
+        <span><i style="background:#f2b33d"></i>magic ring</span>
+        <span><i style="background:#e9e2d6"></i>single crochet</span>
+        <span><i style="background:#e0457b"></i>increase</span>
+        <span><i style="background:#1f9aa3"></i>decrease</span>
+      </div>
+      <div id="labels" hidden aria-hidden="true"><svg></svg></div>
+      <div id="phase" hidden aria-live="polite"><b></b><span></span><em></em></div>
+      <div class="toggles">
+        <button class="pill" id="tTurn" type="button" aria-pressed="true">Auto-turn</button>
+        <button class="pill" id="tTypes" type="button" aria-pressed="false">Color by stitch</button>
+        <button class="pill" id="tExpert" type="button" aria-pressed="false" title="Close-up from the crocheter's side, with every loop named (E)">Expert view</button>
+      </div>
+      <div id="cta" hidden>
+        <button class="big" id="follow" type="button">Crochet along, stitch by stitch</button>
+        <button class="pill" id="resume" type="button" hidden></button>
+      </div>
+    </div>
+  </div>
+  <div class="deck">
+    <div class="now" aria-live="polite">
+      <div class="now-head">
+        <span class="badge" id="nBadge">GO</span>
+        <div class="now-txt"><div id="nTitle"></div><div id="nFormula"></div></div>
+        <div id="nCount"></div>
+      </div>
+      <p id="nAction"></p>
+      <ol id="nMoves" hidden></ol>
+      <div class="strip" id="strip" role="group" aria-label="Stitches in this round. Tap one to jump to it."></div>
+      <div class="tot"><span id="tTxt"></span><div class="tbar"><i id="tBar"></i></div></div>
+    </div>
+    <div class="transport">
+      <div class="seg" role="group" aria-label="Speed">
+        <button type="button" data-mode="lapse" aria-pressed="true">Time-lapse</button>
+        <button type="button" data-mode="slow" aria-pressed="false">Slow</button>
+        <button type="button" data-mode="step" aria-pressed="false">Step</button>
+      </div>
+      <div class="btns">
+        <button type="button" id="bRestart" aria-label="Back to the start"><svg viewBox="0 0 24 24"><path d="M5 5h2.5v14H5zM20 5v14L9 12z"/></svg></button>
+        <button type="button" id="bPrev" aria-label="Back one stitch"><svg viewBox="0 0 24 24"><path d="M16 5v14L6 12z"/></svg></button>
+        <button type="button" id="bPlay" aria-label="Play"><svg viewBox="0 0 24 24"><path id="playIcon" d="M7 4v16l13-8z"/></svg></button>
+        <button type="button" id="bNext" aria-label="Next stitch"><svg viewBox="0 0 24 24"><path d="M8 5v14l10-7z"/></svg></button>
+        <button type="button" id="bRound" aria-label="Skip to the next round"><svg viewBox="0 0 24 24"><path d="M4 5v14l11-7zM16.5 5H19v14h-2.5z"/></svg></button>
+      </div>
+      <div class="row"><label for="scrub">Progress</label><input type="range" id="scrub" min="0" max="100" value="0" step="1"><output id="scrubOut" for="scrub"></output></div>
+      <div class="row" id="motionRow" hidden><label for="motion">This stitch</label><input type="range" id="motion" min="0" max="1000" value="1000" step="1" aria-label="Drag the hook through this stitch by hand"><output id="motionOut" for="motion"></output></div>
+      <div class="row" id="moveRow" hidden><label>Hook moves</label><button type="button" class="pill" id="bMovePrev" title="Back one hook move (Up arrow)">&#9666; Back</button><button type="button" class="pill grow" id="bMoveNext" title="Do the next hook move, then wait (Down arrow)">Next move &#9656;</button><button type="button" class="pill" id="bReplay" title="Replay this stitch (R)">Replay</button></div>
+      <div class="row" id="paceRow" hidden><label for="pace">Hook pace</label><input type="range" id="pace" min="2" max="16" value="6" step=".5"><output id="paceOut" for="pace"></output></div>
+      <div class="row" id="speedRow" hidden><label for="speed">Slow speed</label><input type="range" id="speed" min="0.3" max="4" value="1.2" step="0.1"><output id="speedOut" for="speed"></output></div>
+    </div>
+    <p class="keys"><kbd>Space</kbd> next stitch <kbd>&larr;</kbd> back <kbd>&darr;</kbd> one hook move <kbd>&uarr;</kbd> back a move <kbd>E</kbd> expert view <kbd>R</kbd> replay</p>
+    <details open><summary>Written pattern</summary><div class="inner" id="pattern"></div></details>
+    <details id="piecesBox"><summary>Pieces <small id="pcSum"></small></summary><div class="inner" id="pieces"></div></details>
+    <details><summary>What you need</summary><div class="inner" id="materials"></div></details>
+    <details><summary>Stitch key</summary><div class="inner">
+      <dl class="key">
+        <dt>MR</dt><dd>Magic ring: an adjustable loop you crochet into, then pull closed.</dd>
+        <dt>sc</dt><dd>Single crochet: insert hook, pull up a loop, yarn over, pull through both loops.</dd>
+        <dt>inc</dt><dd>Increase: two single crochets in the same stitch.</dd>
+        <dt>dec</dt><dd>Invisible decrease: hook through the front loops of the next two stitches, then finish as one single crochet.</dd>
+        <dt>( ) &times;6</dt><dd>Work everything in the brackets six times around.</dd>
+        <dt>Post</dt><dd>The body of a stitch: two legs that show as a V on the right side.</dd>
+        <dt><span class="sw" style="background:var(--fl)"></span> Front loop</dt><dd>The strand of the V lying on top of a stitch that is nearer to you.</dd>
+        <dt><span class="sw" style="background:var(--bl)"></span> Back loop</dt><dd>The far strand of that top V. A normal stitch goes under both loops.</dd>
+        <dt>Working loop</dt><dd>The one live loop on your hook. It never counts as a stitch.</dd>
+        <dt>Marker</dt><dd>The teal ring in the model sits in the first stitch of the round you are on. Move yours up every round.</dd>
+      </dl>
+    </div></details>
+  </div>
+</section>
+<div id="err" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+if (!window.THREE) { const e=$('#err'); e.hidden=false; e.textContent='The 3D library did not load. Check your connection and reload the page.'; return; }
+const V3 = THREE.Vector3, TAU = Math.PI*2, DEG = Math.PI/180;
+const W = 1, H = 0.9;
+
+/* =====================================================================
+   PATTERNS  (rows: one round per line; "| x3" repeats; "| B" switches yarn;
+   "!key: text" is a note between rounds)
+   ===================================================================== */
+const EGG = `
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`;
+const HEAD_BODY = `
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x5
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`;
+const ARM = `
+mr 6
+sc 6 | x5`;
+const FOOT = `
+mr 6
+(sc, inc)*3
+sc 9 | x2`;
+const EGGP = EGG.replace('!eyes:\n','');       // the egg, for bodies whose eyes go somewhere else
+const STUB = `
+mr 6
+sc 6 | x3`;
+const BALL12 = `
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Add a pinch of stuffing.
+dec*6
+!close:`;
+const EAR_ROUND = `
+mr 6
+inc*6
+sc 12 | x3`;
+const EAR_POINT = `
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+sc 10 | x2`;
+const LEAF = `
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`;
+
+const CREATURES = [
+{ id:'ball', name:'Practice Ball', kind:'object', level:1, blurb:'Every shape starts here',
+  yarn:{A:['Coral','#f0705a'],B:['Lagoon','#2fa7a0']}, eyes:0, view:.5,
+  parts:[{name:'Ball', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+! Switch to your second color on the last pull-through of the round.
+sc 30 | x3 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6 | B
+dec*6 | B
+!close:`}], extras:[] },
+
+{ id:'chick', name:'Chick', level:1, blurb:'One egg, a beak and two wings',
+  yarn:{A:['Sunny yellow','#f7cb45'],B:['Tangerine','#f08a2e']}, eyes:2, view:.28,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Beak', color:'B', rows:`
+mr 4
+(sc, inc)*2`, at:{round:9.7, angle:0}, sink:.25, sew:'Sew the beak between the eyes, just below them.'},
+   {name:'Wing', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:11.5, angles:[80,-80]}, aimRel:[.45,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew to the side of the body, pointing down.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body so the toes poke out in front.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.5, apart:7}] },
+
+{ id:'bee', name:'Bumblebee', level:1, blurb:'Stripes are just color changes',
+  yarn:{A:['Honey','#f5c23c'],B:['Charcoal','#3a3644'],C:['Cloud white','#f4f4f1']}, eyes:2, view:.45,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+!eyes:
+sc 36 | x2 | B
+sc 36 | x2
+sc 36 | x2 | B
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Wing', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{round:7.5, angles:[150,-150]}, aim:[.7,1,-.5], mix:.7, flat:.3, sink:.5, sew:'Flatten and sew to the back, tilted up and out.'},
+   {name:'Antenna', color:'B', rows:`
+mr 4
+sc 4 | x3`, at:{round:2.6, angles:[32,-32]}, aim:[.3,1,.25], mix:.6, sink:.3, sew:'Sew to the top of the head.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.4, apart:8},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.6, apart:13, size:.5, text:'Embroider two pink cheeks, a round below the eyes.'}] },
+
+{ id:'penguin', name:'Penguin', level:2, blurb:'A sewn-on belly patch',
+  yarn:{A:['Midnight','#3d4763'],B:['Snow','#f6f5f2'],C:['Tangerine','#f08a2e']}, eyes:2, view:.35,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+(sc 4, inc)*6
+sc 36 | x7
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+!eyes:`, at:{round:10.6, angle:0}, sew:'Pin the flat circle to the front of the body and sew around the edge.'},
+   {name:'Beak', color:'C', rows:`
+mr 4
+(sc, inc)*2`, at:{round:10.2, angle:0}, sink:-.1, sew:'Sew the beak onto the belly patch, just below the eyes.'},
+   {name:'Wing', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12 | x4`, at:{round:9.6, angles:[88,-88]}, aimRel:[.3,-1], mix:.8, flat:.4, sink:.6, sew:'Flatten and sew to the side, pointing down.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:19.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.6, apart:7, lift:.3, text:'Push the safety eyes through the belly patch, near its top edge and 7 stitches apart, before you sew the patch on.'}] },
+
+{ id:'octopus', name:'Octopus', level:2, blurb:'Eight curly arms',
+  yarn:{A:['Grape','#8f6fd6']}, eyes:2, view:.4,
+  parts:[
+   {name:'Head', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Arm', color:'A', rows:`
+mr 6
+sc 6 | x7`, at:{round:14.5, angles:[22.5,67.5,112.5,157.5,-157.5,-112.5,-67.5,-22.5]}, aimRel:[1,-.75], mix:.9, bend:-1.3, sink:.5, sew:'Sew the open end under the head. Space all eight evenly around round 14.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:9.5, apart:9},
+          {id:'smile', kind:'line', color:'#2b2233', pts:[[10.6,-12],[11.2,0],[10.6,12]], text:'Embroider a small smile between the eyes with dark yarn.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:13, size:.5, text:'Add two pink cheeks.'}] },
+
+{ id:'mushroom', name:'Mushroom', kind:'object', level:2, blurb:'Cap and stem in one piece',
+  yarn:{A:['Toadstool red','#d9483b'],B:['Oat','#efe3cd'],C:['Snow','#f8f7f3']}, eyes:2, view:.4,
+  parts:[
+   {name:'Cap and stem', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x4
+! Switch to the stem color.
+(sc 5, dec)*6 | B
+(sc 4, dec)*6 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff: Stuff the cap firmly.
+sc 18 | x6 | B
+!eyes:
+(sc 2, inc)*6 | B
+sc 24 | x2 | B
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Big spot', color:'C', conform:true, rows:`
+mr 6
+inc*6`, at:{round:6.3, angles:[25,150,-100]}, sew:'Sew flat onto the cap.'},
+   {name:'Small spot', color:'C', conform:true, rows:`
+mr 6`, at:{round:9.2, angles:[95,-35,-165]}, sew:'Sew flat onto the cap, between the big spots.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:18.4, apart:5, size:.5},
+          {id:'smile', kind:'line', color:'#2b2233', pts:[[19.4,-14],[19.9,0],[19.4,14]], text:'Embroider a small smile on the stem.'}] },
+
+{ id:'whale', name:'Whale', level:2, blurb:'Worked nose to tail',
+  yarn:{A:['Ocean blue','#4a8fd9']}, eyes:2, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+sc 24 | x2
+(sc 2, dec)*6
+sc 18
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Tail fluke', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc, dec)*3`, at:{round:22.4, angles:[90,-90]}, aim:[1,.35,-.7], mix:.9, flat:.4, sink:.5, sew:'Flatten and sew to the tail tip, angled up and out.'},
+   {name:'Fin', color:'A', rows:`
+mr 6
+sc 6 | x3`, at:{round:9.5, angles:[62,-62]}, aim:[1,-.5,-.5], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew low on each side.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.6, apart:16, center:180, text:'Push in the safety eyes between rounds 6 and 7, one on each side of the head, 16 stitches apart across the top.'},
+          {id:'smile', kind:'line', color:'#22324d', pts:[[5.2,-46],[6.1,-22],[6.4,0],[6.1,22],[5.2,46]], text:'Embroider a wide smile under the nose with dark yarn.'}] },
+
+{ id:'cat', name:'Cat', level:2, blurb:'Pointed ears and a curled tail',
+  yarn:{A:['Marmalade','#ea9547']}, eyes:2, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Ear', color:'A', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+(sc 4, inc)*2
+(sc 5, inc)*2
+sc 14`, at:{round:3.3, angles:[42,-42]}, aim:[.3,1,0], mix:.5, flat:.42, sink:.8, sew:'Flatten and sew to the top of the head.'},
+   {name:'Paw', color:'A', rows:`
+mr 6
+sc 6 | x2`, at:{round:16.6, angles:[20,-20]}, aim:[0,-.2,1], mix:.7, sink:.5, sew:'Sew to the front, near the bottom.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+sc 6 | x9`, at:{round:16.2, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.7, sink:.4, sew:'Sew to the back and let it curl.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.5, apart:8},
+          {id:'nose', kind:'dot', color:'#e9718f', round:9.7, angle:0, size:.42, text:'Embroider a small pink nose between the eyes.'}] },
+
+{ id:'frog', name:'Frog', level:2, blurb:'Eyes that sit on top',
+  yarn:{A:['Lily pad','#72bd4c']}, eyes:2, view:.4,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x5
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Eye bump', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x3
+!eyes:`, at:{round:3.6, angles:[36,-36]}, stuff:.6, sink:.9, sew:'Stuff lightly and sew to the top of the body.'},
+   {name:'Foot', color:'A', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+sc 12 | x2`, at:{round:15.4, angles:[52,-52]}, aimRel:[1,-.1], mix:.8, flat:.5, sink:1.1, sew:'Flatten and sew under each side.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Eye bump', round:2.1, angle:'front', size:.55, text:'Push one safety eye into the front of each bump, between rounds 2 and 3.'},
+          {id:'smile', kind:'line', color:'#27401c', pts:[[8.3,-42],[9.6,-22],[10,0],[9.6,22],[8.3,42]], text:'Embroider a wide smile with dark green yarn.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.6, apart:19, size:.55, text:'Add two pink cheeks at the ends of the smile.'}] },
+
+{ id:'bunny', name:'Bunny', level:3, blurb:'Head and body, long ears',
+  yarn:{A:['Rose','#f2b3c4'],B:['Snow','#f8f7f3']}, eyes:2, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Ear', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12 | x7
+(sc 2, dec)*3
+sc 9`, at:{round:2.4, angles:[30,-30]}, aim:[.22,1,0], mix:.8, flat:.4, sink:.5, sew:'Flatten and sew to the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Add a pinch of stuffing.
+dec*6
+!close:`, at:{round:21.5, angle:180}, sink:1.1, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.6, apart:9},
+          {id:'nose', kind:'dot', color:'#d95b84', round:9.8, angle:0, size:.42, text:'Embroider a small nose between the eyes.'}] },
+
+{ id:'bear', name:'Bear', level:3, blurb:'Muzzle, ears, arms and feet',
+  yarn:{A:['Hazelnut','#b87a45'],B:['Oat','#efe3cd']}, eyes:2, view:.28,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{round:3.7, angles:[50,-50]}, flat:.5, sink:.9, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:12},
+          {id:'nose', kind:'dot', color:'#3a2a22', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a dark nose on the tip of the muzzle.'}] },
+
+/* ---------- more creatures ---------- */
+{ id:'pig', name:'Pig', level:1, blurb:'A snout and a curly tail',
+  yarn:{A:['Piglet pink','#f4a9bb'],B:['Rose','#e07f9a']}, view:.32,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Snout', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{round:10.2, angle:0}, stuff:.7, sink:.5, sew:'Stuff lightly and sew to the middle of the face.'},
+   {name:'Ear', color:'A', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2`, at:{round:3.4, angles:[44,-44]}, aim:[.5,.9,.35], mix:.55, flat:.4, sink:.6, sew:'Flatten and sew to the top of the head, tipped forward.'},
+   {name:'Tail', color:'B', rows:`
+mr 4
+sc 4 | x6`, at:{round:15.6, angle:180}, aim:[0,.4,-1], mix:.8, bend:2.6, sink:.3, sew:'Sew to the back and twist it into a curl.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.3, apart:8},
+          {id:'nostrils', kind:'dot', color:'#b85c79', on:'Snout', round:.9, apart:2.4, size:.2, text:'Embroider two nostrils on the snout.'}] },
+
+{ id:'mouse', name:'Mouse', level:1, blurb:'Big ears and a long tail',
+  yarn:{A:['Dove gray','#b7bcc8'],B:['Blush','#f3b0c0']}, view:.34,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3`, at:{round:3.9, angles:[54,-54]}, flat:.42, sink:.9, sew:'Pinch flat into a disc and sew to the top of the head, well apart.'},
+   {name:'Tail', color:'B', rows:`
+mr 4
+sc 4 | x12`, at:{round:16.4, angle:180}, aim:[0,.1,-1], mix:.8, bend:-1.6, sink:.3, sew:'Sew low on the back.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:7},
+          {id:'nose', kind:'dot', color:'#e9718f', round:9.7, angle:0, size:.45, text:'Embroider a pink nose between the eyes.'}] },
+
+{ id:'owl', name:'Owl', level:2, blurb:'Eye discs and a belly, sewn on flat',
+  yarn:{A:['Walnut','#9a6a48'],B:['Oat','#efe3cd'],C:['Tangerine','#f08a2e']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGGP},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:13.2, angle:0}, sew:'Pin the flat circle low on the front and sew around the edge.'},
+   {name:'Eye disc', color:'B', conform:true, rows:`
+mr 6
+inc*6
+!owleyes:`, at:{round:7.4, angles:[21,-21]}, sew:'Sew the two discs side by side on the face.'},
+   {name:'Beak', color:'C', rows:`
+mr 4
+(sc, inc)*2`, at:{round:9.2, angle:0}, sink:.2, sew:'Sew between the eye discs, pointing down.'},
+   {name:'Ear tuft', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2`, at:{round:2.6, angles:[40,-40]}, aim:[.5,1,0], mix:.6, flat:.5, sink:.5, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Wing', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:11.5, angles:[82,-82]}, aimRel:[.45,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew to the side of the body, pointing down.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'owleyes', kind:'eye', round:7.4, apart:3.5, lift:.35, size:.5, text:'Push a safety eye through the middle of each disc before you sew the discs on.'}] },
+
+{ id:'fox', name:'Fox', level:3, blurb:'White muzzle, white-tipped tail',
+  yarn:{A:['Fox orange','#e7772e'],B:['Snow','#f8f7f3'],C:['Bark','#4a3328']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+(sc 4, inc)*2
+sc 12`, at:{round:10.2, angle:0}, stuff:.9, sink:.4, sew:'Stuff the pointed snout and sew it to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:3.2, angles:[42,-42]}, aim:[.3,1,0], mix:.5, flat:.42, sink:.7, sew:'Flatten and sew to the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+(sc 2, inc)*3 | B
+sc 12 | x2 | B
+(sc 3, inc)*3
+sc 15 | x5
+(sc 3, dec)*3
+sc 12 | x2
+(sc 2, dec)*3
+sc 9`, at:{round:21.6, angle:180}, aim:[0,.7,-1], mix:.8, stuff:.8, bend:-.8, sink:.5, sew:'Stuff and sew to the lower back, curving up.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.7, apart:9},
+          {id:'nose', kind:'dot', color:'#2f2420', on:'Muzzle', round:0, angle:0, size:.42, text:'Embroider a dark nose on the tip of the muzzle.'}] },
+
+{ id:'panda', name:'Panda', level:3, blurb:'Black patches on white',
+  yarn:{A:['Snow','#f6f5f2'],B:['Ink','#34313b']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Eye patch', color:'B', conform:true, rows:`
+mr 6
+inc*6`, at:{round:8.1, angles:[20,-20]}, sew:'Sew one flat patch under each eye position, tilted like a teardrop.'},
+   {name:'Ear', color:'B', rows:EAR_ROUND, at:{round:3.7, angles:[50,-50]}, flat:.5, sink:.9, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Arm', color:'B', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.1, apart:4, lift:.35, size:.5, text:'Mark the eyes between rounds 8 and 9, 4 stitches apart. They go through the black patches, so fit them once the patches are sewn on.'},
+          {id:'nose', kind:'dot', color:'#34313b', round:10, angle:0, size:.45, text:'Embroider a small black nose.'}] },
+
+{ id:'koala', name:'Koala', level:3, blurb:'Fluffy ears and a big nose',
+  yarn:{A:['Eucalyptus gray','#9ea5b0'],B:['Cloud','#f1f1ee']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:19.6, angle:0}, sew:'Sew the flat circle to the front of the body.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2`, at:{round:5, angles:[70,-70]}, aim:[1,.55,0], mix:.6, flat:.45, sink:1, sew:'Pinch the open end and sew to the side of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8, apart:11},
+          {id:'nose', kind:'dot', color:'#2b2730', round:9.5, angle:0, size:.85, text:'Embroider a big oval nose with dark yarn, between and just below the eyes.'}] },
+
+{ id:'elephant', name:'Elephant', level:3, blurb:'Flat ears and a curled trunk',
+  yarn:{A:['Rain cloud','#8fa6c4']}, view:.6,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Trunk', color:'A', rows:`
+mr 6
+sc 6 | x13`, at:{round:9.8, angle:0}, aim:[0,-.7,1], mix:.8, stuff:.6, bend:1.5, sink:.5, sew:'Sew to the middle of the face and curl the tip up.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30`, at:{round:7.4, angles:[88,-88]}, aim:[1,.1,-.1], mix:.8, flat:.2, sink:.6, sew:'Flatten into a disc and sew to the side of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x3`, at:{round:21.6, angle:180}, aim:[0,-.3,-1], mix:.7, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.8, apart:13}] },
+
+{ id:'lion', name:'Lion', level:3, blurb:'A mane of fourteen tufts',
+  yarn:{A:['Savanna gold','#e9b44c'],B:['Oat','#efe3cd'],C:['Chestnut','#a85a28']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Mane tuft', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{spots:[[4.3,60],[4.3,-60],[3.6,125],[3.6,-125],[3.2,180],[8.2,100],[8.2,-100],[8.4,150],[8.4,-150],[11.6,70],[11.6,-70],[12,125],[12,-125],[12.2,180]]}, stuff:.7, sink:.8, sew:'Stuff lightly and sew around the head: top, sides and back, leaving the face clear.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{round:3, angles:[28,-28]}, flat:.5, sink:.8, sew:'Pinch flat and sew in front of the mane.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 6 | C
+sc 6 | x2 | C
+(sc, dec)*2
+sc 4 | x7`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.2, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:12},
+          {id:'nose', kind:'dot', color:'#5a3320', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a brown nose on the tip of the muzzle.'}] },
+
+{ id:'lamb', name:'Lamb', level:2, blurb:'A woolly body with a little face',
+  yarn:{A:['Fleece','#f4f0e8'],B:['Biscuit','#e3c6a6'],C:['Cocoa','#6b4a3a']}, view:.4,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGGP},
+   {name:'Head', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+!eyes:
+(sc, dec)*6
+!stuff:
+dec*6
+!close:`, at:{round:8.4, angle:0}, aim:[0,-.05,1], mix:.8, stuff:1, sink:1.7, sew:'Sew to the front of the body, a little above the middle.'},
+   {name:'Wool tuft', color:'A', rows:BALL12, at:{on:'Head', round:4.6, angle:0}, stuff:1, sink:.7, sew:'Sew on top of the head.'},
+   {name:'Ear', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3`, at:{on:'Head', round:5.2, angles:[78,-78]}, flat:.4, sink:.4, sew:'Flatten and sew to the sides of the head.'},
+   {name:'Leg', color:'C', rows:STUB, at:{round:17, angles:[30,-30,150,-150]}, aimRel:[.2,-1], mix:.85, stuff:.6, sink:.5, sew:'Stuff and sew under the body, one at each corner.'},
+   {name:'Tail', color:'A', rows:BALL12, at:{round:15, angle:180}, stuff:1, sink:.9, sew:'Sew to the back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:3, apart:5, size:.42, text:'Push in the safety eyes on the head, 5 stitches apart, before you close it.'}] },
+
+{ id:'turtle', name:'Turtle', level:2, blurb:'A low shell with six plates',
+  yarn:{A:['Moss','#5f9a4a'],B:['Sand','#e6d6a8'],C:['Sprout','#9ccb6b'],D:['Pine','#3f6f3a']}, view:.5,
+  parts:[
+   {name:'Shell', root:true, color:'A', stuff:.7, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x3
+! Switch to the belly color.
+(sc 5, dec)*6 | B
+(sc 4, dec)*6 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff: Stuff lightly so the shell stays low.
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Shell plate', color:'D', conform:true, rows:`
+mr 6
+inc*6`, at:{spots:[[.6,0],[4.4,0],[4.4,72],[4.4,144],[4.4,-144],[4.4,-72]]}, sew:'Sew one plate in the middle of the shell and five around it.'},
+   {name:'Head', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+!eyes:
+(sc, dec)*6
+sc 12 | x2`, at:{round:9.6, angle:0}, aim:[0,.25,1], mix:.7, stuff:1, sink:1.3, sew:'Stuff and sew to the front edge of the shell.'},
+   {name:'Flipper', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4`, at:{round:10, angles:[45,-45,135,-135]}, aimRel:[1,-.25], mix:.85, flat:.35, sink:.5, sew:'Flatten and sew under the edge of the shell.'},
+   {name:'Tail', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6`, at:{round:10, angle:180}, aimRel:[1,-.2], mix:.8, sink:.3, sew:'Sew to the back edge.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:3.2, apart:6, size:.42, text:'Push in the safety eyes on the head, 6 stitches apart.'}] },
+
+{ id:'ladybug', name:'Ladybug', level:2, blurb:'Eight spots and two antennae',
+  yarn:{A:['Ladybug red','#d93a32'],B:['Ink','#2f2c35']}, view:.5,
+  parts:[
+   {name:'Body', root:true, color:'A', stuff:.8, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+! Switch to black for the underside.
+(sc 4, dec)*6 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Spot', color:'B', conform:true, rows:`
+mr 6`, at:{spots:[[3.2,38],[3.2,-38],[5.8,92],[5.8,-92],[3.6,140],[3.6,-140],[7.4,150],[7.4,-150]]}, sew:'Sew the spots flat onto the red back, four on each side.'},
+   {name:'Head', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+!eyes:
+(sc, dec)*6
+sc 12`, at:{round:9, angle:0}, aim:[0,.1,1], mix:.7, stuff:1, sink:1.3, sew:'Stuff and sew to the front edge.'},
+   {name:'Antenna', color:'B', rows:`
+mr 4
+sc 4 | x3`, at:{on:'Head', round:4.4, angles:[28,-28]}, sink:.3, sew:'Sew to the top of the head.'}
+  ],
+  extras:[{id:'eyes', kind:'dot', color:'#ffffff', on:'Head', round:2.8, apart:5.5, size:.3, text:'Embroider two small white eyes on the head.'},
+          {id:'seam', kind:'line', color:'#2f2c35', pts:[[9.4,0],[7,0],[4,0],[1.5,0],[.4,0],[1.5,180],[4,180],[7,180],[9.4,180]], text:'Embroider a black line down the middle of the back, where the wings meet.'}] },
+
+{ id:'snail', name:'Snail', level:2, blurb:'A body, a shell and a spiral',
+  yarn:{A:['Butter','#f1dc8a'],B:['Coral','#ef7f6a'],C:['Brick','#b84a3a']}, view:1.05,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x12
+(sc, dec)*6
+sc 12 | x2
+!stuff:
+dec*6
+!close:`},
+   {name:'Shell', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x4
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`, at:{round:9.5, angle:180}, aim:[0,1,-.15], mix:.9, stuff:1, sink:2.2, sew:'Sew the shell on top of the body, toward the back.'},
+   {name:'Eye stalk', color:'A', rows:`
+mr 4
+sc 4 | x4`, at:{round:2.6, angles:[152,-152]}, aim:[.35,1,.35], mix:.7, sink:.3, sew:'Sew to the top of the head.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Eye stalk', round:.5, angle:'front', size:.42, text:'Push a small safety eye into the tip of each stalk.'},
+          {id:'swirl', kind:'line', color:'#b84a3a', lines:[1,-1].map(k=>[[7,90],[6.2,97],[5.9,82],[7.2,69],[8.7,80],[9.1,104],[7.6,123],[5.2,121],[3.9,96],[4.4,64],[6.4,46],[9.4,52],[10.7,84]].map(q=>[q[0],q[1]*k])), text:'Embroider a spiral on each side of the shell.'},
+          {id:'smile', kind:'line', color:'#7a5a2a', pts:[[2.2,-40],[2.8,0],[2.2,40]], text:'Embroider a small smile under the nose.'}] },
+
+{ id:'jellyfish', name:'Jellyfish', level:2, blurb:'A bell with trailing arms',
+  yarn:{A:['Sea glass','#7fd0c7'],B:['Petal','#f6a6c1']}, view:.4,
+  parts:[
+   {name:'Bell', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Tentacle', color:'B', rows:`
+mr 4
+sc 4 | x14`, at:{round:13.6, angles:[0,60,120,180,-120,-60]}, aimRel:[.2,-1], mix:.9, bend:.5, sink:.4, sew:'Sew six around the underside of the bell.'},
+   {name:'Frilly arm', color:'A', rows:`
+mr 6
+sc 6 | x7`, at:{round:15, angles:[30,150,-90]}, aimRel:[.1,-1], mix:.9, bend:-.6, sink:.5, sew:'Sew three in the middle, between the tentacles.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.6, apart:8},
+          {id:'smile', kind:'line', color:'#2b2233', pts:[[9.8,-11],[10.3,0],[9.8,11]], text:'Embroider a small smile between the eyes.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:13, size:.5, text:'Add two pink cheeks.'}] },
+
+{ id:'clownfish', name:'Clownfish', level:2, blurb:'Stripes worked nose to tail',
+  yarn:{A:['Clown orange','#f2812a'],B:['Snow','#f8f7f3']}, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | B
+(sc 3, inc)*6 | B
+sc 30 | x2
+!eyes:
+sc 30 | x2 | B
+sc 30 | x2
+(sc 3, dec)*6
+sc 24 | B
+(sc 2, dec)*6 | B
+sc 18
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Tail fin', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+(sc, dec)*6
+(sc 2, dec)*3`, at:{round:18.6, angle:90}, aim:[0,0,-1], mix:.97, flat:.28, sink:.6, sew:'Flatten and sew upright to the tail end.'},
+   {name:'Top fin', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2`, at:{round:9, angle:168}, aim:[0,1,-.5], mix:.8, flat:.3, sink:.5, sew:'Flatten and sew along the top of the back.'},
+   {name:'Side fin', color:'A', rows:`
+mr 6
+sc 6 | x3`, at:{round:8, angles:[80,-80]}, aim:[1,-.5,-.6], mix:.75, flat:.4, sink:.4, sew:'Flatten and sew low on each side.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:3.6, apart:9, center:180, text:'Push in the safety eyes between rounds 3 and 4, one on each side of the head.'},
+          {id:'smile', kind:'line', color:'#5a2a12', pts:[[2.4,-30],[3,0],[2.4,30]], text:'Embroider a small smile under the nose.'}] },
+
+{ id:'crab', name:'Crab', level:3, blurb:'Two claws, six legs, eyes on stalks',
+  yarn:{A:['Crab red','#e2543f']}, view:.12,
+  parts:[
+   {name:'Body', root:true, color:'A', stuff:.65, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff lightly so the body stays wide and low.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Claw', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x3
+dec*6
+sc 6 | x4`, at:{round:7.4, angles:[52,-52]}, aimRel:[1,.55], mix:.85, stuff:.9, bend:.7, sink:.4, sew:'Stuff the claw end and sew the arm to the front edge.'},
+   {name:'Leg', color:'A', rows:`
+mr 4
+sc 4 | x6`, at:{round:8.6, angles:[78,104,130,-78,-104,-130]}, aimRel:[1,-.7], mix:.85, bend:-.8, sink:.3, sew:'Sew three along each side.'},
+   {name:'Eye stalk', color:'A', rows:STUB, at:{round:3.4, angles:[20,-20]}, aim:[.1,1,.25], mix:.6, stuff:.6, sink:.4, sew:'Sew to the top, near the front.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Eye stalk', round:1, angle:'front', size:.45, text:'Push a safety eye into the front of each stalk.'},
+          {id:'smile', kind:'line', color:'#6b1f16', pts:[[6.6,-15],[7.1,0],[6.6,15]], text:'Embroider a small smile on the front edge.'}] },
+
+{ id:'dino', name:'Dinosaur', level:3, blurb:'Six spikes down the back',
+  yarn:{A:['Fern','#6fbf73'],B:['Lemon cream','#f2e7a6'],C:['Sunset','#f08a5d']}, view:.5,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:19.6, angle:0}, sew:'Sew the flat circle to the front of the body.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12
+(sc 3, inc)*3
+sc 15 | x2`, at:{round:21.8, angle:180}, aim:[0,-.15,-1], mix:.85, stuff:.8, sink:.7, sew:'Stuff and sew to the lower back so it rests on the ground.'},
+   {name:'Spike', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6`, at:{spots:[[2.4,180],[5.6,180],[9,180],[12.4,180],[17.4,180],[20.4,180]]}, aim:[0,.5,-1], mix:.35, flat:.5, sink:.3, sew:'Pinch flat and sew in a row down the back of the head and body.'},
+   {name:'Arm', color:'A', rows:STUB, at:{round:17.4, angles:[50,-50]}, aim:[.4,-.3,1], mix:.6, sink:.4, sew:'Sew to the front, just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:11},
+          {id:'smile', kind:'line', color:'#2c4a2e', pts:[[10,-16],[10.6,0],[10,16]], text:'Embroider a smile with dark green yarn.'}] },
+
+{ id:'narwhal', name:'Narwhal', level:2, blurb:'A whale with a horn',
+  yarn:{A:['Arctic','#9fc7d8'],B:['Ivory','#f4ecd6']}, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+sc 24 | x2
+(sc 2, dec)*6
+sc 18
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Horn', color:'B', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x4`, at:{round:2.4, angle:180}, aim:[0,.5,1], mix:.9, stuff:.6, sink:.4, sew:'Stuff and sew to the top of the head, pointing forward and up.'},
+   {name:'Tail fluke', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc, dec)*3`, at:{round:22.4, angles:[90,-90]}, aim:[1,.35,-.7], mix:.9, flat:.4, sink:.5, sew:'Flatten and sew to the tail tip, angled up and out.'},
+   {name:'Fin', color:'A', rows:STUB, at:{round:9.5, angles:[62,-62]}, aim:[1,-.5,-.5], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew low on each side.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.6, apart:16, center:180, text:'Push in the safety eyes between rounds 6 and 7, one on each side of the head, 16 stitches apart across the top.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:7.6, apart:22, center:180, size:.5, text:'Add a pink cheek under each eye.'},
+          {id:'smile', kind:'line', color:'#3b5566', pts:[[5.2,-46],[6.1,-22],[6.4,0],[6.1,22],[5.2,46]], text:'Embroider a wide smile under the nose.'}] },
+
+{ id:'ghost', name:'Ghost', level:1, blurb:'One piece and two little arms',
+  yarn:{A:['Moonlight','#f5f4f0']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x9
+!eyes:
+(sc 5, inc)*6
+sc 42 | x2
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Arm', color:'A', rows:STUB, at:{round:10, angles:[78,-78]}, aimRel:[1,.25], mix:.8, sink:.4, sew:'Sew to each side, reaching out.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7, apart:9, size:.62},
+          {id:'mouth', kind:'dot', color:'#2b2730', round:9.3, angle:0, size:.5, text:'Embroider a small round mouth.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.7, apart:15, size:.5, text:'Add two pink cheeks.'}] },
+
+/* ---------- things ---------- */
+{ id:'apple', name:'Apple', kind:'object', level:1, blurb:'A ball with a stem and a leaf',
+  yarn:{A:['Apple red','#d8362f'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
+  parts:[
+   {name:'Apple', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+sc 30
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'B', rows:`
+mr 4
+sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew:'Sew into the dip at the top.'},
+   {name:'Leaf', color:'C', rows:LEAF, at:{round:1.4, angle:70}, aim:[1,.6,.2], mix:.8, flat:.25, sink:.2, sew:'Flatten and sew next to the stem.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:9, apart:8},
+          {id:'smile', kind:'line', color:'#5a1410', pts:[[10.2,-11],[10.7,0],[10.2,11]], text:'Embroider a small smile.'},
+          {id:'cheeks', kind:'dot', color:'#f7a3a0', round:9.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
+
+{ id:'pear', name:'Pear', kind:'object', level:1, blurb:'Narrow at the top, wide below',
+  yarn:{A:['Pear green','#b9cf4a'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
+  parts:[
+   {name:'Pear', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'B', rows:`
+mr 4
+sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew:'Sew to the top.'},
+   {name:'Leaf', color:'C', rows:LEAF, at:{round:1.4, angle:70}, aim:[1,.6,.2], mix:.8, flat:.25, sink:.2, sew:'Flatten and sew next to the stem.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:13, apart:8},
+          {id:'smile', kind:'line', color:'#4f5a1a', pts:[[14.2,-11],[14.7,0],[14.2,11]], text:'Embroider a small smile.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:13.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
+
+{ id:'strawberry', name:'Strawberry', kind:'object', level:2, blurb:'A cap of five leaves, and seeds',
+  yarn:{A:['Strawberry','#e2364a'],B:['Leaf','#4fa64a']}, view:.3,
+  parts:[
+   {name:'Berry', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+sc 24 | x2
+(sc 2, dec)*6
+sc 18
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3`, at:{round:2.4, angles:[0,72,144,-144,-72]}, aimRel:[1,-.35], mix:.85, flat:.3, sink:.3, sew:'Flatten and sew five around the top, pointing out and down.'},
+   {name:'Stem', color:'B', rows:`
+mr 4
+sc 4 | x2`, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, sink:.4, sew:'Sew to the very top, in the middle of the leaves.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:7},
+          {id:'smile', kind:'line', color:'#5a0f1a', pts:[[9.6,-10],[10.1,0],[9.6,10]], text:'Embroider a small smile.'},
+          {id:'seeds', kind:'dot', color:'#fbe9a8', spots:[[5,38],[5,-38],[6.4,92],[6.4,-92],[11.6,24],[11.6,-24],[12,72],[12,-72],[14.6,0],[15,48],[15,-48],[5.2,150],[5.2,-150],[9,180],[12.5,140],[12.5,-140]], size:.2, text:'Embroider small seeds all over with pale yellow yarn.'}] },
+
+{ id:'carrot', name:'Carrot', kind:'object', level:1, blurb:'A long, slow decrease',
+  yarn:{A:['Carrot','#f08a2e'],B:['Leaf','#5fae4a']}, view:.3,
+  parts:[
+   {name:'Carrot', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+!eyes:
+(sc 6, dec)*3
+sc 21 | x2
+(sc 5, dec)*3
+sc 18 | x2
+(sc 4, dec)*3
+sc 15 | x2
+(sc 3, dec)*3
+sc 12 | x2
+!stuff:
+(sc 2, dec)*3
+sc 9 | x2
+(sc, dec)*3
+sc 6
+!close:`},
+   {name:'Green top', color:'B', rows:`
+mr 4
+sc 4 | x7`, at:{round:1.2, angles:[10,130,-110]}, aimRel:[.45,1], mix:.85, bend:-.4, sink:.4, sew:'Sew three to the top.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6, apart:6},
+          {id:'smile', kind:'line', color:'#7a3a0c', pts:[[7.2,-12],[7.7,0],[7.2,12]], text:'Embroider a small smile.'}] },
+
+{ id:'pumpkin', name:'Pumpkin', kind:'object', level:2, blurb:'Ribs pulled in with long stitches',
+  yarn:{A:['Pumpkin','#ee8a2a'],B:['Twig','#7a5a2e'],C:['Leaf','#5fae4a']}, view:.3,
+  parts:[
+   {name:'Pumpkin', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x6
+!eyes:
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'B', rows:STUB, at:{round:.5, angle:0}, aim:[.25,1,0], mix:.8, stuff:.5, bend:.5, sink:.5, sew:'Sew to the top.'},
+   {name:'Leaf', color:'C', rows:LEAF, at:{round:1.6, angle:-70}, aim:[1,.6,.2], mix:.8, flat:.25, sink:.2, sew:'Flatten and sew next to the stem.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:9.5, apart:9},
+          {id:'ribs', kind:'line', color:'#c8601a', lines:[30,90,150,-150,-90,-30].map(a=>[[1.4,a],[5,a],[10,a],[15,a],[18.4,a]]), text:'With darker yarn, pull six long stitches from top to bottom to shape the ribs.'},
+          {id:'smile', kind:'line', color:'#6b2c08', pts:[[10.6,-16],[11.3,-6],[11.4,0],[11.3,6],[10.6,16]], text:'Embroider a wide smile.'}] },
+
+{ id:'acorn', name:'Acorn', kind:'object', level:1, blurb:'A cap, then a color change',
+  yarn:{A:['Hazel','#cf9552'],B:['Bark','#7a4a2a']}, view:.3,
+  parts:[
+   {name:'Acorn', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+sc 30 | x2 | B
+! Switch to the nut color. The decrease makes the edge of the cap.
+(sc 3, dec)*6
+sc 24 | x4
+!eyes:
+(sc 2, dec)*6
+sc 18
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'B', rows:`
+mr 4
+sc 4 | x2`, at:{round:.4, angle:0}, aim:[.2,1,0], mix:.85, sink:.4, sew:'Sew to the top of the cap.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:10.2, apart:6},
+          {id:'smile', kind:'line', color:'#5a3414', pts:[[11.3,-12],[11.8,0],[11.3,12]], text:'Embroider a small smile.'}] },
+
+{ id:'cupcake', name:'Cupcake', kind:'object', level:2, blurb:'Frosting, sprinkles and a cherry',
+  yarn:{A:['Vanilla','#f2dfb4'],B:['Frosting pink','#f7a8c4'],C:['Cherry','#d8263a']}, view:.3,
+  parts:[
+   {name:'Cupcake', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+sc 36 | x2 | B
+! Switch to the wrapper color.
+(sc 4, dec)*6
+sc 30 | x2
+!eyes:
+(sc 3, dec)*6
+sc 24 | x2
+!stuff:
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cherry', color:'C', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, stuff:1, sink:.7, sew:'Sew on top of the frosting.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:10.2, apart:7},
+          {id:'smile', kind:'line', color:'#6b4a2a', pts:[[11.2,-10],[11.6,0],[11.2,10]], text:'Embroider a small smile on the wrapper.'},
+          {id:'sprinkles', kind:'dot', color:'#ffe27a', spots:[[2.6,20],[3.4,140],[4.2,-80],[5.4,60],[6.2,-150],[6.6,-20]], size:.18, text:'Embroider sprinkles on the frosting with short stitches.'},
+          {id:'sprinkles2', kind:'dot', color:'#7ad1e0', spots:[[2.8,-110],[3.8,-30],[4.6,100],[5.6,170],[6.4,110],[5,-125]], size:.18, text:'Add a second color of sprinkles.'}] },
+
+{ id:'icecream', name:'Ice Cream Cone', kind:'object', level:2, blurb:'A scoop that turns into a cone',
+  yarn:{A:['Waffle','#d9a866'],B:['Mint','#a8e0c4'],C:['Cherry','#d8263a']}, view:.3,
+  parts:[
+   {name:'Scoop and cone', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+sc 30 | x4 | B
+!eyes:
+! Switch to the cone color.
+(sc 3, dec)*6
+sc 24 | x2
+(sc 6, dec)*3
+sc 21
+(sc 5, dec)*3
+sc 18
+(sc 4, dec)*3
+sc 15
+!stuff:
+(sc 3, dec)*3
+sc 12
+(sc 2, dec)*3
+sc 9
+(sc, dec)*3
+sc 6
+!close:`},
+   {name:'Cherry', color:'C', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, stuff:1, sink:.7, sew:'Sew on top of the scoop.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:5.6, apart:7},
+          {id:'smile', kind:'line', color:'#3a6b55', pts:[[6.8,-10],[7.3,0],[6.8,10]], text:'Embroider a small smile on the scoop.'},
+          {id:'sprinkles', kind:'dot', color:'#f7a8c4', spots:[[2.4,40],[3,160],[3.6,-70],[2.6,-150],[4.2,110],[4,-20]], size:.18, text:'Embroider sprinkles on top of the scoop.'}] },
+
+{ id:'cactus', name:'Cactus', kind:'object', level:2, blurb:'Grows straight out of its pot',
+  yarn:{A:['Cactus','#5fae6a'],B:['Terracotta','#c96f4a'],C:['Bloom','#f58ab0']}, view:.3,
+  parts:[
+   {name:'Cactus and pot', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x9
+!eyes:
+! Switch to the pot color. The increase makes the rim.
+(sc 3, inc)*6 | B
+sc 30 | x2 | B
+(sc 3, dec)*6 | B
+sc 24 | x4 | B
+!stuff:
+(sc 2, dec)*6 | B
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Arm', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x5`, at:{round:8, angles:[88,-88]}, aimRel:[.75,1], mix:.75, stuff:.7, sink:.5, sew:'Stuff lightly and sew to each side, reaching up.'},
+   {name:'Flower', color:'C', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, stuff:1, sink:.6, sew:'Sew on top.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.4, apart:6},
+          {id:'smile', kind:'line', color:'#2c5a34', pts:[[8.5,-12],[9,0],[8.5,12]], text:'Embroider a small smile.'},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.3, apart:11, size:.45, text:'Add two pink cheeks.'}] },
+
+{ id:'snowman', name:'Snowman', kind:'object', level:3, blurb:'Hat, scarf, carrot nose',
+  yarn:{A:['Snow','#f7f6f2'],B:['Scarf red','#d8362f'],C:['Carrot','#f08a2e'],D:['Coal','#2f2c35'],E:['Twig','#7a4f2e']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+! The next two rounds are the scarf.
+(sc 2, dec)*6 | B
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6 | B
+(sc 3, inc)*6
+sc 30 | x5
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Hat', color:'D', rows:`
+mr 6
+inc*6
+sc 12 | x3
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:.5, angle:0}, aim:[0,1,0], mix:.9, stuff:.7, sink:1.1, sew:'Stuff the crown lightly and sew the brim to the top of the head.'},
+   {name:'Nose', color:'C', rows:`
+mr 4
+sc 4
+(sc, inc)*2
+sc 6`, at:{round:9.4, angle:0}, stuff:.6, sink:.25, sew:'Sew to the middle of the face.'},
+   {name:'Scarf end', color:'B', rows:`
+mr 4
+sc 4 | x6`, at:{round:16.2, angle:38}, aim:[.35,-1,.6], mix:.8, flat:.45, sink:.3, sew:'Flatten and sew under the scarf, hanging down.'},
+   {name:'Arm', color:'E', rows:`
+mr 4
+sc 4 | x7`, at:{round:18.2, angles:[82,-82]}, aimRel:[1,.5], mix:.85, sink:.3, sew:'Sew to each side of the body, reaching up.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:9},
+          {id:'smile', kind:'dot', color:'#2f2c35', spots:[[10.3,-16],[10.8,-8],[11,0],[10.8,8],[10.3,16]], size:.16, text:'Embroider a dotted coal smile.'},
+          {id:'buttons', kind:'dot', color:'#2f2c35', spots:[[18.6,0],[20.4,0],[22,0]], size:.3, text:'Sew or embroider three buttons down the front.'}] },
+
+{ id:'rocket', name:'Rocket', kind:'object', level:2, blurb:'Nose cone, three fins and a flame',
+  yarn:{A:['Hull white','#f2f3f5'],B:['Rocket red','#e0453f'],C:['Steel','#8d96a8'],D:['Sky','#5aa9e6'],E:['Flame','#f59a2e'],F:['Spark','#ffd84a']}, view:.5,
+  parts:[
+   {name:'Rocket', root:true, color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | B
+(sc 2, inc)*3 | B
+sc 12 | B
+(sc, inc)*6 | B
+sc 18 | B
+(sc 2, inc)*6 | B
+! Switch to the hull color.
+sc 24 | x10
+sc 24 | x2 | C
+!stuff:
+(sc 2, dec)*6 | C
+(sc, dec)*6 | C
+dec*6 | C
+!close:`},
+   {name:'Window', color:'D', conform:true, rows:`
+mr 6
+inc*6`, at:{round:12, angle:0}, sew:'Sew the flat circle to the front of the hull.'},
+   {name:'Fin', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2`, at:{round:18.4, angles:[60,180,-60]}, aimRel:[1,-.8], mix:.85, flat:.28, sink:.5, sew:'Flatten and sew three around the base, pointing down and out.'},
+   {name:'Flame', color:'E', rows:`
+mr 4 | F
+(sc, inc)*2 | F
+(sc, inc)*3
+sc 9 | x2`, at:{round:23.5, angle:0}, aim:[0,-1,0], mix:.95, stuff:.5, sink:.6, sew:'Sew under the base.'}
+  ],
+  extras:[{id:'shine', kind:'dot', color:'#ffffff', round:11.6, angle:7, size:.16, text:'One small white stitch on the window makes it shine.'}] },
+
+{ id:'tree', name:'Christmas Tree', kind:'object', level:3, blurb:'Three tiers from increases and decreases',
+  yarn:{A:['Fir','#3f8f4f'],B:['Trunk','#7a4f2e'],C:['Star','#ffd84a']}, view:.3,
+  parts:[
+   {name:'Tree', root:true, color:'A', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+! Pinch in for the next tier.
+(sc, dec)*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30
+(sc 4, inc)*6
+sc 36
+!stuff: Stuff firmly, pushing stuffing into each tier.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Trunk', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{round:22.5, angle:0}, aim:[0,-1,0], mix:.95, stuff:.9, sink:.5, sew:'Stuff and sew under the tree.'},
+   {name:'Star', color:'C', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, stuff:1, sink:.5, sew:'Sew to the very top.'}
+  ],
+  extras:[{id:'baubles', kind:'dot', color:'#e0453f', spots:[[4,0],[9,60],[9.4,-70],[15,20],[15.6,150],[16,-100]], size:.26, text:'Sew on red beads or embroider knots as baubles.'},
+          {id:'baubles2', kind:'dot', color:'#5aa9e6', spots:[[4.2,150],[8.8,170],[14.8,-35],[16.2,85],[9,-10]], size:.26, text:'Add a second color of baubles.'}] }
+];
+
+/* =====================================================================
+   PATTERN PARSING
+   ===================================================================== */
+function splitTop(s){ const out=[]; let d=0,cur=''; for(const ch of s){ if(ch==='(')d++; if(ch===')')d--; if(ch===','&&d===0){out.push(cur.trim());cur='';} else cur+=ch; } if(cur.trim()) out.push(cur.trim()); return out; }
+function parseSeq(s, ops, rep){
+  for(const term of splitTop(s)){
+    let m = term.match(/^\((.*)\)\s*\*\s*(\d+)$/);
+    if(m){ const k=+m[2]; for(let i=0;i<k;i++) parseSeq(m[1], ops, {i:i+1,of:k}); continue; }
+    m = term.match(/^(mr|sc|inc|dec)(?:\s+(\d+))?(?:\s*\*\s*(\d+))?$/);
+    if(!m) throw new Error('Bad pattern term: '+term);
+    const k = +(m[2]||m[3]||1);
+    for(let i=0;i<k;i++) ops.push({t:m[1], rep: rep || (m[3]?{i:i+1,of:k}:null)});
+  }
+}
+function pretty(src){
+  if(/^mr/.test(src)) return src.replace(/^mr\s+(\d+)/,'$1 sc in a magic ring');
+  if(/^sc\s+\d+$/.test(src)) return 'sc in every stitch';
+  return src.replace(/\s*\*\s*/g,' ×');
+}
+function expandRows(text, defColor){
+  const rounds=[], notes=[];
+  for(let line of text.split('\n')){
+    line=line.trim(); if(!line) continue;
+    if(line[0]==='!'){ const m=line.match(/^!(?:(\w+):)?\s*(.*)$/); notes.push({after:rounds.length, key:m[1]||null, text:m[2]||''}); continue; }
+    const bits=line.split('|').map(s=>s.trim()); let rep=1,color=defColor;
+    for(const b of bits.slice(1)){ const m=b.match(/^x(\d+)$/); if(m) rep=+m[1]; else color=b; }
+    for(let i=0;i<rep;i++) rounds.push({src:bits[0], color});
+  }
+  return {rounds,notes};
+}
+
+/* =====================================================================
+   SHAPE: the silhouette is solved from the stitch counts.
+   Each round is a ring whose rest circumference is count x stitch width,
+   rounds are one row-height apart along the fabric, and stuffing pushes out.
+   ===================================================================== */
+function simulate(counts, closed, stuff){
+  const N=counts.length, K=N+1+(closed?1:0);
+  const R=counts.map(n=>n*W/TAU);
+  const r=new Float64Array(K), y=new Float64Array(K), fr=new Float64Array(K), fy=new Float64Array(K);
+  const L=[], C=[], M=[];
+  L[0]=R[0]; C[0]=counts[0]/6;
+  for(let i=1;i<N;i++){ L[i]=H; C[i]=(counts[i-1]+counts[i])/12; }
+  if(closed){ L[N]=R[N-1]; C[N]=counts[N-1]/6; }
+  r[1]=R[0]; y[1]=-0.4*H;
+  for(let i=2;i<=N;i++){ r[i]=R[i-1]; const dr=r[i]-r[i-1]; y[i]=y[i-1]-Math.sqrt(Math.max(H*H-dr*dr,0.09*H*H)); }
+  if(closed){ r[N+1]=0; y[N+1]=y[N]-0.4*H; }
+  M[0]=counts[0]/6; for(let i=1;i<=N;i++) M[i]=counts[i-1]/6; if(closed) M[N+1]=counts[N-1]/6;
+  const km=40, kh=120, kc=0.02, p=2.5*stuff, dt=0.012;
+  for(let it=0; it<3500; it++){
+    fr.fill(0); fy.fill(0);
+    for(let k=0;k<K-1;k++){
+      const dx=r[k+1]-r[k], dy=y[k+1]-y[k], d=Math.hypot(dx,dy)||1e-6, f=km*C[k]*(d-L[k])/d;
+      fr[k]+=f*dx; fy[k]+=f*dy; fr[k+1]-=f*dx; fy[k+1]-=f*dy;
+    }
+    for(let i=1;i<=N;i++){
+      const Ri=R[i-1], e=(r[i]-Ri)/Ri;
+      fr[i]-=(e>0?kh:kh*kc)*e;
+      if(p>0){
+        const a=i-1, b=Math.min(i+1,K-1);
+        let tr=r[b]-r[a], ty=y[b]-y[a]; const l=Math.hypot(tr,ty)||1; tr/=l; ty/=l;
+        fr[i]+=p*r[i]*H*(-ty); fy[i]+=p*r[i]*H*tr;
+      }
+    }
+    if(p>0){ fy[0]+=p*R[0]*R[0]/8; if(closed) fy[N+1]-=p*R[N-1]*R[N-1]/8; }
+    for(let k=0;k<K;k++){
+      const pole = k===0 || (closed&&k===K-1);
+      if(!pole){ r[k]+=Math.max(-.05,Math.min(.05,dt*fr[k]/M[k])); if(r[k]<.25) r[k]=.25; }
+      y[k]+=Math.max(-.05,Math.min(.05,dt*fy[k]/M[k]));
+    }
+  }
+  const y0=y[0]; for(let k=0;k<K;k++) y[k]-=y0;
+  return {r,y,N,K,closed};
+}
+function mkProfile(counts, closed, stuff){
+  const s=simulate(counts,closed,stuff), N=s.N, K=s.K;
+  const raw=t=>{ t=Math.max(0,Math.min(K-1,t)); const i=Math.min(K-2,Math.floor(t)), f=t-i; return [s.r[i]+(s.r[i+1]-s.r[i])*f, s.y[i]+(s.y[i+1]-s.y[i])*f]; };
+  const at=t=>{
+    if(t>N){
+      if(closed){ const q=raw(N+(t-N)*.6); return [Math.max(q[0],s.r[N]*.75), q[1]]; }
+      const e=t-N, a=Math.max(0,N-1); return [s.r[N]+(s.r[N]-s.r[a])*e, s.y[N]+(s.y[N]-s.y[a])*e];
+    }
+    const q=raw(t); return [t<1?Math.max(q[0],s.r[1]*.8):q[0], q[1]];
+  };
+  const tan=t=>{ const a=raw(Math.max(0,t-.5)), b=raw(Math.min(K-1,t+.5)); const dr=b[0]-a[0], dy=b[1]-a[1], l=Math.hypot(dr,dy)||1; return [dr/l,dy/l]; };
+  return {raw,at,tan,N,K,L:-s.y[K-1],y:s.y,r:s.r};
+}
+
+/* =====================================================================
+   BUILD A CREATURE: every stitch gets a position, in the order it is made
+   ===================================================================== */
+function deform(c, p, n, u){
+  if(c.flat!==1){ p.z*=c.flat; if(n) n.z/=c.flat; if(u) u.z*=c.flat; }
+  if(c.bend){
+    const k=c.bend/c.L, rho=1/k, a=k*(p.y+c.L), s=Math.sin(a), co=Math.cos(a), z=p.z;
+    p.y=-c.L+s*(rho-z); p.z=rho-co*(rho-z);
+    for(const v of [n,u]) if(v){ const vy=v.y, vz=v.z; v.y=vy*co-vz*s; v.z=vy*s+vz*co; }
+  }
+  p.applyMatrix4(c.m);
+  if(n) n.transformDirection(c.m); if(u) u.transformDirection(c.m);
+}
+function surf(c, t, angDeg){
+  const ph=angDeg*DEG, q=c.prof.raw(t), tg=c.prof.tan(t);
+  const p=new V3(q[0]*Math.sin(ph), q[1], q[0]*Math.cos(ph));
+  const n=new V3(-tg[1]*Math.sin(ph), tg[0], -tg[1]*Math.cos(ph));
+  deform(c,p,n,null); n.normalize();
+  return {p,n};
+}
+function buildCreature(def){
+  const insts=[], steps=[], copies=[], byName={}, partInfo=[];
+  let rootCopy=null;
+  def.parts.forEach((pd,pi)=>{
+    const {rounds,notes}=expandRows(pd.rows, pd.color);
+    let prev=0;
+    rounds.forEach((rd,i)=>{
+      const ops=[]; parseSeq(rd.src,ops,null); const sts=[]; let c=0;
+      for(const op of ops){
+        if(op.t==='mr') sts.push({t:'mr',par:[],rep:op.rep});
+        else if(op.t==='sc') sts.push({t:'sc',par:[c++],rep:op.rep});
+        else if(op.t==='inc'){ sts.push({t:'inc',k:1,par:[c],rep:op.rep}); sts.push({t:'inc',k:2,par:[c],rep:op.rep}); c++; }
+        else { sts.push({t:'dec',par:[c,c+1],rep:op.rep}); c+=2; }
+      }
+      if(c!==prev) throw new Error(`${def.name} / ${pd.name}, round ${i+1} works into ${c} stitches but the round before has ${prev}`);
+      prev=sts.length; rd.sts=sts; rd.n=sts.length;
+    });
+    const counts=rounds.map(r=>r.n), N=counts.length;
+    const closed=notes.some(n=>n.key==='close');
+    const prof = pd.conform ? null : mkProfile(counts, closed, pd.stuff ?? (pd.root?1:0));
+    const spots = pd.root ? [[0,0]] : (pd.at.spots || (pd.at.angles || [pd.at.angle||0]).map(a=>[pd.at.round,a]));      // [round, angle] on the host for every copy
+    const rstart=[0]; for(const n of counts) rstart.push(rstart[rstart.length-1]+n);
+    const info={pd,pi,rounds,notes,counts,N,closed,rstart,copies:[]}; partInfo.push(info);
+    byName[pd.name]=info;
+    spots.forEach(([rnd,ang],ci)=>{
+      const c={pd,info,ci,nCopies:spots.length,prof,flat:pd.flat??1,bend:0,L:prof?prof.L:0,m:new THREE.Matrix4(),first:insts.length};
+      const sgn = Math.sin(ang*DEG) < -1e-6 ? -1 : 1;
+      let host=null, S=null, T1=null, T2=null;
+      if(pd.root){ if(pd.rot) c.m.makeRotationFromEuler(new THREE.Euler(...pd.rot)); rootCopy=c; }
+      else{
+        host=(byName[pd.at.on]||rootCopy.info).copies[0];
+        S=surf(host, rnd, ang);
+        if(pd.conform){
+          const ax=new V3(0,1,0).transformDirection(host.m);
+          T1=new V3().crossVectors(ax,S.n); if(T1.lengthSq()<1e-4) T1.set(1,0,0); T1.normalize();
+          T2=new V3().crossVectors(S.n,T1).normalize();
+        }else{
+          let dir=S.n.clone();
+          let a=null;
+          if(pd.aim) a=new V3(pd.aim[0]*sgn,pd.aim[1],pd.aim[2]);
+          if(pd.aimRel){ const rad=new V3(S.n.x,0,S.n.z); if(rad.lengthSq()<1e-4) rad.set(Math.sin(ang*DEG),0,Math.cos(ang*DEG)); rad.normalize(); a=rad.multiplyScalar(pd.aimRel[0]).add(new V3(0,pd.aimRel[1],0)); }
+          if(a){ const mix=pd.mix??.7; dir.multiplyScalar(1-mix).addScaledVector(a.normalize(),mix).normalize(); }
+          let Z=S.n.clone().addScaledVector(dir,-S.n.dot(dir));
+          if(Z.lengthSq()<.01){ Z.set(0,1,0).addScaledVector(dir,-dir.y); }
+          if(Z.lengthSq()<.01){ Z.set(0,0,1).addScaledVector(dir,-dir.z); }
+          Z.normalize();
+          const X=new V3().crossVectors(dir,Z).normalize();
+          c.bend=pd.bend||0;
+          const sink=pd.sink??.3;
+          c.m.makeBasis(X,dir,Z).setPosition(S.p.clone().addScaledVector(dir,c.L-sink));
+        }
+      }
+      info.copies.push(c); copies.push(c);
+      // stitches
+      let lean=0; const phi0 = pd.root ? Math.PI : 0; let prevStart=-1;
+      const emitNotes=i=>{ for(const nt of notes) if(nt.after===i) steps.push({kind:'note',key:nt.key,text:nt.text,copy:c,round:Math.max(0,i-1)}); };
+      rounds.forEach((rd,i)=>{
+        emitNotes(i);
+        const n=rd.n; if(i>0) lean-=.3*TAU/n;      // each round sits a third of a stitch back from the one below, as it does for a right-handed crocheter
+        const start=insts.length;
+        rd.sts.forEach((st,j)=>{
+          const t=i+1-.5+j/n, ph=phi0+TAU*(j+.5)/n+lean;
+          let p,nn,u,sx=1;
+          if(pd.conform){
+            const Rr=k=>k<=0?0:counts[Math.min(N,k)-1]*W/TAU;
+            const k0=Math.floor(t), f=t-k0; let rho=Rr(k0)+(Rr(k0+1)-Rr(k0))*f; if(t<1) rho=Math.max(rho,Rr(1)*.8);
+            const rd3=T1.clone().multiplyScalar(Math.sin(ph)).addScaledVector(T2,Math.cos(ph));
+            const Q=S.p.clone().addScaledVector(rd3,rho);
+            const ql=Q.clone().applyMatrix4(new THREE.Matrix4().copy(host.m).invert());
+            let best=rnd, bd=1e9; const span=rho/H+1.5;
+            for(let tt=Math.max(.5,rnd-span); tt<=Math.min(host.prof.N,rnd+span); tt+=.04){ const d=Math.abs(host.prof.raw(tt)[1]-ql.y); if(d<bd){bd=d;best=tt;} }
+            const sp=surf(host,best,Math.atan2(ql.x,ql.z)/DEG);
+            nn=sp.n; p=sp.p.addScaledVector(nn,.3);
+            u=rd3.addScaledVector(nn,-rd3.dot(nn)); if(u.lengthSq()<1e-4) u.copy(T2); u.normalize();
+          }else{
+            const q=prof.at(t), tg=prof.tan(t);
+            sx=Math.max(.72,Math.min(1.2,TAU*q[0]/(n*W)));      // stitches squeeze or stretch with the round they sit in
+            p=new V3(q[0]*Math.sin(ph),q[1],q[0]*Math.cos(ph));
+            nn=new V3(-tg[1]*Math.sin(ph),tg[0],-tg[1]*Math.cos(ph));
+            u=new V3(tg[0]*Math.sin(ph),tg[1],tg[0]*Math.cos(ph));
+            deform(c,p,nn,u); nn.normalize(); u.normalize();
+          }
+          const idx=insts.length;
+          insts.push({p,n:nn,u,sx,color:rd.color,t:st.t,par:st.par.map(k=>prevStart+k)});
+          steps.push({kind:'st',inst:idx,copy:c,round:i,j,st,rd});
+        });
+        prevStart=start;
+      });
+      emitNotes(N);
+      if(!pd.root) steps.push({kind:'note',key:'sew',copy:c,round:N-1,text:(closed?'':'Fasten off and leave a long tail. ')+(pd.sew||'Sew it on where shown.')});
+      c.last=insts.length;
+      const pole=(y,ny)=>{ if(pd.conform) return {p:S.p.clone().addScaledVector(S.n,.2),n:S.n.clone()}; const p=new V3(0,y,0), n=new V3(0,ny,0); deform(c,p,n,null); return {p,n:n.normalize()}; };
+      c.plugs=[Object.assign(pole(0,1),{color:rounds[0].color,after:steps.find(s=>s.kind==='st'&&s.copy===c)})];      // the pulled-shut centre of the magic ring…
+      if(closed&&!pd.conform) c.plugs.push(Object.assign(pole(prof.y[prof.K-1],-1),{color:rounds[N-1].color,after:steps.find(s=>s.kind==='note'&&s.key==='close'&&s.copy===c)}));   // …and of the closed end
+      const cen=new V3(); for(let k=c.first;k<c.last;k++) cen.add(insts[k].p); cen.multiplyScalar(1/(c.last-c.first));
+      let rad=0; for(let k=c.first;k<c.last;k++) rad=Math.max(rad,cen.distanceTo(insts[k].p));
+      c.cen=cen; c.rad=rad+.6;
+    });
+  });
+  // extras: eyes, embroidery
+  const extras=[];
+  for(const e of def.extras){
+    const info=e.on?byName[e.on]:rootCopy.info;
+    for(const c of info.copies){
+      const cnt=info.counts[Math.max(0,Math.min(info.N-1,Math.round(e.round)-1))];
+      let pts=[], lines=null;
+      if(e.kind==='line') lines=(e.lines||[e.pts]).map(pl=>pl.map(q=>{ const s=surf(c,q[0],q[1]); return s.p.addScaledVector(s.n,.5); }));
+      else if(e.spots) pts=e.spots.map(q=>surf(c,q[0],q[1]));
+      else{
+        let angs;
+        if(e.angle==='front'){ let best=0,bv=-9; for(let a=0;a<360;a+=6){ const s=surf(c,e.round,a); const v=s.n.z*.85+s.n.y*.15; if(v>bv){bv=v;best=a;} } angs=[best]; }
+        else if(e.apart){ const h=(e.apart/2)/cnt*360, ce=e.center||0; angs=[ce+h,ce-h]; }
+        else angs=[e.angle||0];
+        pts=angs.map(a=>surf(c,e.round,a));
+      }
+      let si=steps.findIndex(s=>s.kind==='note'&&s.key===e.id&&s.copy===c);
+      if(si<0) si=steps.findIndex(s=>s.kind==='note'&&s.key===e.id);
+      if(si<0){ steps.push({kind:'note',key:e.id,copy:rootCopy,round:rootCopy.info.N-1,fin:true,text:e.text||''}); si=steps.length-1; }
+      const st=steps[si];
+      if(!st.text) st.text = e.text || (e.kind==='eye' ? `Push in the safety eyes between rounds ${Math.floor(e.round)} and ${Math.floor(e.round)+1}, ${e.apart} stitches apart, then snap on the washers.` : '');
+      extras.push({e,pts,lines,copy:c,stepRef:st});
+    }
+  }
+  for(const s of steps) if(s.kind==='note'&&!s.text&&s.key){ const t=steps.find(q=>q.kind==='note'&&q.key===s.key&&q.text&&q.copy.info===s.copy.info); if(t) s.text=t.text; }      // a note on every copy of a part says the same thing each time
+  for(const s of steps) if(s.kind==='note'&&!s.text){
+    if(s.key==='stuff') s.text='Stuff firmly with fiberfill. Top it up with small pinches as the opening gets smaller.';
+    else if(s.key==='close') s.text='Fasten off. Weave the yarn tail through the front loops of the last stitches, pull tight to close, and hide the end inside.';
+    else if(s.key==='eyes') s.text='Place the safety eyes.';
+  }
+  steps.forEach((s,i)=>s.i=i);
+  for(const x of extras) x.step=x.stepRef.i;
+  const instAt=new Int32Array(steps.length+1); let k=0; steps.forEach((s,i)=>{ if(s.kind==='st') k++; instAt[i+1]=k; });
+  const box=new THREE.Box3(); for(const s of insts) box.expandByPoint(s.p);
+  const cen=box.getCenter(new V3()); let rad=0; for(const s of insts) rad=Math.max(rad,cen.distanceTo(s.p));
+  const sc=1/(rad+.6);
+  return {def,insts,steps,copies,partInfo,extras,instAt,cen,sc,box,
+    toWorld:v=>v.clone().sub(cen).multiplyScalar(sc), heightCm:Math.round((box.max.y-box.min.y+1)*.75)};
+}
+
+/* =====================================================================
+   RENDERING
+   The model sits on a turntable (`world`). The camera and the lights stay put,
+   so the studio light always falls from the upper left of the picture.
+   ===================================================================== */
+const canvas=$('#gl');
+let renderer;
+try{ renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'}); }
+catch(err){ const e=$('#err'); e.hidden=false; e.textContent='This browser could not start 3D graphics (WebGL), so the models cannot be drawn here.'; return; }
+const LOW=matchMedia('(pointer:coarse)').matches && Math.min(screen.width,screen.height)<820;   // phones: lighter stitches, smaller maps
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+renderer.setClearColor(0x000000,0);
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene(), world=new THREE.Group(); scene.add(world);
+const camera=new THREE.PerspectiveCamera(30,1,.05,60);
+const key=new THREE.DirectionalLight(0xfff1dd,2.5); key.position.set(-3.6,4.6,4.6); key.castShadow=true;
+key.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048); key.shadow.camera.near=1; key.shadow.camera.far=16; key.shadow.bias=-.0004;
+const rim=new THREE.DirectionalLight(0xcfe0ff,1.1); rim.position.set(4,2.4,-3.6);
+scene.add(key,rim);
+// soft studio surround: a graded dome and three softboxes, baked once into an environment map
+scene.environment=(()=>{
+  const s=new THREE.Scene(), g=new THREE.SphereGeometry(20,24,12), p=g.attributes.position, col=new Float32Array(p.count*3), c=new THREE.Color();
+  const top=new THREE.Color(1.05,1.03,1), mid=new THREE.Color(.55,.57,.66), bot=new THREE.Color(.26,.24,.34);
+  for(let i=0;i<p.count;i++){ const h=p.getY(i)/20; c.copy(mid).lerp(h>0?top:bot,Math.pow(Math.abs(h),.6)); col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b; }
+  g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  s.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide})));
+  const box=(w,h,x,y,z,k,tint)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(tint).multiplyScalar(k),side:THREE.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
+  box(12,9,-9,10,9,6,'#fff3e2'); box(8,13,13,3,-5,2.4,'#dbe6ff'); box(14,5,2,-3,14,1,'#ffffff');
+  const pm=new THREE.PMREMGenerator(renderer), t=pm.fromScene(s,.035).texture; pm.dispose(); return t;
+})();
+
+/* ---- yarn: a plied strand, as a normal map and a shading map that wrap around every tube ---- */
+const YARN_R=.178, LU=1.6, TOP_X=.5;   // strand radius · strand length one texture repeat covers · where along a top loop the next round's hook goes in
+const yarnMaps=(()=>{
+  const N=LOW?256:1024, P=4, G=32, h=new Float32Array(N*N), lat=new Float32Array(G*G);
+  let seed=11; for(let i=0;i<G*G;i++){ seed=seed*16807%2147483647; lat[i]=seed/2147483647; }
+  const noise=(x,y,f)=>{ x*=f; y*=f; const xi=Math.floor(x), yi=Math.floor(y), fx=x-xi, fy=y-yi, sx=fx*fx*(3-2*fx), sy=fy*fy*(3-2*fy);
+    const g=(a,b)=>lat[(b%f)*G+(a%f)], a=g(xi,yi), b=g(xi+1,yi), c=g(xi,yi+1), d=g(xi+1,yi+1);
+    return a+(b-a)*sx+(c-a)*sy+(a-b-c+d)*sx*sy; };
+  for(let j=0;j<N;j++) for(let i=0;i<N;i++){
+    const a=i/N, b=j/N, c=(P*(a+b))%1, ply=Math.pow(Math.sin(Math.PI*c),.7);       // a runs along the strand, b around it; four plies twist one way
+    const n1=noise(a,b,8), n2=noise(a,b,16), n3=noise(a,b,32);
+    const fib=.5*Math.sin(TAU*(31*b-12*a)+7*n1)+.35*Math.sin(TAU*(47*b-17*a)+10*n2)+.7*(n3-.5);   // the fibres inside each ply run back the other way, unevenly
+    h[j*N+i]=ply*(1+.06*fib)+.05*(n3-.5)-.03*(Math.floor(P*(a+b))%2);
+  }
+  const nrm=new Uint8Array(N*N*4), alb=new Uint8Array(N*N*4), depth=.042, ka=depth/LU*N/2, kb=depth/(TAU*YARN_R)*N/2;
+  for(let j=0;j<N;j++) for(let i=0;i<N;i++){
+    const o=(j*N+i)*4, dx=(h[j*N+(i+1)%N]-h[j*N+(i+N-1)%N])*ka, dy=(h[((j+1)%N)*N+i]-h[((j+N-1)%N)*N+i])*kb, l=1/Math.hypot(dx,dy,1);
+    nrm[o]=(-dx*l*.5+.5)*255; nrm[o+1]=(-dy*l*.5+.5)*255; nrm[o+2]=(l*.5+.5)*255; nrm[o+3]=255;
+    alb[o]=alb[o+1]=alb[o+2]=Math.pow(.7+.3*clamp(h[j*N+i],0,1),1/2.2)*255; alb[o+3]=255;
+  }
+  const tex=(data,srgb)=>{ const t=new THREE.DataTexture(data,N,N,THREE.RGBAFormat); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.magFilter=THREE.LinearFilter; t.minFilter=THREE.LinearMipmapLinearFilter; t.generateMipmaps=true;
+    t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy()); if(srgb) t.colorSpace=THREE.SRGBColorSpace; t.needsUpdate=true; return t; };
+  return {nrm:tex(nrm,false),alb:tex(alb,true)};
+})();
+// uniforms shared by every stitch: which loops to tint in the expert view
+const U={uExpert:{value:0},uCount:{value:1e7},uCur:{value:-1},uNext:{value:new V3(-1,-1,1)},uPulse:{value:0},uOpen:{value:.8},uCurK:{value:1},uSolo:{value:-1},uFocus:{value:new V3()},uHookA:{value:new V3(0,1e3,0)},uHookB:{value:new V3(0,1e3+1,0)},uHookR:{value:new THREE.Vector2(0,.58)},
+         uFL:{value:new THREE.Color('#ffa51f')},uBL:{value:new THREE.Color('#2f7df6')}};
+const yarnProps={roughness:.86,metalness:0,map:yarnMaps.alb,normalMap:yarnMaps.nrm,normalScale:new THREE.Vector2(1.25,1.25),sheen:.22,sheenRoughness:.5,sheenColor:new THREE.Color(0xffffff),envMapIntensity:.8};
+const yarnMat=new THREE.MeshPhysicalMaterial({...yarnProps,vertexColors:true});
+const strandMat=new THREE.MeshPhysicalMaterial({...yarnProps});       // loose strands: embroidery, the working loop
+const SKIN_PARS='attribute vec3 aSkin; attribute vec3 aBase; attribute vec3 aMeta; uniform vec3 uHookA,uHookB; uniform vec2 uHookR; uniform float uSolo;\n';
+// each post is pulled over to the stitch it was really worked into: aBase = where its foot goes, aSkin.x = how much of that a vertex takes
+const SKIN_MOVE='#include <begin_vertex>\ntransformed.x+=aSkin.x*(aBase.x+aSkin.y*aBase.z); transformed.y+=aSkin.x*aBase.y;\ntransformed*=1.-step(-.5,uSolo)*step(.5,abs(aMeta.z-uSolo));\n';   // …and uSolo shows one piece alone
+// …and every strand near the hook is pushed off it, so the fabric opens as the hook goes in
+const HOOK_PUSH=`vec4 mvPosition=vec4(transformed,1.0);
+  #ifdef USE_INSTANCING
+    mvPosition=instanceMatrix*mvPosition;
+  #endif
+  { vec3 hp=mvPosition.xyz-uHookA, hb=uHookB-uHookA, hd=hp-hb*clamp(dot(hp,hb)/dot(hb,hb),0.,1.); float hl=length(hd);
+    mvPosition.xyz+=hd/max(hl,1e-4)*uHookR.x*max(0.,1.-hl/uHookR.y); }
+  mvPosition=modelViewMatrix*mvPosition;
+  gl_Position=projectionMatrix*mvPosition;`;
+yarnMat.onBeforeCompile=sh=>{
+  Object.assign(sh.uniforms,U);
+  sh.vertexShader=SKIN_PARS+'uniform float uExpert,uCount,uCur,uCurK,uPulse,uOpen; uniform vec3 uNext,uFL,uBL,uFocus; varying vec3 vGlow;\n'+sh.vertexShader
+    .replace('#include <begin_vertex>',SKIN_MOVE).replace('#include <project_vertex>',HOOK_PUSH)
+    .replace('#include <uv_vertex>',`#include <uv_vertex>
+      float lbShift=fract(aMeta.x*.61803398);
+      #ifdef USE_MAP
+        vMapUv.x+=lbShift;
+      #endif
+      #ifdef USE_NORMALMAP
+        vNormalMapUv.x+=lbShift;
+      #endif`)
+    .replace('#include <color_vertex>',`#include <color_vertex>
+      vGlow=vec3(0.);
+      #if defined(USE_COLOR) && defined(USE_INSTANCING_COLOR)
+      {
+        float away=smoothstep(4.,10.,distance(instanceMatrix[3].xyz,uFocus));          // fabric far from the stitch in hand fades back a little
+        vColor.rgb=mix(vColor.rgb,vec3(dot(vColor.rgb,vec3(.3,.59,.11)))*.9+.05,uExpert*away*.45);
+        float isFL=1.-step(.5,abs(aSkin.z-1.)), isBL=1.-step(.5,abs(aSkin.z-2.));
+        float open=step(uCount-.5,aMeta.y);                                   // nothing has been worked into this stitch yet
+        float cur=1.-step(.5,abs(aMeta.x-uCur));
+        float nxt=max(1.-step(.5,abs(aMeta.x-uNext.x)),1.-step(.5,abs(aMeta.x-uNext.y)));
+        float loops=isFL+isBL, nl=nxt*(isFL+isBL*uNext.z);
+        vec3 tint=isFL*uFL+isBL*uBL;
+        vColor.rgb=mix(vColor.rgb,color*tint,uExpert*max(loops*max(open*uOpen*(1.-cur*(1.-uCurK)),cur*.9*uCurK),nl*.95));
+        vGlow=uExpert*nl*tint*uPulse*.5;
+      }
+      #endif`);
+  sh.fragmentShader='varying vec3 vGlow;\n'+sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance+=vGlow;\n');
+};
+const depthMat=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});
+const preMat=new THREE.MeshBasicMaterial({colorWrite:false,polygonOffset:true,polygonOffsetFactor:.5,polygonOffsetUnits:1});   // depth laid down first, so the costly yarn shader only runs on what is seen
+depthMat.onBeforeCompile=preMat.onBeforeCompile=sh=>{ Object.assign(sh.uniforms,U); sh.vertexShader=SKIN_PARS+sh.vertexShader.replace('#include <begin_vertex>',SKIN_MOVE).replace('#include <project_vertex>',HOOK_PUSH); };
+
+/* ---- geometry: strands are tubes swept along a path ---- */
+const newB=()=>({pos:[],nrm:[],uv:[],col:[],skin:[],idx:[]});
+function tubeInto(B,pts,o){
+  const P=new THREE.CatmullRomCurve3(pts.map(p=>p.isVector3?p:new V3(p[0],p[1],p[2])),false,'centripetal').getSpacedPoints(o.segs), n=P.length, rs=o.radial;
+  const T=new V3(), Nn=new V3(), Bn=new V3(), v=new V3(), q=new V3(), base=B.pos.length/3; let len=0;
+  for(let i=0;i<n;i++){
+    T.subVectors(P[Math.min(n-1,i+1)],P[Math.max(0,i-1)]).normalize();
+    if(!i){ Nn.set(0,0,1); if(Math.abs(T.z)>.9) Nn.set(1,0,0); } else len+=P[i].distanceTo(P[i-1]);
+    Nn.addScaledVector(T,-Nn.dot(T)).normalize(); Bn.crossVectors(T,Nn);
+    const t=i/(n-1), r=o.rad*(o.taper?o.taper(t):1), sk=o.skin?o.skin(P[i],t):[0,0,0];
+    for(let k=0;k<=rs;k++){
+      const a=TAU*k/rs; v.copy(Nn).multiplyScalar(Math.cos(a)).addScaledVector(Bn,Math.sin(a)); q.copy(P[i]).addScaledVector(v,r);
+      B.pos.push(q.x,q.y,q.z); B.nrm.push(v.x,v.y,v.z); B.uv.push(len/LU+(o.u0||0),k/rs);
+      const s=o.shade?o.shade(q,v):1; B.col.push(s,s,s); B.skin.push(sk[0],sk[1],sk[2]);
+    }
+  }
+  for(let i=0;i<n-1;i++) for(let k=0;k<rs;k++){ const a=base+i*(rs+1)+k, b=a+rs+1; B.idx.push(a,a+1,b,a+1,b+1,b); }
+}
+function toGeo(B){
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.Float32BufferAttribute(B.pos,3)); g.setAttribute('normal',new THREE.Float32BufferAttribute(B.nrm,3));
+  g.setAttribute('uv',new THREE.Float32BufferAttribute(B.uv,2)); g.setAttribute('color',new THREE.Float32BufferAttribute(B.col,3));
+  g.setAttribute('aSkin',new THREE.Float32BufferAttribute(B.skin,3)); g.setIndex(B.idx); return g;
+}
+function strandGeo(pts,rad,segs,radial){ const B=newB(); tubeInto(B,pts,{rad,segs,radial}); return toGeo(B); }
+/* One single crochet, as the yarn really runs, seen from the right side.
+   x: to the right (work travels to the left) · y: toward the next round · z: out of the fabric.
+   - the post: two legs that come out from under the top loops of the stitch below and spread into a V
+   - the top loops: one flat loop lying along the top edge, trailing back to the stitch before.
+     Its near strand is the front loop, its far strand the back loop; the next round goes under both.
+   - a pad of shadowed fabric behind, so the piece is not see-through */
+const LEG=[[.03,-.50,-.12],[.06,-.62,.08],[.10,-.58,.27],[.17,-.28,.33],[.26,.05,.31],[.32,.27,.21],[.27,.40,.03],[.14,.42,-.12]];      // one leg of the post; the other is its mirror
+const TEAR=[[.99,.28,0],[.88,.42,.035],[.6,.47,.09],[.3,.475,.165],[.05,.45,.2],[-.12,.33,.03],[0,.44,-.15],[.3,.485,-.145],[.6,.48,-.075],[.88,.43,-.03],[.99,.29,-.02]];   // the top loops
+const stitchGeo=(()=>{
+  const B=newB(), rs=LOW?7:10, ends=t=>t<.12?.7+.3*t/.12:t>.88?.7+.3*(1-t)/.12:1;
+  for(const s of [1,-1]) tubeInto(B,LEG.map(p=>[p[0]*s,p[1],p[2]]),
+    {rad:YARN_R,segs:LOW?9:13,radial:rs,u0:s>0?0:.37,taper:ends,
+     skin:p=>[clamp((.36-p.y)/.9,0,1),s,0],
+     shade:p=>clamp(.5+1.7*(p.z-.02),.42,1)*(p.y<-.5?.86:1)});
+  tubeInto(B,TEAR,
+    {rad:YARN_R*.97,segs:LOW?15:22,radial:rs,u0:.61,taper:ends,
+     skin:(p,t)=>[0,0,t<.5?1:2],
+     shade:p=>clamp(.56+1.1*Math.max(p.z+.1,(p.y-.38)*2.2),.5,1)});
+  const sq=x=>Math.sign(x)*Math.pow(Math.abs(x),.6);      // squared-off outline, so four pads leave no pinhole where their corners meet
+  const sp=new THREE.SphereGeometry(1,LOW?8:12,LOW?5:7), pp=sp.attributes.position, pn=sp.attributes.normal, base=B.pos.length/3;
+  for(let i=0;i<pp.count;i++){
+    const z=pp.getZ(i), nx=pn.getX(i)/.62, ny=pn.getY(i)/.57, nz=pn.getZ(i)/.14, l=1/Math.hypot(nx,ny,nz), s=z>0?.36:.62;
+    B.pos.push(sq(pp.getX(i))*.64,sq(pp.getY(i))*.58,z*.14-.1); B.nrm.push(nx*l,ny*l,nz*l); B.uv.push(.0625,.0625); B.col.push(s,s,s); B.skin.push(0,0,3);
+  }
+  for(const k of sp.index.array) B.idx.push(base+k);
+  tubeInto(B,[[-.54,.06,-.2],[-.2,.12,-.27],[.2,.12,-.27],[.54,.06,-.2]],{rad:YARN_R*.9,segs:LOW?4:6,radial:LOW?5:7,u0:.2,skin:()=>[0,0,3],shade:()=>.9});   // wrong side: one bar per stitch
+  return toGeo(B);
+})();
+const eyeGeo=new THREE.SphereGeometry(1,24,16);
+const eyeMat=new THREE.MeshStandardMaterial({color:0x17131d,roughness:.1,metalness:0,envMapIntensity:1.3});
+const glintMat=new THREE.MeshBasicMaterial({color:0xffffff,toneMapped:false});
+const shadowTex=(()=>{ const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'); const g=x.createRadialGradient(64,64,4,64,64,62); g.addColorStop(0,'rgba(20,12,40,.26)'); g.addColorStop(.6,'rgba(20,12,40,.09)'); g.addColorStop(1,'rgba(20,12,40,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return new THREE.CanvasTexture(c); })();
+const shadow=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,toneMapped:false}));
+shadow.rotation.x=-Math.PI/2; world.add(shadow);
+const ground=new THREE.Mesh(new THREE.CircleGeometry(3.4,48),new THREE.ShadowMaterial({opacity:.15})); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; world.add(ground);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(.82,.06,8,40),new THREE.MeshBasicMaterial({color:0xff2f7a,toneMapped:false}));
+ring.visible=false;
+// a stitch marker, clipped around the top loops of the first stitch of the round in hand
+const marker=new THREE.Mesh(new THREE.TorusGeometry(.36,.06,10,30),new THREE.MeshStandardMaterial({color:0x17a3ad,roughness:.35,metalness:.15})); marker.visible=false; marker.castShadow=true;
+const _qy=new THREE.Quaternion().setFromAxisAngle(new V3(0,1,0),Math.PI/2);
+// expert-view props: a crochet hook and the arrows that show where it goes in next
+const hookGeo=(()=>{
+  // the head is swept ring by ring: a round bar with a bullet nose and a mouth cut into the +x side
+  const NY=52, NT=28, pos=[], idx=[], sm=(a,b,x)=>{ x=Math.max(0,Math.min(1,(x-a)/(b-a))); return x*x*(3-2*x); };
+  const bar=y=>y<.3?.2*Math.sqrt(1-Math.pow(1-y/.3,2)):y<.5?.2:y<.85?.2-.03*(y-.5)/.35:.17;
+  const cut=y=>y<.5?0:y<.6?sm(.5,.535,y):1-sm(.6,1.25,y);            // a sharp lip, then the long ramp of the throat
+  for(let j=0;j<=NY;j++){ const y=1.75*j/NY; for(let k=0;k<NT;k++){ const a=TAU*k/NT, r=bar(y)*(1-cut(y)*Math.pow(Math.max(0,Math.cos(a)),.6)); pos.push(r*Math.cos(a),y,r*Math.sin(a)); } }
+  for(let j=0;j<NY;j++) for(let k=0;k<NT;k++){ const a=j*NT+k, b=j*NT+(k+1)%NT, c=a+NT, d=b+NT; idx.push(a,c,b,b,c,d); }
+  const head=new THREE.BufferGeometry(); head.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); head.setIndex(idx); head.computeVertexNormals();
+  const shaft=new THREE.CylinderGeometry(.17,.17,2.3,28,1,true); shaft.translate(0,2.9,0);
+  const grip=new THREE.LatheGeometry([[0,3.78],[.2,3.8],[.29,4.2],[.31,6.6],[.27,8.2],[.2,8.5],[0,8.55]].map(p=>new THREE.Vector2(p[0],p[1])),28);
+  return {head,shaft,grip};
+})();
+const hookMetal=new THREE.MeshStandardMaterial({color:0xb2b8c8,metalness:1,roughness:.3,envMapIntensity:1.1});
+const hookGrip=new THREE.MeshStandardMaterial({color:0x2a9aa2,roughness:.55,metalness:0});
+const arrowGeo=(()=>{ const c=new THREE.ConeGeometry(.21,.46,20); c.translate(0,-.23,0); const s=new THREE.CylinderGeometry(.075,.075,.7,14); s.translate(0,-.81,0); return [c,s]; })();
+const arrowMat=new THREE.MeshStandardMaterial({color:0xff2f7a,emissive:0xff2f7a,emissiveIntensity:.35,roughness:.45});
+
+const TYPE_COL={mr:new THREE.Color('#f2b33d'),sc:new THREE.Color('#e9e2d6'),inc:new THREE.Color('#e0457b'),dec:new THREE.Color('#1f9aa3')};
+const WHITE=new THREE.Color('#ffffff'), SUN=new THREE.Color('#ffd23d');
+
+function makeView(cr){
+  const group=new THREE.Group(), n=cr.insts.length, geo=stitchGeo.clone();
+  const mesh=new THREE.InstancedMesh(geo,yarnMat,n); mesh.frustumCulled=false; mesh.castShadow=mesh.receiveShadow=true; mesh.customDepthMaterial=depthMat;
+  const m=new THREE.Matrix4(), inv=new THREE.Matrix4(), a=new V3(), q=new V3(), mats=[], frames=[], base=[], aBase=new Float32Array(n*3), aMeta=new Float32Array(n*3);
+  const pal={}; for(const k in cr.def.yarn) pal[k]=new THREE.Color(cr.def.yarn[k][1]);
+  cr.insts.forEach((s,i)=>{
+    const Y=s.u.clone().addScaledVector(s.n,-s.u.dot(s.n)).normalize(), X=new V3().crossVectors(Y,s.n).normalize();
+    frames.push({X,Y,N:s.n});
+    m.makeBasis(q.copy(X).multiplyScalar(s.sx||1),Y,s.n).setPosition(s.p); mats.push(m.clone()); mesh.setMatrixAt(i,m);
+    const c=pal[s.color].clone().multiplyScalar(.97+.06*((i*7919)%97)/97); base.push(c); mesh.setColorAt(i,c);   // hand-made: no two stitches quite the same shade
+    aMeta[i*3]=i; aMeta[i*3+1]=1e7;
+  });
+  cr.copies.forEach((c,ci)=>{ for(let i=c.first;i<c.last;i++) aMeta[i*3+2]=ci; });
+  // the foot of every post goes to the top loops it was worked into; aMeta.y remembers the first stitch worked into each one
+  cr.insts.forEach((s,i)=>{
+    if(!s.par.length) return;
+    a.set(0,0,0);
+    for(const p of s.par){ a.add(q.set(TOP_X,H/2,0).applyMatrix4(mats[p])); if(aMeta[p*3+1]>i) aMeta[p*3+1]=i; }
+    a.multiplyScalar(1/s.par.length).applyMatrix4(inv.copy(mats[i]).invert());
+    aBase[i*3]=clamp(a.x,-.7,.7); aBase[i*3+1]=clamp(a.y+H/2,-.3,.3); aBase[i*3+2]=s.t==='dec'?.2:0;
+  });
+  geo.setAttribute('aBase',new THREE.InstancedBufferAttribute(aBase,3)); geo.setAttribute('aMeta',new THREE.InstancedBufferAttribute(aMeta,3));
+  const pre=new THREE.InstancedMesh(geo,preMat,n); pre.instanceMatrix=mesh.instanceMatrix; pre.frustumCulled=false; pre.renderOrder=-1;
+  group.add(pre,mesh);
+  const ex=[];
+  for(const x of cr.extras){
+    const e=x.e, objs=[];
+    if(e.kind==='line'){
+      const mat=strandMat.clone(); mat.color.set(e.color);
+      for(const pl of x.lines) objs.push(new THREE.Mesh(strandGeo(pl,.1,Math.max(12,pl.length*5),7),mat));
+    }else for(const s of x.pts){
+      const qt=new THREE.Quaternion().setFromUnitVectors(new V3(0,0,1),s.n), size=e.size||.58;
+      if(e.kind==='eye'){
+        const o=new THREE.Mesh(eyeGeo,eyeMat); o.scale.set(size,size,size*.8); o.quaternion.copy(qt); o.position.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.12+.3);
+        const gl=new THREE.Mesh(eyeGeo,glintMat); gl.scale.setScalar(size*.17); gl.position.copy(o.position).addScaledVector(s.n,size*.7).add(new V3(-.2*size,.3*size,0));
+        objs.push(o,gl);
+      }else{
+        const o=new THREE.Mesh(eyeGeo,new THREE.MeshStandardMaterial({color:e.color,roughness:.95})); o.scale.set(size,size*.8,size*.35); o.quaternion.copy(qt); o.position.copy(s.p).addScaledVector(s.n,.5);
+        objs.push(o);
+      }
+    }
+    for(const o of objs){ o.castShadow=o.material!==glintMat; group.add(o); ex.push({o,step:x.step,copy:x.copy}); }
+  }
+  for(const c of cr.copies) for(const pg of c.plugs){
+    const o=new THREE.Mesh(eyeGeo,new THREE.MeshStandardMaterial({color:pal[pg.color].clone().multiplyScalar(.6),roughness:1}));
+    o.scale.set(.8,.8,.15); o.quaternion.setFromUnitVectors(new V3(0,0,1),pg.n); o.position.copy(pg.p).addScaledVector(pg.n,-.05); o.receiveShadow=true;
+    group.add(o); ex.push({o,step:pg.after.i,copy:c});
+  }
+  group.add(ring,marker);
+  group.scale.setScalar(cr.sc); group.position.copy(cr.cen).multiplyScalar(-cr.sc);
+  const view={group,mesh,pre,mats,frames,base,aBase,ex,kit:null,floorY:(cr.box.min.y-cr.cen.y-.75)*cr.sc,
+    dispose(){ group.remove(ring,marker); mesh.dispose(); geo.dispose(); if(view.kit) view.kit.dispose();
+      for(const x of ex){ if(x.o.geometry!==eyeGeo) x.o.geometry.dispose(); if(x.o.material!==eyeMat&&x.o.material!==glintMat) x.o.material.dispose(); } }};
+  return view;
+}
+function setFloor(v){ shadow.position.set(0,v.floorY,0); shadow.scale.setScalar(2.1); ground.position.set(0,v.floorY+.002,0); }
+
+/* camera: `cam` describes an orbiting camera; placeCamera() turns the model the opposite way instead */
+const cam={az:.5,el:.2,zoom:1,z:1,target:new V3(),dist:5,goalT:new V3(),goalD:5,dir:new V3(0,0,1),up:new V3(0,1,0)};
+const UP=new V3(0,1,0), ZERO=new V3(), _m=new THREE.Matrix4(), _a=new V3(), _b=new V3(), _c=new V3();
+function fitDist(r){ const v=camera.fov*DEG/2, h=Math.atan(Math.tan(v)*camera.aspect); return r*1.12/Math.sin(Math.min(v,h)); }
+function orbitDir(){ const ce=Math.cos(cam.el); cam.dir.set(ce*Math.sin(cam.az),Math.sin(cam.el),ce*Math.cos(cam.az)); }
+function rollUp(goal,k){   // turn the camera's "up" toward `goal`, around the line of sight
+  const a=_a.copy(cam.up).addScaledVector(cam.dir,-cam.up.dot(cam.dir)), b=_b.copy(goal).addScaledVector(cam.dir,-goal.dot(cam.dir));
+  if(a.lengthSq()<1e-6||b.lengthSq()<1e-6){ cam.up.copy(goal); return; }
+  a.normalize(); b.normalize();
+  cam.up.copy(a).applyAxisAngle(cam.dir,Math.atan2(_c.crossVectors(a,b).dot(cam.dir),a.dot(b))*k);
+}
+function placeCamera(){
+  const d=cam.dist*cam.z;
+  world.quaternion.setFromRotationMatrix(_m.lookAt(cam.dir,ZERO,cam.up)).invert();
+  world.position.copy(cam.target).applyQuaternion(world.quaternion).negate();
+  camera.position.set(0,0,d);
+  // the shadow map only covers what is in view, so close-ups get crisp thread shadows
+  const half=Math.min(1.5,d*Math.tan(camera.fov*DEG/2)*Math.max(1,camera.aspect)*1.2+.04), sc=key.shadow.camera;
+  if(Math.abs(sc.right-half)>half*.03){ sc.left=sc.bottom=-half; sc.right=sc.top=half; sc.updateProjectionMatrix(); key.shadow.normalBias=half/key.shadow.mapSize.x*3; }
+}
+
+/* =====================================================================
+   GALLERY
+   ===================================================================== */
+const built={};
+const getCreature=id=>built[id]||(built[id]=buildCreature(CREATURES.find(c=>c.id===id)));
+const grid=$('#grid');
+const LVL=['','Beginner','Easy','A bit more'];
+CREATURES.forEach(def=>{
+  const b=document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=def.id;
+  b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
+  b.addEventListener('click',()=>{ location.hash=def.id; });
+  grid.appendChild(b);
+});
+// what each card knows about you: how far you got, and whether you have made it
+function refreshCards(){
+  const f=S.filter||'all'; let going=0, made=0, shown=0;
+  for(const def of CREATURES){
+    const el=grid.querySelector(`[data-id="${def.id}"]`), e=store.entry(def.id), pct=e.c&&e.n?e.c/e.n:0, isMade=!!e.made;
+    if(pct) going++; if(isMade) made++;
+    el.querySelector('.prog').hidden=!(pct||isMade); el.querySelector('.prog i').style.width=(pct?pct*100:100)+'%';
+    el.querySelector('.state').textContent=pct?`${Math.round(pct*100)}% done · carry on`:isMade?'✓ Made':'';
+    el.classList.toggle('made',isMade&&!pct);
+    el.hidden = f==='creature'?def.kind==='object' : f==='object'?def.kind!=='object' : f==='going'?!pct : f==='made'?!isMade : false;
+    if(!el.hidden) shown++;
+  }
+  $('#tally').textContent=`${CREATURES.length} patterns`+(going?` · ${going} in progress`:'')+(made?` · ${made} made`:'');
+  $('#none').hidden=shown>0;
+}
+document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{
+  S.filter=b.dataset.f; document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed',String(q===b))); refreshCards();
+}));
+function renderThumb(def){
+  const cr=getCreature(def.id), v=makeView(cr);
+  world.add(v.group); v.mesh.count=v.pre.count=cr.insts.length; ring.visible=marker.visible=false; setFloor(v); shadow.visible=ground.visible=true;
+  U.uExpert.value=0; U.uCount.value=1e7; U.uCur.value=-1; U.uNext.value.set(-1,-1,1); U.uSolo.value=-1; U.uHookR.value.x=0;
+  renderer.setPixelRatio(1); renderer.setSize(512,512,false); camera.aspect=1; camera.updateProjectionMatrix();
+  cam.az=def.view??.45; cam.el=.2; cam.zoom=cam.z=1; cam.target.set(0,0,0); cam.up.set(0,1,0); cam.dist=fitDist(1); orbitDir(); placeCamera();
+  renderer.render(scene,camera);
+  const url=canvas.toDataURL('image/png');
+  world.remove(v.group); v.dispose();
+  const img=new Image(); img.alt=''; img.src=url;
+  const t=grid.querySelector(`[data-id="${def.id}"] .thumb`); t.textContent=''; t.appendChild(img);
+  const sub=grid.querySelector(`[data-id="${def.id}"] .sub`); sub.textContent=`${def.blurb} · ${cr.insts.length} stitches`;
+}
+let thumbQueue=CREATURES.slice();
+function thumbTick(){
+  if(S.cr){ setTimeout(thumbTick,400); return; }
+  const def=thumbQueue.shift(); if(!def) return;
+  try{ renderThumb(def); }catch(err){ console.error(err); }
+  setTimeout(thumbTick,30);
+}
+
+/* =====================================================================
+   STUDIO
+   ===================================================================== */
+const S={cr:null,view:null,cur:0,mode:'lapse',playing:false,acc:0,speed:1.2,autoTurn:true,types:false,expert:false,wasXp:false,focus:-1,pace:6,fwd:false,stopNext:0,solo:null,holdUntil:0,hl:[],popAt:0,lastPainted:-1,raf:0,lastT:0,done:false};
+const XP={az:-.22,el:.85,zoom:1};                   // expert view: where the camera sits relative to the stitch being worked
+const Q={ema:1/60,bad:0,level:0,hold:0,probe:null};             // steps resolution and the shadow pass down if frames run steadily slow
+let stageW=1, stageH=1;
+// progress per pattern, kept in this browser: {c: step you are on, n: steps in all, made: finished at least once}
+const store={ get(){ try{ return JSON.parse(localStorage.getItem('lbl-progress')||'{}'); }catch(e){ return {}; } },
+              entry(id){ const v=this.get()[id]; return typeof v==='number'?{c:v}:(v||{}); },
+              set(id,patch){ try{ const o=this.get(), e=Object.assign(this.entry(id),patch); if(e.c>0||e.made) o[id]=e; else delete o[id]; localStorage.setItem('lbl-progress',JSON.stringify(o)); }catch(e){} } };
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches, finePointer=matchMedia('(pointer:fine)').matches;
+
+function openCreature(id){
+  const def=CREATURES.find(c=>c.id===id); if(!def){ closeStudio(); return; }
+  if(S.view){ world.remove(S.view.group); S.view.dispose(); }
+  const cr=getCreature(id); S.cr=cr; S.view=makeView(cr); world.add(S.view.group); setFloor(S.view);
+  $('#home').hidden=true; $('#studio').hidden=false; $('#sname').textContent=def.name;
+  $('#scrub').max=cr.steps.length;
+  buildPatternPanel(cr); buildMaterials(cr); buildPieces(cr); S.stripKey=null;
+  cam.az=def.view??.45; cam.el=.2; cam.zoom=cam.z=1; cam.target.set(0,0,0); cam.goalT.set(0,0,0); cam.up.set(0,1,0); orbitDir();
+  resize(); cam.dist=cam.goalD=fitDist(1);
+  S.types=false; $('#tTypes').setAttribute('aria-pressed','false'); $('#legend').hidden=true;
+  S.cur=0; S.lastPainted=-1; S.hl=[]; S.done=false; S.focus=-1; S.wasXp=false; S.solo=null; U.uSolo.value=-1; XP.az=-.22; XP.el=.85; XP.zoom=1;
+  const saved=store.entry(id).c; S.saved = saved>0 && saved<cr.steps.length ? saved : 0;
+  if(S.saved){ S.mode='step'; setCursor(S.saved); setMode('step'); }      // you were in the middle of this one: straight back to your stitch
+  else{ setMode('lapse'); setCursor(0); play(true); }
+  $('.deck').scrollTop=0;
+  if(!S.raf){ S.lastT=performance.now(); S.raf=requestAnimationFrame(frame); }
+}
+function closeStudio(){
+  if(S.cr) saveProgress();
+  if(S.view){ world.remove(S.view.group); S.view.dispose(); }
+  S.cr=null; S.view=null; cancelAnimationFrame(S.raf); S.raf=0; refreshCards();
+  $('#studio').hidden=true; $('#home').hidden=false;
+}
+function saveProgress(){ if(!S.cr || S.mode==='lapse') return; const n=S.cr.steps.length, end=S.cur>=n; store.set(S.cr.def.id,Object.assign({c:end?0:S.cur,n},end?{made:true}:{})); }
+
+function setMode(m){
+  S.mode=m;
+  document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
+  syncRows();
+  if(m==='step') play(false);
+  repaint(); renderNow();
+}
+function syncRows(){ $('#speedRow').hidden=S.mode!=='slow'||S.expert; $('#motionRow').hidden=$('#moveRow').hidden=$('#paceRow').hidden=!S.expert||S.mode==='lapse'; }
+function play(on){
+  S.playing=on; S.acc=0;
+  $('#playIcon').setAttribute('d', on ? 'M6 4h4.5v16H6zM13.5 4H18v16h-4.5z' : 'M7 4v16l13-8z');
+  $('#bPlay').setAttribute('aria-label', on?'Pause':'Play');
+  if(on) $('#cta').hidden=true;
+  if(!on){ saveProgress(); renderNow(); }
+  repaint();
+}
+function setCursor(c, fromUser){
+  const cr=S.cr; c=Math.max(0,Math.min(cr.steps.length,c));
+  S.fwd=c===S.cur+1;                             // one step forward is what the hook acts out in the expert view
+  S.cur=c; S.view.mesh.count=S.view.pre.count=cr.instAt[c];
+  syncExtras();
+  S.popAt=performance.now();
+  $('#scrub').value=c;
+  if(c<cr.steps.length) S.done=false;
+  if(fromUser) $('#cta').hidden=true;
+  repaint(); renderNow();
+}
+function syncExtras(){ for(const x of S.view.ex) x.o.visible = S.cur>x.step && (!S.solo || x.copy===S.solo); }      // eyes, embroidery, ring centres: there once their step is done
+function finish(){
+  play(false); S.done=true; repaint();
+  const cta=$('#cta'); cta.hidden=false;
+  const r=$('#resume');
+  if(S.saved){ const s=S.cr.steps[Math.max(0,S.saved-1)]; r.hidden=false; r.textContent=`Pick up where you stopped: ${s.copy.pd.name}, round ${s.round+1}`; } else r.hidden=true;
+}
+function showsDetail(){ return S.mode!=='lapse' && S.cur>0 && S.cur<=S.cr.steps.length && !S.done; }
+// Expert view: the camera drops to where your eyes are, working edge up, and the loops are named
+function setExpert(on){
+  S.expert=on; $('#tExpert').setAttribute('aria-pressed',String(on)); $('#tTurn').hidden=on; syncRows();
+  const cr=S.cr; if(!cr) return;
+  if(on){
+    XP.az=-.22; XP.el=.85; XP.zoom=1; $('#cta').hidden=true;
+    if(S.mode==='lapse') setMode('step');
+    S.done=false;
+    let i=Math.min(S.cur,cr.steps.length)-1; while(i>=0 && cr.steps[i].kind!=='st') i--;      // land on a stitch, not on a note
+    if(i<0) i=cr.steps.findIndex(s=>s.kind==='st');
+    if(i+1!==S.cur){ setCursor(i+1,true); return; }
+  }
+  repaint(); renderNow();
+}
+function repaint(){
+  const v=S.view, cr=S.cr; if(!v) return;
+  const mesh=v.mesh, tmp=new THREE.Color();
+  if(S.typesDirty||S.lastTypes!==S.types){
+    cr.insts.forEach((s,i)=>mesh.setColorAt(i, S.types?TYPE_COL[s.t]:v.base[i])); S.lastTypes=S.types; S.typesDirty=false; S.hl=[];
+  }
+  for(const i of S.hl) mesh.setColorAt(i, S.types?TYPE_COL[cr.insts[i].t]:v.base[i]);
+  S.hl=[]; ring.visible=marker.visible=false;
+  const ms=S.cur>0&&showsDetail()?cr.steps[S.cur-1]:null;
+  if(ms){ const i=ms.copy.first+ms.copy.info.rstart[ms.round], F=v.frames[i]; marker.visible=true; marker.position.set(.42,.62,.02).applyMatrix4(v.mats[i]); marker.quaternion.setFromRotationMatrix(_m.makeBasis(F.X,F.Y,F.N)).multiply(_qy); }
+  U.uCount.value=cr.instAt[S.cur]; U.uCur.value=-1; U.uNext.value.set(-1,-1,1);
+  const st = S.cur>0 ? cr.steps[S.cur-1] : null, detail=showsDetail() && st && st.kind==='st', xp=detail && S.expert;
+  if(detail){
+    const s=cr.insts[st.inst];
+    if(!xp) for(const pi of s.par){ mesh.setColorAt(pi,tmp.copy(S.types?TYPE_COL[cr.insts[pi].t]:v.base[pi]).lerp(SUN,.7)); S.hl.push(pi); }
+    if(!xp){ mesh.setColorAt(st.inst,tmp.copy(S.types?TYPE_COL[s.t]:v.base[st.inst]).lerp(WHITE,.45)); S.hl.push(st.inst); }
+    if(!xp){ ring.visible=true; ring.position.copy(s.p).addScaledVector(s.n,.42); ring.quaternion.setFromUnitVectors(new V3(0,0,1),s.n); }
+  }
+  mesh.instanceColor.needsUpdate=true;
+  syncExpert(xp?st:null);
+}
+
+/* ---- expert view: the hook makes each stitch in slow motion, and the yarn moves with it ----
+   One stitch is one clip, t = 0…1. Everything on screen is a pure function of t, so the clip can be
+   played slowly, paused, or dragged back and forth. Three loose strands do the moving:
+     a  the loop that was on the hook; it ends up lying along the top as the new stitch's top loops
+     b  the loop pulled up from under the stitch below; it ends up as the post
+     c  the loop pulled through both; it is the working loop when the stitch is done
+   plus the yarn feeding in from the ball. At SWAP the finished stitch takes over from a and b. */
+const HOOK_LOOP=1.35, SWAP=.955, PHASES=[0,.24,.36,.52,.66,.84];
+const PHASE_TXT={
+  sc:['Insert under both loops','Yarn over','Pull up a loop','Yarn over','Pull through both loops'],
+  inc2:['Back under the same two loops','Yarn over','Pull up a loop','Yarn over','Pull through both loops'],
+  dec:['Up under the front loops of the next two stitches','Yarn over','Pull through both front loops','Yarn over','Pull through both loops'],
+  mr:['Insert into the ring','Yarn over','Pull up a loop','Yarn over','Pull through both loops']
+};
+const ON_HOOK={sc:[1,1,2,2,1],dec:[3,3,2,2,1]}, STOPS=[.24,.36,.52,.66,1];
+const PHASE_TIP={
+  sc:['Front to back, under both strands of the V on top of the stitch.','Bring the yarn over the hook from behind and catch it in the mouth.','Draw the hook back out the way it went in. Two loops on the hook.','Catch the yarn in the mouth again.','Draw it through both loops. One loop is left and the stitch is made.'],
+  inc2:['Into the very same stitch as the one before. That is the increase.','Bring the yarn over the hook from behind and catch it in the mouth.','Draw the hook back out the way it went in. Two loops on the hook.','Catch the yarn in the mouth again.','Draw it through both loops. Two posts now share one stitch.'],
+  dec:['Under the front strand only, of this stitch and then the next. Three loops on the hook.','Catch the yarn in the mouth.','Draw it through the two front strands. Two loops on the hook.','Catch the yarn again.','Draw it through both loops. Two stitches have become one.'],
+  mr:['Under both strands of the ring.','Bring the yarn over the hook from behind and catch it in the mouth.','Draw it back through the ring. Two loops on the hook.','Catch the yarn in the mouth again.','Draw it through both loops. One loop is left and the stitch is made.']
+};
+const smooth=(a,b,x)=>{ x=clamp((x-a)/(b-a),0,1); return x*x*(3-2*x); };
+const hookRad=s=>s<=0?.1:s<.3?.1+.1*s/.3:s<.5?.2:s<.56?.12:s<1.25?.12+.05*(s-.56)/.69:.17;      // how thick the hook is, s along from the tip
+const _t1=new V3(), _t2=new V3(), _t3=new V3();
+class Strand{
+  constructor(n,segs,rs,mat){
+    this.pts=Array.from({length:n},()=>new V3()); this.segs=segs; this.rs=rs; this.curve=new THREE.CatmullRomCurve3(this.pts,false,'centripetal');
+    const count=(segs+1)*(rs+1), g=new THREE.BufferGeometry(), idx=[];
+    this.pos=new THREE.BufferAttribute(new Float32Array(count*3),3); this.nrm=new THREE.BufferAttribute(new Float32Array(count*3),3); this.uv=new THREE.BufferAttribute(new Float32Array(count*2),2);
+    for(let i=0;i<segs;i++) for(let k=0;k<rs;k++){ const a=i*(rs+1)+k, b=a+rs+1; idx.push(a,a+1,b,a+1,b+1,b); }
+    g.setAttribute('position',this.pos); g.setAttribute('normal',this.nrm); g.setAttribute('uv',this.uv); g.setIndex(idx);
+    this.mesh=new THREE.Mesh(g,mat); this.mesh.frustumCulled=false; this.mesh.castShadow=this.mesh.receiveShadow=true;
+  }
+  update(rad){                                   // sweep the tube again around wherever the control points are now
+    this.curve.updateArcLengths();
+    const P=this.curve.getSpacedPoints(this.segs), n=P.length, rs=this.rs, pos=this.pos.array, nrm=this.nrm.array, uv=this.uv.array, T=_t1, N=_t2, B=_t3; let len=0, o=0, q=0;
+    for(let i=0;i<n;i++){
+      T.subVectors(P[Math.min(n-1,i+1)],P[Math.max(0,i-1)]).normalize();
+      if(!i){ N.set(0,0,1); if(Math.abs(T.z)>.9) N.set(1,0,0); } else len+=P[i].distanceTo(P[i-1]);
+      N.addScaledVector(T,-N.dot(T)).normalize(); B.crossVectors(T,N);
+      const t=i/(n-1), r=rad*(t<.06?.6+.4*t/.06:t>.94?.6+.4*(1-t)/.06:1);
+      for(let k=0;k<=rs;k++){
+        const a=TAU*k/rs, c=Math.cos(a), s=Math.sin(a), x=c*N.x+s*B.x, y=c*N.y+s*B.y, z=c*N.z+s*B.z;
+        pos[o]=P[i].x+x*r; pos[o+1]=P[i].y+y*r; pos[o+2]=P[i].z+z*r; nrm[o]=x; nrm[o+1]=y; nrm[o+2]=z; o+=3; uv[q++]=len/LU; uv[q++]=k/rs;
+      }
+    }
+    this.pos.needsUpdate=this.nrm.needsUpdate=this.uv.needsUpdate=true;
+  }
+}
+/* A loop hanging on the hook: in → base → (m along the way) → five around the shaft → (m along) → base → in.
+   pA / pB are the fixed ends of its two sides; s is how far from the tip it rides (below 0 it has slipped off). */
+function hang(out,pA,pB,m,T,A,s,D){
+  const C=new V3().copy(T).addScaledVector(A,s), bA=pA[pA.length-1], bB=pB[pB.length-1];
+  const Uv=new V3().addVectors(bA,bB).multiplyScalar(.5).sub(C); Uv.addScaledVector(A,-Uv.dot(A)).addScaledVector(D,.22).normalize();
+  const Vv=new V3().crossVectors(A,Uv), R=hookRad(s)+YARN_R*.78;
+  const ring=d=>new V3().copy(C).addScaledVector(Uv,-R*Math.cos(d*DEG)).addScaledVector(Vv,R*Math.sin(d*DEG)), rA=ring(-125), rB=ring(125);
+  let k=0;
+  for(const p of pA) out[k++].copy(p);
+  for(let j=1;j<=m;j++) out[k++].lerpVectors(bA,rA,j/(m+1));
+  out[k++].copy(rA); out[k++].copy(ring(-60)); out[k++].copy(ring(0)); out[k++].copy(ring(60)); out[k++].copy(rB);
+  for(let j=m;j>=1;j--) out[k++].lerpVectors(bB,rB,j/(m+1));
+  for(let j=pB.length-1;j>=0;j--) out[k++].copy(pB[j]);
+  return out;
+}
+const lipOf=(A,r,Y)=>{ const D=new V3().copy(Y).negate().addScaledVector(A,Y.dot(A)).normalize(); return {D,lip:D.clone().multiplyScalar(Math.cos(r)).addScaledVector(new V3().crossVectors(A,D),Math.sin(r))}; };
+function restPose(M){ const A=new V3(.5,.78,.38).transformDirection(M); return {A,tip:new V3(-.2,1.12,.3).applyMatrix4(M).addScaledVector(A,-HOOK_LOOP),r:0}; }
+
+const labelsEl=$('#labels'), phaseEl=$('#phase'), movesEl=$('#nMoves'), LAB={};
+{ const svg=labelsEl.querySelector('svg'), NS='http://www.w3.org/2000/svg';
+  [['wl','Working loop','var(--ink)',[-60,-78]],['bl','Back loop','var(--bl)',[104,-64]],['fl','Front loop','var(--fl)',[124,4]],['post','','var(--muted)',[124,70]],['next','','var(--accent)',[-70,96]]].forEach(([id,text,col,off])=>{
+    const ln=document.createElementNS(NS,'line'), dot=document.createElementNS(NS,'circle'); dot.setAttribute('r',3.5); svg.append(ln,dot);
+    const el=document.createElement('div'); el.className='lab'; el.innerHTML='<i></i><span></span>'; el.firstChild.style.background=col; el.lastChild.textContent=text; labelsEl.appendChild(el);
+    LAB[id]={el,ln,dot,off,w:0,h:0,text};
+  }); }
+function setLabel(id,text){ const L=LAB[id]; if(L.text!==text){ L.text=text; L.el.lastChild.textContent=text; L.w=0; } }
+// pick loop colours that stand off from the yarn in hand
+const FLC=['#ff9a1f','#ff5a2b','#35c06c'], BLC=['#2f7df6','#8a4dff','#10a7b0'], _col=new THREE.Color(), _hsl={}, _h2={};
+function loopColors(yarn){
+  yarn.getHSL(_hsl);
+  const pick=list=>{ if(_hsl.s<.18) return list[0]; for(const c of list){ _col.set(c).getHSL(_h2); const d=Math.abs(_h2.h-_hsl.h); if(Math.min(d,1-d)>.075) return c; } return list[list.length-1]; };
+  const fl=pick(FLC), bl=pick(BLC); if(fl===loopColors.fl && bl===loopColors.bl) return;
+  loopColors.fl=fl; loopColors.bl=bl; U.uFL.value.set(fl); U.uBL.value.set(bl);
+  document.documentElement.style.setProperty('--fl',fl); document.documentElement.style.setProperty('--bl',bl);
+}
+const guideMat=new THREE.MeshBasicMaterial({color:0xff2f7a,transparent:true,opacity:.9,depthTest:false,depthWrite:false});
+const guideHead=(()=>{ const g=new THREE.ConeGeometry(.13,.34,14); g.translate(0,-.1,0); return g; })();
+function makeKit(v){
+  const g=new THREE.Group(); g.visible=false; v.group.add(g);
+  const rs=LOW?7:12, mats=[], mk=(n,segs)=>{ const m=strandMat.clone(); m.emissive.set(0xff2f7a); m.emissiveIntensity=0; mats.push(m); const s=new Strand(n,segs,rs,m); g.add(s.mesh); return s; };
+  const hook=new THREE.Group(); hook.add(new THREE.Mesh(hookGeo.head,hookMetal),new THREE.Mesh(hookGeo.shaft,hookMetal),new THREE.Mesh(hookGeo.grip,hookGrip));
+  const arrows=[0,1].map(()=>{ const a=new THREE.Group(); a.add(new THREE.Mesh(arrowGeo[0],arrowMat),new THREE.Mesh(arrowGeo[1],arrowMat)); a.visible=false; return a; });
+  const guide=new Strand(9,LOW?20:32,6,guideMat), head=new THREE.Mesh(guideHead,guideMat); guide.mesh.castShadow=guide.mesh.receiveShadow=false; guide.mesh.renderOrder=head.renderOrder=10;
+  g.add(hook,...arrows,guide.mesh,head);
+  const K={g,mats,hook,arrows,guide,head,a:mk(11,LOW?22:36),b:mk(17,LOW?32:56),c:mk(11,LOW?22:36),feed:mk(9,LOW?32:60),tmp:Array.from({length:17},()=>new V3()),
+    x:null,t:1,stop:1,playing:false,shown:true,curK:1,tilt:0,pose:null,cur:{par:[],dec:false},next:{par:[],dec:false},nextAt:null,top:null,bTop:null,drawnT:-1,drawnX:null,chip:'',
+    dispose(){ for(const s of [K.a,K.b,K.c,K.feed,K.guide]) s.mesh.geometry.dispose(); for(const m of mats) m.dispose(); }};
+  return K;
+}
+/* Everything one stitch's clip needs, worked out once: where its strands end up, and the hook's key poses */
+function prepStitch(v,cr,st,from){
+  const i=st.inst, s=cr.insts[i], M=v.mats[i], F=v.frames[i], c=st.copy;
+  const L=(x,y,z)=>new V3(x,y,z).applyMatrix4(M), Dn=(x,y,z)=>new V3(x,y,z).transformDirection(M), add=(p,d,k)=>p.clone().addScaledVector(d,k);
+  const bx=v.aBase[i*3], by=v.aBase[i*3+1], sp=v.aBase[i*3+2], dec=s.t==='dec'&&s.par.length>1;
+  const leg=sd=>LEG.map(p=>{ const w=clamp((.36-p[1])/.9,0,1); return L(p[0]*sd+w*(bx+sd*sp),p[1]+w*by,p[2]); });
+  const lf=leg(-1), rt=leg(1), finalA=TEAR.map(p=>L(p[0],p[1],p[2])), rest=restPose(M);
+  if(!from) from = i-1>=c.first ? restPose(v.mats[i-1]) : restPose(new THREE.Matrix4().copy(M).multiply(new THREE.Matrix4().makeTranslation(1,0,0)));
+  const h=L(bx,-.62+by,0);                       // the gap under the loops this stitch is worked into
+  const keys=[]; let sA=HOOK_LOOP, sB=.6, sC=.6;
+  const key=(t,T,A,r,o)=>{ if(o){ if(o.sA!=null) sA=o.sA; if(o.sB!=null) sB=o.sB; if(o.sC!=null) sC=o.sC; } keys.push({t,T,A,r,sA,sB,sC}); };
+  key(0,from.tip,from.A,from.r||0);
+  let hb;                                        // where the caught yarn starts out, behind the fabric
+  if(dec){   // invisible decrease: up under the front loop of one stitch, then the next
+    const g=k=>new V3(.5,.3,.14).applyMatrix4(v.mats[s.par[k]]), g1=g(0), g2=g(1), A1=Dn(.62,-.3,.72), A2=Dn(.8,-.12,.58), in2=add(g2,A2,-.8);
+    key(.07,add(g1,A1,.5),A1,.3,{sA:1.5}); key(.14,add(g1,A1,-.5),A1,.4,{sA:1.8}); key(.24,in2,A2,.6,{sA:2});
+    key(.30,in2,A2,2.3); key(.36,in2,A2,2.3); key(.45,add(g2,A2,.9),A2,1,{sA:1.4});
+    hb=add(g2,F.N,-.3);
+  }else{
+    const Ai=Dn(.5,.12,.86), ins=add(h,Ai,-1.3);
+    key(.10,add(h,Ai,.42),Ai,.3,{sA:1.5}); key(.24,ins,Ai,.6,{sA:2.05});
+    key(.30,ins,Ai,2.3); key(.36,ins,Ai,2.3); key(.45,add(h,Ai,-.25),Ai,1,{sA:1.35});
+    hb=L(bx,-.62+by,-.34);
+  }
+  const A4=Dn(.8,.3,.5), A5=Dn(.8,.25,.55), T5=L(bx-.75,.3,-.2);
+  key(.52,L(bx-.25,.12,.38),A4,.5,{sA:1.15,sB:.62});
+  key(.61,T5,A5,2.3,{sA:1.02,sB:.78}); key(.66,T5,A5,2.3);
+  key(.84,add(T5,A5,1.2).add(Dn(0,.8,.4).multiplyScalar(.1)),Dn(.74,.42,.52),.5,{sA:-.18,sB:-.42});
+  key(1,rest.tip,rest.A,0,{sC:HOOK_LOOP});
+  const S3=[[.9,.36,-.2],[bx,-.55+by,-.3],[-.1,.36,-.2]];      // where the ball-end yarn leaves the fabric: last stitch, the gap, this stitch
+  const side=(k,Sl)=>{ const {lip}=lipOf(k.A,k.r,F.Y), Cw=add(k.T,k.A,.6); return L(Sl[0],Sl[1],Sl[2]).sub(Cw).dot(new V3().crossVectors(k.A,lip))>=0?1:-1; };
+  return {i,M,Y:F.Y,dec,keys,finalA,finalB:[...lf,L(0,.45,-.2),...rt.slice().reverse()],
+    aA:[finalA[0],finalA[1]],aB:[finalA[10],finalA[9]],bA:[lf[0],lf[1],lf[2]],bB:[rt[0],rt[1],rt[2]],hbA:[add(hb,F.X,-.05)],hbB:[add(hb,F.X,.05)],
+    cA:[L(-.04,.26,.03),L(-.12,.43,.06)],cB:[L(-.04,.27,-.03),L(-.12,.43,-.05)],S3,sig1:side(keys.find(k=>k.t===.36),S3[0]),sig2:side(keys.find(k=>k.t===.66),S3[1]),
+    postAt:L(.2+.45*bx,-.06,.36),kind:dec?'dec':s.t==='mr'?'mr':s.t==='inc'&&st.st.k===2?'inc2':'sc'};
+}
+function syncExpert(st){
+  const v=S.view, cr=S.cr;
+  if(!st){ S.focus=-1; return; }
+  const K=v.kit||(v.kit=makeKit(v)), i=st.inst;
+  for(const m of K.mats) m.color.copy(v.base[i]); loopColors(v.base[i]);
+  if(S.focus===i) return;                        // same stitch as before: nothing to set up
+  if(K.x && !K.shown){ v.mesh.setMatrixAt(K.x.i,v.mats[K.x.i]); v.mesh.instanceMatrix.needsUpdate=true; }      // an interrupted stitch snaps to finished
+  K.x=prepStitch(v,cr,st,S.focus===i-1?K.pose:null);
+  const nx=cr.steps[S.cur], next=nx&&nx.kind==='st'&&nx.copy===st.copy?nx:null, np=next?cr.insts[next.inst].par:[];
+  K.cur={par:cr.insts[i].par,dec:K.x.dec}; K.next={par:np,dec:!!next&&next.st.t==='dec'&&np.length>1};
+  K.nextTxt=!np.length?'':K.next.dec?'Next: front loops only, both stitches':next.st.t==='inc'&&next.st.k===2?'Next: same stitch again':'Next: under both loops';
+  K.t=S.fwd&&!reduceMotion?0:1; K.playing=K.t<1; K.stop=K.playing&&S.stopNext?S.stopNext:1; S.stopNext=0; K.shown=null; K.curK=K.t<1?0:1; K.drawnT=-1; S.fwd=false; S.focus=i;
+  $('#motion').value=Math.round(K.t*1000);
+}
+function hookAt(x,t){                            // where the hook is at time t of the clip, and where each loop rides on it
+  const ks=x.keys; let n=0; while(n<ks.length-2 && t>=ks[n+1].t) n++;
+  const k0=ks[n], k1=ks[n+1], u=smooth(k0.t,k1.t,t), mix=f=>k0[f]+(k1[f]-k0[f])*u;
+  return {tip:new V3().lerpVectors(k0.T,k1.T,u),A:new V3().lerpVectors(k0.A,k1.A,u).normalize(),r:mix('r'),sA:mix('sA'),sB:mix('sB'),sC:mix('sC')};
+}
+function evalStitch(v,K,t){
+  const x=K.x, P=hookAt(x,t), {tip,A}=P, {D,lip}=lipOf(A,P.r,x.Y);
+  K.pose={tip,A,r:P.r};
+  K.hook.position.copy(tip); K.hook.quaternion.setFromRotationMatrix(_m.makeBasis(lip,A,_b.crossVectors(lip,A)));
+  const live=t<SWAP, rad=YARN_R*.95;
+  K.a.mesh.visible=live; K.b.mesh.visible=live&&t>=.36; K.c.mesh.visible=t>=.66;
+  if(live){
+    // a: rides the hook, slips off the tip as the hook pulls back, and lies down along the top
+    hang(K.a.pts,x.aA,x.aB,1,tip,A,P.sA,D);
+    const wA=smooth(.74,.95,t); if(wA>0) K.a.pts.forEach((p,j)=>p.lerp(x.finalA[j],wA));
+    K.a.update(rad);
+    if(t>=.36){
+      // b: caught behind the fabric, drawn through to the front, then tightened into the two legs of the post
+      const through=smooth(.38,.5,t);
+      hang(K.b.pts,x.bA,x.bB,3,tip,A,P.sB,D);
+      if(through<1){ hang(K.tmp,x.hbA,x.hbB,5,tip,A,P.sB,D); K.b.pts.forEach((p,j)=>p.lerpVectors(K.tmp[j],p,through)); }
+      const wB=smooth(.72,.95,t); if(wB>0) K.b.pts.forEach((p,j)=>p.lerp(x.finalB[j],wB));
+      K.b.update(rad);
+    }
+  }
+  if(t>=.66){ hang(K.c.pts,x.cA,x.cB,1,tip,A,P.sC,D); K.c.update(rad); }
+  K.top=(t<.7?K.a:K.c).pts[5].clone(); K.bTop=live&&t>=.4?K.b.pts[8].clone():null;
+  // the yarn from the ball: it lies in the hook's mouth for each yarn-over, then gets drawn into the new loop
+  const S3=x.S3, w=t<.5?smooth(.26,.34,t)*(1-smooth(.36,.43,t)):smooth(.56,.64,t)*(1-smooth(.66,.74,t)), sig=t<.5?x.sig1:x.sig2;
+  const m1=smooth(.36,.48,t), m2=smooth(.66,.8,t), sl=j=>S3[0][j]+(S3[1][j]-S3[0][j])*m1+(S3[2][j]-S3[1][j])*m2, sx=sl(0), sy=sl(1), sz=sl(2);
+  const L=(a,b,c)=>new V3(a,b,c).applyMatrix4(x.M), Cw=tip.clone().addScaledVector(A,.6), Vw=new V3().crossVectors(A,lip), Rw=.14+YARN_R*.8, F=K.feed.pts;
+  const wrap=(a,b)=>Cw.clone().addScaledVector(Vw,a*Rw).addScaledVector(lip,b*Rw);
+  F[0].copy(L(sx+.06,sy-.22,sz+.12)); F[1].copy(L(sx,sy,sz));
+  F[3].copy(L(sx-.3,sy+.7,sz-.45)).lerp(wrap(sig*.9,-.3),w); F[4].copy(L(sx-.55,sy+.95,sz-.75)).lerp(wrap(0,1),w); F[5].copy(L(sx-.9,sy+1.15,sz-1.05)).lerp(wrap(-sig*.9,-.3),w);
+  F[7].copy(L(sx*.3-3.6,sy*.3+2.6,sz*.3-3.6)); F[8].copy(L(-7,3.6,-6.5));
+  F[2].lerpVectors(F[1],F[3],.45); F[6].lerpVectors(F[5],F[7],.35);
+  K.feed.update(rad);
+  // guide: a pink arrow along what happens next. For a hook move, the path of the tip; for a yarn-over, the way the yarn goes over the hook
+  const G=K.guide, gp=G.pts; G.mesh.visible=K.head.visible=false;
+  if(t<1-1e-6){
+    let ph=0; while(ph<4 && t>=PHASES[ph+1]-1e-6) ph++;                 // waiting at a stop: show the move that comes next
+    const t1=PHASES[ph+1], n=gp.length;
+    if(ph===1||ph===3){
+      const E=hookAt(x,t1), lp=lipOf(E.A,E.r,x.Y).lip, Ce=E.tip.clone().addScaledVector(E.A,.6), Ve=new V3().crossVectors(E.A,lp), sg=ph===1?x.sig1:x.sig2;
+      gp.forEach((p,j)=>{ const a=(-150+300*j/(n-1))*DEG; p.copy(Ce).addScaledVector(lp,.58*Math.cos(a)).addScaledVector(Ve,sg*-.58*Math.sin(a)); });
+    }else{ const t0=Math.max(t,PHASES[ph]); gp.forEach((p,j)=>p.copy(hookAt(x,t0+(t1-t0)*j/(n-1)).tip)); }
+    let len=0; for(let j=1;j<n;j++) len+=gp[j].distanceTo(gp[j-1]);
+    if(len>.3){ G.update(.045); G.mesh.visible=K.head.visible=true; K.head.position.copy(gp[n-1]); K.head.quaternion.setFromUnitVectors(UP,_a.subVectors(gp[n-1],gp[n-2]).normalize()); }
+  }
+}
+function runKit(now,dt){
+  const v=S.view, cr=S.cr, K=v.kit, x=K.x, t=K.t, show=t>=SWAP;
+  if(show!==K.shown){ K.shown=show; v.mesh.setMatrixAt(x.i,show?v.mats[x.i]:_m.copy(v.mats[x.i]).scale(_a.setScalar(1e-4))); v.mesh.instanceMatrix.needsUpdate=true; }
+  K.curK=show?Math.min(1,K.curK+dt*2.5):0;
+  const tg=show?K.next:K.cur;
+  U.uCount.value=cr.instAt[S.cur]-(show?0:1); U.uCur.value=show?x.i:-1; U.uCurK.value=K.curK; U.uNext.value.set(tg.par[0]??-1,tg.par[1]??-1,tg.dec?0:1);
+  U.uFocus.value.copy(cr.insts[x.i].p);
+  if(K.drawnT!==t || K.drawnX!==x){ K.drawnT=t; K.drawnX=x; evalStitch(v,K,t); }
+  U.uHookA.value.copy(K.pose.tip); U.uHookB.value.copy(K.pose.tip).addScaledVector(K.pose.A,3.6);      // the fabric gives way around the hook
+  K.tilt=.3*smooth(.08,.2,t)*(1-smooth(.4,.52,t));                      // look further over the edge while the hook is behind the fabric
+  K.nextAt=null;
+  K.arrows.forEach((ar,k)=>{
+    const ti=K.next.par[k]; ar.visible=show&&!K.playing&&ti!=null; if(!ar.visible) return;
+    const M=v.mats[ti], d=K.next.dec; _a.set(TOP_X,d?H/2-.03:H/2-.18,d?.3:.38).applyMatrix4(M); _b.set(0,d?.72:.12,d?-.7:-1).transformDirection(M);
+    ar.position.copy(_a).addScaledVector(_b,-(.06+.2*(.5+.5*Math.sin(now*.006)))); ar.quaternion.setFromUnitVectors(UP,_b);
+    if(!k) K.nextAt=ar.position.clone().addScaledVector(_b,-1.05);
+  });
+  // which of the five moves this is. Waiting at a stop, it is the move that comes next
+  const held=!K.playing&&t<1-1e-6; let ph=5; if(t<PHASES[5]){ ph=0; while(ph<4 && t>=PHASES[ph+1]-(held?1e-6:0)) ph++; }
+  // the strand that is moving right now glows a little
+  const glow=held?0:.16+.1*Math.sin(now*.008), lit=ph===2?K.b:ph===4?K.c:(ph===1||ph===3)?K.feed:null;
+  for(const s of [K.a,K.b,K.c,K.feed]) s.mesh.material.emissiveIntensity=s===lit?glow:0;
+  const chip=x.kind+ph+(K.playing?'p':held?'h':'')+x.i;
+  if(chip!==K.chip){
+    K.chip=chip; const n=ph<5?(x.dec?ON_HOOK.dec:ON_HOOK.sc)[held?Math.max(0,ph-1):ph]:1, loops=`${n} ${n>1?'loops':'loop'} on the hook`;
+    phaseEl.children[0].textContent=ph<5?ph+1:'✓';
+    phaseEl.children[1].textContent=ph<5?PHASE_TXT[x.kind][ph]:'Stitch made';
+    phaseEl.children[2].textContent=ph<5?(held?(finePointer?'↓ does this move · ':'Next move · ')+loops:loops):K.playing?loops:finePointer?'Space: next stitch · ↓: one move at a time':'Tap ▶ for the next stitch';
+    phaseEl.classList.toggle('held',held);
+    $('#motionOut').textContent=ph<5?`move ${ph+1} of 5`:'made';
+    if(movesEl.dataset.kind!==x.kind){
+      movesEl.dataset.kind=x.kind; movesEl.textContent='';
+      PHASE_TXT[x.kind].forEach((txt,i)=>{ const li=document.createElement('li'); li.innerHTML='<b></b><small></small>'; li.firstChild.textContent=txt; li.lastChild.textContent=(PHASE_TIP[x.kind]||PHASE_TIP.sc)[i]; li.addEventListener('click',()=>gotoMove(i)); movesEl.appendChild(li); });
+    }
+    [...movesEl.children].forEach((li,i)=>{ li.className=i<ph?'done':i===ph?(held?'next':'now'):''; });
+  }
+  if(K.playing || t>=1) $('#motion').value=Math.round(t*1000);
+}
+function updateLabels(){
+  const v=S.view, K=v.kit, x=K.x, M=x.M, narrow=stageW<520, k=clamp(stageW/640,.8,1), boxes=[];
+  world.updateMatrixWorld(true); camera.updateMatrixWorld();
+  const place=(id,p)=>{
+    const L=LAB[id]; L.el.style.visibility=L.ln.style.visibility=L.dot.style.visibility=p?'visible':'hidden'; if(!p) return;
+    p.applyMatrix4(v.group.matrixWorld).project(camera);
+    const sx=(p.x*.5+.5)*stageW, sy=(-p.y*.5+.5)*stageH; if(!L.w){ L.w=L.el.offsetWidth; L.h=L.el.offsetHeight; }
+    boxes.push({L,x:sx,y:sy,bx:clamp(sx+L.off[0]*k-L.w/2,6,stageW-L.w-6),by:clamp(sy+L.off[1]*k-L.h/2,88,stageH-L.h-48)});
+  };
+  // name the two loops the hook is going under: this stitch's while it is being made, the next one's once it is done
+  const tg=K.shown?K.next:K.cur, T=tg.par.length?v.mats[tg.par[0]]:K.shown?null:undefined, on=(a,b,c)=>T===undefined?null:new V3(a,b,c).applyMatrix4(T||M);
+  LAB.bl.off=T?[-132,4]:[104,-64]; LAB.fl.off=T?[-136,44]:[124,4];
+  setLabel('post',K.shown?(narrow?'Post':'Post: the two legs of the V'):narrow?'New loop':'New loop: this becomes the post'); setLabel('next',K.nextTxt);
+  place('wl',K.top&&K.top.clone()); place('bl',tg.dec?null:on(T?.3:.46,.5,-.16)); place('fl',on(T?.3:.46,.49,.2));
+  place('post',K.shown?x.postAt.clone():K.bTop&&K.bTop.clone()); place('next',K.nextAt&&K.nextAt.clone());
+  for(let i=0;i<boxes.length;i++) for(let j=i+1;j<boxes.length;j++){      // nudge apart any two that collide
+    const a=boxes[i], b=boxes[j];
+    if(a.bx<b.bx+b.L.w+6 && b.bx<a.bx+a.L.w+6 && a.by<b.by+b.L.h+5 && b.by<a.by+a.L.h+5) b.by = b.by>=a.by && a.by+a.L.h+5<=stageH-b.L.h-48 ? a.by+a.L.h+5 : a.by-b.L.h-5;
+  }
+  for(const b of boxes){
+    b.L.el.style.transform=`translate(${b.bx.toFixed(1)}px,${b.by.toFixed(1)}px)`;
+    b.L.ln.setAttribute('x1',b.x); b.L.ln.setAttribute('y1',b.y); b.L.ln.setAttribute('x2',b.bx+b.L.w/2); b.L.ln.setAttribute('y2',b.by+b.L.h/2);
+    b.L.dot.setAttribute('cx',b.x); b.L.dot.setAttribute('cy',b.y);
+  }
+}
+
+const ACTION={
+  mr0:'Make a magic ring and chain 1. Work the first single crochet into the ring.',
+  mr:'Single crochet into the ring.',
+  sc:'Single crochet in the next stitch.',
+  inc1:'Increase: single crochet in the next stitch…',
+  inc2:'…then a second single crochet in that same stitch.',
+  dec:'Invisible decrease: hook through the front loops of the next two stitches and finish them as one single crochet.'
+};
+function partLabel(c){ return c.pd.name + (c.nCopies>1?` ${c.ci+1} of ${c.nCopies}`:''); }
+function renderNow(){
+  const cr=S.cr; if(!cr) return;
+  const badge=$('#nBadge'), total=cr.steps.length;
+  $('#scrubOut').textContent=`${Math.round(S.cur/total*100)}%`;
+  let b='GO', cls='', title=cr.def.name, formula=`${cr.insts.length} stitches in ${cr.copies.length} ${cr.copies.length>1?'pieces':'piece'}`, action='Press play to watch it grow, or switch to Step and move one stitch at a time.', count='', bar=0, hooks=false;
+  const st = S.cur>0 ? cr.steps[S.cur-1] : null;
+  if(st && S.cur>=total && (S.done||S.mode==='lapse')){
+    b='✓'; cls='note'; title=`${cr.def.name}, finished`; formula=`${cr.insts.length} stitches · about ${cr.heightCm} cm tall in chunky yarn`; action='That is the whole build. Slow it down to crochet along, or tap any round in the pattern below to jump there.'; bar=1;
+  }else if(st){
+    const info=st.copy.info;
+    title=`${partLabel(st.copy)} · Round ${st.round+1} of ${info.N}`;
+    if(st.kind==='st'){
+      const rd=st.rd; formula=`${pretty(rd.src)} → ${rd.n} stitches`;
+      count=`${st.j+1}/${rd.n}<small>stitch</small>`; bar=(st.j+1)/rd.n;
+      const t=st.st.t; b=t==='mr'?'MR':t.toUpperCase(); cls=t==='sc'?'':t;
+      action = t==='mr' ? (st.j===0?ACTION.mr0:ACTION.mr) : t==='inc' ? ACTION['inc'+st.st.k] : ACTION[t];
+      if(st.st.rep && st.st.rep.of>1 && S.mode!=='lapse') action+=` (Repeat ${st.st.rep.i} of ${st.st.rep.of}.)`;
+      if(S.mode==='lapse') action='Time-lapse: every loop is one stitch, added in the order you will make it.';
+      else if(S.expert) hooks=true;
+    }else{ b='DO'; cls='note'; formula = st.fin?'Finishing touches':'Between rounds'; action=st.text; bar=1; if(S.mode==='lapse'&&S.playing) action='Time-lapse: every loop is one stitch, added in the order you will make it.'; }
+  }
+  badge.textContent=b; badge.className='badge '+cls;
+  $('#nTitle').textContent=title; $('#nFormula').textContent=formula; $('#nCount').innerHTML=count; $('#nAction').textContent=action;
+  movesEl.hidden=!hooks;
+  renderTrack();
+  // highlight current round in the written pattern
+  const keyNow = st ? `${st.copy.info.pi}:${st.round}` : '';
+  if(keyNow!==S.rowKey){
+    S.rowKey=keyNow;
+    document.querySelectorAll('.rnd.on').forEach(e=>e.classList.remove('on'));
+    if(st){ const el=[...document.querySelectorAll(`.rnd[data-p="${st.copy.info.pi}"]`)].find(e=>+e.dataset.a<=st.round&&+e.dataset.b>=st.round); if(el) el.classList.add('on'); }
+  }
+}
+
+function buildPieces(cr){
+  const host=$('#pieces'); host.textContent='';
+  cr.copies.forEach(c=>{
+    const b=document.createElement('button'); b.type='button'; b.className='pc'; b.innerHTML='<span></span><span class="pcb"><i></i></span><em></em>'; b.firstChild.textContent=partLabel(c);
+    b.addEventListener('click',()=>{ const i=cr.steps.findIndex(s=>s.kind==='st'&&s.copy===c); if(S.mode==='lapse') setMode('step'); play(false); setCursor(i+1,true); });
+    host.appendChild(b);
+  });
+}
+// where you are: one dot per stitch of the round in hand, a running total, each piece, and the rounds you have finished
+function renderTrack(){
+  const cr=S.cr, vis=cr.instAt[S.cur], n=cr.insts.length, st=S.cur>0?cr.steps[S.cur-1]:null, c=st?st.copy:cr.copies[0], ci=cr.copies.indexOf(c);
+  $('#tTxt').textContent=`${vis} of ${n} stitches`; $('#tBar').style.width=(vis/n*100).toFixed(1)+'%';
+  if(S.mode==='lapse' && S.playing) return;                                    // the time-lapse is too quick to count along with
+  const strip=$('#strip'), key=st&&!(S.cur>=cr.steps.length&&S.done)?ci+':'+st.round:'';
+  if(key!==S.stripKey){
+    S.stripKey=key; strip.textContent='';
+    if(key){
+      const rd=c.info.rounds[st.round], base=cr.steps.findIndex(s=>s.kind==='st'&&s.copy===c&&s.round===st.round);
+      rd.sts.forEach((q,j)=>{
+        const b=document.createElement('button'), pr=j?rd.sts[j-1]:null; b.type='button'; if(q.t!=='sc') b.className=q.t;
+        if(j && (q.rep?(!pr.rep||pr.rep.i!==q.rep.i):!pr.rep&&j%6===0)) b.classList.add('g');           // a gap between repeats, so you can count in groups
+        b.title=`Stitch ${j+1} of ${rd.n}: ${q.t}`; b.setAttribute('aria-label',b.title);
+        b.addEventListener('click',()=>{ if(S.mode==='lapse') setMode('step'); play(false); setCursor(base+j+1,true); });
+        strip.appendChild(b);
+      });
+    }
+  }
+  if(key) [...strip.children].forEach((b,j)=>{ b.classList.toggle('done',st.kind!=='st'||j<st.j); b.classList.toggle('cur',st.kind==='st'&&j===st.j); });
+  let whole=0;
+  [...$('#pieces').children].forEach((b,k)=>{
+    const q=cr.copies[k], size=q.last-q.first, d=clamp(vis-q.first,0,size); if(d===size) whole++;
+    b.querySelector('i').style.width=(d/size*100)+'%'; b.lastChild.textContent=`${d}/${size}`; b.classList.toggle('done',d===size); b.classList.toggle('on',!!st&&q===c&&d<size);
+  });
+  $('#pcSum').textContent=`${whole} of ${cr.copies.length} done`;
+  document.querySelectorAll('.rnd').forEach(b=>{
+    const info=cr.partInfo[+b.dataset.p]; let d=0;
+    for(const q of info.copies){ d=clamp(vis-q.first,0,q.last-q.first); if(d<q.last-q.first) break; }       // for "make 2", count the copy you are on
+    b.classList.toggle('done',d>=info.rstart[+b.dataset.b+1]);
+  });
+}
+function buildPatternPanel(cr){
+  const host=$('#pattern'); host.textContent=''; S.rowKey=null;
+  const yarn=cr.def.yarn;
+  for(const info of cr.partInfo){
+    const d=document.createElement('div'); d.className='part';
+    const cols=[...new Set(info.rounds.map(r=>r.color))];
+    const h=document.createElement('h3');
+    h.innerHTML=`${cols.map(c=>`<span class="sw" style="background:${yarn[c][1]}"></span>`).join('')}<span></span><small></small>`;
+    h.children[cols.length].textContent=info.pd.name;
+    h.lastChild.textContent=(info.copies.length>1?`make ${info.copies.length} · `:'')+cols.map(c=>yarn[c][0]).join(' + ');
+    d.appendChild(h);
+    const addNote=t=>{ const p=document.createElement('p'); p.className='pnote'; p.textContent=t; d.appendChild(p); };
+    const noteText=nt=>{ const s=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return s?s.text:nt.text; };
+    let i=0;
+    while(i<=info.N){
+      for(const nt of info.notes) if(nt.after===i){ const t=noteText(nt); if(t) addNote(t); }
+      if(i===info.N) break;
+      let j=i; while(j+1<info.N && info.rounds[j+1].src===info.rounds[i].src && info.rounds[j+1].color===info.rounds[i].color && !info.notes.some(n=>n.after===j+1)) j++;
+      const b=document.createElement('button'); b.type='button'; b.className='rnd'; b.dataset.p=info.pi; b.dataset.a=i; b.dataset.b=j;
+      const rd=info.rounds[i];
+      b.innerHTML=`<b></b><span></span><em></em>`;
+      b.children[0].textContent = i===j?`R${i+1}`:`R${i+1}–${j+1}`;
+      b.children[1].textContent = pretty(rd.src) + (cols.length>1?` · ${yarn[rd.color][0]}`:'');
+      b.children[2].textContent = `(${rd.n})`;
+      const a=i; b.addEventListener('click',()=>{ const idx=cr.steps.findIndex(s=>s.kind==='st'&&s.copy===info.copies[0]&&s.round===a); if(idx>=0){ if(S.mode==='lapse') setMode('step'); play(false); setCursor(idx+1,true); } });
+      d.appendChild(b); i=j+1;
+    }
+    if(!info.pd.root){ const s=cr.steps.find(x=>x.kind==='note'&&x.key==='sew'&&x.copy===info.copies[0]); if(s) addNote(s.text); }
+    host.appendChild(d);
+  }
+  const fins=cr.steps.filter(s=>s.fin);
+  if(fins.length){ const d=document.createElement('div'); d.className='part'; d.innerHTML='<h3>Finishing touches</h3>'; for(const s of fins){ const p=document.createElement('p'); p.className='pnote'; p.textContent=s.text; d.appendChild(p); } host.appendChild(d); }
+}
+function buildMaterials(cr){
+  const host=$('#materials'); host.textContent='';
+  const ul=document.createElement('ul'); ul.className='mat';
+  const li=(html,txt)=>{ const l=document.createElement('li'); l.innerHTML=html+'<span></span>'; l.lastChild.textContent=txt; ul.appendChild(l); };
+  for(const k in cr.def.yarn) li(`<span class="sw" style="background:${cr.def.yarn[k][1]}"></span>`, `${cr.def.yarn[k][0]} yarn, chunky weight`);
+  const nEyes=cr.extras.filter(x=>x.e.kind==='eye').reduce((a,x)=>a+x.pts.length,0);
+  if(nEyes) li('<span class="sw" style="background:#17131d"></span>', `${nEyes} safety eyes, about 9 mm`);
+  li('', '4 mm crochet hook, stitch marker, yarn needle');
+  li('', 'Fiberfill stuffing');
+  li('', `Finished size: about ${cr.heightCm} cm tall`);
+  host.appendChild(ul);
+}
+
+/* controls */
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  const m=b.dataset.mode;
+  if(S.cur>=S.cr.steps.length && m!=='step') setCursor(0,true);
+  setMode(m); $('#cta').hidden=true; if(m!=='step') play(true);
+}));
+$('#bPlay').addEventListener('click',()=>{
+  if(S.playing){ play(false); return; }
+  if(S.mode==='step') setMode('slow');
+  if(S.cur>=S.cr.steps.length) setCursor(0,true);
+  play(true);
+});
+const manual=fn=>()=>{ if(S.mode==='lapse') setMode('step'); play(false); fn(); saveProgress(); };
+$('#bNext').addEventListener('click',manual(()=>setCursor(S.cur+1,true)));
+$('#bPrev').addEventListener('click',manual(()=>setCursor(S.cur-1,true)));
+$('#bRestart').addEventListener('click',manual(()=>setCursor(0,true)));
+$('#bRound').addEventListener('click',manual(()=>{
+  const st=S.cr.steps, cur=st[Math.max(0,S.cur-1)]; let i=S.cur;
+  while(i<st.length && st[i].copy===cur.copy && st[i].round===cur.round && S.cur>0) i++;
+  while(i<st.length && st[i].kind!=='st') i++;
+  setCursor(Math.min(st.length,i+1),true);
+}));
+$('#scrub').addEventListener('input',e=>{ play(false); setCursor(+e.target.value,true); });
+$('#speed').addEventListener('input',e=>{ S.speed=+e.target.value; $('#speedOut').textContent=`${S.speed.toFixed(1)} / sec`; });
+$('#speedOut').textContent='1.2 / sec';
+$('#tTurn').addEventListener('click',e=>{ S.autoTurn=!S.autoTurn; e.currentTarget.setAttribute('aria-pressed',String(S.autoTurn)); S.holdUntil=0; });
+$('#tTypes').addEventListener('click',e=>{ S.types=!S.types; e.currentTarget.setAttribute('aria-pressed',String(S.types)); $('#legend').hidden=!S.types; repaint(); });
+$('#tExpert').addEventListener('click',()=>setExpert(!S.expert));
+const kitNow=()=>{ const K=S.view&&S.view.kit; return K&&S.wasXp?K:null; };
+function replay(){ const K=kitNow(); if(K){ K.t=0; K.stop=1; K.playing=!reduceMotion; if(reduceMotion) K.t=1; } }
+// one hook move at a time: forward plays the next of the five moves and waits; back returns to the start of the move before
+function moveStep(dir){
+  if(!S.cr) return;
+  if(!S.expert){ setExpert(true); return; }
+  const K=kitNow(); if(S.playing) play(false);
+  if(!K){ (dir>0?$('#bNext'):$('#bPrev')).click(); return; }             // on a note: just move on
+  if(dir>0){
+    if(K.t>=1-1e-6){ S.stopNext=STOPS[0]; $('#bNext').click(); return; }       // stitch done: start the next one, first move only
+    K.stop=STOPS.find(b=>b>K.t+1e-4); K.playing=true; if(reduceMotion){ K.t=K.stop; K.playing=false; }
+  }else{
+    if(K.t<=1e-4){ $('#bPrev').click(); return; }
+    K.t=K.stop=[0,...STOPS].filter(b=>b<K.t-1e-4).pop(); K.playing=false;
+  }
+}
+function gotoMove(i){ const K=kitNow(); if(!K) return; if(S.playing) play(false); K.t=PHASES[i]; K.stop=STOPS[i]; K.playing=!reduceMotion; if(reduceMotion) K.t=K.stop; }
+$('#bMoveNext').addEventListener('click',()=>moveStep(1)); $('#bMovePrev').addEventListener('click',()=>moveStep(-1));
+$('#motion').addEventListener('input',e=>{ const K=kitNow(); if(!K) return; if(S.playing) play(false); K.playing=false; K.t=K.stop=+e.target.value/1000; });
+$('#pace').addEventListener('input',e=>{ S.pace=+e.target.value; $('#paceOut').textContent=`${S.pace} s a stitch`; });
+$('#paceOut').textContent='6 s a stitch'; $('#bReplay').addEventListener('click',replay);
+$('#follow').addEventListener('click',()=>{ setCursor(0,true); setMode('slow'); play(true); });
+$('#resume').addEventListener('click',()=>{ setMode('step'); setCursor(S.saved,true); });
+$('#back').addEventListener('click',()=>{ location.hash=''; });
+addEventListener('keydown',e=>{
+  if(!S.cr || e.metaKey || e.ctrlKey || e.altKey) return;
+  const tag=e.target.tagName, range=tag==='INPUT';
+  if(e.key==='ArrowRight' && !range){ $('#bNext').click(); e.preventDefault(); }
+  else if(e.key==='ArrowLeft' && !range){ $('#bPrev').click(); e.preventDefault(); }
+  else if(e.key==='e' || e.key==='E'){ setExpert(!S.expert); e.preventDefault(); }
+  else if(e.key==='r' || e.key==='R'){ replay(); e.preventDefault(); }
+  else if(e.key==='ArrowDown' && !range){ moveStep(1); e.preventDefault(); }
+  else if(e.key==='ArrowUp' && !range){ moveStep(-1); e.preventDefault(); }
+  else if(e.key===' ' && tag!=='SUMMARY'){
+    // follow-along: in Step, Space is always "next stitch", wherever the focus happens to be
+    if(S.mode==='step'){ if(tag==='BUTTON') e.target.blur(); if(!e.repeat) $('#bNext').click(); e.preventDefault(); }
+    else if(tag!=='BUTTON'){ $('#bPlay').click(); e.preventDefault(); }
+  }
+});
+addEventListener('keyup',e=>{ if(S.cr && S.mode==='step' && e.key===' ' && e.target.tagName==='BUTTON') e.preventDefault(); });
+
+/* orbit by drag, zoom by pinch or wheel */
+const ptrs=new Map(); let pinch=0;
+const zoomBy=f=>{ if(S.wasXp) XP.zoom=clamp(XP.zoom*f,.16,2.2); else cam.zoom=clamp(cam.zoom*f,.3,2.2); };
+canvas.addEventListener('pointerdown',e=>{ canvas.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY}); pinch=0; });
+canvas.addEventListener('pointermove',e=>{
+  const p=ptrs.get(e.pointerId); if(!p) return;
+  const dx=e.clientX-p.x, dy=e.clientY-p.y; p.x=e.clientX; p.y=e.clientY;
+  S.holdUntil=performance.now()+4000;
+  if(ptrs.size===1){
+    if(S.wasXp){ XP.az=clamp(XP.az-dx*.009,-1.4,1.4); XP.el=clamp(XP.el+dy*.009,-.6,1.45); }
+    else{ cam.az-=dx*.009; cam.el=clamp(cam.el+dy*.009,-1.35,1.35); }
+  }
+  else if(ptrs.size===2){ const [a,b]=[...ptrs.values()], d=Math.hypot(a.x-b.x,a.y-b.y); if(pinch) zoomBy(pinch/d); pinch=d; }
+});
+const up=e=>{ ptrs.delete(e.pointerId); pinch=0; };
+canvas.addEventListener('pointerup',up); canvas.addEventListener('pointercancel',up);
+canvas.addEventListener('wheel',e=>{ e.preventDefault(); zoomBy(Math.exp(e.deltaY*.0012)); },{passive:false});
+
+function resize(){
+  const st=$('#stage'), w=st.clientWidth, h=st.clientHeight; if(!w||!h) return;
+  stageW=w; stageH=h;
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,[2,1.5,1.5,1][Q.level])); renderer.setSize(w,h,false);
+  camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(()=>{ if(S.cr) resize(); }).observe($('#stage'));
+function setLevel(n){ Q.level=n; key.castShadow=n<2; resize(); }
+// Slow frames can mean a struggling GPU or a browser that is throttling the page. Probe before giving anything up:
+// drop to the cheapest settings for a moment, and keep a lower level only if that actually bought speed.
+function govern(dt){
+  if(document.hidden || dt>.25) return;
+  Q.ema+=(dt-Q.ema)*.08;
+  if(Q.hold>0){ Q.hold-=dt; return; }
+  if(Q.probe){
+    Q.probe.t+=dt; if(Q.probe.t<1.5) return;
+    const helped=Q.ema<Q.probe.was*.78, from=Q.probe.from; Q.probe=null; Q.bad=0;
+    setLevel(helped?from+1:from); if(!helped) Q.hold=30;
+    return;
+  }
+  if(Q.ema<=1/24){ Q.bad=Math.max(0,Q.bad-2*dt); return; }
+  Q.bad+=dt; if(Q.bad<3 || Q.level>=3) return;
+  Q.probe={t:0,was:Q.ema,from:Q.level}; setLevel(3);
+}
+
+function frame(now){
+  S.raf=requestAnimationFrame(frame);
+  const raw=(now-S.lastT)/1000, dt=Math.min(.1,raw); S.lastT=now;
+  const cr=S.cr, v=S.view; if(!cr) return;
+  govern(raw);
+  const total=cr.steps.length, K=v.kit;
+  if(S.playing){
+    const at=S.cur>0?cr.steps[S.cur-1]:null;
+    if(S.mode==='lapse'){
+      S.acc+=dt*Math.max(40,total/11);
+      const n=Math.floor(S.acc); if(n>0){ S.acc-=n; setCursor(S.cur+n); }
+    }else if(S.expert && K && at && at.kind==='st' && S.focus===at.inst){
+      if(K.t>=1){ S.acc+=dt/.7; if(S.acc>=1){ S.acc=0; setCursor(S.cur+1); } }      // expert: let the hook finish the stitch, hold a beat, go on
+    }else{
+      const next=cr.steps[S.cur]; const dur = next && next.kind==='note' ? 3.2 : 1/S.speed;
+      S.acc+=dt/dur; if(S.acc>=1){ S.acc=0; setCursor(S.cur+1); }
+    }
+    if(S.cur>=total) finish(), renderNow();
+  }
+  const st=S.cur>0?cr.steps[S.cur-1]:null;
+  const detail=showsDetail() && st, xp=!!(detail && S.expert && st.kind==='st' && K && S.focus===st.inst);
+  if(xp){
+    if(S.lastPainted>=0){ v.mesh.setMatrixAt(S.lastPainted,v.mats[S.lastPainted]); v.mesh.instanceMatrix.needsUpdate=true; S.lastPainted=-1; }
+    if(K.playing){ K.t=Math.min(K.stop,K.t+dt/S.pace); if(K.t>=K.stop) K.playing=false; }
+  }else{
+    if(K && K.shown===false){ v.mesh.setMatrixAt(K.x.i,v.mats[K.x.i]); v.mesh.instanceMatrix.needsUpdate=true; K.shown=true; }
+    // newest stitch pops in
+    if(st && st.kind==='st' && S.mode!=='lapse'){
+      const k=Math.min(1,(now-S.popAt)/220), s=.35+.65*(1-Math.pow(1-k,3));
+      if(S.lastPainted!==st.inst||k<=1){ const m=new THREE.Matrix4().copy(v.mats[st.inst]).scale(new V3(s,s,s)); v.mesh.setMatrixAt(st.inst,m); v.mesh.instanceMatrix.needsUpdate=true; }
+      if(S.lastPainted>=0&&S.lastPainted!==st.inst){ v.mesh.setMatrixAt(S.lastPainted,v.mats[S.lastPainted]); }
+      S.lastPainted=st.inst;
+      if(ring.visible){ const q=1+.14*Math.sin(now*.007); ring.scale.setScalar(q); }
+    }else if(S.lastPainted>=0){ v.mesh.setMatrixAt(S.lastPainted,v.mats[S.lastPainted]); v.mesh.instanceMatrix.needsUpdate=true; S.lastPainted=-1; }
+  }
+  // camera
+  U.uExpert.value+=((xp?1:0)-U.uExpert.value)*(1-Math.exp(-dt*10)); U.uPulse.value=.5+.5*Math.sin(now*.006); U.uHookR.value.x=.26*U.uExpert.value;
+  if(xp){
+    // crocheter's-eye view: the working edge is up, you look down onto the top loops from the right side
+    const F=v.frames[st.inst], el=Math.min(1.45,XP.el+K.tilt), ce=Math.cos(el), k=1-Math.exp(-dt*(ptrs.size?24:5.5));
+    _c.copy(F.N).multiplyScalar(ce*Math.cos(XP.az)).addScaledVector(F.X,ce*Math.sin(XP.az)).addScaledVector(F.Y,Math.sin(el));
+    cam.dir.lerp(_c,k); if(cam.dir.lengthSq()<1e-4) cam.dir.copy(_c); cam.dir.normalize();
+    rollUp(F.Y,k);
+    cam.goalT.copy(cr.toWorld(_c.copy(cr.insts[st.inst].p).addScaledVector(F.X,-.3).addScaledVector(F.Y,.3)));
+    cam.goalD=fitDist(2.4*cr.sc);
+  }else{
+    if(S.wasXp){ cam.az=Math.atan2(cam.dir.x,cam.dir.z); cam.el=clamp(Math.asin(clamp(cam.dir.y,-1,1)),-1.35,1.35); }
+    if(detail){
+      const c=st.copy, zt=st.kind==='st'?clamp((1-cam.zoom)/.55,0,1)*clamp((cr.insts[st.inst].n.dot(cam.dir)-.2)/.5,0,1):0;   // zooming in pulls the view onto the stitch being worked, if it faces you
+      cam.goalT.copy(cr.toWorld(c.cen)).multiplyScalar(.7); if(zt>0) cam.goalT.lerp(cr.toWorld(cr.insts[st.inst].p),zt);
+      cam.goalD=fitDist(Math.max(.62,c.rad*cr.sc*1.3));
+      if(S.autoTurn && now>S.holdUntil && st.kind==='st'){
+        const n=cr.insts[st.inst].n, az=Math.atan2(n.x,n.z), el=clamp(Math.asin(clamp(n.y,-1,1))*.85+.12,-1.25,1.25);
+        let d=az-cam.az; d=Math.atan2(Math.sin(d),Math.cos(d)); const k=1-Math.exp(-dt*2.6);
+        cam.az+=d*k; cam.el+=(el-cam.el)*k;
+      }
+    }else{
+      cam.goalT.set(0,0,0); cam.goalD=fitDist(1);
+      if(S.autoTurn && now>S.holdUntil && !reduceMotion){ cam.az+=dt*.45; cam.el+=(.2-cam.el)*(1-Math.exp(-dt*1.5)); }
+    }
+    orbitDir(); rollUp(UP,1-Math.exp(-dt*5));
+  }
+  S.wasXp=xp;
+  const solo=xp?st.copy:null; if(solo!==S.solo){ S.solo=solo; U.uSolo.value=solo?cr.copies.indexOf(solo):-1; syncExtras(); }      // expert view: the piece in hand, on its own
+  const k=1-Math.exp(-dt*4); cam.target.lerp(cam.goalT,k); cam.dist+=(cam.goalD-cam.dist)*k; cam.z+=((xp?XP.zoom:cam.zoom)-cam.z)*(1-Math.exp(-dt*9));
+  placeCamera();
+  ground.visible=shadow.visible=U.uExpert.value<.5;
+  if(K) K.g.visible=xp; labelsEl.hidden=phaseEl.hidden=!xp;
+  if(xp){ runKit(now,dt); updateLabels(); }
+  renderer.render(scene,camera);
+}
+
+/* routing: one view per creature, named in the hash */
+function route(){ const id=location.hash.replace('#',''); if(id && CREATURES.some(c=>c.id===id)) openCreature(id); else if(S.cr) closeStudio(); }
+addEventListener('hashchange',route);
+addEventListener('pagehide',saveProgress);
+window.__lbl={S,CREATURES,getCreature,cam,XP,Q,U,key,rim,renderer,scene,yarnMat,strandMat,setCursor,setExpert,setMode};
+refreshCards(); route(); setTimeout(thumbTick,60);
+})();
+</script>
+</body>
+</html>
