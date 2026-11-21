@@ -128,7 +128,10 @@ Eyes default to size .58; use .42-.5 on small heads. Eyes over a patch need `lif
   a sixth of the round apart (5 on a round of 30, 6 on 36): wider than that and they slide round to the edges. Put them on
   the round halfway down the body's height, not lower: below the widest point they face the floor. Cheeks go about 1.1 rounds
   lower and 1.75 times as far apart; a smile is `pts:[[r,-9],[r+.6,0],[r,9]]` about 1.5 rounds below the eyes (angles are degrees).
-  The app draws safety eyes 1.4 times the `size` you give, so leave `size` off unless the part is small.
+  The app draws safety eyes as small glossy beads, about one stitch across; leave `size` off unless the part is small.
+  Eyes wider apart than a fifth of the round end up on the sides of the head and cannot be seen from the front:
+  that, more than anything, is what makes a pattern look not cute. Keep muzzles small, and put the eyes at the
+  muzzle's top corners.
 - Ears go near the top (rounds 2.5-4.5) at angles +-35 to +-60. Limbs come in pairs with mirrored angles.
 - Pick yarn colors that read at a glance and name them plainly ('Butter', 'Moss', 'Coal').
 - If the validator prints a part with a length under 2 and a sink over 1, it is buried. If a limb is longer than the

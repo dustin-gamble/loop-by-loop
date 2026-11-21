@@ -58,10 +58,13 @@ checked to add up, but the patterns have not been test-crocheted.
   6.5 mm hook; nobody has measured it at this gauge, and tension moves it by a fifth either way. Stripes and dipped
   ends are counted stitch by stitch. A color with no stitches in it is listed as "a little", for the embroidery.
 - **Style** on a pattern's page: colours (pastel, bright, Christmas, autumn, ocean, candy), an outside (stripes,
-  dipped, speckled) and eyes (big, small, sleepy, happy). The model, the card picture and the line-up all wear it,
+  dipped, speckled) and eyes (bead, big, sleepy, happy). The model, the card picture and the line-up all wear it,
   and the list of what you need and the written pattern say what to do differently (`look`, `yarnOf`, `styleNote`).
 - **Old-school pattern** opens the whole pattern as plain text, in the usual abbreviations, to copy or print
   (`classicText`). It follows the size and style you picked.
+- **Card pictures** are taken like product photos (`renderThumb`, `snap` with `tight`): anything with a face looks
+  straight at you, the piece fills the frame, and the backdrop is a bright paper color picked to stand off from
+  the yarn (`paperFor`).
 - **Tracking:** one dot per stitch of the round in hand (grouped by repeat, colored by increase and decrease),
   a running stitch total, a checklist of pieces, and checked-off rounds in the written pattern.
   A teal marker in the model sits in the first stitch of the round. The gallery remembers how far you got
@@ -99,6 +102,12 @@ A close-up from the crocheter's side: working edge up, hook coming in from the r
   other strands, the fabric near by and the hook (`relax`). In tight fabric strands still press into each
   other by up to about a third of their width, as real yarn squashes.
 - In the close-up a halo of fine fibres is drawn round the yarn near the stitch in hand (`fuzzMat`, `fuzzLive`).
+- **The magic ring** is shown open while round one is made (`mkRing`, `setRing`, `ringTick`). The yarn lays itself down
+  as a loop crossing over its own tail, the stitches of round one sit side by side on that loop, and the hook goes down
+  through the hole in the middle for each of them. After the last one the tail is pulled and the stitches close up into
+  the places the solver gave them. Only the view moves: `v.mats` and `v.frames` of those stitches are shifted out to a
+  ring of radius `RING_R` and put back, and the clip is worked out again while they move. Outside the close-up the
+  first round is drawn closed, as before.
 
 ## Writing patterns
 
@@ -120,7 +129,8 @@ sc 30 | B            this round in yarn B
 - `extras` add safety eyes, embroidered dots (`spots` for many) and lines (`lines` for many).
 - `cat` files a pattern on a shelf in the gallery: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, veg, xmas,
   food, things, vehicles, space, home, camp, play.
-- Safety eyes are drawn 1.4 times the `size` a pattern gives (`EYE`): big eyes are most of what makes one cute.
+- The look aimed for is the beginner-kit kind of cute: one round body, small glossy bead eyes about a stitch across
+  (`EYE`), tiny features, cheeks. Bigger eyes were tried and read as bug-eyed.
   A face reads best with the eyes about a sixth of the round apart (`apart` is in stitches of that round), on the
   round halfway down the body, cheeks a round lower and a little wider, and a smile about 18 degrees wide.
 - `level` runs 1 to 4. Level 4 is a **big build**: 2,200 to 4,200 stitches, a separate head and neck, thick limbs,
