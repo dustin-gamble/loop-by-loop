@@ -1,6 +1,6 @@
 # Loop by Loop
 
-A 3D crochet stitch-along. Pick one of 41 amigurumi patterns, watch it grow in a time-lapse, then
+A 3D crochet stitch-along. Pick one of 77 amigurumi patterns, in ten categories, watch it grow in a time-lapse, then
 crochet along one stitch at a time while the model shows every strand of yarn.
 
 **Live:** https://dustingamble.com/loop-by-loop/
@@ -86,7 +86,9 @@ sc 30 | B            this round in yarn B
   and are aimed with `aim` / `aimRel`, `mix`, `flat`, `bend`, `sink`, `stuff`. `conform:true` sews a flat
   circle onto the host. `at.on` names another part as the host.
 - `extras` add safety eyes, embroidered dots (`spots` for many) and lines (`lines` for many).
-- `kind:'object'` files a pattern under Things in the gallery.
+- `cat` files a pattern on a shelf in the gallery: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, food, things.
+- `tools/PATTERN-GUIDE.md` is the full guide to writing one, and `node tools/validate.js <file>` checks a file of new
+  patterns (stitch counts, attachments, sizes) before they go into the page.
 
 ## Rendering notes
 

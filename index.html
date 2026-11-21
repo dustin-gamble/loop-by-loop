@@ -6,7 +6,7 @@
 <title>Loop by Loop Crochet Studio</title>
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
-<meta property="og:description" content="A 3D crochet stitch-along: 41 amigurumi patterns, every stitch shown as real yarn.">
+<meta property="og:description" content="A 3D crochet stitch-along: 77 amigurumi patterns, every stitch shown as real yarn.">
 <meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
 <link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
 <script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
@@ -61,6 +61,11 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 .lvl i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--line)}
 .lvl i.on{background:var(--teal)}
 .filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill small{font-weight:700;opacity:.6;margin-left:5px;font-variant-numeric:tabular-nums}
+.pill.small{font-size:.78rem;padding:6px 11px}
+#grid{display:flex;flex-direction:column;gap:28px}
+.cat h2{font-size:1.3rem;display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.cat h2 small{font-family:var(--font-body);font-weight:700;font-size:.8rem;color:var(--muted)}
 #tally{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 #none{margin:0;color:var(--muted)}
 .card .prog{display:block;height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:3px}
@@ -209,15 +214,13 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
     <h1>Loop by Loop</h1>
     <p>Pick a pattern. Watch it grow in a time-lapse, then slow it down and crochet along one stitch at a time. Switch on Expert view to watch the hook and the yarn make each stitch, close up and in slow motion.</p>
   </header>
+  <div class="filters" id="cats" role="group" aria-label="Category"></div>
   <div class="filters" id="filters" role="group" aria-label="Show">
-    <button class="pill" type="button" data-f="all" aria-pressed="true">All</button>
-    <button class="pill" type="button" data-f="creature" aria-pressed="false">Creatures</button>
-    <button class="pill" type="button" data-f="object" aria-pressed="false">Things</button>
-    <button class="pill" type="button" data-f="going" aria-pressed="false">In progress</button>
-    <button class="pill" type="button" data-f="made" aria-pressed="false">Made</button>
+    <button class="pill small" type="button" data-f="going" aria-pressed="false">In progress</button>
+    <button class="pill small" type="button" data-f="made" aria-pressed="false">Made</button>
     <span id="tally"></span>
   </div>
-  <div id="grid" class="grid"></div>
+  <div id="grid"></div>
   <p id="none" hidden>Nothing here yet. Open a pattern and step through it, and it will show up.</p>
   <footer>
     Every model is drawn from its own pattern: each loop you see is one stitch in the written rounds, in the order you make it.
@@ -399,7 +402,7 @@ sc 8 | x2
 (sc, dec)*2`;
 
 const CREATURES = [
-{ id:'ball', name:'Practice Ball', kind:'object', level:1, blurb:'Every shape starts here',
+{ id:'ball', name:'Practice Ball', cat:'things', level:1, blurb:'Every shape starts here',
   yarn:{A:['Coral','#f0705a'],B:['Lagoon','#2fa7a0']}, eyes:0, view:.5,
   parts:[{name:'Ball', root:true, color:'A', rows:`
 mr 6
@@ -417,7 +420,7 @@ sc 30 | x3 | B
 dec*6 | B
 !close:`}], extras:[] },
 
-{ id:'chick', name:'Chick', level:1, blurb:'One egg, a beak and two wings',
+{ id:'chick', name:'Chick', cat:'farm', level:1, blurb:'One egg, a beak and two wings',
   yarn:{A:['Sunny yellow','#f7cb45'],B:['Tangerine','#f08a2e']}, eyes:2, view:.28,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGG},
@@ -432,7 +435,7 @@ sc 9 | x3`, at:{round:11.5, angles:[80,-80]}, aimRel:[.45,-1], mix:.75, flat:.45
   ],
   extras:[{id:'eyes', kind:'eye', round:8.5, apart:7}] },
 
-{ id:'bee', name:'Bumblebee', level:1, blurb:'Stripes are just color changes',
+{ id:'bee', name:'Bumblebee', cat:'garden', level:1, blurb:'Stripes are just color changes',
   yarn:{A:['Honey','#f5c23c'],B:['Charcoal','#3a3644'],C:['Cloud white','#f4f4f1']}, eyes:2, view:.45,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -465,7 +468,7 @@ sc 4 | x3`, at:{round:2.6, angles:[32,-32]}, aim:[.3,1,.25], mix:.6, sink:.3, se
   extras:[{id:'eyes', kind:'eye', round:7.4, apart:8},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.6, apart:13, size:.5, text:'Embroider two pink cheeks, a round below the eyes.'}] },
 
-{ id:'penguin', name:'Penguin', level:2, blurb:'A sewn-on belly patch',
+{ id:'penguin', name:'Penguin', cat:'polar', level:2, blurb:'A sewn-on belly patch',
   yarn:{A:['Midnight','#3d4763'],B:['Snow','#f6f5f2'],C:['Tangerine','#f08a2e']}, eyes:2, view:.35,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -504,7 +507,7 @@ sc 12 | x4`, at:{round:9.6, angles:[88,-88]}, aimRel:[.3,-1], mix:.8, flat:.4, s
   ],
   extras:[{id:'eyes', kind:'eye', round:8.6, apart:7, lift:.3, text:'Push the safety eyes through the belly patch, near its top edge and 7 stitches apart, before you sew the patch on.'}] },
 
-{ id:'octopus', name:'Octopus', level:2, blurb:'Eight curly arms',
+{ id:'octopus', name:'Octopus', cat:'ocean', level:2, blurb:'Eight curly arms',
   yarn:{A:['Grape','#8f6fd6']}, eyes:2, view:.4,
   parts:[
    {name:'Head', root:true, color:'A', rows:`
@@ -531,7 +534,7 @@ sc 6 | x7`, at:{round:14.5, angles:[22.5,67.5,112.5,157.5,-157.5,-112.5,-67.5,-2
           {id:'smile', kind:'line', color:'#2b2233', pts:[[10.6,-12],[11.2,0],[10.6,12]], text:'Embroider a small smile between the eyes with dark yarn.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'mushroom', name:'Mushroom', kind:'object', level:2, blurb:'Cap and stem in one piece',
+{ id:'mushroom', name:'Mushroom', cat:'food', level:2, blurb:'Cap and stem in one piece',
   yarn:{A:['Toadstool red','#d9483b'],B:['Oat','#efe3cd'],C:['Snow','#f8f7f3']}, eyes:2, view:.4,
   parts:[
    {name:'Cap and stem', root:true, color:'A', rows:`
@@ -567,7 +570,7 @@ mr 6`, at:{round:9.2, angles:[95,-35,-165]}, sew:'Sew flat onto the cap, between
   extras:[{id:'eyes', kind:'eye', round:18.4, apart:5, size:.5},
           {id:'smile', kind:'line', color:'#2b2233', pts:[[19.4,-14],[19.9,0],[19.4,14]], text:'Embroider a small smile on the stem.'}] },
 
-{ id:'whale', name:'Whale', level:2, blurb:'Worked nose to tail',
+{ id:'whale', name:'Whale', cat:'ocean', level:2, blurb:'Worked nose to tail',
   yarn:{A:['Ocean blue','#4a8fd9']}, eyes:2, view:.95,
   parts:[
    {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
@@ -602,7 +605,7 @@ sc 6 | x3`, at:{round:9.5, angles:[62,-62]}, aim:[1,-.5,-.5], mix:.7, flat:.5, s
   extras:[{id:'eyes', kind:'eye', round:6.6, apart:16, center:180, text:'Push in the safety eyes between rounds 6 and 7, one on each side of the head, 16 stitches apart across the top.'},
           {id:'smile', kind:'line', color:'#22324d', pts:[[5.2,-46],[6.1,-22],[6.4,0],[6.1,22],[5.2,46]], text:'Embroider a wide smile under the nose with dark yarn.'}] },
 
-{ id:'cat', name:'Cat', level:2, blurb:'Pointed ears and a curled tail',
+{ id:'cat', name:'Cat', cat:'pets', level:2, blurb:'Pointed ears and a curled tail',
   yarn:{A:['Marmalade','#ea9547']}, eyes:2, view:.3,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGG},
@@ -624,7 +627,7 @@ sc 6 | x9`, at:{round:16.2, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.7, sink:.
   extras:[{id:'eyes', kind:'eye', round:8.5, apart:8},
           {id:'nose', kind:'dot', color:'#e9718f', round:9.7, angle:0, size:.42, text:'Embroider a small pink nose between the eyes.'}] },
 
-{ id:'frog', name:'Frog', level:2, blurb:'Eyes that sit on top',
+{ id:'frog', name:'Frog', cat:'garden', level:2, blurb:'Eyes that sit on top',
   yarn:{A:['Lily pad','#72bd4c']}, eyes:2, view:.4,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -659,7 +662,7 @@ sc 12 | x2`, at:{round:15.4, angles:[52,-52]}, aimRel:[1,-.1], mix:.8, flat:.5, 
           {id:'smile', kind:'line', color:'#27401c', pts:[[8.3,-42],[9.6,-22],[10,0],[9.6,22],[8.3,42]], text:'Embroider a wide smile with dark green yarn.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.6, apart:19, size:.55, text:'Add two pink cheeks at the ends of the smile.'}] },
 
-{ id:'bunny', name:'Bunny', level:3, blurb:'Head and body, long ears',
+{ id:'bunny', name:'Bunny', cat:'woodland', level:3, blurb:'Head and body, long ears',
   yarn:{A:['Rose','#f2b3c4'],B:['Snow','#f8f7f3']}, eyes:2, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -684,7 +687,7 @@ dec*6
   extras:[{id:'eyes', kind:'eye', round:8.6, apart:9},
           {id:'nose', kind:'dot', color:'#d95b84', round:9.8, angle:0, size:.42, text:'Embroider a small nose between the eyes.'}] },
 
-{ id:'bear', name:'Bear', level:3, blurb:'Muzzle, ears, arms and feet',
+{ id:'bear', name:'Bear', cat:'woodland', level:3, blurb:'Muzzle, ears, arms and feet',
   yarn:{A:['Hazelnut','#b87a45'],B:['Oat','#efe3cd']}, eyes:2, view:.28,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -704,7 +707,7 @@ sc 12 | x3`, at:{round:3.7, angles:[50,-50]}, flat:.5, sink:.9, sew:'Pinch flat 
           {id:'nose', kind:'dot', color:'#3a2a22', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a dark nose on the tip of the muzzle.'}] },
 
 /* ---------- more creatures ---------- */
-{ id:'pig', name:'Pig', level:1, blurb:'A snout and a curly tail',
+{ id:'pig', name:'Pig', cat:'farm', level:1, blurb:'A snout and a curly tail',
   yarn:{A:['Piglet pink','#f4a9bb'],B:['Rose','#e07f9a']}, view:.32,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGG},
@@ -725,7 +728,7 @@ sc 4 | x6`, at:{round:15.6, angle:180}, aim:[0,.4,-1], mix:.8, bend:2.6, sink:.3
   extras:[{id:'eyes', kind:'eye', round:8.3, apart:8},
           {id:'nostrils', kind:'dot', color:'#b85c79', on:'Snout', round:.9, apart:2.4, size:.2, text:'Embroider two nostrils on the snout.'}] },
 
-{ id:'mouse', name:'Mouse', level:1, blurb:'Big ears and a long tail',
+{ id:'mouse', name:'Mouse', cat:'woodland', level:1, blurb:'Big ears and a long tail',
   yarn:{A:['Dove gray','#b7bcc8'],B:['Blush','#f3b0c0']}, view:.34,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGG},
@@ -742,7 +745,7 @@ sc 4 | x12`, at:{round:16.4, angle:180}, aim:[0,.1,-1], mix:.8, bend:-1.6, sink:
   extras:[{id:'eyes', kind:'eye', round:8.4, apart:7},
           {id:'nose', kind:'dot', color:'#e9718f', round:9.7, angle:0, size:.45, text:'Embroider a pink nose between the eyes.'}] },
 
-{ id:'owl', name:'Owl', level:2, blurb:'Eye discs and a belly, sewn on flat',
+{ id:'owl', name:'Owl', cat:'woodland', level:2, blurb:'Eye discs and a belly, sewn on flat',
   yarn:{A:['Walnut','#9a6a48'],B:['Oat','#efe3cd'],C:['Tangerine','#f08a2e']}, view:.3,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGGP},
@@ -770,7 +773,7 @@ sc 9 | x3`, at:{round:11.5, angles:[82,-82]}, aimRel:[.45,-1], mix:.75, flat:.45
   ],
   extras:[{id:'owleyes', kind:'eye', round:7.4, apart:3.5, lift:.35, size:.5, text:'Push a safety eye through the middle of each disc before you sew the discs on.'}] },
 
-{ id:'fox', name:'Fox', level:3, blurb:'White muzzle, white-tipped tail',
+{ id:'fox', name:'Fox', cat:'woodland', level:3, blurb:'White muzzle, white-tipped tail',
   yarn:{A:['Fox orange','#e7772e'],B:['Snow','#f8f7f3'],C:['Bark','#4a3328']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -799,7 +802,7 @@ sc 9`, at:{round:21.6, angle:180}, aim:[0,.7,-1], mix:.8, stuff:.8, bend:-.8, si
   extras:[{id:'eyes', kind:'eye', round:7.7, apart:9},
           {id:'nose', kind:'dot', color:'#2f2420', on:'Muzzle', round:0, angle:0, size:.42, text:'Embroider a dark nose on the tip of the muzzle.'}] },
 
-{ id:'panda', name:'Panda', level:3, blurb:'Black patches on white',
+{ id:'panda', name:'Panda', cat:'safari', level:3, blurb:'Black patches on white',
   yarn:{A:['Snow','#f6f5f2'],B:['Ink','#34313b']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -813,7 +816,7 @@ inc*6`, at:{round:8.1, angles:[20,-20]}, sew:'Sew one flat patch under each eye 
   extras:[{id:'eyes', kind:'eye', round:8.1, apart:4, lift:.35, size:.5, text:'Mark the eyes between rounds 8 and 9, 4 stitches apart. They go through the black patches, so fit them once the patches are sewn on.'},
           {id:'nose', kind:'dot', color:'#34313b', round:10, angle:0, size:.45, text:'Embroider a small black nose.'}] },
 
-{ id:'koala', name:'Koala', level:3, blurb:'Fluffy ears and a big nose',
+{ id:'koala', name:'Koala', cat:'safari', level:3, blurb:'Fluffy ears and a big nose',
   yarn:{A:['Eucalyptus gray','#9ea5b0'],B:['Cloud','#f1f1ee']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -833,7 +836,7 @@ sc 18 | x2`, at:{round:5, angles:[70,-70]}, aim:[1,.55,0], mix:.6, flat:.45, sin
   extras:[{id:'eyes', kind:'eye', round:8, apart:11},
           {id:'nose', kind:'dot', color:'#2b2730', round:9.5, angle:0, size:.85, text:'Embroider a big oval nose with dark yarn, between and just below the eyes.'}] },
 
-{ id:'elephant', name:'Elephant', level:3, blurb:'Flat ears and a curled trunk',
+{ id:'elephant', name:'Elephant', cat:'safari', level:3, blurb:'Flat ears and a curled trunk',
   yarn:{A:['Rain cloud','#8fa6c4']}, view:.6,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -855,7 +858,7 @@ sc 4 | x3`, at:{round:21.6, angle:180}, aim:[0,-.3,-1], mix:.7, sink:.3, sew:'Se
   ],
   extras:[{id:'eyes', kind:'eye', round:7.8, apart:13}] },
 
-{ id:'lion', name:'Lion', level:3, blurb:'A mane of fourteen tufts',
+{ id:'lion', name:'Lion', cat:'safari', level:3, blurb:'A mane of fourteen tufts',
   yarn:{A:['Savanna gold','#e9b44c'],B:['Oat','#efe3cd'],C:['Chestnut','#a85a28']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -880,7 +883,7 @@ sc 4 | x7`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.2, sink:.
   extras:[{id:'eyes', kind:'eye', round:7.6, apart:12},
           {id:'nose', kind:'dot', color:'#5a3320', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a brown nose on the tip of the muzzle.'}] },
 
-{ id:'lamb', name:'Lamb', level:2, blurb:'A woolly body with a little face',
+{ id:'lamb', name:'Lamb', cat:'farm', level:2, blurb:'A woolly body with a little face',
   yarn:{A:['Fleece','#f4f0e8'],B:['Biscuit','#e3c6a6'],C:['Cocoa','#6b4a3a']}, view:.4,
   parts:[
    {name:'Body', root:true, color:'A', rows:EGGP},
@@ -904,7 +907,7 @@ sc 6 | x3`, at:{on:'Head', round:5.2, angles:[78,-78]}, flat:.4, sink:.4, sew:'F
   ],
   extras:[{id:'eyes', kind:'eye', on:'Head', round:3, apart:5, size:.42, text:'Push in the safety eyes on the head, 5 stitches apart, before you close it.'}] },
 
-{ id:'turtle', name:'Turtle', level:2, blurb:'A low shell with six plates',
+{ id:'turtle', name:'Turtle', cat:'ocean', level:2, blurb:'A low shell with six plates',
   yarn:{A:['Moss','#5f9a4a'],B:['Sand','#e6d6a8'],C:['Sprout','#9ccb6b'],D:['Pine','#3f6f3a']}, view:.5,
   parts:[
    {name:'Shell', root:true, color:'A', stuff:.7, rows:`
@@ -947,7 +950,7 @@ sc 6`, at:{round:10, angle:180}, aimRel:[1,-.2], mix:.8, sink:.3, sew:'Sew to th
   ],
   extras:[{id:'eyes', kind:'eye', on:'Head', round:3.2, apart:6, size:.42, text:'Push in the safety eyes on the head, 6 stitches apart.'}] },
 
-{ id:'ladybug', name:'Ladybug', level:2, blurb:'Eight spots and two antennae',
+{ id:'ladybug', name:'Ladybug', cat:'garden', level:2, blurb:'Eight spots and two antennae',
   yarn:{A:['Ladybug red','#d93a32'],B:['Ink','#2f2c35']}, view:.5,
   parts:[
    {name:'Body', root:true, color:'A', stuff:.8, rows:`
@@ -983,7 +986,7 @@ sc 4 | x3`, at:{on:'Head', round:4.4, angles:[28,-28]}, sink:.3, sew:'Sew to the
   extras:[{id:'eyes', kind:'dot', color:'#ffffff', on:'Head', round:2.8, apart:5.5, size:.3, text:'Embroider two small white eyes on the head.'},
           {id:'seam', kind:'line', color:'#2f2c35', pts:[[9.4,0],[7,0],[4,0],[1.5,0],[.4,0],[1.5,180],[4,180],[7,180],[9.4,180]], text:'Embroider a black line down the middle of the back, where the wings meet.'}] },
 
-{ id:'snail', name:'Snail', level:2, blurb:'A body, a shell and a spiral',
+{ id:'snail', name:'Snail', cat:'garden', level:2, blurb:'A body, a shell and a spiral',
   yarn:{A:['Butter','#f1dc8a'],B:['Coral','#ef7f6a'],C:['Brick','#b84a3a']}, view:1.05,
   parts:[
    {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
@@ -1017,7 +1020,7 @@ sc 4 | x4`, at:{round:2.6, angles:[152,-152]}, aim:[.35,1,.35], mix:.7, sink:.3,
           {id:'swirl', kind:'line', color:'#b84a3a', lines:[1,-1].map(k=>[[7,90],[6.2,97],[5.9,82],[7.2,69],[8.7,80],[9.1,104],[7.6,123],[5.2,121],[3.9,96],[4.4,64],[6.4,46],[9.4,52],[10.7,84]].map(q=>[q[0],q[1]*k])), text:'Embroider a spiral on each side of the shell.'},
           {id:'smile', kind:'line', color:'#7a5a2a', pts:[[2.2,-40],[2.8,0],[2.2,40]], text:'Embroider a small smile under the nose.'}] },
 
-{ id:'jellyfish', name:'Jellyfish', level:2, blurb:'A bell with trailing arms',
+{ id:'jellyfish', name:'Jellyfish', cat:'ocean', level:2, blurb:'A bell with trailing arms',
   yarn:{A:['Sea glass','#7fd0c7'],B:['Petal','#f6a6c1']}, view:.4,
   parts:[
    {name:'Bell', root:true, color:'A', rows:`
@@ -1047,7 +1050,7 @@ sc 6 | x7`, at:{round:15, angles:[30,150,-90]}, aimRel:[.1,-1], mix:.9, bend:-.6
           {id:'smile', kind:'line', color:'#2b2233', pts:[[9.8,-11],[10.3,0],[9.8,11]], text:'Embroider a small smile between the eyes.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'clownfish', name:'Clownfish', level:2, blurb:'Stripes worked nose to tail',
+{ id:'clownfish', name:'Clownfish', cat:'ocean', level:2, blurb:'Stripes worked nose to tail',
   yarn:{A:['Clown orange','#f2812a'],B:['Snow','#f8f7f3']}, view:.95,
   parts:[
    {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
@@ -1088,7 +1091,7 @@ sc 6 | x3`, at:{round:8, angles:[80,-80]}, aim:[1,-.5,-.6], mix:.75, flat:.4, si
   extras:[{id:'eyes', kind:'eye', round:3.6, apart:9, center:180, text:'Push in the safety eyes between rounds 3 and 4, one on each side of the head.'},
           {id:'smile', kind:'line', color:'#5a2a12', pts:[[2.4,-30],[3,0],[2.4,30]], text:'Embroider a small smile under the nose.'}] },
 
-{ id:'crab', name:'Crab', level:3, blurb:'Two claws, six legs, eyes on stalks',
+{ id:'crab', name:'Crab', cat:'ocean', level:3, blurb:'Two claws, six legs, eyes on stalks',
   yarn:{A:['Crab red','#e2543f']}, view:.12,
   parts:[
    {name:'Body', root:true, color:'A', stuff:.65, rows:`
@@ -1120,7 +1123,7 @@ sc 4 | x6`, at:{round:8.6, angles:[78,104,130,-78,-104,-130]}, aimRel:[1,-.7], m
   extras:[{id:'eyes', kind:'eye', on:'Eye stalk', round:1, angle:'front', size:.45, text:'Push a safety eye into the front of each stalk.'},
           {id:'smile', kind:'line', color:'#6b1f16', pts:[[6.6,-15],[7.1,0],[6.6,15]], text:'Embroider a small smile on the front edge.'}] },
 
-{ id:'dino', name:'Dinosaur', level:3, blurb:'Six spikes down the back',
+{ id:'dino', name:'Dinosaur', cat:'makebelieve', level:3, blurb:'Six spikes down the back',
   yarn:{A:['Fern','#6fbf73'],B:['Lemon cream','#f2e7a6'],C:['Sunset','#f08a5d']}, view:.5,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
@@ -1149,7 +1152,7 @@ sc 6`, at:{spots:[[2.4,180],[5.6,180],[9,180],[12.4,180],[17.4,180],[20.4,180]]}
   extras:[{id:'eyes', kind:'eye', round:7.6, apart:11},
           {id:'smile', kind:'line', color:'#2c4a2e', pts:[[10,-16],[10.6,0],[10,16]], text:'Embroider a smile with dark green yarn.'}] },
 
-{ id:'narwhal', name:'Narwhal', level:2, blurb:'A whale with a horn',
+{ id:'narwhal', name:'Narwhal', cat:'ocean', level:2, blurb:'A whale with a horn',
   yarn:{A:['Arctic','#9fc7d8'],B:['Ivory','#f4ecd6']}, view:.95,
   parts:[
    {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
@@ -1188,7 +1191,7 @@ sc 9 | x3
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:7.6, apart:22, center:180, size:.5, text:'Add a pink cheek under each eye.'},
           {id:'smile', kind:'line', color:'#3b5566', pts:[[5.2,-46],[6.1,-22],[6.4,0],[6.1,22],[5.2,46]], text:'Embroider a wide smile under the nose.'}] },
 
-{ id:'ghost', name:'Ghost', level:1, blurb:'One piece and two little arms',
+{ id:'ghost', name:'Ghost', cat:'makebelieve', level:1, blurb:'One piece and two little arms',
   yarn:{A:['Moonlight','#f5f4f0']}, view:.3,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -1217,7 +1220,7 @@ dec*6
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.7, apart:15, size:.5, text:'Add two pink cheeks.'}] },
 
 /* ---------- things ---------- */
-{ id:'apple', name:'Apple', kind:'object', level:1, blurb:'A ball with a stem and a leaf',
+{ id:'apple', name:'Apple', cat:'food', level:1, blurb:'A ball with a stem and a leaf',
   yarn:{A:['Apple red','#d8362f'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Apple', root:true, color:'A', rows:`
@@ -1246,7 +1249,7 @@ sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew
           {id:'smile', kind:'line', color:'#5a1410', pts:[[10.2,-11],[10.7,0],[10.2,11]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f7a3a0', round:9.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'pear', name:'Pear', kind:'object', level:1, blurb:'Narrow at the top, wide below',
+{ id:'pear', name:'Pear', cat:'food', level:1, blurb:'Narrow at the top, wide below',
   yarn:{A:['Pear green','#b9cf4a'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Pear', root:true, color:'A', rows:`
@@ -1277,7 +1280,7 @@ sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew
           {id:'smile', kind:'line', color:'#4f5a1a', pts:[[14.2,-11],[14.7,0],[14.2,11]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:13.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'strawberry', name:'Strawberry', kind:'object', level:2, blurb:'A cap of five leaves, and seeds',
+{ id:'strawberry', name:'Strawberry', cat:'food', level:2, blurb:'A cap of five leaves, and seeds',
   yarn:{A:['Strawberry','#e2364a'],B:['Leaf','#4fa64a']}, view:.3,
   parts:[
    {name:'Berry', root:true, color:'A', rows:`
@@ -1312,7 +1315,7 @@ sc 4 | x2`, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, sink:.4, sew:'Sew to th
           {id:'smile', kind:'line', color:'#5a0f1a', pts:[[9.6,-10],[10.1,0],[9.6,10]], text:'Embroider a small smile.'},
           {id:'seeds', kind:'dot', color:'#fbe9a8', spots:[[5,38],[5,-38],[6.4,92],[6.4,-92],[11.6,24],[11.6,-24],[12,72],[12,-72],[14.6,0],[15,48],[15,-48],[5.2,150],[5.2,-150],[9,180],[12.5,140],[12.5,-140]], size:.2, text:'Embroider small seeds all over with pale yellow yarn.'}] },
 
-{ id:'carrot', name:'Carrot', kind:'object', level:1, blurb:'A long, slow decrease',
+{ id:'carrot', name:'Carrot', cat:'food', level:1, blurb:'A long, slow decrease',
   yarn:{A:['Carrot','#f08a2e'],B:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Carrot', root:true, color:'A', rows:`
@@ -1343,7 +1346,7 @@ sc 4 | x7`, at:{round:1.2, angles:[10,130,-110]}, aimRel:[.45,1], mix:.85, bend:
   extras:[{id:'eyes', kind:'eye', round:6, apart:6},
           {id:'smile', kind:'line', color:'#7a3a0c', pts:[[7.2,-12],[7.7,0],[7.2,12]], text:'Embroider a small smile.'}] },
 
-{ id:'pumpkin', name:'Pumpkin', kind:'object', level:2, blurb:'Ribs pulled in with long stitches',
+{ id:'pumpkin', name:'Pumpkin', cat:'food', level:2, blurb:'Ribs pulled in with long stitches',
   yarn:{A:['Pumpkin','#ee8a2a'],B:['Twig','#7a5a2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Pumpkin', root:true, color:'A', rows:`
@@ -1371,7 +1374,7 @@ dec*6
           {id:'ribs', kind:'line', color:'#c8601a', lines:[30,90,150,-150,-90,-30].map(a=>[[1.4,a],[5,a],[10,a],[15,a],[18.4,a]]), text:'With darker yarn, pull six long stitches from top to bottom to shape the ribs.'},
           {id:'smile', kind:'line', color:'#6b2c08', pts:[[10.6,-16],[11.3,-6],[11.4,0],[11.3,6],[10.6,16]], text:'Embroider a wide smile.'}] },
 
-{ id:'acorn', name:'Acorn', kind:'object', level:1, blurb:'A cap, then a color change',
+{ id:'acorn', name:'Acorn', cat:'food', level:1, blurb:'A cap, then a color change',
   yarn:{A:['Hazel','#cf9552'],B:['Bark','#7a4a2a']}, view:.3,
   parts:[
    {name:'Acorn', root:true, color:'A', rows:`
@@ -1398,7 +1401,7 @@ sc 4 | x2`, at:{round:.4, angle:0}, aim:[.2,1,0], mix:.85, sink:.4, sew:'Sew to 
   extras:[{id:'eyes', kind:'eye', round:10.2, apart:6},
           {id:'smile', kind:'line', color:'#5a3414', pts:[[11.3,-12],[11.8,0],[11.3,12]], text:'Embroider a small smile.'}] },
 
-{ id:'cupcake', name:'Cupcake', kind:'object', level:2, blurb:'Frosting, sprinkles and a cherry',
+{ id:'cupcake', name:'Cupcake', cat:'food', level:2, blurb:'Frosting, sprinkles and a cherry',
   yarn:{A:['Vanilla','#f2dfb4'],B:['Frosting pink','#f7a8c4'],C:['Cherry','#d8263a']}, view:.3,
   parts:[
    {name:'Cupcake', root:true, color:'A', rows:`
@@ -1427,7 +1430,7 @@ dec*6
           {id:'sprinkles', kind:'dot', color:'#ffe27a', spots:[[2.6,20],[3.4,140],[4.2,-80],[5.4,60],[6.2,-150],[6.6,-20]], size:.18, text:'Embroider sprinkles on the frosting with short stitches.'},
           {id:'sprinkles2', kind:'dot', color:'#7ad1e0', spots:[[2.8,-110],[3.8,-30],[4.6,100],[5.6,170],[6.4,110],[5,-125]], size:.18, text:'Add a second color of sprinkles.'}] },
 
-{ id:'icecream', name:'Ice Cream Cone', kind:'object', level:2, blurb:'A scoop that turns into a cone',
+{ id:'icecream', name:'Ice Cream Cone', cat:'food', level:2, blurb:'A scoop that turns into a cone',
   yarn:{A:['Waffle','#d9a866'],B:['Mint','#a8e0c4'],C:['Cherry','#d8263a']}, view:.3,
   parts:[
    {name:'Scoop and cone', root:true, color:'A', rows:`
@@ -1461,7 +1464,7 @@ sc 6
           {id:'smile', kind:'line', color:'#3a6b55', pts:[[6.8,-10],[7.3,0],[6.8,10]], text:'Embroider a small smile on the scoop.'},
           {id:'sprinkles', kind:'dot', color:'#f7a8c4', spots:[[2.4,40],[3,160],[3.6,-70],[2.6,-150],[4.2,110],[4,-20]], size:.18, text:'Embroider sprinkles on top of the scoop.'}] },
 
-{ id:'cactus', name:'Cactus', kind:'object', level:2, blurb:'Grows straight out of its pot',
+{ id:'cactus', name:'Cactus', cat:'things', level:2, blurb:'Grows straight out of its pot',
   yarn:{A:['Cactus','#5fae6a'],B:['Terracotta','#c96f4a'],C:['Bloom','#f58ab0']}, view:.3,
   parts:[
    {name:'Cactus and pot', root:true, color:'A', rows:`
@@ -1491,7 +1494,7 @@ sc 9 | x5`, at:{round:8, angles:[88,-88]}, aimRel:[.75,1], mix:.75, stuff:.7, si
           {id:'smile', kind:'line', color:'#2c5a34', pts:[[8.5,-12],[9,0],[8.5,12]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.3, apart:11, size:.45, text:'Add two pink cheeks.'}] },
 
-{ id:'snowman', name:'Snowman', kind:'object', level:3, blurb:'Hat, scarf, carrot nose',
+{ id:'snowman', name:'Snowman', cat:'things', level:3, blurb:'Hat, scarf, carrot nose',
   yarn:{A:['Snow','#f7f6f2'],B:['Scarf red','#d8362f'],C:['Carrot','#f08a2e'],D:['Coal','#2f2c35'],E:['Twig','#7a4f2e']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:`
@@ -1539,7 +1542,7 @@ sc 4 | x7`, at:{round:18.2, angles:[82,-82]}, aimRel:[1,.5], mix:.85, sink:.3, s
           {id:'smile', kind:'dot', color:'#2f2c35', spots:[[10.3,-16],[10.8,-8],[11,0],[10.8,8],[10.3,16]], size:.16, text:'Embroider a dotted coal smile.'},
           {id:'buttons', kind:'dot', color:'#2f2c35', spots:[[18.6,0],[20.4,0],[22,0]], size:.3, text:'Sew or embroider three buttons down the front.'}] },
 
-{ id:'rocket', name:'Rocket', kind:'object', level:2, blurb:'Nose cone, three fins and a flame',
+{ id:'rocket', name:'Rocket', cat:'things', level:2, blurb:'Nose cone, three fins and a flame',
   yarn:{A:['Hull white','#f2f3f5'],B:['Rocket red','#e0453f'],C:['Steel','#8d96a8'],D:['Sky','#5aa9e6'],E:['Flame','#f59a2e'],F:['Spark','#ffd84a']}, view:.5,
   parts:[
    {name:'Rocket', root:true, color:'A', rows:`
@@ -1577,7 +1580,7 @@ sc 9 | x2`, at:{round:23.5, angle:0}, aim:[0,-1,0], mix:.95, stuff:.5, sink:.6, 
   ],
   extras:[{id:'shine', kind:'dot', color:'#ffffff', round:11.6, angle:7, size:.16, text:'One small white stitch on the window makes it shine.'}] },
 
-{ id:'tree', name:'Christmas Tree', kind:'object', level:3, blurb:'Three tiers from increases and decreases',
+{ id:'tree', name:'Christmas Tree', cat:'things', level:3, blurb:'Three tiers from increases and decreases',
   yarn:{A:['Fir','#3f8f4f'],B:['Trunk','#7a4f2e'],C:['Star','#ffd84a']}, view:.3,
   parts:[
    {name:'Tree', root:true, color:'A', rows:`
@@ -1613,7 +1616,1184 @@ sc 12 | x3`, at:{round:22.5, angle:0}, aim:[0,-1,0], mix:.95, stuff:.9, sink:.5,
    {name:'Star', color:'C', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, stuff:1, sink:.5, sew:'Sew to the very top.'}
   ],
   extras:[{id:'baubles', kind:'dot', color:'#e0453f', spots:[[4,0],[9,60],[9.4,-70],[15,20],[15.6,150],[16,-100]], size:.26, text:'Sew on red beads or embroider knots as baubles.'},
-          {id:'baubles2', kind:'dot', color:'#5aa9e6', spots:[[4.2,150],[8.8,170],[14.8,-35],[16.2,85],[9,-10]], size:.26, text:'Add a second color of baubles.'}] }
+          {id:'baubles2', kind:'dot', color:'#5aa9e6', spots:[[4.2,150],[8.8,170],[14.8,-35],[16.2,85],[9,-10]], size:.26, text:'Add a second color of baubles.'}] },
+
+/* ---------- more, written category by category ---------- */
+// farm
+{ id:'cow', name:'Cow', cat:'farm', level:3, blurb:'Sewn-on patches, horns, pink muzzle',
+  yarn:{A:['Milk','#f7f5f0'],B:['Ink','#34313b'],C:['Rose','#f0a3b3'],D:['Bone','#e8dcc0']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2`, at:{round:10.6, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Horn', color:'D', rows:`
+mr 4
+sc 4 | x3`, at:{round:2.4, angles:[38,-38]}, aimRel:[.5,1], mix:.8, sink:.4, sew:'Sew a small horn to each side of the top of the head.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{round:4.6, angles:[72,-72]}, aimRel:[1,-.1], mix:.8, flat:.5, sink:.9, sew:'Pinch flat and sew low on each side of the head, sticking out.'},
+   {name:'Patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{spots:[[4.4,-52],[19,75],[21,-80]]}, sew:'Sew one patch to the head and two to the body.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 6 | B
+sc 6 | x2 | B
+(sc, dec)*2
+sc 4 | x6`, at:{round:21.6, angle:180}, aim:[0,-.4,-1], mix:.8, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.4, apart:13},
+          {id:'nostrils', kind:'dot', color:'#b5566d', on:'Muzzle', spots:[[0,-14],[0,14]], size:.2, text:'Embroider two small nostrils with dark pink yarn.'}] },
+
+{ id:'horse', name:'Horse', cat:'farm', level:3, blurb:'Long muzzle, mane tufts and tail',
+  yarn:{A:['Chestnut','#a8612f'],B:['Coal','#2f2a2c'],C:['Cream','#efe0c4']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x4`, at:{round:9.8, angle:0}, aim:[0,-.3,1], mix:.6, stuff:.8, sink:.5, sew:'Stuff lightly and sew low on the face to make a long nose.'},
+   {name:'Blaze', color:'C', conform:true, rows:`
+mr 6
+inc*6`, at:{round:5.5, angle:0}, sew:'Sew a pale blaze down the middle of the face.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:2.8, angles:[34,-34]}, aimRel:[.3,1], mix:.7, flat:.5, sink:.7, sew:'Pinch flat and sew upright on top of the head.'},
+   {name:'Mane tuft', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{spots:[[2.8,0],[4.2,0],[5.8,165],[7.4,180],[9.6,180]]}, stuff:.7, sink:.8, sew:'Stuff lightly and sew in a line from the forehead down the back of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'B', rows:`
+mr 6
+sc 6 | x2
+(sc, dec)*2
+sc 4 | x8`, at:{round:21.6, angle:180}, aim:[0,-.5,-1], mix:.8, bend:-.5, sink:.3, sew:'Sew to the lower back, hanging down.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.2, apart:13, size:.5},
+          {id:'nostrils', kind:'dot', color:'#2f2a2c', on:'Muzzle', spots:[[0,-14],[0,14]], size:.2, text:'Embroider two nostrils on the end of the muzzle.'}] },
+
+{ id:'duck', name:'Duck', cat:'farm', level:1, blurb:'A flat orange bill and little wings',
+  yarn:{A:['Sunshine','#f9d94c'],B:['Orange','#f08a2e']}, view:.28,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Bill', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2`, at:{round:9.8, angle:0}, aim:[0,-.05,1], flat:.5, sink:.3, sew:'Flatten and sew the bill just under the eyes.'},
+   {name:'Wing', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:11.5, angles:[80,-80]}, aimRel:[.45,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew to the side of the body, pointing down.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body so the toes poke out in front.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2`, at:{round:14.5, angle:180}, aim:[0,.5,-1], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew to the back so it flicks up.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8, apart:9}] },
+
+{ id:'hen', name:'Hen', cat:'farm', level:2, blurb:'Red comb, wattle and tail feathers',
+  yarn:{A:['Hen brown','#b5733a'],B:['Poppy','#d8362f'],C:['Gold','#f0b43a'],D:['Bark','#7a4a26']}, view:.28,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Beak', color:'C', rows:`
+mr 4
+(sc, inc)*2`, at:{round:9.7, angle:0}, sink:.25, sew:'Sew the beak between the eyes, just below them.'},
+   {name:'Comb', color:'B', rows:`
+mr 4
+sc 4 | x3`, at:{round:1.2, angle:0}, aim:[0,1,.2], mix:.8, flat:.5, sink:.4, sew:'Flatten and sew along the top of the head.'},
+   {name:'Wattle', color:'B', rows:`
+mr 4
+sc 4 | x2`, at:{round:10.9, angle:0}, aim:[0,-1,.5], mix:.6, flat:.4, sink:.3, sew:'Flatten and sew under the beak.'},
+   {name:'Wing', color:'D', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:11.5, angles:[80,-80]}, aimRel:[.45,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew to the side of the body, pointing down.'},
+   {name:'Tail feather', color:'D', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3`, at:{spots:[[14,180],[14.8,150],[14.8,-150]]}, aimRel:[.8,.9], mix:.8, flat:.5, sink:.4, sew:'Flatten and sew three feathers fanning up at the back.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body so the toes poke out in front.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:9}] },
+
+{ id:'goat', name:'Goat', cat:'farm', level:3, blurb:'Curved horns, a beard, ears out wide',
+  yarn:{A:['Oat','#e8dcc4'],B:['Fawn','#a58a63'],C:['Bone','#d9cfb4']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Horn', color:'C', rows:`
+mr 4
+sc 4 | x4`, at:{round:2.4, angles:[34,-34]}, aimRel:[.35,1], mix:.8, bend:.7, sink:.4, sew:'Sew a curved horn to each side of the top of the head.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:5, angles:[68,-68]}, aimRel:[1,-.1], mix:.85, flat:.5, sink:.7, sew:'Pinch flat and sew to each side so they stick straight out.'},
+   {name:'Beard', color:'B', rows:`
+mr 4
+sc 4 | x4`, at:{round:12.2, angle:0}, aim:[0,-1,.3], mix:.7, sink:.3, sew:'Sew under the chin, hanging down.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x3`, at:{round:21.6, angle:180}, aim:[0,.6,-1], mix:.8, sink:.3, sew:'Sew a short tail to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:13},
+          {id:'nose', kind:'dot', color:'#3a2a22', on:'Muzzle', round:0, angle:0, size:.5, text:'Embroider a dark nose on the tip of the muzzle.'}] },
+
+{ id:'donkey', name:'Donkey', cat:'farm', level:3, blurb:'Very long ears, pale muzzle, short mane',
+  yarn:{A:['Dove grey','#8f8a88'],B:['Flint','#4e4a4c'],C:['Oat','#e6dccb']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3`, at:{round:10.2, angle:0}, aim:[0,-.2,1], mix:.5, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x6
+(sc 2, dec)*3`, at:{round:3, angles:[30,-30]}, aimRel:[.5,1], mix:.8, flat:.5, sink:.8, sew:'Pinch flat and sew upright to the top of the head. These are the long ears.'},
+   {name:'Mane tuft', color:'B', rows:`
+mr 4
+sc 4 | x3`, at:{spots:[[2.4,0],[3.6,0],[5,180],[6.6,180]]}, sink:.6, sew:'Sew a short stripe of tufts from the forehead down the back of the neck.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x6`, at:{round:21.6, angle:180}, aim:[0,-.5,-1], mix:.8, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:13},
+          {id:'nostrils', kind:'dot', color:'#4e4a4c', on:'Muzzle', spots:[[0,-12],[0,12]], size:.2, text:'Embroider two nostrils on the muzzle.'}] },
+
+// food and things
+{ id:'avocado', name:'Avocado', cat:'food', level:2, blurb:'Pear body, pale flesh and a round pit',
+  yarn:{A:['Avocado skin','#3f6b2c'],B:['Pale flesh','#c9dc83'],C:['Pit brown','#7a4a2a']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc 2, inc)*6
+sc 24 | x2
+!eyes:
+(sc 3, inc)*6
+sc 30
+(sc 4, inc)*6
+sc 36 | x3
+(sc 4, dec)*6
+sc 30
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Flesh patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:11, angle:0}, sew:'Sew the pale patch flat onto the front of the body.'},
+   {name:'Pit', color:'C', conform:true, rows:`
+mr 6
+inc*6`, at:{round:13.8, angle:0}, sew:'Sew the round brown pit low on the pale patch.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.8, apart:7, size:.45, lift:.35},
+          {id:'smile', kind:'line', color:'#2f3d1c', pts:[[10.4,-6],[10.9,0],[10.4,6]], text:'Embroider a small smile above the pit.'}] },
+
+{ id:'lemon', name:'Lemon', cat:'food', level:1, blurb:'Pointed at both ends, with a leaf',
+  yarn:{A:['Lemon','#f4d63a'],B:['Leaf','#5da845']}, view:.3,
+  parts:[
+   {name:'Lemon', root:true, color:'A', rows:`
+mr 6
+sc 6 | x2
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+!eyes:
+sc 30 | x5
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+!stuff:
+dec*6
+sc 6
+!close:`},
+   {name:'Leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`, at:{round:2.6, angle:40}, aim:[.7,.6,.2], mix:.8, flat:.3, sink:.3, sew:'Flatten and sew near the top tip, pointing up and out.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.6, apart:8},
+          {id:'smile', kind:'line', color:'#8a6a12', pts:[[10,-9],[10.5,0],[10,9]], text:'Embroider a small smile.'}] },
+
+{ id:'tomato', name:'Tomato', cat:'food', level:1, blurb:'A squat ball with a green star top',
+  yarn:{A:['Tomato red','#e0392e'],B:['Leaf green','#4f9a3f']}, view:.3,
+  parts:[
+   {name:'Tomato', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+!eyes:
+sc 42 | x3
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3`, at:{round:1.8, angles:[0,72,144,-144,-72]}, aimRel:[1,-.1], mix:.85, flat:.3, sink:.3, sew:'Flatten and sew five around the top, pointing out like a star.'},
+   {name:'Stem', color:'B', rows:`
+mr 4
+sc 4 | x2`, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, sink:.4, sew:'Sew to the very top, in the middle of the leaves.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:10},
+          {id:'smile', kind:'line', color:'#6a1410', pts:[[9.8,-9],[10.3,0],[9.8,9]], text:'Embroider a small smile.'}] },
+
+{ id:'gnome', name:'Gnome', cat:'things', level:2, blurb:'A tall hat pulled down over the eyes',
+  yarn:{A:['Denim','#4a6fa5'],B:['Gnome red','#d33a32'],C:['Peach','#f0b58f'],D:['Snow','#f7f6f2']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+(sc 4, inc)*6
+sc 36 | x5
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Hat', color:'B', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 3, inc)*2
+sc 10
+(sc 4, inc)*2
+sc 12
+(sc 5, inc)*2
+sc 14
+(sc 6, inc)*2
+sc 16
+(sc 7, inc)*2
+sc 18
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6`, at:{round:.5, angle:0}, aim:[0,1,0], mix:.95, stuff:.5, sink:2.9, sew:'Stuff the point lightly and sew the wide brim around the head, low over the face.'},
+   {name:'Nose', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Add a pinch of stuffing.
+dec*6
+!close:`, at:{round:7.4, angle:0}, sink:1, sew:'Sew the round nose just under the brim.'},
+   {name:'Beard', color:'D', rows:`
+mr 6
+sc 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12
+(sc 3, inc)*3
+sc 15 | x2
+(sc 4, inc)*3`, at:{round:8.6, angle:0}, aim:[0,-1,.35], mix:.8, flat:.5, sink:.5, sew:'Flatten and sew the wide end under the nose, hanging down the front.'}
+  ],
+  extras:[] },
+
+{ id:'balloon', name:'Hot-air balloon', cat:'things', level:2, blurb:'Striped by color changes, basket below',
+  yarn:{A:['Coral','#e2543f'],B:['Cream','#f6ecd2'],C:['Basket','#8a5a32']}, view:.3,
+  parts:[
+   {name:'Balloon', root:true, color:'A', rows:`
+mr 6 | A
+inc*6 | A
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | A
+(sc 4, inc)*6 | A
+(sc 5, inc)*6 | B
+sc 42 | x2 | B
+sc 42 | x2 | A
+(sc 5, dec)*6 | A
+(sc 4, dec)*6 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | A
+!stuff:
+(sc, dec)*6 | A
+dec*6 | B
+!close:`},
+   {name:'Basket', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x4`, at:{round:16.9, angle:0}, aim:[0,-1,0], mix:1, sink:.6, stuff:.4, sew:'Sew the open end to the very bottom of the balloon so the basket hangs straight down.'}
+  ],
+  extras:[] },
+
+{ id:'pencil', name:'Pencil', cat:'things', level:2, blurb:'Worked from the point with color changes',
+  yarn:{A:['Lead','#3a3a42'],B:['Wood','#e9c79b'],C:['Pencil yellow','#f2c230'],D:['Silver','#b9bec6'],E:['Eraser pink','#ee8fa8']}, view:.3,
+  parts:[
+   {name:'Pencil', root:true, color:'C', rows:`
+mr 6 | A
+sc 6 | A
+inc*6 | A
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+sc 24 | B
+!eyes:
+sc 24 | x8 | C
+!stuff: Stuff firmly so the pencil stays straight.
+sc 24 | x2 | D
+sc 24 | x3 | E
+(sc 2, dec)*6 | E
+(sc, dec)*6 | E
+dec*6 | E
+!close:`}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:11.5, apart:6, size:.45},
+          {id:'smile', kind:'line', color:'#8a5a10', pts:[[12.8,-5],[13.2,0],[12.8,5]], text:'Embroider a small smile on the yellow barrel.'}] },
+
+// garden and makebelieve
+{ id:'caterpillar', name:'Caterpillar', cat:'garden', level:2, blurb:'Five bumps in two greens',
+  yarn:{A:['Lime','#9bd05a'],B:['Leaf','#4f9d3d'],C:['Fern','#2f6b2a']}, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+!eyes:
+sc 24
+(sc 2, dec)*6
+(sc 2, inc)*6 | B
+sc 24 | B
+(sc 2, dec)*6 | B
+(sc 2, inc)*6
+sc 24
+(sc 2, dec)*6
+(sc 2, inc)*6 | B
+sc 24 | B
+(sc 2, dec)*6 | B
+(sc 2, inc)*6
+sc 24
+!stuff:
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Antenna', color:'C', rows:`
+mr 4
+sc 4 | x6`, at:{round:2.4, angles:[160,-160]}, aim:[.4,1,.35], mix:.8, sink:.4, sew:'Sew one to each side of the top of the head.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:4.4, apart:9, center:180, size:.5, text:'Push in the safety eyes on top of the head, 9 stitches apart.'}] },
+
+{ id:'spider', name:'Spider', cat:'garden', level:2, blurb:'Eight bendy legs and big eyes',
+  yarn:{A:['Coal','#3b3743'],B:['Ruby','#d8362f']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+!eyes:
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Leg', color:'A', rows:`
+mr 4
+sc 4 | x8`, at:{round:7, angles:[40,70,110,140,-40,-70,-110,-140]}, aimRel:[1,.1], mix:.85, bend:-.9, sink:.4, sew:'Sew four legs down each side, evenly spaced.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.4, apart:8, size:.7, text:'Push in two big safety eyes on the front, 8 stitches apart.'},
+          {id:'mark', kind:'dot', color:'#d8362f', spots:[[1.5,0],[2.8,0]], size:.35, text:'Embroider two red dots on top of the body.'}] },
+
+{ id:'butterfly', name:'Butterfly', cat:'garden', level:2, blurb:'Four flat wings on a slim body',
+  yarn:{A:['Orange','#f08a2e'],B:['Cocoa','#4a3427'],C:['Sky','#6fb7e8'],D:['Ink','#2f2c35']}, view:.12,
+  parts:[
+   {name:'Body', root:true, color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+!eyes:
+(sc, dec)*6
+sc 12 | x6
+!stuff:
+dec*6
+!close:`},
+   {name:'Upper wing', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12`, at:{round:6.2, angles:[150,-150]}, aim:[1,.8,-.1], mix:.95, flat:.3, sink:.6, sew:'Flatten and sew high on each side of the body, pointing up and out.'},
+   {name:'Lower wing', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12`, at:{round:9.5, angles:[150,-150]}, aim:[1,-.6,-.1], mix:.95, flat:.3, sink:.6, sew:'Flatten and sew low on each side, pointing down and out.'},
+   {name:'Antenna', color:'B', rows:`
+mr 4
+sc 4 | x3`, at:{round:2.3, angles:[35,-35]}, aim:[.4,1,.1], mix:.8, sink:.4, sew:'Sew to the top of the head.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:4, apart:5, size:.4, text:'Push in small safety eyes, 5 stitches apart.'}] },
+
+{ id:'dragon', name:'Dragon', cat:'makebelieve', level:3, blurb:'Back spikes, wings and a long tail',
+  yarn:{A:['Fern','#4f9a52'],B:['Ember','#e8782f'],C:['Cream','#f1e3b8'],D:['Plum','#7a4fa0']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Snout', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Spike', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6`, at:{spots:[[3.4,180],[6.4,180],[9.4,180],[12.4,180],[18.2,180],[20.8,180]]}, aimRel:[.5,1], mix:.6, flat:.5, sink:.4, sew:'Flatten and sew in a row down the back, from the head to the base.'},
+   {name:'Wing', color:'D', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+sc 12 | x2`, at:{round:18, angles:[125,-125]}, aim:[1,.8,-.4], mix:.8, flat:.4, sink:.5, sew:'Flatten and sew to the upper back, pointing up and out.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x2
+(sc, inc)*3
+sc 9 | x3
+(sc 2, inc)*3
+sc 12 | x2`, at:{round:21.6, angle:180}, aim:[0,.2,-1], mix:.8, bend:-.8, stuff:.5, sink:.4, sew:'Sew to the lower back.'},
+   {name:'Belly patch', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:20.5, angle:0}, sew:'Sew flat on the front of the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:11},
+          {id:'nostrils', kind:'dot', color:'#2a3a2a', on:'Snout', spots:[[.6,28],[.6,-28]], size:.15, text:'Embroider two small nostrils on the snout.'}] },
+
+{ id:'unicorn', name:'Unicorn', cat:'makebelieve', level:3, blurb:'Gold horn and pastel mane',
+  yarn:{A:['Cloud','#f7f4fa'],B:['Rose','#f4a6c4'],C:['Lilac','#b9a3e6'],D:['Mint','#9fe0c8'],E:['Gold','#f0c75a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Horn', color:'E', rows:`
+mr 4
+sc 4
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8`, at:{round:2.8, angle:0}, aim:[0,1,.5], mix:.8, stuff:.6, sink:.5, sew:'Stuff lightly and sew to the middle of the forehead.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:3.4, angles:[42,-42]}, flat:.5, sink:.8, sew:'Pinch flat and sew beside the horn.'},
+   {name:'Rose tuft', color:'B', rows:`
+mr 6 | D
+inc*6
+sc 12 | x2`, at:{spots:[[3.4,180],[7.6,160],[7.6,-160],[11.6,180],[3.8,125],[3.8,-125]]}, stuff:.7, sink:.8, sew:'Stuff lightly and sew down the back of the head.'},
+   {name:'Lilac tuft', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{spots:[[5.5,180],[9.5,165],[9.5,-165],[13,180]]}, stuff:.7, sink:.8, sew:'Stuff lightly and sew between the rose tufts.'},
+   {name:'Tail', color:'B', rows:`
+mr 6 | D
+sc 6 | x2 | D
+(sc, dec)*2
+sc 4 | x3 | C
+sc 4 | x3`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.2, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:12},
+          {id:'cheeks', kind:'dot', color:'#f4a6c4', round:9.6, apart:16, size:.5, text:'Add two rose cheeks.'}] },
+
+{ id:'robot', name:'Robot', cat:'makebelieve', level:2, blurb:'Straight tubes and a chest panel',
+  yarn:{A:['Steel','#9aa3ad'],C:['Graphite','#5b636d'],D:['Signal red','#e0453a'],E:['Teal','#3fb6b0']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x2
+!eyes:
+sc 30 | x4
+(sc 3, dec)*6 | C
+!stuff: Stuff the head firmly.
+(sc 3, inc)*6
+sc 30 | x6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Antenna', color:'C', rows:`
+mr 4
+sc 4 | x5`, at:{round:.5, angle:0}, aim:[0,1,0], mix:.9, sink:.4, sew:'Sew to the middle of the top of the head.'},
+   {name:'Antenna ball', color:'D', rows:BALL12, at:{on:'Antenna', round:.5, angle:0}, aim:[0,1,0], mix:.9, sink:1.3, sew:'Sew the ball on the tip of the antenna.'},
+   {name:'Ear bolt', color:'C', rows:`
+mr 6
+inc*6
+sc 12`, at:{round:8, angles:[90,-90]}, aim:[1,0,0], mix:.9, flat:.5, sink:.5, sew:'Sew a round bolt to each side of the head.'},
+   {name:'Chest panel', color:'E', conform:true, rows:`
+mr 6
+inc*6`, at:{round:15.2, angle:0}, sew:'Sew flat on the middle of the chest.'},
+   {name:'Arm', color:'C', rows:ARM, at:{round:14, angles:[85,-85]}, aimRel:[.4,-1], mix:.8, sink:.5, sew:'Sew to each side of the body, hanging down.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:10},
+          {id:'mouth', kind:'line', color:'#3a3f47', pts:[[10.4,-20],[10.4,20]], text:'Embroider a straight grille mouth.'},
+          {id:'buttons', kind:'dot', color:'#e0453a', spots:[[18.2,-25],[18.2,0],[18.2,25]], size:.3, text:'Sew three red buttons below the panel.'}] },
+
+// ocean and polar
+{ id:'shark', name:'Shark', cat:'ocean', level:2, blurb:'Tall back fin, pale belly, toothy grin',
+  yarn:{A:['Shark gray','#7d8fa3'],B:['Foam','#f2f5f7'],C:['Ink','#2a2f3a']}, eyes:2, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x7
+!eyes:
+(sc 3, dec)*6
+sc 24 | x3
+(sc 2, dec)*6
+sc 18 | x2
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:10.5, angle:0}, sew:'Sew the pale belly patch under the middle of the body.'},
+   {name:'Dorsal fin', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3
+(sc 2, inc)*2
+sc 8 | x1`, at:{round:9.5, angle:180}, aimRel:[.3,1], mix:.8, flat:.4, sink:.5, sew:'Flatten and sew upright along the middle of the back.'},
+   {name:'Side fin', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:8.5, angles:[70,-70]}, aim:[1,-.6,-.3], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew low on each side, sweeping back.'},
+   {name:'Tail fin', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc, dec)*3`, at:{round:20.4, angles:[110,-110]}, aim:[1,.5,-.7], mix:.9, flat:.4, sink:.5, sew:'Flatten and sew to the tail tip, angled up and out.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:5.6, apart:12, center:180, size:.5, text:'Push in the safety eyes between rounds 5 and 6, one on each side of the head, 12 stitches apart across the top.'},
+          {id:'grin', kind:'line', color:'#2a2f3a', pts:[[3.6,-40],[4.6,-24],[5,0],[4.6,24],[3.6,40]], text:'Embroider a wide grin with dark yarn.'},
+          {id:'teeth', kind:'dot', color:'#ffffff', spots:[[4.9,-14],[5.1,-5],[5.1,5],[4.9,14]], size:.2, text:'Add four small white teeth along the grin.'}] },
+
+{ id:'dolphin', name:'Dolphin', cat:'ocean', level:2, blurb:'Narrow beak, curved back fin',
+  yarn:{A:['Sea gray','#8fb0c9'],B:['Foam','#f2f5f7']}, eyes:2, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+sc 6 | x3
+inc*6
+sc 12 | x2
+(sc, inc)*6
+sc 18 | x2
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30 | x4
+!eyes:
+(sc 3, dec)*6
+sc 24 | x3
+(sc 2, dec)*6
+sc 18 | x2
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Dorsal fin', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x3`, at:{round:15, angle:180}, aimRel:[.3,1], mix:.8, bend:.5, flat:.45, sink:.5, sew:'Flatten and sew on the middle of the back, curving toward the tail.'},
+   {name:'Flipper', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:13, angles:[65,-65]}, aim:[1,-.6,-.2], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew low on each side behind the head.'},
+   {name:'Tail fluke', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc, dec)*3`, at:{round:27.4, angles:[90,-90]}, aim:[1,.35,-.7], mix:.9, flat:.4, sink:.5, sew:'Flatten and sew to the tail tip, angled up and out.'},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:17, angle:0}, sew:'Sew the pale patch under the middle of the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:10.6, apart:14, center:180, size:.45, text:'Push in the safety eyes between rounds 10 and 11, one on each side of the head, 14 stitches apart across the top.'},
+          {id:'smile', kind:'line', color:'#3a5670', pts:[[5.4,-30],[5.9,-14],[6.1,0],[5.9,14],[5.4,30]], text:'Embroider a gentle smile on the beak with gray-blue yarn.'}] },
+
+{ id:'starfish', name:'Starfish', cat:'ocean', level:1, blurb:'A low dome with five arms',
+  yarn:{A:['Coral','#f08a5d'],B:['Peach','#ffd1a8']}, eyes:2, view:.5,
+  parts:[
+   {name:'Body', root:true, color:'A', stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+!eyes:
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff lightly so the dome stays low.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Arm', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2
+(sc, dec)*3
+sc 6 | x3`, at:{round:7.5, angles:[36,-36,108,-108,180]}, aimRel:[1,-.1], mix:.85, flat:.4, stuff:.5, sink:.7, sew:'Stuff lightly and sew five arms evenly around the rim.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:4.6, apart:7, size:.5},
+          {id:'smile', kind:'line', color:'#7a3b22', pts:[[5.6,-8],[6.1,0],[5.6,8]], text:'Embroider a small smile.'},
+          {id:'spots', kind:'dot', color:'#ffd1a8', spots:[[3,60],[3,-60],[3,180],[6.5,100],[6.5,-100],[6.5,150],[6.5,-150]], size:.25, text:'Embroider pale dots over the top.'}] },
+
+{ id:'polarbear', name:'Polar Bear', cat:'polar', level:3, blurb:'White bear, tiny ears, dark nose',
+  yarn:{A:['Snow','#f4f6f8'],B:['Ice','#dfe7ee'],C:['Coal','#2c2a33']}, eyes:2, view:.28,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{round:3.2, angles:[48,-48]}, flat:.5, sink:.9, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:12, size:.5},
+          {id:'nose', kind:'dot', color:'#2c2a33', on:'Muzzle', round:0, angle:0, size:.6, text:'Embroider a dark nose on the tip of the muzzle.'}] },
+
+{ id:'walrus', name:'Walrus', cat:'polar', level:3, blurb:'Wide muzzle, two tusks, flippers',
+  yarn:{A:['Cocoa','#9a6b4a'],B:['Cream','#eadfc8'],C:['Tusk white','#fbf8ef'],D:['Coal','#2c2a33']}, eyes:2, view:.28,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24`, at:{round:10.6, angle:0}, stuff:.8, sink:.6, sew:'Stuff lightly and sew wide across the lower face.'},
+   {name:'Tusk', color:'C', rows:`
+mr 4
+sc 4 | x4`, at:{round:12, angles:[14,-14]}, aim:[0,-1,.25], mix:.85, stuff:.6, sink:.3, sew:'Sew below the muzzle, hanging straight down.'},
+   {name:'Flipper', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:17.2, angles:[64,-64]}, aimRel:[.6,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, flat:.5, sink:.7, sew:'Flatten and sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.2, apart:11, size:.45},
+          {id:'nose', kind:'dot', color:'#2c2a33', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a dark nose at the top of the muzzle.'},
+          {id:'whiskers', kind:'dot', color:'#2c2a33', on:'Muzzle', spots:[[1.5,-30],[1.5,30],[2.5,-50],[2.5,50],[2.5,-10],[2.5,10]], size:.18, text:'Add dark whisker dots on the muzzle.'}] },
+
+{ id:'seal', name:'Seal', cat:'polar', level:2, blurb:'Lying seal, big eyes, whisker dots',
+  yarn:{A:['Pebble gray','#9aa4ae'],B:['Silver','#d4dae0'],C:['Coal','#2c2a33']}, eyes:2, view:.95,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+sc 24 | x2
+(sc 2, dec)*6
+sc 18
+!stuff:
+(sc, dec)*6
+sc 12
+dec*6
+!close:`},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x4`, at:{round:1.2, angle:0}, stuff:.8, sink:.8, sew:'Stuff lightly and sew to the front of the face.'},
+   {name:'Front flipper', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:9, angles:[68,-68]}, aim:[1,-.7,-.2], mix:.7, flat:.5, sink:.4, sew:'Flatten and sew low on each side.'},
+   {name:'Tail flipper', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc, dec)*3`, at:{round:21.4, angles:[90,-90]}, aim:[1,.2,-.8], mix:.9, flat:.4, sink:.5, sew:'Flatten and sew to the tail tip, fanning out to each side.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.4, apart:14, center:180, size:.6, text:'Push in the big safety eyes between rounds 6 and 7, one on each side of the head, 14 stitches apart across the top.'},
+          {id:'nose', kind:'dot', color:'#2c2a33', on:'Muzzle', round:0, angle:0, size:.55, text:'Embroider a dark nose on the tip of the muzzle.'},
+          {id:'whiskers', kind:'dot', color:'#2c2a33', on:'Muzzle', spots:[[2,-35],[2,35],[3,-55],[3,55]], size:.16, text:'Add whisker dots on each side of the muzzle.'}] },
+
+// safari
+{ id:'giraffe', name:'Giraffe', cat:'safari', level:3, blurb:'A long neck worked in plain rounds',
+  yarn:{A:['Straw','#efc45a'],B:['Chestnut','#a8622a'],C:['Cocoa','#6b4228']}, view:.3,
+  parts:[
+   {name:'Head, neck and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x4
+!eyes:
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12 | x8
+!stuff: Stuff the head and the neck firmly, then carry on.
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x4
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Muzzle', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2`, at:{round:8.2, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower front of the head.'},
+   {name:'Horn', color:'B', rows:`
+mr 4
+sc 4 | x2`, at:{round:1.6, angles:[22,-22]}, aim:[.2,1,0], mix:.8, stuff:.6, sink:.3, sew:'Sew two little knobs to the top of the head.'},
+   {name:'Ear', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2`, at:{round:4, angles:[72,-72]}, aimRel:[1,.25], mix:.7, flat:.5, sink:.6, sew:'Pinch flat and sew to each side of the head.'},
+   {name:'Spot', color:'B', conform:true, rows:`
+mr 6
+inc*6`, at:{spots:[[13,90],[16,-80],[14.5,180],[21.5,60],[22,-70],[24,15],[24.5,-120],[23,140],[20.5,180]]}, sew:'Sew the brown spots over the neck and body, spaced unevenly.'},
+   {name:'Leg', color:'A', rows:`
+mr 6
+sc 6 | x3
+sc 6 | x4 | C`, at:{round:27.2, angles:[34,-34]}, aim:[0,-1,.2], mix:.85, sink:.6, sew:'Sew under the body. The darker end is the hoof.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.8, apart:9, size:.45},
+          {id:'nostrils', kind:'dot', color:'#6b4228', on:'Muzzle', spots:[[1.5,35],[1.5,-35]], size:.25, text:'Embroider two small nostrils on the muzzle.'}] },
+
+{ id:'zebra', name:'Zebra', cat:'safari', level:3, blurb:'Black and white stripes, bristly mane',
+  yarn:{A:['Cloud','#f5f3ee'],B:['Coal','#2f2c35']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6 | B
+(sc 3, inc)*6
+(sc 4, inc)*6 | B
+sc 36
+sc 36 | B
+sc 36
+sc 36 | B
+sc 36
+sc 36 | B
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6
+(sc 3, inc)*6 | B
+sc 30
+sc 30 | B
+sc 30
+sc 30 | B
+sc 30
+(sc 3, dec)*6 | B
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6 | B
+dec*6
+!close:`},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:3.2, angles:[34,-34]}, aim:[.2,1,0], mix:.6, flat:.5, sink:.9, sew:'Pinch flat and sew upright to the top of the head.'},
+   {name:'Mane tuft', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{spots:[[1.8,0],[3,12],[3,-12],[4.6,180],[6.4,180],[8.6,180],[11,180]]}, stuff:.7, sink:.8, sew:'Stuff lightly and sew in a line over the top of the head and down the back of the neck.'},
+   {name:'Arm', color:'A', rows:`
+mr 6
+sc 6 | x2 | B
+sc 6 | x2
+sc 6 | B`, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:12},
+          {id:'nostrils', kind:'dot', color:'#f5f3ee', on:'Muzzle', spots:[[1,30],[1,-30]], size:.2, text:'Embroider two small white nostrils on the muzzle.'}] },
+
+{ id:'monkey', name:'Monkey', cat:'safari', level:3, blurb:'Pale face, big ears and a curly tail',
+  yarn:{A:['Cocoa','#8a5a36'],B:['Peach','#f0cfa6']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Face patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:8.8, angle:0}, sew:'Sew flat on the lower middle of the face.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2`, at:{round:7.2, angles:[84,-84]}, aim:[1,.05,.1], mix:.8, flat:.5, sink:.9, sew:'Pinch flat and sew out to each side of the head.'},
+   {name:'Arm', color:'A', rows:`
+mr 6
+sc 6 | x8`, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck. Long dangly arms.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x20`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1.4, sink:.3, sew:'Sew to the lower back and curl it up.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.8, apart:8, size:.5, lift:.35},
+          {id:'nose', kind:'dot', color:'#5a3a22', round:9.6, apart:2, size:.2, text:'Embroider two tiny nostrils.'},
+          {id:'smile', kind:'line', color:'#5a3a22', pts:[[10.4,-11],[10.9,0],[10.4,11]], text:'Embroider a wide smile on the face patch.'}] },
+
+{ id:'hippo', name:'Hippo', cat:'safari', level:2, blurb:'A huge muzzle on a round body',
+  yarn:{A:['Dusk','#8f8aa8'],B:['Rose clay','#c9a4b4'],C:['Plum','#5b4666']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2`, at:{round:10.9, angle:0}, stuff:.9, sink:.7, sew:'Stuff well and sew across the lower face. It should be wider than half the head.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+sc 12`, at:{round:3.4, angles:[50,-50]}, flat:.5, sink:.7, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Leg', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:23.6, angles:[30,-30]}, aim:[0,-.4,1], mix:.8, flat:.3, sink:.8, sew:'Sew two short stubby legs under the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x3`, at:{round:21.6, angle:180}, aim:[0,.1,-1], mix:.8, sink:.3, sew:'Sew a small tail to the back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:6.6, apart:11, size:.45},
+          {id:'nostrils', kind:'dot', color:'#5b4666', on:'Muzzle', spots:[[1.6,26],[1.6,-26]], size:.32, text:'Embroider two big nostril dots on top of the muzzle.'}] },
+
+{ id:'tiger', name:'Tiger', cat:'safari', level:3, blurb:'Orange with bold stripes and a white muzzle',
+  yarn:{A:['Marigold','#f08a2e'],B:['Coal','#2f2c35'],C:['Cream','#f6efe0']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6 | B
+(sc 4, inc)*6
+sc 36
+sc 36
+sc 36
+sc 36 | B
+sc 36
+sc 36
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | B
+sc 30
+sc 30
+sc 30 | B
+sc 30
+(sc 3, dec)*6
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Muzzle', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{round:3.4, angles:[48,-48]}, flat:.5, sink:.9, sew:'Pinch flat and sew to each side of the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x2 | B
+sc 4 | x2
+sc 4 | x2 | B
+sc 4 | x2
+sc 4 | x2 | B`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1, sink:.3, sew:'Sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:11},
+          {id:'nose', kind:'dot', color:'#e9718f', on:'Muzzle', round:0, angle:0, size:.5, text:'Embroider a pink nose on the tip of the muzzle.'}] },
+
+{ id:'sloth', name:'Sloth', cat:'safari', level:3, blurb:'Long arms and sleepy eye patches',
+  yarn:{A:['Driftwood','#a8896a'],B:['Cream','#eee3cc'],C:['Cocoa','#3b2f2a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Face patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{round:8.4, angle:0}, sew:'Sew flat over the middle of the face.'},
+   {name:'Eye patch', color:'C', conform:true, rows:`
+mr 6
+inc*6`, at:{spots:[[7.3,46],[8.4,34],[7.3,-46],[8.4,-34]]}, sew:'Sew two to each side, slanting down toward the nose.'},
+   {name:'Arm', color:'A', rows:`
+mr 6 | C
+sc 6 | x2 | C
+sc 6 | x9`, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck. The dark end is the claws.'},
+   {name:'Foot', color:'A', rows:`
+mr 6 | C
+(sc, inc)*3 | C
+sc 9 | x3`, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, flat:.4, sink:.7, sew:'Sew to the front of the base.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.9, apart:8, size:.45, lift:.4},
+          {id:'nose', kind:'dot', color:'#3b2f2a', round:9.8, angle:0, size:.4, text:'Embroider a small dark nose.'},
+          {id:'smile', kind:'line', color:'#3b2f2a', pts:[[10.6,-9],[11,0],[10.6,9]], text:'Embroider a gentle smile.'}] },
+
+// woodland and pets
+{ id:'hedgehog', name:'Hedgehog', cat:'woodland', level:2, blurb:'A back of short spikes, pale face',
+  yarn:{A:['Bramble','#6b4a34'],B:['Oat','#efe3cd'],C:['Coal','#34262a']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'B', rows:EGG},
+   {name:'Spike', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2`, at:{spots:[[4.5,115],[4.5,-115],[3.5,180],[7,100],[7,-100],[6.5,140],[6.5,-140],[6,180],[10,95],[10,-95],[9.5,135],[9.5,-135],[9.2,180],[13,105],[13,-105],[12.8,145],[12.8,-145],[12.5,180],[15.4,125],[15.4,-125],[15.4,180]]}, aimRel:[1,.25], mix:.5, sink:.3, sew:'Sew the spikes in rows over the back and sides, leaving the face and belly bare.'},
+   {name:'Snout', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2`, at:{round:10, angle:0}, aim:[0,-.1,1], mix:.8, stuff:.6, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{round:4.2, angles:[48,-48]}, flat:.5, sink:.8, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body so the toes poke out in front.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8, apart:8, size:.46},
+          {id:'nose', kind:'dot', color:'#2b1f22', on:'Snout', round:0, angle:0, size:.45, text:'Embroider a small dark nose on the tip of the snout.'}] },
+
+{ id:'squirrel', name:'Squirrel', cat:'woodland', level:2, blurb:'A big bushy tail curled up the back',
+  yarn:{A:['Rust','#c4672f'],B:['Cream','#f3e6cf'],C:['Acorn','#8a4a24']}, view:.55,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Belly patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:13, angle:0}, sew:'Sew flat to the front of the belly.'},
+   {name:'Tail', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+sc 12 | x2
+(sc, inc)*6
+sc 18 | x3
+(sc 2, inc)*6
+sc 24 | x2
+(sc 2, dec)*6
+sc 18 | x2`, at:{round:15, angle:180}, aim:[0,.9,-.8], mix:.85, bend:-1, stuff:.8, sink:.6, sew:'Stuff lightly and sew low on the back so it curves up behind.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:3.4, angles:[42,-42]}, aimRel:[.5,1], mix:.6, flat:.5, sink:.7, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Cheek', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{round:10.2, angles:[22,-22]}, stuff:.7, sink:.5, flat:.3, sew:'Sew a small pale cheek on each side of the nose.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:9, size:.5},
+          {id:'nose', kind:'dot', color:'#3a2418', round:9.9, angle:0, size:.4, text:'Embroider a small dark nose.'}] },
+
+{ id:'raccoon', name:'Raccoon', cat:'woodland', level:3, blurb:'Eye mask patches and a ringed tail',
+  yarn:{A:['Ash','#9a9ca3'],B:['Cloud','#eceae6'],C:['Coal','#34323a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Eye mask', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:7.8, angles:[28,-28]}, sew:'Sew one dark patch around each eye position.'},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{round:3.4, angles:[48,-48]}, flat:.5, sink:.9, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+sc 12 | A
+sc 12 | A
+sc 12 | C
+sc 12 | C
+(sc, inc)*6 | A
+sc 18 | A
+sc 18 | C
+sc 18 | C
+sc 18 | A
+sc 18 | A`, at:{round:21.6, angle:180}, aim:[0,.5,-1], mix:.8, bend:-1, stuff:.7, sink:.4, sew:'Stuff lightly and sew to the lower back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.8, apart:10, lift:.35, size:.5, text:'Push the safety eyes through the middle of the dark patches.'},
+          {id:'nose', kind:'dot', color:'#2b2630', on:'Muzzle', round:0, angle:0, size:.5, text:'Embroider a dark nose on the tip of the muzzle.'}] },
+
+{ id:'dog', name:'Dog', cat:'pets', level:3, blurb:'Floppy ears, muzzle and a wagging tail',
+  yarn:{A:['Biscuit','#c99a63'],B:['Cream','#f3e8d3'],C:['Cocoa','#6a4528']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Ear', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc, dec)*6`, at:{round:4, angles:[62,-62]}, aimRel:[.6,-1], mix:.8, flat:.5, sink:.9, sew:'Flatten and sew by the top of the head so the ears hang down.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'},
+   {name:'Foot', color:'B', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+sc 6 | x2
+(sc, dec)*2
+sc 4 | x6`, at:{round:21.6, angle:180}, aim:[0,.7,-1], mix:.8, bend:-.7, stuff:.5, sink:.3, sew:'Sew to the lower back, curving up.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:7.6, apart:11, size:.5},
+          {id:'nose', kind:'dot', color:'#2b2226', on:'Muzzle', round:0, angle:0, size:.6, text:'Embroider a big dark nose on the tip of the muzzle.'},
+          {id:'mouth', kind:'line', color:'#3a2a22', pts:[[11.6,-9],[12,0],[11.6,9]], text:'Embroider a small smile under the muzzle.'}] },
+
+{ id:'hamster', name:'Hamster', cat:'pets', level:1, blurb:'A round body with puffy cheeks',
+  yarn:{A:['Honey','#dba867'],B:['Cream','#f6ecd8'],C:['Blush','#f0a6a6']}, view:.28,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:EGG},
+   {name:'Belly patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:14, angle:0}, sew:'Sew flat to the front of the belly.'},
+   {name:'Cheek', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Add a pinch of stuffing.
+dec*6
+!close:`, at:{round:10.4, angles:[44,-44]}, sink:1.7, sew:'Sew one puffy cheek on each side of the face.'},
+   {name:'Ear', color:'C', rows:`
+mr 6
+inc*6
+sc 12`, at:{round:3.8, angles:[45,-45]}, flat:.5, sink:.7, sew:'Pinch flat and sew to the top of the head.'},
+   {name:'Foot', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9`, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.2, apart:8, size:.44},
+          {id:'nose', kind:'dot', color:'#e9718f', round:9.6, angle:0, size:.36, text:'Embroider a tiny pink nose.'}] },
+
+{ id:'parrot', name:'Parrot', cat:'pets', level:3, blurb:'Two-color body, beak and long tail',
+  yarn:{A:['Parrot green','#4fbf5a'],B:['Sun yellow','#f6d04a'],C:['Coral','#ee6a4c'],D:['Sky','#3d8fe0']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff:
+(sc, dec)*6 | B
+dec*6 | B
+!close:`},
+   {name:'Beak', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2`, at:{round:9.4, angle:0}, aim:[0,-.5,1], mix:.8, bend:.6, sink:.3, sew:'Sew the hooked beak between the eyes, curving down.'},
+   {name:'Wing', color:'D', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4
+(sc, dec)*3`, at:{round:11.5, angles:[82,-82]}, aimRel:[.45,-1], mix:.75, flat:.45, sink:.5, sew:'Flatten and sew to each side, pointing down.'},
+   {name:'Tail feather', color:'C', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x4`, at:{spots:[[15.5,180],[15.8,155],[15.8,-155]]}, aim:[0,-.8,-.6], mix:.85, flat:.4, sink:.4, sew:'Flatten and sew three long feathers to the back, trailing down.'},
+   {name:'Foot', color:'C', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8, apart:9, size:.46}] }
 ];
 
 /* =====================================================================
@@ -2171,29 +3351,43 @@ const built={};
 const getCreature=id=>built[id]||(built[id]=buildCreature(CREATURES.find(c=>c.id===id)));
 const grid=$('#grid');
 const LVL=['','Beginner','Easy','A bit more'];
-CREATURES.forEach(def=>{
-  const b=document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=def.id;
-  b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
-  b.addEventListener('click',()=>{ location.hash=def.id; });
-  grid.appendChild(b);
-});
+const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['food','Food'],['things','Things']];
+const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat===key)})).filter(c=>c.defs.length);      // the gallery, one shelf per category
+{ const chip=(key,label,n)=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'; b.dataset.c=key; b.setAttribute('aria-pressed',String(key==='all')); b.innerHTML=`${label}<small>${n}</small>`; $('#cats').appendChild(b); };
+  chip('all','All',CREATURES.length);
+  for(const c of SHELF){
+    chip(c.key,c.label,c.defs.length);
+    const sec=document.createElement('section'); sec.className='cat'; sec.dataset.cat=c.key; sec.innerHTML=`<h2>${c.label} <small></small></h2><div class="grid"></div>`;
+    for(const def of c.defs){
+      const b=document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=def.id;
+      b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
+      b.addEventListener('click',()=>{ location.hash=def.id; });
+      sec.lastChild.appendChild(b);
+    }
+    grid.appendChild(sec);
+  } }
 // what each card knows about you: how far you got, and whether you have made it
 function refreshCards(){
-  const f=S.filter||'all'; let going=0, made=0, shown=0;
-  for(const def of CREATURES){
-    const el=grid.querySelector(`[data-id="${def.id}"]`), e=store.entry(def.id), pct=e.c&&e.n?e.c/e.n:0, isMade=!!e.made;
-    if(pct) going++; if(isMade) made++;
-    el.querySelector('.prog').hidden=!(pct||isMade); el.querySelector('.prog i').style.width=(pct?pct*100:100)+'%';
-    el.querySelector('.state').textContent=pct?`${Math.round(pct*100)}% done · carry on`:isMade?'✓ Made':'';
-    el.classList.toggle('made',isMade&&!pct);
-    el.hidden = f==='creature'?def.kind==='object' : f==='object'?def.kind!=='object' : f==='going'?!pct : f==='made'?!isMade : false;
-    if(!el.hidden) shown++;
+  const cat=S.cat||'all', f=S.filter||''; let going=0, made=0, shown=0;
+  for(const c of SHELF){
+    let here=0;
+    for(const def of c.defs){
+      const el=grid.querySelector(`[data-id="${def.id}"]`), e=store.entry(def.id), pct=e.c&&e.n?e.c/e.n:0, isMade=!!e.made;
+      if(pct) going++; if(isMade) made++;
+      el.querySelector('.prog').hidden=!(pct||isMade); el.querySelector('.prog i').style.width=(pct?pct*100:100)+'%';
+      el.querySelector('.state').textContent=pct?`${Math.round(pct*100)}% done · carry on`:isMade?'✓ Made':'';
+      el.classList.toggle('made',isMade&&!pct);
+      el.hidden=(cat!=='all'&&cat!==c.key) || (f==='going'&&!pct) || (f==='made'&&!isMade);
+      if(!el.hidden) here++;
+    }
+    const sec=grid.querySelector(`[data-cat="${c.key}"]`); sec.hidden=!here; sec.querySelector('h2 small').textContent=`${here} ${here===1?'pattern':'patterns'}`; shown+=here;
   }
   $('#tally').textContent=`${CREATURES.length} patterns`+(going?` · ${going} in progress`:'')+(made?` · ${made} made`:'');
   $('#none').hidden=shown>0;
 }
-document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{
-  S.filter=b.dataset.f; document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed',String(q===b))); refreshCards();
+$('#cats').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; S.cat=b.dataset.c; [...$('#cats').children].forEach(q=>q.setAttribute('aria-pressed',String(q===b))); refreshCards(); });
+document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{      // In progress / Made: press again to clear
+  S.filter=S.filter===b.dataset.f?'':b.dataset.f; document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed',String(q.dataset.f===S.filter))); refreshCards();
 }));
 function renderThumb(def){
   const cr=getCreature(def.id), v=makeView(cr);
@@ -2208,7 +3402,7 @@ function renderThumb(def){
   const t=grid.querySelector(`[data-id="${def.id}"] .thumb`); t.textContent=''; t.appendChild(img);
   const sub=grid.querySelector(`[data-id="${def.id}"] .sub`); sub.textContent=`${def.blurb} · ${cr.insts.length} stitches`;
 }
-let thumbQueue=CREATURES.slice();
+let thumbQueue=SHELF.flatMap(c=>c.defs);      // pictures are made in the order the shelves show them
 function thumbTick(){
   if(S.cr){ setTimeout(thumbTick,400); return; }
   const def=thumbQueue.shift(); if(!def) return;
