@@ -7509,11 +7509,11 @@ function timing(cr){
 // k: times as big · rate: how fast the stitches go next to chunky yarn · over: how much longer the stuffing and sewing take.
 // Yarn and hook are a guide (what sets the size is the gauge), and rate and over are estimates: thread is fiddly, giant yarn is heavy.
 const SIZES=[
-  {k:.25,l:'¼',name:'Quarter size',yarn:'fine crochet thread, about size 30',in:'crochet thread',hook:'a 0.75 mm steel hook',rate:.55,over:.8},
+  {k:.25,l:'¼',name:'Quarter size',yarn:'fine crochet thread (about size 30)',in:'crochet thread',hook:'a 0.75 mm steel hook',rate:.55,over:.8},
   {k:.5, l:'½',name:'Half size',yarn:'fingering (sock) yarn',in:'sock yarn',hook:'a 2 mm hook',rate:.85,over:.9},
   {k:1,  l:'1×',name:'Full size',yarn:'chunky yarn',in:'chunky yarn',hook:'a 4 mm hook',rate:1,over:1},
   {k:2,  l:'2×',name:'Twice the size',yarn:'jumbo blanket yarn',in:'jumbo yarn',hook:'a 10 mm hook',rate:.75,over:1.6},
-  {k:3,  l:'3×',name:'Three times the size',yarn:'giant tube yarn, or three strands of jumbo held together',in:'giant yarn',hook:'a 20 mm hook',rate:.55,over:2.4}];
+  {k:3,  l:'3×',name:'Three times the size',yarn:'giant tube yarn, or three strands of jumbo held together',in:'giant yarn',hook:'a 20 mm hook',rate:.55,over:2.4,multi:'Three strands of jumbo held together take three times those lengths of it.'}];
 const FULL=SIZES[2], sizeOf=id=>{ const k=store.entry(id).k; return SIZES.find(z=>z.k===k)||FULL; };      // the size you picked for a pattern is remembered with your progress
 function minutesLeft(cr,i=0,z=FULL){ timing(cr); const n=cr.steps.length; return (cr.instAt[n]-cr.instAt[i])/(RATE*z.rate)+(cr.ovAt[n]-cr.ovAt[i])*z.over; }
 const fmtCm=v=>v>=10?String(Math.round(v)):String(+v.toFixed(1));
@@ -8048,7 +8048,7 @@ function renderNow(){
       if(st.st.rep && st.st.rep.of>1 && S.mode!=='lapse') action+=` (Repeat ${st.st.rep.i} of ${st.st.rep.of}.)`;
       if(S.mode==='lapse') action='Time-lapse: every loop is one stitch, added in the order you will make it.';
       else if(S.expert) hooks=true;
-    }else{ b='DO'; cls='note'; formula = st.fin?'Finishing touches':'Between rounds'; action=st.text; bar=1; if(S.mode==='lapse'&&S.playing) action='Time-lapse: every loop is one stitch, added in the order you will make it.'; }
+    }else{ b='DO'; cls='note'; formula = st.fin?'Finishing touches':'Between rounds'; action=sayNote(cr,st); bar=1; if(S.mode==='lapse'&&S.playing) action='Time-lapse: every loop is one stitch, added in the order you will make it.'; }
   }
   badge.textContent=b; badge.className='badge '+cls;
   $('#nTitle').textContent=title; $('#nFormula').textContent=formula; $('#nCount').innerHTML=count; $('#nAction').textContent=action;
@@ -8115,7 +8115,7 @@ function buildPatternPanel(cr){
     h.lastChild.textContent=(info.copies.length>1?`make ${info.copies.length} · `:'')+cols.map(c=>yarn[c][0]).join(' + ');
     d.appendChild(h);
     const addNote=t=>{ const p=document.createElement('p'); p.className='pnote'; p.textContent=t; d.appendChild(p); };
-    const noteText=nt=>{ const s=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return s?s.text:nt.text; };
+    const noteText=nt=>{ const s=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return s?sayNote(cr,s):nt.text; };
     let i=0;
     while(i<=info.N){
       for(const nt of info.notes) if(nt.after===i){ const t=noteText(nt); if(t) addNote(t); }
@@ -8134,18 +8134,53 @@ function buildPatternPanel(cr){
     host.appendChild(d);
   }
   const fins=cr.steps.filter(s=>s.fin);
-  if(fins.length){ const d=document.createElement('div'); d.className='part'; d.innerHTML='<h3>Finishing touches</h3>'; for(const s of fins){ const p=document.createElement('p'); p.className='pnote'; p.textContent=s.text; d.appendChild(p); } host.appendChild(d); }
+  if(fins.length){ const d=document.createElement('div'); d.className='part'; d.innerHTML='<h3>Finishing touches</h3>'; for(const s of fins){ const p=document.createElement('p'); p.className='pnote'; p.textContent=sayNote(cr,s); d.appendChild(p); } host.appendChild(d); }
+}
+// What the eyes are at this size and in this style: safety eyes, beads when they would be too small to buy, or embroidery
+function eyePlan(cr){
+  const eyes=cr.extras.filter(x=>x.e.kind==='eye'), n=eyes.reduce((a,x)=>a+x.pts.length,0), es=look(cr).st.e;
+  if(!n) return {n, kind:'none'};
+  if(es==='sleepy'||es==='happy') return {n, kind:'sewn', es};
+  const want=2*(eyes[0].e.size||.58)*EYE*(es==='small'?.72:1)*CM*10*S.size.k, mm=[3,4,5,6,7,8,9,10,12,14,15,16,18,20,24,30,35,40].reduce((a,b)=>Math.abs(b-want)<Math.abs(a-want)?b:a);      // the nearest size safety eyes are sold in
+  return {n, mm, kind:mm<5?'bead':'safety'};
+}
+// A note as it reads at this size and in this style. An eye note still says where the eyes go, after saying what they are now.
+function sayNote(cr,s){
+  if(!s||!s.text) return s?s.text:'';
+  if(s.key!=='eyes' && !cr.extras.some(x=>x.e.kind==='eye'&&x.stepRef===s)) return s.text;
+  const p=eyePlan(cr), when=s.fin?'Sew them on where the pattern puts the eyes.':'Mark the places with pins for now and sew them on at the end.';
+  if(p.kind==='bead') return `At ${S.size.name.toLowerCase()} the eyes are ${p.mm} mm beads or French knots, not safety eyes. ${when} As written: ${s.text}`;
+  if(p.kind==='sewn') return `${EYES[p.es]} eyes are embroidered, so leave the safety eyes out. ${s.fin?'Embroider them where the pattern puts the eyes.':'Mark the places with pins for now and embroider them at the end.'} As written: ${s.text}`;
+  return s.text;
+}
+// How much yarn. A single crochet takes about YARN_CM of yarn at full size (ten stitches = 7.5 cm): measured figures run from
+// 4.6 cm a stitch in worsted on a 5 mm hook to 7 cm in bulky on a 6.5 mm one, and this gauge sits between. It goes up and down
+// with the size, since a stitch twice as wide is twice as long a path. Each piece adds its tails, the lot gets a tenth to spare,
+// and the answer is rounded up. It is an estimate: tension changes it by a fifth either way.
+const YARN_CM=5, yarnStep=v=>{ const s=v<=20?1:v<=100?5:v<=400?10:25; return Math.max(1,Math.ceil(v/s-1e-9)*s); };
+function yarnNeed(cr){
+  const lk=look(cr), z=S.size, key=JSON.stringify(lk.st), two=lk.st.o==='stripes'||lk.st.o==='dipped';
+  if(!cr.yn||cr.yn.key!==key){      // stitches in each yarn, in this style
+    const n={}, tail={}; let a=0;
+    for(let i=0;i<cr.insts.length;i++){ const k=cr.insts[i].color; if(two&&lk.at(i)!==lk.pal[k]) a++; else n[k]=(n[k]||0)+1; }
+    for(const c of cr.copies){ const k=c.info.pd.color; tail[k]=(tail[k]||0)+(c.info.pd.root?25:45); }      // a tail to start, and a long one to sew a piece on with
+    cr.yn={key,n,a,tail};
+  }
+  const per=UNIT==='in'?91.44:100, unit=UNIT==='in'?'yd':'m', q=(st,t)=>yarnStep((st*YARN_CM*z.k+t*Math.max(.5,z.k))*1.1/per), amt={};
+  let total=0; for(const k in lk.yarn){ const st=cr.yn.n[k]||0; total+=amt[k]=st?q(st,cr.yn.tail[k]||0):0; }
+  const alt=two&&cr.yn.a?q(cr.yn.a,20):0;
+  return {amt,alt,total:total+alt,unit};
 }
 function materialLines(cr){
   const z=S.size, lk=look(cr), yarn=lk.yarn, out=[], add=(sw,txt)=>out.push([sw,txt]);
-  for(const k in yarn) add(yarn[k][1], `${yarn[k][0]}: ${z.yarn}`+(k===lk.main&&lk.st.o==='speckled'?', a flecked (tweed) one':''));
-  if(lk.st.o==='stripes'||lk.st.o==='dipped') add(lk.altHex, `${lk.altName[0].toUpperCase()+lk.altName.slice(1)}: ${z.yarn}, for the ${lk.st.o==='stripes'?'stripes':'dipped end'}`);
-  const eyes=cr.extras.filter(x=>x.e.kind==='eye'), nEyes=eyes.reduce((a,x)=>a+x.pts.length,0), es=lk.st.e;
-  if(nEyes && (es==='sleepy'||es==='happy')) add('#17131d','Black embroidery thread, for the closed eyes');
-  else if(nEyes){      // the nearest size safety eyes are sold in
-    const want=2*(eyes[0].e.size||.58)*EYE*(es==='small'?.72:1)*CM*10*z.k, mm=[3,4,5,6,7,8,9,10,12,14,15,16,18,20,24,30,35,40].reduce((a,b)=>Math.abs(b-want)<Math.abs(a-want)?b:a);
-    add('#17131d', mm<5?`${nEyes} tiny eyes: ${mm} mm beads, or French knots in black thread`:mm>24?`${nEyes} big safety eyes, about ${mm} mm, or circles of black felt`:`${nEyes} safety eyes, about ${mm} mm`);
-  }
+  const need=yarnNeed(cr), of=v=>v?`about ${v} ${need.unit} of ${z.yarn}`:`a little ${z.yarn}`;
+  const sewn=k=>!need.amt[k]&&cr.extras.some(x=>x.e.color===k||(x.e.color||'').toLowerCase()===cr.def.yarn[k][1].toLowerCase());      // a yarn with no stitches in it is there for the embroidery
+  for(const k in yarn) add(yarn[k][1], `${yarn[k][0]}: ${of(need.amt[k])}`+(k===lk.main&&lk.st.o==='speckled'?', a flecked (tweed) one':'')+(sewn(k)?', for the embroidery':''));
+  if(lk.st.o==='stripes'||lk.st.o==='dipped') add(lk.altHex, `${lk.altName[0].toUpperCase()+lk.altName.slice(1)}: ${of(need.alt)}, for the ${lk.st.o==='stripes'?'stripes':'dipped end'}`);
+  if(z.multi) add('', z.multi);
+  const ep=eyePlan(cr), nEyes=ep.n, mm=ep.mm;
+  if(ep.kind==='sewn') add('#17131d','Black embroidery thread, for the closed eyes');
+  else if(nEyes) add('#17131d', ep.kind==='bead'?`${nEyes} tiny eyes: ${mm} mm beads, or French knots in black thread`:mm>24?`${nEyes} big safety eyes, about ${mm} mm, or circles of black felt`:`${nEyes} safety eyes, about ${mm} mm`);
   add('', `${z.hook[0].toUpperCase()+z.hook.slice(1)}, stitch marker, yarn needle`);
   add('', 'Fiberfill stuffing');
   add('', `Gauge: ten stitches side by side should measure about ${fmtLen(7.5*z.k)}. That is what sets the size; change hook if yours differ`);
@@ -8154,7 +8189,7 @@ function materialLines(cr){
   return out;
 }
 function buildMaterials(cr){
-  const host=$('#materials'); host.textContent='';
+  const host=$('#materials'); host.textContent=''; { const y=yarnNeed(cr); S.yarnAll=`${y.total} ${y.unit}`; }
   const ul=document.createElement('ul'); ul.className='mat';
   for(const [sw,txt] of materialLines(cr)){ const l=document.createElement('li'); l.innerHTML=(sw?`<span class="sw" style="background:${sw}"></span>`:'')+'<span></span>'; l.lastChild.textContent=txt; ul.appendChild(l); }
   host.appendChild(ul);
@@ -8189,7 +8224,7 @@ function restyle(){      // the model is made again in its new style, where you 
 }
 // The whole pattern as plain text, the way patterns have always been written down
 function classicText(cr){
-  const def=cr.def, z=S.size, lk=look(cr), yarn=lk.yarn, L=[], up=t=>t.toUpperCase(), sewnEyes=lk.st.e==='sleepy'||lk.st.e==='happy';
+  const def=cr.def, z=S.size, lk=look(cr), yarn=lk.yarn, L=[], up=t=>t.toUpperCase();
   const word=(src,prev)=>{ let m;
     if(m=src.match(/^mr\s+(\d+)$/)) return `${m[1]} sc in a magic ring`;
     if(/^sc\s+\d+$/.test(src)) return 'sc in each st around';
@@ -8203,10 +8238,10 @@ function classicText(cr){
   for(const info of cr.partInfo){
     const cols=[...new Set(info.rounds.map(r=>r.color))];
     L.push('', `${up(info.pd.name)} (${info.copies.length>1?`make ${info.copies.length}, `:''}${cols.map(c=>yarn[c][0]).join(' and ')})`);
-    const noteText=nt=>{ const q=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return q?q.text:nt.text; };
+    const noteText=nt=>{ const q=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return q?sayNote(cr,q):nt.text; };
     let i=0, colNow=info.pd.color;
     while(i<=info.N){
-      for(const nt of info.notes) if(nt.after===i){ const t=nt.key&&/^eyes/.test(nt.key)&&sewnEyes?'Mark where the eyes will go with two pins. They are embroidered at the end (see Style).':noteText(nt); if(t) L.push('    '+t); }
+      for(const nt of info.notes) if(nt.after===i){ const t=noteText(nt); if(t) L.push('    '+t); }
       if(i===info.N) break;
       let j=i; while(j+1<info.N && info.rounds[j+1].src===info.rounds[i].src && info.rounds[j+1].color===info.rounds[i].color && !info.notes.some(n=>n.after===j+1)) j++;
       const rd=info.rounds[i]; if(rd.color!==colNow){ L.push(`    Change to ${yarn[rd.color][0]}.`); colNow=rd.color; }
@@ -8215,7 +8250,7 @@ function classicText(cr){
     }
     if(!info.pd.root){ const q=cr.steps.find(x=>x.kind==='note'&&x.key==='sew'&&x.copy===info.copies[0]); if(q) L.push('    '+q.text); }
   }
-  const fins=cr.steps.filter(q=>q.fin); if(fins.length){ L.push('','FINISHING'); for(const q of fins) if(q.text) L.push('  '+q.text); }
+  const fins=cr.steps.filter(q=>q.fin); if(fins.length){ L.push('','FINISHING'); for(const q of fins) if(q.text) L.push('  '+sayNote(cr,q)); }
   return L.join('\n');
 }
 $('#bClassic').addEventListener('click',()=>{ if(!S.cr) return; $('#clText').textContent=classicText(S.cr); const d=$('#classic'); if(d.showModal) d.showModal(); else d.setAttribute('open',''); $('#clText').scrollTop=0; });
@@ -8228,7 +8263,7 @@ function buildSizes(cr){
   const host=$('#sizes'); host.textContent='';
   for(const z of SIZES){
     const b=document.createElement('button'); b.type='button'; b.innerHTML='<b></b><span></span><em></em><i></i>'; b.children[0].textContent=z.l; b.children[1].textContent=fmtLen(cr.heightCm*z.k); b.title=`${z.name}: ${z.yarn}`;
-    b.addEventListener('click',()=>{ S.size=z; store.set(cr.def.id,{k:z.k}); buildMaterials(cr); S.sizeKey=''; setCursor(S.cur); });
+    b.addEventListener('click',()=>{ S.size=z; store.set(cr.def.id,{k:z.k}); buildPatternPanel(cr); buildMaterials(cr); S.sizeKey=''; setCursor(S.cur); });
     host.appendChild(b);
   }
   S.sizeKey=''; sizeTick();
@@ -8238,7 +8273,7 @@ function sizeTick(){
   const going=S.cur>0&&S.cur<cr.steps.length, put=(el,t)=>{ if(el.textContent!==t) el.textContent=t; };
   SIZES.forEach((z,i)=>{ const b=bs[i]; b.setAttribute('aria-pressed',String(z===S.size)); put(b.children[2],fmtShort(minutesLeft(cr,0,z))); put(b.children[3],going?fmtShort(minutesLeft(cr,S.cur,z))+' left':''); });
   const z=S.size;
-  put($('#sizeNote'),`${z.name}: ${z.yarn} and ${z.hook}. Ten stitches side by side should measure about ${fmtLen(7.5*z.k)}. About ${fmtTime(minutesLeft(cr,0,z))} to make`+(going?`, about ${fmtTime(minutesLeft(cr,S.cur,z))} left.`:'.'));
+  put($('#sizeNote'),`${z.name}: ${z.yarn} and ${z.hook}. Ten stitches side by side should measure about ${fmtLen(7.5*z.k)}. About ${S.yarnAll} of yarn in all. About ${fmtTime(minutesLeft(cr,0,z))} to make`+(going?`, about ${fmtTime(minutesLeft(cr,S.cur,z))} left.`:'.'));
 }
 
 /* controls */

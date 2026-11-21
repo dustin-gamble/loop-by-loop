@@ -48,6 +48,15 @@ checked to add up, but the patterns have not been test-crocheted.
   are a guide. The time factors are estimates, not measurements: thread and giant yarn are both taken to be slower
   per stitch than chunky (0.55 to 0.85 of the pace), and stuffing and sewing to take 0.8 to 2.4 times as long.
   The size you pick is remembered, shows on the card, and the pattern stands at that size in the line-up.
+  The rounds are the same at every size; what changes is the list of what you need (yarn, hook, eye size, gauge,
+  height, time). Where the eyes come out under 5 mm the list says beads or French knots, and the eye notes in the
+  written pattern, the old-school text and the step card say so too, ahead of the note as written (`eyePlan`, `sayNote`).
+- **How much yarn:** the list of what you need gives a length for each color (yards, or metres if sizes are in
+  centimetres), and *How big?* gives the total. It is an estimate (`yarnNeed`): 5 cm of yarn a stitch at full size
+  (`YARN_CM`), times the size, plus a tail to start each piece and a long one to sew it on, plus a tenth, rounded up.
+  The 5 cm sits between two published measurements, 4.6 cm a stitch in worsted on a 5 mm hook and 7 cm in bulky on a
+  6.5 mm hook; nobody has measured it at this gauge, and tension moves it by a fifth either way. Stripes and dipped
+  ends are counted stitch by stitch. A color with no stitches in it is listed as "a little", for the embroidery.
 - **Style** on a pattern's page: colours (pastel, bright, Christmas, autumn, ocean, candy), an outside (stripes,
   dipped, speckled) and eyes (big, small, sleepy, happy). The model, the card picture and the line-up all wear it,
   and the list of what you need and the written pattern say what to do differently (`look`, `yarnOf`, `styleNote`).
