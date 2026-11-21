@@ -6,7 +6,7 @@
 <title>Loop by Loop Crochet Studio</title>
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
-<meta property="og:description" content="A 3D crochet stitch-along: 123 amigurumi patterns, animals and objects, all standing together to scale, every stitch shown as real yarn.">
+<meta property="og:description" content="A 3D crochet stitch-along: 150 amigurumi patterns, animals, fruit and veg, Christmas and more, all standing together to scale, every stitch shown as real yarn.">
 <meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
 <link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
 <script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
@@ -83,6 +83,8 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 .lu-tip[hidden]{display:none}
 .lu-tip b{font-family:var(--font-display);font-weight:600;font-size:.95rem}
 .lu-tip span{opacity:.82}
+.lu-ref{position:absolute;transform:translate(-50%,-100%);pointer-events:none;background:color-mix(in srgb,var(--surface) 84%,transparent);color:var(--muted);border:1px solid var(--line);padding:3px 9px;border-radius:10px;font-size:.7rem;font-weight:800;line-height:1.3;white-space:nowrap}
+.lu-ref[hidden]{display:none}
 .lu-bar{position:absolute;left:10px;right:10px;bottom:9px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;pointer-events:none;font-size:.76rem;font-weight:700;color:var(--muted)}
 .lu-bar>span:first-child{background:color-mix(in srgb,var(--surface) 82%,transparent);padding:6px 11px;border-radius:14px;line-height:1.3;min-width:0}
 .lu-zoom{display:flex;gap:6px;flex:none}
@@ -90,6 +92,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 .card .facts{font-size:.76rem;font-weight:700;color:var(--ink);opacity:.82;font-variant-numeric:tabular-nums}
 .card .facts:empty{display:none}
 .card.flash{outline:3px solid var(--accent);outline-offset:3px;border-color:var(--accent)}
+.rate+.rate{margin-left:0}
 .rate{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--muted)}
 .rate select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
 
@@ -210,6 +213,33 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
 .rnd.on{background:var(--ink);color:var(--paper)}
 .rnd.on b,.rnd.on em{color:var(--paper)}
 .pnote{margin:2px 0 2px 8px;padding-left:10px;border-left:3px solid var(--sun);font-size:.84rem;color:var(--muted)}
+.sizebox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px 13px}
+.sizebox h3{margin:0 0 9px;font-family:var(--font-display);font-weight:600;font-size:1.02rem}
+.sizes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.sizes button{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;padding:8px 2px 7px;border-radius:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:.72rem;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}
+.sizes button b{font-family:var(--font-display);font-size:1.12rem;font-weight:600;line-height:1.15}
+.sizes button em{font-style:normal;color:var(--muted)}
+.sizes button i{font-style:normal;color:var(--accent);min-height:1.25em}
+.sizes button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sizes button[aria-pressed="true"] em{color:inherit;opacity:.8}
+.sizes button[aria-pressed="true"] i{color:var(--sun)}
+#sizeNote{margin:10px 0 0;font-size:.82rem;line-height:1.45;color:var(--muted);font-weight:600}
+.stylerow{display:flex;gap:10px;align-items:baseline;margin-top:8px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.stylerow>span{flex:none;width:4.4em}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips .pill{font-size:.76rem;padding:6px 10px;color:var(--ink)}
+.chips .pill[aria-pressed="true"]{color:var(--paper)}
+#styleNote{margin:10px 0 0;font-size:.82rem;line-height:1.45;color:var(--muted);font-weight:600}
+#styleNote:empty{display:none}
+dialog#classic{width:min(760px,94vw);max-height:88vh;padding:0;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:var(--ink);overflow:hidden}
+dialog#classic[open]{display:flex;flex-direction:column}
+dialog#classic::backdrop{background:rgba(16,10,30,.55)}
+.cl-bar{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.cl-bar b{font-family:var(--font-display);font-weight:600;font-size:1.05rem;margin-right:auto}
+#clText,#printOnly{margin:0;white-space:pre-wrap;font:.84rem/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+#clText{padding:16px 18px 22px;overflow:auto}
+#printOnly{display:none}
+@media print{ body.pr>*{display:none!important} body.pr>#printOnly{display:block!important;color:#000;font-size:10.5pt} }
 .mat{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
 .mat li{display:flex;align-items:center;gap:8px}
 .key{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.88rem;margin:0}
@@ -234,6 +264,7 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
   <section class="lineup" id="lineup" aria-label="Every pattern side by side, to scale">
     <canvas id="lu"></canvas>
     <div class="lu-tip" id="luTip" hidden></div>
+    <div class="lu-ref" id="luRef" hidden>House cat 45 cm &middot; ruler 30 cm</div>
     <div class="lu-bar"><span id="luMsg">Setting everything out…</span><span class="lu-zoom"><button type="button" id="luOut" aria-label="Zoom out">&minus;</button><button type="button" id="luIn" aria-label="Zoom in">+</button></span></div>
   </section>
   <div class="filters" id="cats" role="group" aria-label="Category"></div>
@@ -241,6 +272,7 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
     <button class="pill small" type="button" data-f="going" aria-pressed="false">In progress</button>
     <button class="pill small" type="button" data-f="made" aria-pressed="false">Made</button>
     <button class="pill small" type="button" data-f="big" aria-pressed="false">Big builds</button>
+    <label class="rate">Sizes in <select id="unit"><option value="in">inches</option><option value="cm">centimetres</option></select></label>
     <label class="rate">Your pace <select id="rate"><option value="8">relaxed · 8 stitches a minute</option><option value="12">steady · 12 a minute</option><option value="18">quick · 18 a minute</option></select></label>
     <span id="tally"></span>
   </div>
@@ -252,6 +284,8 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
   </footer>
 </main>
 
+<dialog id="classic"><div class="cl-bar"><b>Old-school pattern</b><button class="pill" id="clCopy" type="button">Copy</button><button class="pill" id="clPrint" type="button">Print</button><button class="pill" id="clClose" type="button">Close</button></div><pre id="clText"></pre></dialog>
+<pre id="printOnly"></pre>
 <section id="studio" hidden>
   <div class="stagewrap">
     <div class="topbar">
@@ -316,6 +350,13 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
       <button class="pill" id="tTurn" type="button" aria-pressed="true">Auto-turn</button>
     </div>
     <p class="keys"><kbd>Space</kbd> next stitch <kbd>&larr;</kbd> back <kbd>&darr;</kbd> one hook move <kbd>&uarr;</kbd> back a move <kbd>E</kbd> expert view <kbd>R</kbd> replay</p>
+    <div class="sizebox"><h3>How big?</h3><div class="sizes" id="sizes" role="group" aria-label="How big to make it"></div><p id="sizeNote"></p></div>
+    <div class="sizebox" id="styleBox"><h3>Style</h3>
+      <div class="stylerow"><span>Colours</span><div class="chips" id="stT"></div></div>
+      <div class="stylerow"><span>Outside</span><div class="chips" id="stO"></div></div>
+      <div class="stylerow" id="stERow"><span>Eyes</span><div class="chips" id="stE"></div></div>
+      <p id="styleNote"></p></div>
+    <div class="toggles"><button class="pill" id="bClassic" type="button">Old-school pattern: the whole thing as text</button></div>
     <details open><summary>Written pattern</summary><div class="inner" id="pattern"></div></details>
     <details id="piecesBox"><summary>Pieces <small id="pcSum"></small></summary><div class="inner" id="pieces"></div></details>
     <details><summary>What you need</summary><div class="inner" id="materials"></div></details>
@@ -610,7 +651,7 @@ sc 6 | x7`, at:{round:14.5, angles:[22.5,67.5,112.5,157.5,-157.5,-112.5,-67.5,-2
           {id:'smile', kind:'line', color:'#2b2233', pts:[[10.6,-12],[11.2,0],[10.6,12]], text:'Embroider a small smile between the eyes with dark yarn.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'mushroom', name:'Mushroom', cat:'food', level:2, blurb:'Cap and stem in one piece',
+{ id:'mushroom', name:'Mushroom', cat:'veg', level:2, blurb:'Cap and stem in one piece',
   yarn:{A:['Toadstool red','#d9483b'],B:['Oat','#efe3cd'],C:['Snow','#f8f7f3']}, eyes:2, view:.4,
   parts:[
    {name:'Cap and stem', root:true, color:'A', rows:`
@@ -1296,7 +1337,7 @@ dec*6
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.7, apart:15, size:.5, text:'Add two pink cheeks.'}] },
 
 /* ---------- things ---------- */
-{ id:'apple', name:'Apple', cat:'food', level:1, blurb:'A ball with a stem and a leaf',
+{ id:'apple', name:'Apple', cat:'veg', level:1, blurb:'A ball with a stem and a leaf',
   yarn:{A:['Apple red','#d8362f'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Apple', root:true, color:'A', rows:`
@@ -1325,7 +1366,7 @@ sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew
           {id:'smile', kind:'line', color:'#5a1410', pts:[[10.2,-11],[10.7,0],[10.2,11]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f7a3a0', round:9.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'pear', name:'Pear', cat:'food', level:1, blurb:'Narrow at the top, wide below',
+{ id:'pear', name:'Pear', cat:'veg', level:1, blurb:'Narrow at the top, wide below',
   yarn:{A:['Pear green','#b9cf4a'],B:['Twig','#7a4f2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Pear', root:true, color:'A', rows:`
@@ -1356,7 +1397,7 @@ sc 4 | x4`, at:{round:.5, angle:0}, aim:[.2,1,0], mix:.85, bend:.4, sink:.6, sew
           {id:'smile', kind:'line', color:'#4f5a1a', pts:[[14.2,-11],[14.7,0],[14.2,11]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:13.9, apart:13, size:.5, text:'Add two pink cheeks.'}] },
 
-{ id:'strawberry', name:'Strawberry', cat:'food', level:2, blurb:'A cap of five leaves, and seeds',
+{ id:'strawberry', name:'Strawberry', cat:'veg', level:2, blurb:'A cap of five leaves, and seeds',
   yarn:{A:['Strawberry','#e2364a'],B:['Leaf','#4fa64a']}, view:.3,
   parts:[
    {name:'Berry', root:true, color:'A', rows:`
@@ -1391,7 +1432,7 @@ sc 4 | x2`, at:{round:.4, angle:0}, aim:[0,1,0], mix:.9, sink:.4, sew:'Sew to th
           {id:'smile', kind:'line', color:'#5a0f1a', pts:[[9.6,-10],[10.1,0],[9.6,10]], text:'Embroider a small smile.'},
           {id:'seeds', kind:'dot', color:'#fbe9a8', spots:[[5,38],[5,-38],[6.4,92],[6.4,-92],[11.6,24],[11.6,-24],[12,72],[12,-72],[14.6,0],[15,48],[15,-48],[5.2,150],[5.2,-150],[9,180],[12.5,140],[12.5,-140]], size:.2, text:'Embroider small seeds all over with pale yellow yarn.'}] },
 
-{ id:'carrot', name:'Carrot', cat:'food', level:1, blurb:'A long, slow decrease',
+{ id:'carrot', name:'Carrot', cat:'veg', level:1, blurb:'A long, slow decrease',
   yarn:{A:['Carrot','#f08a2e'],B:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Carrot', root:true, color:'A', rows:`
@@ -1422,7 +1463,7 @@ sc 4 | x7`, at:{round:1.2, angles:[10,130,-110]}, aimRel:[.45,1], mix:.85, bend:
   extras:[{id:'eyes', kind:'eye', round:6, apart:6},
           {id:'smile', kind:'line', color:'#7a3a0c', pts:[[7.2,-12],[7.7,0],[7.2,12]], text:'Embroider a small smile.'}] },
 
-{ id:'pumpkin', name:'Pumpkin', cat:'food', level:2, blurb:'Ribs pulled in with long stitches',
+{ id:'pumpkin', name:'Pumpkin', cat:'veg', level:2, blurb:'Ribs pulled in with long stitches',
   yarn:{A:['Pumpkin','#ee8a2a'],B:['Twig','#7a5a2e'],C:['Leaf','#5fae4a']}, view:.3,
   parts:[
    {name:'Pumpkin', root:true, color:'A', rows:`
@@ -1570,7 +1611,7 @@ sc 9 | x5`, at:{round:8, angles:[88,-88]}, aimRel:[.75,1], mix:.75, stuff:.7, si
           {id:'smile', kind:'line', color:'#2c5a34', pts:[[8.5,-12],[9,0],[8.5,12]], text:'Embroider a small smile.'},
           {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.3, apart:11, size:.45, text:'Add two pink cheeks.'}] },
 
-{ id:'snowman', name:'Snowman', cat:'things', level:3, blurb:'Hat, scarf, carrot nose',
+{ id:'snowman', name:'Snowman', cat:'xmas', level:3, blurb:'Hat, scarf, carrot nose',
   yarn:{A:['Snow','#f7f6f2'],B:['Scarf red','#d8362f'],C:['Carrot','#f08a2e'],D:['Coal','#2f2c35'],E:['Twig','#7a4f2e']}, view:.3,
   parts:[
    {name:'Head and body', root:true, color:'A', rows:`
@@ -1656,7 +1697,7 @@ sc 9 | x2`, at:{round:23.5, angle:0}, aim:[0,-1,0], mix:.95, stuff:.5, sink:.6, 
   ],
   extras:[{id:'shine', kind:'dot', color:'#ffffff', round:11.6, angle:7, size:.16, text:'One small white stitch on the window makes it shine.'}] },
 
-{ id:'tree', name:'Christmas Tree', cat:'things', level:3, blurb:'Three tiers from increases and decreases',
+{ id:'tree', name:'Christmas Tree', cat:'xmas', level:3, blurb:'Three tiers from increases and decreases',
   yarn:{A:['Fir','#3f8f4f'],B:['Trunk','#7a4f2e'],C:['Star','#ffd84a']}, view:.3,
   parts:[
    {name:'Tree', root:true, color:'A', rows:`
@@ -1851,7 +1892,7 @@ sc 4 | x6`, at:{round:21.6, angle:180}, aim:[0,-.5,-1], mix:.8, sink:.3, sew:'Se
           {id:'nostrils', kind:'dot', color:'#4e4a4c', on:'Muzzle', spots:[[0,-12],[0,12]], size:.2, text:'Embroider two nostrils on the muzzle.'}] },
 
 // food and things
-{ id:'avocado', name:'Avocado', cat:'food', level:2, blurb:'Pear body, pale flesh and a round pit',
+{ id:'avocado', name:'Avocado', cat:'veg', level:2, blurb:'Pear body, pale flesh and a round pit',
   yarn:{A:['Avocado skin','#3f6b2c'],B:['Pale flesh','#c9dc83'],C:['Pit brown','#7a4a2a']}, view:.3,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -1886,7 +1927,7 @@ inc*6`, at:{round:13.8, angle:0}, sew:'Sew the round brown pit low on the pale p
   extras:[{id:'eyes', kind:'eye', round:8.8, apart:7, size:.45, lift:.35},
           {id:'smile', kind:'line', color:'#2f3d1c', pts:[[10.4,-6],[10.9,0],[10.4,6]], text:'Embroider a small smile above the pit.'}] },
 
-{ id:'lemon', name:'Lemon', cat:'food', level:1, blurb:'Pointed at both ends, with a leaf',
+{ id:'lemon', name:'Lemon', cat:'veg', level:1, blurb:'Pointed at both ends, with a leaf',
   yarn:{A:['Lemon','#f4d63a'],B:['Leaf','#5da845']}, view:.3,
   parts:[
    {name:'Lemon', root:true, color:'A', rows:`
@@ -1916,7 +1957,7 @@ sc 8 | x2
   extras:[{id:'eyes', kind:'eye', round:8.6, apart:8},
           {id:'smile', kind:'line', color:'#8a6a12', pts:[[10,-9],[10.5,0],[10,9]], text:'Embroider a small smile.'}] },
 
-{ id:'tomato', name:'Tomato', cat:'food', level:1, blurb:'A squat ball with a green star top',
+{ id:'tomato', name:'Tomato', cat:'veg', level:1, blurb:'A squat ball with a green star top',
   yarn:{A:['Tomato red','#e0392e'],B:['Leaf green','#4f9a3f']}, view:.3,
   parts:[
    {name:'Tomato', root:true, color:'A', rows:`
@@ -5562,7 +5603,7 @@ dec*6
 !close:`}],
   extras:[{id:'seeds', kind:'dot', color:'#f7ecd0', spots:[[3,30],[3,-40],[4.6,100],[4.6,-95],[5.4,0],[6,55],[6,-60],[7.4,25],[7.4,-28],[8,92],[8,-88],[3,170],[6.8,140],[6.8,-145],[8.4,-10]], size:.3, text:'Embroider small cream seeds across the top bun with short stitches.'}] },
 
-{ id:'pineapple', name:'Pineapple', cat:'food', level:2, blurb:'Diamond lines and a spiky crown',
+{ id:'pineapple', name:'Pineapple', cat:'veg', level:2, blurb:'Diamond lines and a spiky crown',
   yarn:{A:['Gold','#f0b92c'],B:['Leaf green','#4f9a3a'],C:['Brown','#8c5a1f']}, view:.3,
   parts:[
    {name:'Body', root:true, color:'A', rows:`
@@ -5591,7 +5632,1124 @@ mr 4
 sc 8 | x6`, at:{spots:[[.4,30],[.4,150],[.4,-90]]}, aimRel:[.25,1], mix:.85, flat:.3, sink:.6, sew:'Flatten and sew three between the others, upright.'}
   ],
   extras:[{id:'diamonds', kind:'line', color:'#8c5a1f', lines:[[[13,-200],[15,-180],[17,-160]],[[9,-200],[11,-180],[13,-160],[15,-140],[17,-120]],[[5,-200],[7,-180],[9,-160],[11,-140],[13,-120],[15,-100],[17,-80]],[[3,-180],[5,-160],[7,-140],[9,-120],[11,-100],[13,-80],[15,-60],[17,-40]],[[3,-140],[5,-120],[7,-100],[9,-80],[11,-60],[13,-40],[15,-20],[17,0]],[[3,-100],[5,-80],[7,-60],[9,-40],[11,-20],[13,0],[15,20],[17,40]],[[3,-60],[5,-40],[7,-20],[9,0],[11,20],[13,40],[15,60],[17,80]],[[3,-20],[5,0],[7,20],[9,40],[11,60],[13,80],[15,100],[17,120]],[[3,20],[5,40],[7,60],[9,80],[11,100],[13,120],[15,140],[17,160]],[[3,60],[5,80],[7,100],[9,120],[11,140],[13,160],[15,180],[17,200]],[[3,100],[5,120],[7,140],[9,160],[11,180],[13,200]],[[3,140],[5,160],[7,180],[9,200]],[[3,180],[5,200]],[[3,-100],[5,-120],[7,-140],[9,-160],[11,-180],[13,-200]],[[3,-60],[5,-80],[7,-100],[9,-120],[11,-140],[13,-160],[15,-180],[17,-200]],[[3,-20],[5,-40],[7,-60],[9,-80],[11,-100],[13,-120],[15,-140],[17,-160]],[[3,20],[5,0],[7,-20],[9,-40],[11,-60],[13,-80],[15,-100],[17,-120]],[[3,60],[5,40],[7,20],[9,0],[11,-20],[13,-40],[15,-60],[17,-80]],[[3,100],[5,80],[7,60],[9,40],[11,20],[13,0],[15,-20],[17,-40]],[[3,140],[5,120],[7,100],[9,80],[11,60],[13,40],[15,20],[17,0]],[[3,180],[5,160],[7,140],[9,120],[11,100],[13,80],[15,60],[17,40]],[[5,200],[7,180],[9,160],[11,140],[13,120],[15,100],[17,80]],[[9,200],[11,180],[13,160],[15,140],[17,120]],[[13,200],[15,180],[17,160]]], text:'With brown yarn, stitch long diagonal lines both ways round the body to make diamonds.'},
-          {id:'dots', kind:'dot', color:'#8c5a1f', spots:[[5,0],[5,80],[5,-80],[7,60],[7,-60],[7,20],[7,-20],[9,0],[9,80],[9,-80],[9,40],[9,-40],[11,60],[11,-60],[13,0],[13,80],[13,-80],[15,20],[15,-20],[15,60],[15,-60]], size:.2, text:'Add a small brown dot in some of the diamonds.'}] }
+          {id:'dots', kind:'dot', color:'#8c5a1f', spots:[[5,0],[5,80],[5,-80],[7,60],[7,-60],[7,20],[7,-20],[9,0],[9,80],[9,-80],[9,40],[9,-40],[11,60],[11,-60],[13,0],[13,80],[13,-80],[15,20],[15,-20],[15,60],[15,-60]], size:.2, text:'Add a small brown dot in some of the diamonds.'}] },
+
+/* ---------- fruit and veg, all with faces ---------- */
+{ id:'pickle', name:'Pickle', cat:'veg', level:2, blurb:'Fat gherkin with dotted bumps',
+  yarn:{A:['Dill green','#6fae45'],B:['Bumpy green','#3f7a2c']}, view:.3,
+  parts:[
+   {name:'Pickle', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x13
+!eyes:
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly and evenly so the pickle is plump and stands upright on its flat bottom.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stub arm', color:'A', rows:STUB, at:{round:12, angles:[88,-88]}, aimRel:[1,-.5], mix:.7, sink:.4, sew:'Sew a stub to each side, a little below halfway up.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:11.5, apart:5},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:12.7, apart:8.5, size:.5, text:'Embroider two pink cheeks, one round below the eyes and a few stitches outside them.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[13.1,-9],[13.7,0],[13.1,9]], text:'Embroider a small smile between the cheeks.'},
+   {id:'bumps', kind:'dot', color:'#3f7a2c', size:.35, spots:[[4,40],[4,-40],[4,150],[4,-150],[7,70],[7,-70],[7,110],[7,-110],[7,180],[8,30],[8,-30],[10,50],[10,-50],[10,130],[10,-130],[11,170],[12,75],[12,-75],[12,115],[12,-115],[14,60],[14,-60],[14,125],[14,-125],[15,180],[16,40],[16,-40],[16,90],[16,-90],[17,150],[17,-150],[5.5,0],[2.5,0],[2.5,100],[2.5,-100],[2.5,180]], text:'Embroider small darker-green dots all over for the bumps, spaced out, keeping the face clear.'}
+  ] },
+
+{ id:'broccoli', name:'Broccoli', cat:'veg', level:2, blurb:'Stalk topped with five florets',
+  yarn:{A:['Pale stalk','#a9d487'],B:['Forest','#2f7d3a']}, view:.3,
+  parts:[
+   {name:'Stalk', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x9
+!eyes:
+sc 24 | x1
+(sc 2, dec)*6
+!stuff: Stuff the stalk firmly.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Floret', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+!stuff: Stuff each floret into a plump ball.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[.4,0],[2.4,45],[2.4,135],[2.4,-45],[2.4,-135]]}, stuff:1, sink:1.3, sew:'Sew one floret on the very top and four around it.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.5, apart:4},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:7, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11,-9],[11.6,0],[11,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'corn', name:'Corn on the Cob', cat:'veg', level:2, blurb:'Yellow cob in three husk leaves',
+  yarn:{A:['Butter','#f5cf47'],B:['Husk green','#7cb342'],C:['Kernel gold','#d9a521']}, view:.3,
+  parts:[
+   {name:'Cob', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 5, inc)*4
+sc 28 | x10
+!eyes:
+(sc 5, dec)*4
+(sc 2, dec)*6
+!stuff: Stuff the cob firmly so it stands.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Husk leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8 | x1
+(sc 3, inc)*2
+sc 10 | x2
+!stuff: Leave unstuffed.`, at:{spots:[[14,62],[14,-62],[14,180]]}, aimRel:[.1,1], mix:.9, flat:.4, sink:.6, sew:'Flatten and sew one leaf up each side and one at the back, tips pointing up.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.5, apart:4.5},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:7.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11,-9],[11.6,0],[11,9]], text:'Embroider a small smile.'},
+   {id:'kernels', kind:'line', color:'#d9a521', lines:[[[2,50],[9,50]],[[2,-50],[9,-50]],[[2,110],[9,110]],[[2,-110],[9,-110]],[[2,180],[9,180]]], text:'Embroider gold lines down the cob for kernel rows.'}
+  ] },
+
+{ id:'eggplant', name:'Eggplant', cat:'veg', level:2, blurb:'Fat teardrop with a leafy cap',
+  yarn:{A:['Aubergine','#7a4a9e'],B:['Leaf green','#5d9a3c']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+(sc 5, inc)*3
+(sc 6, inc)*3
+(sc 7, inc)*3
+(sc 8, inc)*3
+(sc 9, inc)*3
+(sc 10, inc)*3
+sc 36 | x4
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly, packing the round bottom so it stands.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cap leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x1
+(sc 2, inc)*2
+sc 8 | x2`, at:{spots:[[2.4,0],[2.4,72],[2.4,144],[2.4,-144],[2.4,-72]]}, aimRel:[.6,-.9], mix:.9, flat:.4, sink:.4, sew:'Flatten and sew five pointed leaves round the top, drooping over the shoulders.'},
+   {name:'Stem', color:'B', rows:`
+mr 6
+sc 6 | x4
+!stuff: Stuff lightly.`, at:{round:.4, angle:0}, aim:[.2,1,0], mix:1, stuff:.6, sink:.5, sew:'Sew the stem to the very top, standing up and leaning a touch.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:12, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:13.1, apart:10.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[13.5,-9],[14.1,0],[13.5,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'radish', name:'Radish', cat:'veg', level:2, blurb:'Round root, white tip, leafy top',
+  yarn:{A:['Radish pink','#e0486a'],B:['White','#f7efe6'],C:['Leaf green','#5aa23e']}, view:.3,
+  parts:[
+   {name:'Root', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly into a round ball.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Tip', color:'B', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x2
+!stuff: Leave unstuffed.`, at:{round:13, angle:180}, aim:[0,.05,-1], mix:.95, sink:.9, sew:'Sew the tip low on the back, poking out behind so the radish sits on its round base, propped by the tip.'},
+   {name:'Leaf', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6
+(sc 2, inc)*2
+sc 8 | x2
+(sc 3, inc)*2
+sc 10 | x2`, at:{spots:[[1.2,0],[1.2,72],[1.2,144],[1.2,-144],[1.2,-72]]}, aimRel:[.6,1], mix:.85, flat:.4, sink:.5, sew:'Flatten and sew five leaves round the top, fanning up and out.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:8, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.1, apart:10.5, size:.5, text:'Embroider two pale pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[9.5,-9],[10.1,0],[9.5,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'onion', name:'Onion', cat:'veg', level:2, blurb:'Squat bulb pulled to a point',
+  yarn:{A:['Papery gold','#e3b66a'],B:['Sprout green','#7fb85a'],C:['Skin brown','#b5803a']}, view:.3,
+  parts:[
+   {name:'Bulb', root:true, color:'A', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly, rounding the belly and flattening the bottom.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Sprout', color:'B', rows:`
+mr 4
+sc 4 | x2
+(sc, inc)*2
+sc 6 | x3
+!stuff: Leave unstuffed.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, flat:.5, face:[0,0,1], sink:.6, sew:'Flatten and sew to the very tip of the top.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.5, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:9.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11,-9],[11.6,0],[11,9]], text:'Embroider a small smile.'},
+   {id:'skin', kind:'line', color:'#b5803a', lines:[[[5,68],[15,68]],[[5,-68],[15,-68]],[[5,100],[15,100]],[[5,-100],[15,-100]],[[5,150],[15,150]],[[5,-150],[15,-150]]], text:'Embroider vertical brown lines from the point to the base for the skin.'}
+  ] },
+
+{ id:'peapod', name:'Peas in a Pod', cat:'veg', level:2, blurb:'Three round peas peeking from a pod',
+  yarn:{A:['Pod green','#6fbf4a'],B:['Pea green','#a9dc6b'],C:['Stalk green','#4a8a2a']}, view:.12,
+  parts:[
+   {name:'Pod', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x10
+!stuff: The pod stands upright. Stuff it firmly and press the bottom flat so it stands.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Middle pea', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18
+!eyes:
+sc 18
+!stuff: Stuff the pea into a plump ball.
+(sc, dec)*6
+dec*6
+!close:`, at:{round:9, angle:0}, aim:[0,0,1], mix:1, stuff:1, sink:1.2, sew:'Sew the middle pea to the front of the pod, halfway up.'},
+   {name:'Side pea', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+!stuff: Stuff the pea into a plump ball.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[4.8,0],[13.2,0]]}, aim:[0,0,1], mix:1, stuff:1, sink:1.3, sew:'Sew one pea to the front of the pod near the bottom and one near the top.'},
+   {name:'Stalk', color:'C', rows:`
+mr 6
+sc 6 | x7
+!stuff: Leave the stalk unstuffed so it curls.`, at:{round:.4, angle:0}, aim:[.3,1,0], mix:1, bend:1.3, sink:.5, sew:'Sew the open end to the top of the pod; it curls over.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', on:'Middle pea', round:2.3, apart:3.2, size:.4, front:true},
+   {id:'cheeks', kind:'dot', on:'Middle pea', color:'#f39ab0', spots:[[3.2,155],[3.2,-155]], size:.5, front:true, text:'Embroider two pink cheeks on the middle pea.'},
+   {id:'smile', kind:'line', on:'Middle pea', color:'#2b2233', pts:[[2.8,-170],[3.2,180],[2.8,170]], front:true, text:'Embroider a small smile.'}
+  ] },
+
+{ id:'bellpepper', name:'Bell Pepper', cat:'veg', level:2, blurb:'Lobed red body, stem, stitched lines',
+  yarn:{A:['Pepper red','#d6322e'],B:['Stem green','#4f9a35'],C:['Line dark red','#9c1f22']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+!eyes:
+sc 36 | x3
+!stuff: Stuff the pepper firmly, pushing stuffing into the shoulders so they stay wide.
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2
+!stuff: Stuff lightly.`, at:{round:.4, angle:0}, aim:[.2,1,0], mix:1, stuff:.6, sink:.5, bend:.4, sew:'Sew the stem to the middle of the top, a little crooked.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.5, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.7, apart:10.5, size:.5, text:'Embroider two pink cheeks below and outside the eyes.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11.1,-9],[11.7,0],[11.1,9]], text:'Embroider a small smile.'},
+   {id:'lobes', kind:'line', color:'#9c1f22', lines:[[[3,80],[16,80]],[[3,-80],[16,-80]],[[3,140],[16,140]],[[3,-140],[16,-140]]], text:'Work long straight stitches from top to bottom in dark red to mark the lobes.'}
+  ] },
+
+{ id:'chilli', name:'Chilli Pepper', cat:'veg', level:2, blurb:'Curved red chilli, green cap',
+  yarn:{A:['Chilli red','#d9261c'],B:['Cap green','#3f8f2f']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x4
+!eyes:
+(sc 8, dec)*3
+sc 27
+(sc 7, dec)*3
+sc 24
+(sc 6, dec)*3
+sc 21
+(sc 5, dec)*3
+sc 18
+!stuff: Stuff the chilli firmly, the fat end most.`},
+   {name:'Tail', color:'A', rows:`
+mr 6
+sc 6 | x3
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2
+(sc 3, inc)*3
+sc 15 | x2
+(sc 4, inc)*3
+sc 18
+!stuff: Stuff the tail lightly, to a curved point.`, at:{round:14, angle:90}, aim:[1,.6,0], mix:1, bend:-.6, stuff:.7, sink:.5, sew:'Sew the open end to the narrow end of the body so the tail curves round.'},
+   {name:'Cap', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 2, dec)*6
+sc 18
+!stuff: Stuff lightly.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.5, sink:.5, sew:'Sew the cap over the fat end of the chilli.'},
+   {name:'Stem', color:'B', rows:`
+mr 6
+sc 6 | x5
+!stuff: Stuff lightly.`, at:{on:'Cap', round:.4, angle:0}, aim:[.4,1,0], mix:1, bend:.7, stuff:.6, sink:.5, sew:'Sew the stem to the middle of the cap.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:7, apart:5},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.2, apart:8.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[8.6,-9],[9.2,0],[8.6,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'potato', name:'Potato', cat:'veg', level:1, blurb:'Lumpy tan potato with eyes',
+  yarn:{A:['Tan','#d2a86a'],B:['Eye brown','#8a6a45'],C:['Sprout green','#6dba4a']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+sc 36 | x3
+!stuff: Stuff firmly but a little unevenly, so it is lumpy.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Lump', color:'A', rows:BALL12, at:{spots:[[5,-105],[10,100],[8,160],[11,-150]]}, aim:[0,0,1], mix:.3, stuff:1, sink:1.1, sew:'Sew four small lumps here and there on the sides and back.'},
+   {name:'Sprout', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8
+!stuff: Leave unstuffed.`, at:{round:.4, angle:70}, aim:[.2,1,0], mix:1, flat:.5, face:[0,0,1], sink:.4, sew:'Sew one small leaf to the top.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:8.8, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.9, apart:10.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[10.3,-9],[10.9,0],[10.3,9]], text:'Embroider a small smile.'},
+   {id:'spots', kind:'dot', color:'#8a6a45', spots:[[5,-70],[12,-80],[13,100],[11,-120],[7,130],[13,60],[4,50]], size:.4, text:'Embroider small brown dots for the potato eyes, away from the face.'}
+  ] },
+
+{ id:'garlic', name:'Garlic', cat:'veg', level:2, blurb:'Plump white bulb pulled to a point',
+  yarn:{A:['Garlic white','#f6f1e6'],B:['Stalk tan','#d9cfa8'],C:['Clove line','#c7b896']}, view:.3,
+  parts:[
+   {name:'Bulb', root:true, color:'A', rows:`
+mr 6
+sc 6
+inc*6
+sc 12
+(sc, inc)*6
+sc 18
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+!eyes:
+sc 36 | x2
+!stuff: Stuff the bulb firmly, pressing the bottom flat so it sits.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stalk', color:'B', rows:`
+mr 6
+sc 6 | x5
+!stuff: Stuff lightly.`, at:{round:.4, angle:0}, aim:[.1,1,0], mix:1, bend:.3, stuff:.6, sink:.5, sew:'Sew the stalk to the tip of the bulb.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:10.3, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:11.4, apart:10.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11.8,-9],[12.4,0],[11.8,9]], text:'Embroider a small smile.'},
+   {id:'cloves', kind:'line', color:'#c7b896', lines:[[[3,95],[17,95]],[[3,-95],[17,-95]],[[3,145],[17,145]],[[3,-145],[17,-145]],[[3,180],[17,180]]], text:'Work long straight stitches from the tip to the base to mark the cloves.'}
+  ] },
+
+{ id:'beet', name:'Beetroot', cat:'veg', level:2, blurb:'Purple root, red stems, green leaves',
+  yarn:{A:['Beet purple','#7d1f4f'],B:['Stem red','#c23a5a'],C:['Leaf green','#4f9a35']}, view:.3,
+  parts:[
+   {name:'Root', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+sc 36 | x2
+!stuff: Stuff firmly into a round ball; it rests on its rounded bottom.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Tail', color:'A', rows:`
+mr 4
+sc 4 | x5
+(sc, inc)*2
+sc 6
+!stuff: Leave unstuffed.`, at:{round:15.4, angle:180}, aim:[0,-.1,-1], mix:1, bend:-.5, sink:.6, sew:'Sew the tail to the back of the bottom, pointing backward and down; the beet rests on its round base.'},
+   {name:'Leaf', color:'C', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+sc 10 | x2
+(sc 3, dec)*2 | B
+(sc 2, dec)*2 | B
+sc 6 | x3 | B
+!stuff: Leave unstuffed.`, at:{spots:[[.6,0],[1.2,120],[1.2,-120]]}, aim:[0,1,.3], mix:.5, flat:.45, face:[0,0,1], sink:.5, sew:'Sew the red end of each leaf to the top, fanned out.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:8.5, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:10.5, size:.5, text:'Embroider two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#e8c6d8', pts:[[10,-9],[10.6,0],[10,9]], text:'Embroider a small smile in pale pink.'}
+  ] },
+
+{ id:'banana', name:'Banana', cat:'veg', level:2, blurb:'Slim, with a curved top and a stalk',
+  yarn:{A:['Banana','#f7d84a'],B:['Brown','#6b4a2a']}, view:.3,
+  parts:[
+   {name:'Banana', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 5, inc)*3
+sc 21 | x5
+!eyes:
+sc 21 | x7
+(sc 5, dec)*3
+sc 18 | x2
+(sc, dec)*6
+!stuff: Stuff the banana firmly, so it stands on its brown tip.
+sc 12 | B
+dec*6 | B
+!close:`},
+   {name:'Top', color:'A', rows:`
+mr 5 | B
+sc 5 | x2 | B
+inc*5
+(sc, inc)*5
+sc 15 | x2
+(sc 4, inc)*3
+sc 18 | x3
+(sc 5, inc)*3
+sc 21 | x2
+!stuff: Stuff firmly, and leave the open end soft to sew.`, at:{round:.4, angle:0}, aim:[-.45,1,0], mix:1, bend:1.2, stuff:.9, sink:1.1, sew:'Sew the open end to the top of the body, so the banana curves over to one side and ends in the brown stalk.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9, apart:3.5},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.1, apart:6, size:.45, text:'Add two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[10.5,-10],[11.1,0],[10.5,10]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'orange', name:'Orange', cat:'veg', level:1, blurb:'A round ball with a leaf on top',
+  yarn:{A:['Orange','#f59a2c'],B:['Leaf green','#5fa83a'],C:['Stalk brown','#6b4a2a']}, view:.3,
+  parts:[
+   {name:'Orange', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+!eyes:
+sc 36
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Stuff the orange firmly into a round ball.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`, at:{round:.9, angle:-25}, aim:[.8,.7,.3], mix:.8, flat:.5, face:[0,1,.3], sink:.5, sew:'Sew the leaf flat beside the stalk on the top.'}
+  ],
+  extras:[
+   {id:'stalk', kind:'dot', color:'#6b4a2a', round:.5, angle:0, size:.6, text:'Embroider a small brown stalk dot on the very top.'},
+   {id:'eyes', kind:'eye', round:7.5, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:8.6, apart:10.5, size:.5, text:'Add two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[9,-9],[9.6,0],[9,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'watermelon', name:'Watermelon', cat:'veg', level:2, blurb:'Striped fat oval with a curly stalk',
+  yarn:{A:['Rind green','#2f7d3a'],B:['Stripe green','#8cc96a'],C:['Stalk','#6b8a2e']}, view:.3,
+  parts:[
+   {name:'Melon', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x8
+!eyes:
+sc 36 | x2
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Stuff the melon firmly into a fat oval.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stalk', color:'C', rows:`
+mr 6
+sc 6 | x5
+!stuff: Stuff lightly.`, at:{round:.5, angle:0}, aim:[.3,1,0], mix:1, bend:1.6, stuff:.6, sink:.4, sew:'Sew to the top of the melon; it curls over like a little hook.'}
+  ],
+  extras:[
+   {id:'stripes', kind:'line', color:'#8cc96a', lines:[
+     [[1.5,60],[6,66],[12,62],[18,60]],[[1.5,110],[6,104],[12,108],[18,110]],[[1.5,155],[6,160],[12,154],[18,155]],[[1.5,205],[6,200],[12,206],[18,205]],[[1.5,250],[6,256],[12,250],[18,250]],[[1.5,298],[6,292],[12,296],[18,298]]], text:'Embroider six wavy light-green stripes from the top to the bottom, in chain stitch.'},
+   {id:'eyes', kind:'eye', round:11, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:12.1, apart:9.5, size:.5, text:'Add two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[12.5,-9],[13.1,0],[12.5,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'cherries', name:'Cherries', cat:'veg', level:2, blurb:'Two cherries on joined stems',
+  yarn:{A:['Cherry red','#d6283c'],B:['Stem green','#5a8f3a'],C:['Leaf green','#4f9a3a']}, view:.3,
+  parts:[
+   {name:'Cherry', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+!eyes1:
+sc 24
+(sc 2, dec)*6
+!stuff: Stuff the cherry firmly into a round ball.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem 1', color:'B', rows:`
+mr 4
+sc 4 | x7
+!stuff: Leave unstuffed.`, at:{round:.4, angle:0}, aim:[.1,1,0], mix:1, sink:.5, sew:'Sew the open end to the top of the first cherry.'},
+   {name:'Stem 2', color:'B', rows:`
+mr 4
+sc 4 | x11
+!stuff: Leave unstuffed.`, at:{on:'Stem 1', round:1.2, angle:90}, aim:[1,-1.03,0], mix:1, sink:.3, sew:'Sew one end to the first stem just below the leaf, so the stems fork.'},
+   {name:'Cherry 2', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+!eyes2:
+sc 24
+(sc 2, dec)*6
+!stuff: Stuff the cherry firmly into a round ball.
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Stem 2', round:.5, angle:0}, aim:[0,-1,0], mix:1, stuff:1, sink:1.0, sew:'Sew the closed end of the second cherry to the free end of the second stem.'},
+   {name:'Leaf', color:'C', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`, at:{on:'Stem 1', round:.5, angle:0}, aim:[.4,1,.2], mix:.8, flat:.5, face:[0,1,.3], sink:.4, sew:'Sew the leaf where the two stems meet.'}
+  ],
+  extras:[
+   {id:'eyes1', kind:'eye', round:6, apart:4, size:.45},
+   {id:'eyes2', kind:'eye', on:'Cherry 2', round:4, apart:4, size:.45, front:true},
+   {id:'cheeks2', kind:'dot', on:'Cherry 2', front:true, color:'#f39ab0', round:4.5, apart:8, size:.5, text:'Add two pink cheeks to the second cherry.'},
+   {id:'cheeks1', kind:'dot', color:'#f39ab0', round:7.1, apart:7, size:.5, text:'Add two pink cheeks to the first cherry.'},
+   {id:'smile1', kind:'line', color:'#2b2233', pts:[[7.5,-9],[8.1,0],[7.5,9]], text:'Embroider a small smile on the first cherry.'},
+   {id:'smile2', kind:'line', on:'Cherry 2', front:true, color:'#2b2233', pts:[[3,-9],[2.5,0],[3,9]], text:'Embroider a small smile on the second cherry.'}
+  ] },
+
+{ id:'peach', name:'Peach', cat:'veg', level:2, blurb:'Soft round peach with a cleft line',
+  yarn:{A:['Peach','#f8b88a'],B:['Leaf green','#5fa83a']}, view:.3,
+  parts:[
+   {name:'Peach', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+sc 36
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Stuff the peach firmly into a round ball.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`, at:{round:.9, angle:-25}, aim:[.8,.7,.3], mix:.8, flat:.5, face:[0,1,.3], sink:.5, sew:'Sew the leaf flat to the top of the peach.'}
+  ],
+  extras:[
+   {id:'cleft', kind:'line', color:'#d9825a', pts:[[1,80],[5,92],[9,96],[13,88],[16,80]], text:'Embroider one curved line down the right side for the cleft.'},
+   {id:'eyes', kind:'eye', round:8, apart:6},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.1, apart:10.5, size:.5, text:'Add two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[9.5,-9],[10.1,0],[9.5,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'grapes', name:'Bunch of Grapes', cat:'veg', level:3, blurb:'A dozen grapes sewn round a core',
+  yarn:{A:['Grape purple','#7a3fa0'],B:['Core plum','#5e2f80'],C:['Stalk brown','#6b4a2a'],D:['Leaf green','#4f9a3a']}, view:.3,
+  parts:[
+   {name:'Core', root:true, color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+!eyes:
+sc 30
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+sc 18
+!stuff: Stuff the core firmly into a fat cone.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Grape', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x3
+!stuff: Stuff the grape firmly.
+dec*6
+!close:`, at:{spots:[[4,65],[4,125],[4,180],[4,-125],[4,-65],[8.5,70],[8.5,145],[8.5,-145],[8.5,-70],[12,50],[12,180],[12,-50]]}, stuff:1, aim:[0,-.15,1], mix:.3, sink:1.2, sew:'Sew the grapes round the core in rings: five near the top, four in the middle and three low down.'},
+   {name:'Stalk', color:'C', rows:`
+mr 6
+sc 6 | x4
+!stuff: Stuff lightly.`, at:{round:.4, angle:0}, aim:[.3,1,0], mix:1, stuff:.6, sink:.5, sew:'Sew to the top middle of the core.'},
+   {name:'Leaf', color:'D', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 2, dec)*2
+(sc, dec)*2`, at:{on:'Stalk', round:3.2, angle:0}, aim:[-.6,1,.2], mix:.8, flat:.5, face:[0,1,.3], sink:.5, sew:'Sew the leaf beside the stalk.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9, apart:5},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10, apart:8.5, size:.5, text:'Add two pink cheeks.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[10.5,-8],[11.1,0],[10.5,8]], text:'Embroider a small smile.'}
+  ] },
+
+/* ---------- christmas ---------- */
+{ id:'santa', name:'Santa', cat:'xmas', level:3, blurb:'Chubby, with a floppy hat and beard',
+  yarn:{A:['Peach','#f2c9a5'],B:['Santa red','#cf2f2f'],C:['Fur white','#fbf9f4'],D:['Belt black','#2b2730']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+sc 30 | x1 | B
+sc 30 | x2 | D
+sc 30 | x1 | B
+sc 30 | x2 | C
+!stuff: Stuff the body firmly so Santa sits round and flat on the bottom.
+(sc 3, dec)*6 | C
+(sc 2, dec)*6 | C
+(sc, dec)*6 | C
+dec*6 | C
+!close:`},
+   {name:'Beard', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff lightly and flatten.`, at:{round:12, angle:0}, aim:[0,-.4,1], mix:.5, flat:.5, face:[0,0,1], stuff:.6, sink:.9, sew:'Flatten the beard and sew it over the lower face, round side down.'},
+   {name:'Moustache', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{round:10.5, angles:[14,-14]}, aim:[0,0,1], mix:.5, flat:.5, face:[0,0,1], stuff:.5, sink:.5, sew:'Sew two flat puffs under the nose, side by side.'},
+   {name:'Nose', color:'A', rows:BALL12, at:{round:9.5, angle:0}, aim:[0,0,1], mix:.8, stuff:1, sink:1.0, sew:'Sew the little round nose between the eyes.'},
+   {name:'Hat', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x1
+(sc 3, inc)*3
+sc 15 | x1
+(sc 4, inc)*3
+(sc 5, inc)*3
+(sc 6, inc)*3 | C
+sc 24 | x1 | C
+!stuff: Stuff the hat lightly.`, at:{round:3.2, angle:0}, aim:[-.5,1,-.35], mix:.6, bend:-1.0, stuff:.6, sink:1.2, sew:'Sew the white brim round the top of the head, the tip flopping to one side.'},
+   {name:'Pompom', color:'C', rows:BALL12, at:{on:'Hat', round:.4, angle:0, front:true}, aim:[-.4,.2,0], mix:.4, stuff:1, sink:.9, sew:'Sew the white pompom on the tip of the hat.'},
+   {name:'Arm', color:'B', rows:`
+mr 6
+sc 6 | x4
+sc 6 | x2 | C
+!stuff: Stuff lightly.`, at:{round:16.8, angles:[75,-75]}, aimRel:[.7,-1], mix:.75, stuff:.6, sink:.6, sew:'Sew to the shoulders, white cuff at the hand end.'},
+   {name:'Boot', color:'D', rows:FOOT, at:{round:25.3, angles:[26,-26]}, aim:[0,-.1,1], mix:.75, flat:.6, sink:.9, sew:'Sew two small black boots under the front of the body.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:10},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:16, size:.5, text:'Embroider two pink cheeks outside the eyes.'},
+          {id:'buttons', kind:'dot', color:'#2b2730', spots:[[19,0],[21,0]], size:.3, text:'Embroider two black buttons on the coat.'}] },
+
+{ id:'elf', name:'Christmas Elf', cat:'xmas', level:3, blurb:'Pointy ears, tall hat and a bell',
+  yarn:{A:['Peach','#f2c9a5'],B:['Elf green','#2f8f4e'],C:['Candy red','#d6343a'],D:['Bell gold','#f0c64a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6 | C
+(sc 3, inc)*6 | B
+sc 30 | x3 | B
+sc 30 | x1 | C
+sc 30 | x2 | B
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+!stuff: Stuff the body firmly.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{round:8.4, angles:[88,-88]}, aim:[1,.45,0], mix:.8, flat:.5, face:[0,0,1], sink:.5, sew:'Flatten and sew the pointed ears to the sides of the head.'},
+   {name:'Hat', color:'B', rows:`
+mr 6
+sc 6 | x2
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2
+(sc 3, inc)*3
+sc 15 | x2
+(sc 4, inc)*3
+sc 18 | x1
+(sc 5, inc)*3
+(sc 6, inc)*3 | C
+sc 24 | x2 | C
+!stuff: Stuff the hat lightly.`, at:{round:3.2, angle:0}, aim:[.3,1,0], mix:.7, bend:-.5, stuff:.6, sink:1.2, sew:'Sew the red band round the top of the head; the tip leans to the side.'},
+   {name:'Bell', color:'D', rows:BALL12, at:{on:'Hat', round:.4, angle:0, front:true}, aim:[.3,.1,0], mix:.4, stuff:1, sink:.9, sew:'Sew the gold bell on the tip of the hat.'},
+   {name:'Arm', color:'B', rows:`
+mr 6
+sc 6 | x4
+sc 6 | x1 | A`, at:{round:16.8, angles:[72,-72]}, aimRel:[.7,-1], mix:.75, stuff:.5, sink:.6, sew:'Sew to the shoulders.'},
+   {name:'Foot', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2
+(sc, dec)*3`, at:{round:22.8, angles:[26,-26]}, aim:[0,.1,1], mix:.8, flat:.55, bend:.0, sink:.8, sew:'Sew under the front of the body; the toes stick out.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:10},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:16, size:.5, text:'Embroider two pink cheeks outside the eyes.'},
+          {id:'smile', kind:'line', color:'#8a3a3a', pts:[[10.3,-6],[10.9,0],[10.3,6]], text:'Embroider a small smile.'}] },
+
+{ id:'gingerbread', name:'Gingerbread Man', cat:'xmas', level:3, blurb:'Icing cuffs, candy buttons',
+  yarn:{A:['Ginger','#b9783c'],B:['Icing','#fffaf0']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:HEAD_BODY},
+   {name:'Arm', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | x4
+!stuff: Stuff lightly.`, at:{round:17.4, angles:[80,-80]}, aim:[1,.25,0], mix:.9, stuff:.6, flat:.6, face:[0,0,1], sink:.6, sew:'Sew to the sides of the body, held straight out.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | x5
+!stuff: Stuff lightly.`, at:{round:24.4, angles:[30,-30]}, aim:[.15,-1,.1], mix:.9, stuff:.6, flat:.6, face:[0,0,1], sink:.8, sew:'Sew under the body, legs apart so he stands.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:10},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:16, size:.5, text:'Embroider two pink cheeks outside the eyes.'},
+          {id:'smile', kind:'line', color:'#fffaf0', pts:[[10.4,-8],[11,0],[10.4,8]], text:'Embroider an icing smile.'},
+          {id:'buttons', kind:'dot', color:'#d6343a', spots:[[18.6,0],[20.6,0],[22.6,0]], size:.4, text:'Sew three candy buttons down the front.'},
+          {id:'collar', kind:'line', color:'#fffaf0', lines:[[[15.6,-50],[15.9,-40],[15.6,-30],[15.9,-20],[15.6,-10],[15.9,0],[15.6,10],[15.9,20],[15.6,30],[15.9,40],[15.6,50]]], text:'Embroider a zigzag of icing round the neck.'}] },
+
+{ id:'reindeer', name:'Reindeer', cat:'xmas', level:3, blurb:'Red nose, antlers and a scarf',
+  yarn:{A:['Cocoa','#9a6238'],B:['Cream','#f1e2c6'],C:['Nose red','#e0262d'],D:['Scarf red','#c8323a'],E:['Antler tan','#7b4a2a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6 | D
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6 | D
+(sc 3, inc)*6 | D
+sc 30 | x5
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff:
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18`, at:{round:10.4, angle:0}, stuff:.8, sink:.5, sew:'Stuff lightly and sew to the lower face.'},
+   {name:'Red nose', color:'C', rows:BALL12, at:{on:'Muzzle', round:.4, angle:0, front:true}, aim:[0,0,1], mix:.8, stuff:1, sink:.8, sew:'Sew the big red nose on the tip of the muzzle.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{round:4.2, angles:[62,-62]}, aim:[1,.3,.3], mix:.6, flat:.5, sink:.7, sew:'Pinch flat and sew to the sides of the head.'},
+   {name:'Antler', color:'E', rows:`
+mr 5
+sc 5 | x9
+!stuff: Stuff lightly.`, at:{round:2.6, angle:34}, aim:[.8,1,0], mix:.8, bend:0, stuff:.6, sink:.6, sew:'Sew to the top of the head, leaning out.'},
+   {name:'Antler tine', color:'E', rows:`
+mr 4
+sc 4 | x3`, at:{on:'Antler', round:4.5, angle:0, front:true}, aim:[0,1,.4], mix:.7, sink:.3, sew:'Sew a small branch to the front of the right antler.'},
+   {name:'Antler left', color:'E', rows:`
+mr 5
+sc 5 | x9
+!stuff: Stuff lightly.`, at:{round:2.6, angle:-34}, aim:[.8,1,0], mix:.8, bend:0, stuff:.6, sink:.6, sew:'Sew to the top of the head, leaning out.'},
+   {name:'Antler tine left', color:'E', rows:`
+mr 4
+sc 4 | x3`, at:{on:'Antler left', round:4.5, angle:0, front:true}, aim:[0,1,.4], mix:.7, sink:.3, sew:'Sew a small branch to the front of the left antler.'},
+   {name:'Arm', color:'A', rows:ARM, at:{round:17.2, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the scarf.'},
+   {name:'Foot', color:'A', rows:FOOT, at:{round:23.6, angles:[28,-28]}, aim:[0,-.1,1], mix:.8, sink:.7, sew:'Sew to the front of the base.'},
+   {name:'Tail', color:'B', rows:BALL12, at:{round:21.6, angle:180}, stuff:1, sink:1.0, sew:'Sew the small tail to the back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:8.4, apart:11},
+          {id:'cheeks', kind:'dot', color:'#f39ab0', round:9.6, apart:17, size:.5, text:'Embroider two pink cheeks outside the eyes.'},
+          {id:'smile', kind:'line', color:'#3a2418', pts:[[12.2,-9],[12.8,0],[12.2,9]], text:'Embroider a small smile under the muzzle.'}] },
+
+{ id:'stocking', name:'Christmas Stocking', cat:'xmas', level:2, blurb:'Fur cuff, turned foot, white toe',
+  yarn:{A:['Holly red','#c9333b'],B:['Snow','#fbf8f2']}, view:.5,
+  parts:[
+   {name:'Leg', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+! The fur cuff: three straight rounds in white.
+sc 30 | x3 | B
+(sc 3, dec)*6
+sc 24 | x3
+!eyes:
+sc 24 | x4
+!stuff: Stuff the leg firmly so it stands up straight, and press the bottom flat.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Foot', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+sc 18 | x6
+!stuff: Stuff the foot firmly, more at the toe.`, at:{round:16, angle:0}, aim:[0,-.05,1], mix:.9, flat:.8, stuff:.9, sink:1.2, sew:'Sew the open end to the front of the leg at the bottom, so the toe points forward and the foot rests flat.'},
+   {name:'Heel patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:17, angle:180}, sew:'Sew the white heel patch low on the back of the leg.'},
+   {name:'Hanging loop', color:'B', rows:`
+mr 6
+sc 6 | x6
+!stuff: Leave unstuffed.`, at:{round:6.5, angle:180}, aim:[0,1,-.3], mix:.9, bend:1.8, sink:.6, sew:'Fold into a loop and sew both ends to the back of the cuff.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:10.4, apart:4.5, text:'Push in the safety eyes low on the red leg, 4-5 stitches apart.'},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:11.4, apart:7.5, size:.5, text:'Add two pink cheeks a round below the eyes.'},
+   {id:'smile', kind:'line', color:'#3a1f24', pts:[[11.8,-9],[12.3,0],[11.8,9]], text:'Embroider a small smile.'}
+  ] },
+
+{ id:'candycane', name:'Candy Cane', cat:'xmas', level:2, blurb:'Striped stick, bent hook, holly bow',
+  yarn:{A:['Candy red','#d6313b'],B:['Snow','#fbf8f2'],C:['Holly','#2f8f4e']}, view:.3,
+  parts:[
+   {name:'Stick', root:true, color:'A', rot:[0,Math.PI/2,0], rows:`
+mr 6 | B
+inc*6 | B
+(sc 5, inc)*2
+sc 14
+sc 14 | x2 | B
+sc 14 | x2
+sc 14 | x2 | B
+sc 14 | x2
+sc 14 | x2 | B
+sc 14 | x2
+sc 14 | x2 | B
+sc 14 | x2
+sc 14 | x2 | B
+!stuff: Stuff the stick firmly so it stays straight.
+(sc 5, dec)*2
+(sc, dec)*4 | B
+dec*4
+!close:
+! The cane rests standing on its small flat base; lean it against a wall or a gift if it wobbles.`},
+   {name:'Hook', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc 5, inc)*2
+sc 14 | x2
+sc 14 | x2 | B
+sc 14 | x2
+sc 14 | x2 | B
+sc 14 | x2
+!stuff: Stuff firmly and bend into a curve.`, at:{round:2.4, angle:0}, aim:[0,1,0], mix:1, bend:3, stuff:.9, sink:.9, sew:'Sew the open end on top of the stick and curl the hook over to the right.'},
+   {name:'Holly leaf', color:'C', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2
+(sc, dec)*2`, at:{spots:[[3.6,-62],[3.6,-118]]}, aimRel:[1,.6], mix:.8, flat:.5, face:[0,0,1], sink:.4, sew:'Sew a leaf to each side where the hook starts.'}
+  ],
+  extras:[
+   {id:'berries', kind:'dot', color:'#d6313b', spots:[[3.4,-82],[3.4,-98],[4,-90]], size:.5, text:'Embroider three red berries at the base of the leaves.'}
+  ] },
+
+{ id:'present', name:'Present', cat:'xmas', level:2, blurb:'Drum box, ribbon and a floppy bow',
+  yarn:{A:['Pine','#2f9a5c'],B:['Ribbon red','#d8343f']}, view:.3,
+  parts:[
+   {name:'Box', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+sc 36 | x3
+sc 36 | x2 | B
+sc 36
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly and press the box into a flat-topped drum.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Bow loop', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+(sc, dec)*6
+dec*6
+!close:`, at:{round:.5, angles:[90,-90]}, aim:[1,.6,0], mix:1, flat:.4, face:[0,0,1], stuff:.5, sink:.7, sew:'Flatten each loop and sew it to the middle of the lid, pointing left and right.'},
+   {name:'Bow knot', color:'B', rows:BALL12, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:1, sink:.7, sew:'Sew the knot over the middle of the two loops.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.6, apart:6, text:'Push in the safety eyes low on the box, 8 stitches apart.'},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.7, apart:10.5, size:.5, text:'Add two pink cheeks a round below the eyes.'},
+   {id:'smile', kind:'line', color:'#2b2233', pts:[[11.1,-9],[11.7,0],[11.1,9]], text:'Embroider a small smile.'},
+   {id:'straps', kind:'line', color:'#d8343f', lines:[[[1,90],[7,90]],[[1,-90],[7,-90]],[[1,0],[7,0]],[[1,180],[7,180]]], text:'Embroider ribbon straps over the lid in red.'}
+  ] },
+
+{ id:'bauble', name:'Bauble', cat:'xmas', level:1, blurb:'Banded ball, gold cap, sparkles',
+  yarn:{A:['Cherry','#d8343f'],B:['Pine','#2f9a5c'],C:['Gold','#e6b84a']}, view:.3,
+  parts:[
+   {name:'Ball', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x2
+sc 36 | x2 | B
+sc 36 | x2
+!stuff: Stuff very firmly into a smooth ball.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cap', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x3
+(sc, inc)*6
+sc 18
+!stuff: Stuff the cap lightly.`, at:{round:.5, angle:0}, aim:[0,1,0], mix:1, stuff:.6, sink:.9, sew:'Sew the wide end round the top of the ball.'},
+   {name:'Hanging loop', color:'C', rows:`
+mr 6
+sc 6 | x8
+!stuff: Leave unstuffed.`, at:{on:'Cap', round:.4, angle:90}, aim:[0,1,0], mix:1, bend:4.6, sink:.5, sew:'Fold into a loop and sew both ends to the top of the cap.'}
+  ],
+  extras:[
+   {id:'sparkle', kind:'dot', color:'#fff7d6', spots:[[5,-50],[6,-40],[10,40],[11,30],[8,100]], size:.35, text:'Embroider small pale gold sparkle dots on the ball.'}
+  ] },
+
+{ id:'mrsclaus', name:'Mrs Claus', cat:'xmas', level:3, blurb:'Red dress, white bun, glasses',
+  yarn:{A:['Peach','#f3c9a5'],B:['Holly red','#c9333b'],C:['Snow','#fbf8f2']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+!eyes:
+sc 36 | x3
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 2, inc)*6 | C
+(sc 3, inc)*6 | B
+sc 30 | x4 | B
+sc 30 | x2 | C
+(sc 3, dec)*6 | C
+(sc 2, dec)*6 | C
+!stuff:
+(sc, dec)*6 | C
+dec*6 | C
+!close:`},
+   {name:'Hair', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{round:1.5, angle:0}, sew:'Sew the white hair patch over the top of the head.'},
+   {name:'Bun', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+!stuff: Stuff the bun firmly.
+(sc, dec)*6
+dec*6
+!close:`, at:{round:1.2, angle:180}, aim:[0,1,-.4], mix:.8, stuff:1, sink:1.4, sew:'Sew the bun on the top of the head, a little to the back.'},
+   {name:'Apron', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:20.3, angle:0}, sew:'Sew the white apron on the front of the dress.'},
+   {name:'Arm', color:'B', rows:`
+mr 6 | A
+sc 6 | x2 | A
+sc 6 | x3`, at:{round:17.5, angles:[62,-62]}, aimRel:[.55,-1], mix:.75, sink:.5, sew:'Sew just under the neck.'}
+  ],
+  extras:[
+   {id:'eyes', kind:'eye', round:9.2, apart:8, text:'Push in the safety eyes low on the face, 8 stitches apart.'},
+   {id:'glasses', kind:'line', color:'#7a5a2e', lines:[[[9.2,-14],[10.5,-17],[11.5,-27],[11.8,-40],[11.5,-53],[10.5,-63],[9.2,-66],[7.9,-63],[6.9,-53],[6.6,-40],[6.9,-27],[7.9,-17],[9.2,-14]],[[9.2,66],[10.5,63],[11.5,53],[11.8,40],[11.5,27],[10.5,17],[9.2,14],[7.9,17],[6.9,27],[6.6,40],[6.9,53],[7.9,63],[9.2,66]],[[9.2,-14],[8.8,0],[9.2,14]]], text:'Embroider two small round glasses around the eyes with gold-brown yarn, joined by a bridge.'},
+   {id:'cheeks', kind:'dot', color:'#f39ab0', round:10.6, apart:15, size:.5, text:'Add two pink cheeks a round below the eyes.'},
+   {id:'smile', kind:'line', color:'#8a3a3a', pts:[[11.4,-5],[11.9,0],[11.4,5]], text:'Embroider a small smile.'}
+  ] }
 ];
 
 /* =====================================================================
@@ -5874,7 +7032,7 @@ key.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048); key.shadow.camera.near=1; k
 const rim=new THREE.DirectionalLight(0xcfe0ff,1.1); rim.position.set(4,2.4,-3.6);
 scene.add(key,rim);
 // soft studio surround: a graded dome and three softboxes, baked once into an environment map
-scene.environment=(()=>{
+const studioEnv=r=>{
   const s=new THREE.Scene(), g=new THREE.SphereGeometry(20,24,12), p=g.attributes.position, col=new Float32Array(p.count*3), c=new THREE.Color();
   const top=new THREE.Color(1.05,1.03,1), mid=new THREE.Color(.55,.57,.66), bot=new THREE.Color(.26,.24,.34);
   for(let i=0;i<p.count;i++){ const h=p.getY(i)/20; c.copy(mid).lerp(h>0?top:bot,Math.pow(Math.abs(h),.6)); col[i*3]=c.r; col[i*3+1]=c.g; col[i*3+2]=c.b; }
@@ -5882,8 +7040,9 @@ scene.environment=(()=>{
   s.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide})));
   const box=(w,h,x,y,z,k,tint)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(tint).multiplyScalar(k),side:THREE.DoubleSide})); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
   box(12,9,-9,10,9,6,'#fff3e2'); box(8,13,13,3,-5,2.4,'#dbe6ff'); box(14,5,2,-3,14,1,'#ffffff');
-  const pm=new THREE.PMREMGenerator(renderer), t=pm.fromScene(s,.035).texture; pm.dispose(); return t;
-})();
+  const pm=new THREE.PMREMGenerator(r), t=pm.fromScene(s,.035).texture; pm.dispose(); return t;
+};
+scene.environment=studioEnv(renderer);
 
 /* ---- yarn: a plied strand, as a normal map and a shading map that wrap around every tube ---- */
 const YARN_R=.168, LU=1.6, TOP_X=.5;   // strand radius · strand length one texture repeat covers · where along a top loop the next round's hook goes in
@@ -6047,6 +7206,7 @@ const mkStitchGeo=lod=>{      // 0 full · 1 lighter (phones, or a big build) ·
 const stitchGeos=[], stitchGeo=lod=>stitchGeos[lod]||(stitchGeos[lod]=mkStitchGeo(lod));
 const BIG=1800;      // stitches: past this a pattern is drawn with lighter stitches
 const eyeGeo=new THREE.SphereGeometry(1,24,16);
+const EYE=1.4;      // safety eyes are drawn this much bigger than a pattern's `size`: big eyes are most of what makes one cute
 const eyeMat=new THREE.MeshStandardMaterial({color:0x17131d,roughness:.1,metalness:0,envMapIntensity:1.3});
 const glintMat=new THREE.MeshBasicMaterial({color:0xffffff,toneMapped:false});
 const shadowTex=(()=>{ const c=document.createElement('canvas'); c.width=c.height=128; const x=c.getContext('2d'); const g=x.createRadialGradient(64,64,4,64,64,62); g.addColorStop(0,'rgba(20,12,40,.26)'); g.addColorStop(.6,'rgba(20,12,40,.09)'); g.addColorStop(1,'rgba(20,12,40,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); return new THREE.CanvasTexture(c); })();
@@ -6076,6 +7236,48 @@ const hookGrip=new THREE.MeshStandardMaterial({color:0x2a9aa2,roughness:.55,meta
 const arrowGeo=(()=>{ const c=new THREE.ConeGeometry(.21,.46,20); c.translate(0,-.23,0); const s=new THREE.CylinderGeometry(.075,.075,.7,14); s.translate(0,-.81,0); return [c,s]; })();
 const arrowMat=new THREE.MeshStandardMaterial({color:0xff2f7a,emissive:0xff2f7a,emissiveIntensity:.35,roughness:.45});
 
+/* ---- style: finishing touches you pick for a pattern, kept with its progress as s:{t: colours, o: outside, e: eyes} ---- */
+const hsl=(hex,f,i)=>{ const c=new THREE.Color(hex), o={}; c.getHSL(o,THREE.SRGBColorSpace); f(o,i); return '#'+c.setHSL(((o.h%1)+1)%1,clamp(o.s,0,1),clamp(o.l,.04,.97),THREE.SRGBColorSpace).getHexString(); };
+const tint=list=>(o,i)=>{ if(o.s<.14||o.l>.92||o.l<.12) return; const q=list[i%list.length]; o.h=q[0]/360; o.s=q[1]; o.l=q[2]+(o.l-.55)*.3; };      // whites, greys and blacks stay as they are
+const THEMES={
+  pastel:['Pastel',o=>{ o.s*=.62; o.l=.55+o.l*.37; }],
+  bright:['Bright',o=>{ if(o.s>.1){ o.s=Math.min(1,o.s*1.3+.14); o.l=clamp(o.l,.3,.8); } }],
+  xmas:['Christmas',tint([[355,.68,.47],[140,.5,.36],[44,.75,.55]])],
+  autumn:['Autumn',tint([[24,.78,.52],[12,.6,.4],[44,.75,.55],[78,.4,.4]])],
+  ocean:['Ocean',tint([[192,.55,.5],[214,.55,.45],[168,.45,.55],[236,.45,.52]])],
+  candy:['Candy',tint([[332,.75,.72],[272,.6,.72],[188,.6,.68],[48,.85,.7]])]};
+const OUTSIDE={stripes:'Stripes',dipped:'Dipped',speckled:'Speckled'}, EYES={small:'Small eyes',sleepy:'Sleepy',happy:'Happy'};
+const styleOf=id=>store.entry(id).s||{};
+function colourName(hex){
+  const o={}; new THREE.Color(hex).getHSL(o,THREE.SRGBColorSpace); const h=o.h*360;
+  if(o.l>.93||(o.l>.86&&o.s<.4)) return 'White'; if(o.l<.14) return 'Black'; if(o.s<.12) return o.l>.6?'Pale grey':o.l>.35?'Grey':'Charcoal';
+  const n=h<14||h>=345?'red':h<40?'orange':h<64?'yellow':h<160?'green':h<200?'teal':h<255?'blue':h<295?'purple':'pink', w=(o.l>.72?'pale ':o.l<.36?'dark ':'')+n;
+  return w[0].toUpperCase()+w.slice(1);
+}
+function yarnOf(def){      // the yarns of a pattern, in the colours you picked
+  const th=THEMES[styleOf(def.id).t]; if(!th) return def.yarn;
+  const out={}; let i=0; for(const k in def.yarn){ const hex=def.yarn[k][1], h2=hsl(hex,th[1],i++); out[k]=[h2===hex.toLowerCase()?def.yarn[k][0]:colourName(h2),h2]; }
+  return out;
+}
+function look(cr){      // the yarn of every stitch, in this pattern's style
+  const def=cr.def, st=styleOf(def.id), yarn=yarnOf(def), pal={}, alt={}, altHex={};
+  for(const k in yarn){ pal[k]=new THREE.Color(yarn[k][1]); altHex[k]=hsl(yarn[k][1],o=>{ if(st.o==='speckled'){ o.l=o.l>.75?o.l-.3:.9; o.s*=.5; } else o.l+=o.l>.58?-.22:.24; }); alt[k]=new THREE.Color(altHex[k]); }
+  if(!cr.rnd){ cr.rnd=new Int16Array(cr.insts.length); for(const c of cr.copies){ const f=c.info; for(let r=0;r<f.N;r++) for(let j=0;j<f.counts[r];j++) cr.rnd[c.first+f.rstart[r]+j]=r; } }
+  const root=cr.copies[0], main=root.info.pd.color, dipAt=Math.round(root.info.N*.62), o=st.o;
+  const at=i=>{ const k=cr.insts[i].color; if(k!==main||!o) return pal[k];
+    if(o==='stripes') return (cr.rnd[i]>>1)&1?alt[k]:pal[k];
+    if(o==='dipped') return i<root.last&&cr.rnd[i]>=dipAt?alt[k]:pal[k];
+    return (i*2654435761>>>0)%100<13?alt[k]:pal[k]; };
+  const mn=yarn[main][0], lighter=alt[main].getHSL({}).l>pal[main].getHSL({}).l;
+  return {pal,at,yarn,st,main,altHex:altHex[main],altName:st.o==='speckled'?'':(lighter?'a lighter ':'a darker ')+mn[0].toLowerCase()+mn.slice(1),dipAt};
+}
+function eyeArc(s,size,up){      // a closed eye, embroidered: a short curve where the eye would be
+  const Y=new V3(0,1,0).addScaledVector(s.n,-s.n.y); if(Y.lengthSq()<.02) Y.set(0,0,1).addScaledVector(s.n,-s.n.z); Y.normalize();
+  const X=new V3().crossVectors(Y,s.n), pts=[];
+  for(let j=0;j<=6;j++){ const a=Math.PI*j/6; pts.push(s.p.clone().addScaledVector(s.n,.44).addScaledVector(X,Math.cos(a)*size*.8).addScaledVector(Y,(Math.sin(a)-.5)*size*.6*(up?1:-1))); }
+  return pts;
+}
+
 const TYPE_COL={mr:new THREE.Color('#f2b33d'),sc:new THREE.Color('#e9e2d6'),inc:new THREE.Color('#e0457b'),dec:new THREE.Color('#1f9aa3')};
 const WHITE=new THREE.Color('#ffffff'), SUN=new THREE.Color('#ffd23d');
 
@@ -6083,12 +7285,12 @@ function makeView(cr){
   const group=new THREE.Group(), n=cr.insts.length, geo=stitchGeo((LOW?1:0)+(n>BIG?1:0)).clone();
   const mesh=new THREE.InstancedMesh(geo,yarnMat,n); mesh.frustumCulled=false; mesh.castShadow=mesh.receiveShadow=true; mesh.customDepthMaterial=depthMat;
   const m=new THREE.Matrix4(), inv=new THREE.Matrix4(), a=new V3(), q=new V3(), mats=[], frames=[], base=[], aBase=new Float32Array(n*3), aMeta=new Float32Array(n*3);
-  const pal={}; for(const k in cr.def.yarn) pal[k]=new THREE.Color(cr.def.yarn[k][1]);
+  const lk=look(cr), pal=lk.pal;
   cr.insts.forEach((s,i)=>{
     const Y=s.u.clone().addScaledVector(s.n,-s.u.dot(s.n)).normalize(), X=new V3().crossVectors(Y,s.n).normalize();
     frames.push({X,Y,N:s.n});
     m.makeBasis(q.copy(X).multiplyScalar(s.sx||1),Y,s.n).setPosition(s.p); mats.push(m.clone()); mesh.setMatrixAt(i,m);
-    const c=pal[s.color].clone().multiplyScalar(.97+.06*((i*7919)%97)/97); base.push(c); mesh.setColorAt(i,c);   // hand-made: no two stitches quite the same shade
+    const c=lk.at(i).clone().multiplyScalar(.97+.06*((i*7919)%97)/97); base.push(c); mesh.setColorAt(i,c);   // hand-made: no two stitches quite the same shade
     aMeta[i*3]=i; aMeta[i*3+1]=1e7;
   });
   cr.copies.forEach((c,ci)=>{ for(let i=c.first;i<c.last;i++) aMeta[i*3+2]=ci; });
@@ -6111,11 +7313,13 @@ function makeView(cr){
       const mat=strandMat.clone(); mat.color.set(e.color);
       for(const pl of x.lines) objs.push(new THREE.Mesh(strandGeo(pl,.1,Math.max(12,pl.length*5),7),mat));
     }else for(const s of x.pts){
-      const qt=new THREE.Quaternion().setFromUnitVectors(new V3(0,0,1),s.n), size=e.size||.58;
-      if(e.kind==='eye'){
-        const o=new THREE.Mesh(eyeGeo,eyeMat); o.scale.set(size,size,size*.8); o.quaternion.copy(qt); o.position.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.12+.3);
-        const gl=new THREE.Mesh(eyeGeo,glintMat); gl.scale.setScalar(size*.17); gl.position.copy(o.position).addScaledVector(s.n,size*.7).add(new V3(-.2*size,.3*size,0));
-        objs.push(o,gl);
+      const qt=new THREE.Quaternion().setFromUnitVectors(new V3(0,0,1),s.n), es=e.kind==='eye'?lk.st.e:'', size=(e.size||.58)*(e.kind==='eye'?EYE*(es==='small'?.72:1):1);
+      if(es==='sleepy'||es==='happy'){ const mat=strandMat.clone(); mat.color.set(0x1d1820); objs.push(new THREE.Mesh(strandGeo(eyeArc(s,size,es==='happy'),.12,12,7),mat)); }
+      else if(e.kind==='eye'){      // a big dark eye with two catchlights
+        const o=new THREE.Mesh(eyeGeo,eyeMat); o.scale.set(size,size,size*.72); o.quaternion.copy(qt); o.position.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.1+.3);
+        const gl=new THREE.Mesh(eyeGeo,glintMat); gl.scale.setScalar(size*.21); gl.position.copy(o.position).addScaledVector(s.n,size*.6).add(new V3(-.24*size,.3*size,0));
+        const g2=new THREE.Mesh(eyeGeo,glintMat); g2.scale.setScalar(size*.09); g2.position.copy(o.position).addScaledVector(s.n,size*.66).add(new V3(.2*size,-.2*size,0));
+        objs.push(o,gl,g2);
       }else{
         const o=new THREE.Mesh(eyeGeo,new THREE.MeshStandardMaterial({color:e.color,roughness:.95})); o.scale.set(size,size*.8,size*.35); o.quaternion.copy(qt); o.position.copy(s.p).addScaledVector(s.n,.5);
         objs.push(o);
@@ -6181,16 +7385,32 @@ function timing(cr){
   });
   cr.ovAt=ov; return cr;
 }
-function minutesLeft(cr,i=0){ timing(cr); const n=cr.steps.length; return (cr.instAt[n]-cr.instAt[i])/RATE+cr.ovAt[n]-cr.ovAt[i]; }
+// The same pattern in thinner or thicker yarn: the stitches do not change, the size does.
+// k: times as big · rate: how fast the stitches go next to chunky yarn · over: how much longer the stuffing and sewing take.
+// Yarn and hook are a guide (what sets the size is the gauge), and rate and over are estimates: thread is fiddly, giant yarn is heavy.
+const SIZES=[
+  {k:.25,l:'¼',name:'Quarter size',yarn:'fine crochet thread, about size 30',in:'crochet thread',hook:'a 0.75 mm steel hook',rate:.55,over:.8},
+  {k:.5, l:'½',name:'Half size',yarn:'fingering (sock) yarn',in:'sock yarn',hook:'a 2 mm hook',rate:.85,over:.9},
+  {k:1,  l:'1×',name:'Full size',yarn:'chunky yarn',in:'chunky yarn',hook:'a 4 mm hook',rate:1,over:1},
+  {k:2,  l:'2×',name:'Twice the size',yarn:'jumbo blanket yarn',in:'jumbo yarn',hook:'a 10 mm hook',rate:.75,over:1.6},
+  {k:3,  l:'3×',name:'Three times the size',yarn:'giant tube yarn, or three strands of jumbo held together',in:'giant yarn',hook:'a 20 mm hook',rate:.55,over:2.4}];
+const FULL=SIZES[2], sizeOf=id=>{ const k=store.entry(id).k; return SIZES.find(z=>z.k===k)||FULL; };      // the size you picked for a pattern is remembered with your progress
+function minutesLeft(cr,i=0,z=FULL){ timing(cr); const n=cr.steps.length; return (cr.instAt[n]-cr.instAt[i])/(RATE*z.rate)+(cr.ovAt[n]-cr.ovAt[i])*z.over; }
+const fmtCm=v=>v>=10?String(Math.round(v)):String(+v.toFixed(1));
+// Lengths are shown in inches unless you ask for centimetres (the patterns themselves are worked out in centimetres)
+let UNIT='in'; try{ if(localStorage.getItem('lbl-unit')==='cm') UNIT='cm'; }catch(e){}
+const fmtIn=v=>{ if(v>=10) return String(Math.round(v)); const q=v<2?Math.round(v*4)/4:Math.round(v*2)/2, w=Math.floor(q), f=q-w; return (w||!f?String(w):'')+(f?{.25:'¼',.5:'½',.75:'¾'}[f]:''); };
+const fmtLen=cm=>UNIT==='in'?fmtIn(cm/2.54)+' in':fmtCm(cm)+' cm';
+const fmtShort=min=>{ if(min<50) return Math.max(5,Math.round(min/5)*5)+' min'; const h=min/60; if(h>=5.75) return Math.round(h)+' h'; const q=Math.round(h*2)/2, w=Math.floor(q); return (q%1?(w||'')+'½':String(w))+' h'; };
 function fmtTime(min){
   if(min<50) return Math.max(5,Math.round(min/5)*5)+' minutes';
   const h=min/60; if(h>=5.75) return Math.round(h)+' hours';
   const q=Math.round(h*2)/2, w=Math.floor(q);
   return (q%1?(w||'')+'½':String(w))+(q===1?' hour':' hours');
 }
-function cardFacts(def,cr){ const el=grid.querySelector(`[data-id="${def.id}"] .facts`); if(el) el.textContent=`${cr.insts.length.toLocaleString('en-US')} stitches · ${cr.heightCm} cm · about ${fmtTime(minutesLeft(cr))}`; }
+function cardFacts(def,cr){ const el=grid.querySelector(`[data-id="${def.id}"] .facts`), z=sizeOf(def.id); if(el) el.textContent=`${cr.insts.length.toLocaleString('en-US')} stitches · ${fmtLen(cr.heightCm*z.k)} · about ${fmtTime(minutesLeft(cr,0,z))}`+(z===FULL?'':` · at ${z.l} size`); }
 const LVL=['','Beginner','Easy','A bit more','Big build'];
-const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['food','Food'],['things','Things'],['vehicles','Vehicles'],['space','Space'],['home','Home'],['camp','Outdoors'],['play','Toys and games']];
+const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['veg','Fruit and veg'],['xmas','Christmas'],['food','Food'],['things','Things'],['vehicles','Vehicles'],['space','Space'],['home','Home'],['camp','Outdoors'],['play','Toys and games']];
 const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat===key)})).filter(c=>c.defs.length);      // the gallery, one shelf per category
 { const chip=(key,label,n)=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'; b.dataset.c=key; b.setAttribute('aria-pressed',String(key==='all')); b.innerHTML=`${label}<small>${n}</small>`; $('#cats').appendChild(b); };
   chip('all','All',CREATURES.length);
@@ -6260,10 +7480,10 @@ const S={cr:null,view:null,cur:0,mode:'lapse',playing:false,acc:0,speed:1.2,auto
 const XP={az:-.22,el:.85,zoom:1};                   // expert view: where the camera sits relative to the stitch being worked
 const Q={ema:1/60,bad:0,level:0,hold:0,probe:null};             // steps resolution and the shadow pass down if frames run steadily slow
 let stageW=1, stageH=1;
-// progress per pattern, kept in this browser: {c: step you are on, n: steps in all, made: finished at least once}
+// progress per pattern, kept in this browser: {c: step you are on, n: steps in all, made: finished at least once, k: the size you are making it}
 const store={ get(){ try{ return JSON.parse(localStorage.getItem('lbl-progress')||'{}'); }catch(e){ return {}; } },
               entry(id){ const v=this.get()[id]; return typeof v==='number'?{c:v}:(v||{}); },
-              set(id,patch){ try{ const o=this.get(), e=Object.assign(this.entry(id),patch); if(e.c>0||e.made) o[id]=e; else delete o[id]; localStorage.setItem('lbl-progress',JSON.stringify(o)); }catch(e){} } };
+              set(id,patch){ try{ const o=this.get(), e=Object.assign(this.entry(id),patch); if(e.k===1) delete e.k; if(e.s&&!Object.values(e.s).some(Boolean)) delete e.s; if(e.c>0||e.made||e.k||e.s) o[id]=e; else delete o[id]; localStorage.setItem('lbl-progress',JSON.stringify(o)); }catch(e){} } };
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches, finePointer=matchMedia('(pointer:fine)').matches;
 
 function openCreature(id){
@@ -6272,7 +7492,7 @@ function openCreature(id){
   const cr=getCreature(id); S.cr=cr; S.view=makeView(cr); world.add(S.view.group); setFloor(S.view);
   $('#home').hidden=true; $('#studio').hidden=false; $('#sname').textContent=def.name;
   $('#scrub').max=cr.steps.length;
-  buildPatternPanel(cr); buildMaterials(cr); buildPieces(cr); S.stripKey=null;
+  S.size=sizeOf(id); S.restyled=false; buildPatternPanel(cr); buildMaterials(cr); buildPieces(cr); buildSizes(cr); buildStyle(cr); S.stripKey=null;
   cam.az=def.view??.45; cam.el=.2; cam.zoom=cam.z=1; cam.target.set(0,0,0); cam.goalT.set(0,0,0); cam.up.set(0,1,0); orbitDir();
   resize(); cam.dist=cam.goalD=fitDist(1);
   S.types=false; $('#tTypes').setAttribute('aria-pressed','false'); $('#legend').hidden=true;
@@ -6285,8 +7505,9 @@ function openCreature(id){
 function closeStudio(){
   if(S.cr) saveProgress();
   if(S.view){ world.remove(S.view.group); S.view.dispose(); }
-  S.cr=null; S.view=null; cancelAnimationFrame(S.raf); S.raf=0; refreshCards();
+  const was=S.cr; S.cr=null; S.view=null; cancelAnimationFrame(S.raf); S.raf=0; refreshCards();
   $('#studio').hidden=true; $('#home').hidden=false;
+  if(was){ cardFacts(was.def,was); LINEUP.refresh(); if(S.restyled && !thumbQueue.includes(was.def)){ try{ renderThumb(was.def); }catch(err){ console.error(err); } } }      // a new size or style shows on its card, and in the line-up
 }
 function saveProgress(){ if(!S.cr || S.mode==='lapse') return; const n=S.cr.steps.length, end=S.cur>=n; store.set(S.cr.def.id,Object.assign({c:end?0:S.cur,n},end?{made:true}:{})); }
 
@@ -6695,7 +7916,7 @@ function renderNow(){
   let b='GO', cls='', title=cr.def.name, formula=`${cr.insts.length} stitches in ${cr.copies.length} ${cr.copies.length>1?'pieces':'piece'}`, action='Press play to watch it grow, or switch to Step and move one stitch at a time.', count='', bar=0, hooks=false;
   const st = S.cur>0 ? cr.steps[S.cur-1] : null;
   if(st && S.cur>=total && (S.done||S.mode==='lapse')){
-    b='✓'; cls='note'; title=`${cr.def.name}, finished`; formula=`${cr.insts.length} stitches · about ${cr.heightCm} cm tall in chunky yarn · about ${fmtTime(minutesLeft(cr))} to make`; action='That is the whole build. Slow it down to crochet along, or tap any round in the pattern below to jump there.'; bar=1;
+    b='✓'; cls='note'; title=`${cr.def.name}, finished`; formula=`${cr.insts.length} stitches · about ${fmtLen(cr.heightCm*S.size.k)} tall in ${S.size.in} · about ${fmtTime(minutesLeft(cr,0,S.size))} to make`; action='That is the whole build. Slow it down to crochet along, or tap any round in the pattern below to jump there.'; bar=1;
   }else if(st){
     const info=st.copy.info;
     title=`${partLabel(st.copy)} · Round ${st.round+1} of ${info.N}`;
@@ -6733,7 +7954,7 @@ function buildPieces(cr){
 // where you are: one dot per stitch of the round in hand, a running total, each piece, and the rounds you have finished
 function renderTrack(){
   const cr=S.cr, vis=cr.instAt[S.cur], n=cr.insts.length, st=S.cur>0?cr.steps[S.cur-1]:null, c=st?st.copy:cr.copies[0], ci=cr.copies.indexOf(c);
-  $('#tTxt').textContent=`${vis} of ${n} stitches`+(S.cur<cr.steps.length?` · about ${fmtTime(minutesLeft(cr,S.cur))} left`:''); $('#tBar').style.width=(vis/n*100).toFixed(1)+'%';
+  $('#tTxt').textContent=`${vis} of ${n} stitches`+(S.cur<cr.steps.length?` · about ${fmtTime(minutesLeft(cr,S.cur,S.size))} left`:''); $('#tBar').style.width=(vis/n*100).toFixed(1)+'%'; sizeTick();
   if(S.mode==='lapse' && S.playing) return;                                    // the time-lapse is too quick to count along with
   const strip=$('#strip'), key=st&&!(S.cur>=cr.steps.length&&S.done)?ci+':'+st.round:'';
   if(key!==S.stripKey){
@@ -6764,7 +7985,7 @@ function renderTrack(){
 }
 function buildPatternPanel(cr){
   const host=$('#pattern'); host.textContent=''; S.rowKey=null;
-  const yarn=cr.def.yarn;
+  const yarn=yarnOf(cr.def);
   for(const info of cr.partInfo){
     const d=document.createElement('div'); d.className='part';
     const cols=[...new Set(info.rounds.map(r=>r.color))];
@@ -6795,18 +8016,109 @@ function buildPatternPanel(cr){
   const fins=cr.steps.filter(s=>s.fin);
   if(fins.length){ const d=document.createElement('div'); d.className='part'; d.innerHTML='<h3>Finishing touches</h3>'; for(const s of fins){ const p=document.createElement('p'); p.className='pnote'; p.textContent=s.text; d.appendChild(p); } host.appendChild(d); }
 }
+function materialLines(cr){
+  const z=S.size, lk=look(cr), yarn=lk.yarn, out=[], add=(sw,txt)=>out.push([sw,txt]);
+  for(const k in yarn) add(yarn[k][1], `${yarn[k][0]}: ${z.yarn}`+(k===lk.main&&lk.st.o==='speckled'?', a flecked (tweed) one':''));
+  if(lk.st.o==='stripes'||lk.st.o==='dipped') add(lk.altHex, `${lk.altName[0].toUpperCase()+lk.altName.slice(1)}: ${z.yarn}, for the ${lk.st.o==='stripes'?'stripes':'dipped end'}`);
+  const eyes=cr.extras.filter(x=>x.e.kind==='eye'), nEyes=eyes.reduce((a,x)=>a+x.pts.length,0), es=lk.st.e;
+  if(nEyes && (es==='sleepy'||es==='happy')) add('#17131d','Black embroidery thread, for the closed eyes');
+  else if(nEyes){      // the nearest size safety eyes are sold in
+    const want=2*(eyes[0].e.size||.58)*EYE*(es==='small'?.72:1)*CM*10*z.k, mm=[3,4,5,6,7,8,9,10,12,14,15,16,18,20,24,30,35,40].reduce((a,b)=>Math.abs(b-want)<Math.abs(a-want)?b:a);
+    add('#17131d', mm<5?`${nEyes} tiny eyes: ${mm} mm beads, or French knots in black thread`:mm>24?`${nEyes} big safety eyes, about ${mm} mm, or circles of black felt`:`${nEyes} safety eyes, about ${mm} mm`);
+  }
+  add('', `${z.hook[0].toUpperCase()+z.hook.slice(1)}, stitch marker, yarn needle`);
+  add('', 'Fiberfill stuffing');
+  add('', `Gauge: ten stitches side by side should measure about ${fmtLen(7.5*z.k)}. That is what sets the size; change hook if yours differ`);
+  add('', `Finished size: about ${fmtLen(cr.heightCm*z.k)} tall`);
+  add('', `Time: about ${fmtTime(minutesLeft(cr,0,z))} at ${Math.round(RATE*z.rate)} stitches a minute, with stuffing and sewing up`);
+  return out;
+}
 function buildMaterials(cr){
   const host=$('#materials'); host.textContent='';
   const ul=document.createElement('ul'); ul.className='mat';
-  const li=(html,txt)=>{ const l=document.createElement('li'); l.innerHTML=html+'<span></span>'; l.lastChild.textContent=txt; ul.appendChild(l); };
-  for(const k in cr.def.yarn) li(`<span class="sw" style="background:${cr.def.yarn[k][1]}"></span>`, `${cr.def.yarn[k][0]} yarn, chunky weight`);
-  const nEyes=cr.extras.filter(x=>x.e.kind==='eye').reduce((a,x)=>a+x.pts.length,0);
-  if(nEyes) li('<span class="sw" style="background:#17131d"></span>', `${nEyes} safety eyes, about 9 mm`);
-  li('', '4 mm crochet hook, stitch marker, yarn needle');
-  li('', 'Fiberfill stuffing');
-  li('', `Finished size: about ${cr.heightCm} cm tall`);
-  li('', `Time: about ${fmtTime(minutesLeft(cr))} at ${RATE} stitches a minute, with stuffing and sewing up`);
+  for(const [sw,txt] of materialLines(cr)){ const l=document.createElement('li'); l.innerHTML=(sw?`<span class="sw" style="background:${sw}"></span>`:'')+'<span></span>'; l.lastChild.textContent=txt; ul.appendChild(l); }
   host.appendChild(ul);
+}
+// Style: colours, a pattern on the outside, and the eyes. The model, the card and the line-up all wear it.
+function styleNote(cr){
+  const lk=look(cr), st=lk.st, out=[], root=cr.copies[0].info, main=lk.yarn[lk.main][0], alt=lk.altName;
+  if(st.t) out.push(`${THEMES[st.t][0]} colours: ${Object.values(lk.yarn).map(y=>y[0]).filter((v,i,a)=>a.indexOf(v)===i).join(', ')}.`);
+  if(st.o==='stripes') out.push(`Stripes: wherever the pattern uses ${main}, work two rounds in ${main}, then two in ${alt}, and carry on like that.`);
+  if(st.o==='dipped') out.push(`Dipped: work the ${root.pd.name.toLowerCase()} in ${alt} from round ${lk.dipAt+1} to the end.`);
+  if(st.o==='speckled') out.push(`Speckled: use a flecked (tweed) yarn for ${main}.`);
+  if(st.e==='sleepy'||st.e==='happy') out.push(`${EYES[st.e]} eyes: leave out the safety eyes. Where each one would go, embroider a short black curve that ${st.e==='happy'?'arches up':'dips down'}.`);
+  if(st.e==='small') out.push('Small eyes: use safety eyes about two thirds the size.');
+  return out;
+}
+function buildStyle(cr){
+  const id=cr.def.id, cur=styleOf(id), row=(host,key,first,opts)=>{
+    host.textContent='';
+    for(const [v,label] of [['',first],...Object.entries(opts).map(([k,o])=>[k,Array.isArray(o)?o[0]:o])]){
+      const b=document.createElement('button'); b.type='button'; b.className='pill'; b.textContent=label; b.setAttribute('aria-pressed',String((cur[key]||'')===v));
+      b.addEventListener('click',()=>{ const s=Object.assign({},styleOf(id)); if(v) s[key]=v; else delete s[key]; store.set(id,{s}); S.restyled=true; restyle(); });
+      host.appendChild(b);
+    }
+  };
+  row($('#stT'),'t','As written',THEMES); row($('#stO'),'o','Plain',OUTSIDE); row($('#stE'),'e','Big eyes',EYES);
+  $('#stERow').hidden=!cr.extras.some(x=>x.e.kind==='eye');
+  $('#styleNote').textContent=styleNote(cr).join(' ');
+}
+function restyle(){      // the model is made again in its new style, where you are in it
+  const cr=S.cr; world.remove(S.view.group); S.view.dispose(); S.view=makeView(cr); world.add(S.view.group); setFloor(S.view);
+  S.lastPainted=-1; S.hl=[]; S.stripKey=null; buildPatternPanel(cr); buildMaterials(cr); buildStyle(cr); setCursor(S.cur);
+}
+// The whole pattern as plain text, the way patterns have always been written down
+function classicText(cr){
+  const def=cr.def, z=S.size, lk=look(cr), yarn=lk.yarn, L=[], up=t=>t.toUpperCase(), sewnEyes=lk.st.e==='sleepy'||lk.st.e==='happy';
+  const word=(src,prev)=>{ let m;
+    if(m=src.match(/^mr\s+(\d+)$/)) return `${m[1]} sc in a magic ring`;
+    if(/^sc\s+\d+$/.test(src)) return 'sc in each st around';
+    if((m=src.match(/^\(?inc\)?\s*\*\s*(\d+)$/)) && +m[1]===prev) return 'inc in each st around';
+    if((m=src.match(/^\(?dec\)?\s*\*\s*(\d+)$/)) && +m[1]*2===prev) return 'dec all the way around';
+    return src.replace(/\bsc\s+(\d+)/g,'$1 sc').replace(/\s*\*\s*(\d+)/g,' x $1'); };
+  L.push(up(def.name), `A Loop by Loop pattern · dustingamble.com/loop-by-loop/#${def.id}`, `${LVL[def.level]} · ${cr.insts.length.toLocaleString('en-US')} stitches · ${z.name.toLowerCase()}: about ${fmtLen(cr.heightCm*z.k)} tall · about ${fmtTime(minutesLeft(cr,0,z))}`, '');
+  L.push('YOU WILL NEED'); for(const [,t] of materialLines(cr)) L.push('  '+t);
+  const notes=styleNote(cr); if(notes.length){ L.push('','STYLE'); for(const n of notes) L.push('  '+n); }
+  L.push('','ABBREVIATIONS (US terms)','  sc = single crochet · inc = 2 sc in the same stitch · dec = 2 stitches worked together','  ( ) x 6 = work what is in the brackets 6 times · [24] = stitches in the round once it is done','  Work in a spiral without joining. Move a marker up to the first stitch of every round.');
+  for(const info of cr.partInfo){
+    const cols=[...new Set(info.rounds.map(r=>r.color))];
+    L.push('', `${up(info.pd.name)} (${info.copies.length>1?`make ${info.copies.length}, `:''}${cols.map(c=>yarn[c][0]).join(' and ')})`);
+    const noteText=nt=>{ const q=cr.steps.find(x=>x.kind==='note'&&x.copy===info.copies[0]&&x.key===nt.key&&(nt.key||x.text===nt.text)); return q?q.text:nt.text; };
+    let i=0, colNow=info.pd.color;
+    while(i<=info.N){
+      for(const nt of info.notes) if(nt.after===i){ const t=nt.key&&/^eyes/.test(nt.key)&&sewnEyes?'Mark where the eyes will go with two pins. They are embroidered at the end (see Style).':noteText(nt); if(t) L.push('    '+t); }
+      if(i===info.N) break;
+      let j=i; while(j+1<info.N && info.rounds[j+1].src===info.rounds[i].src && info.rounds[j+1].color===info.rounds[i].color && !info.notes.some(n=>n.after===j+1)) j++;
+      const rd=info.rounds[i]; if(rd.color!==colNow){ L.push(`    Change to ${yarn[rd.color][0]}.`); colNow=rd.color; }
+      L.push(`  ${i===j?`Rnd ${i+1}`:`Rnds ${i+1}-${j+1}`}: ${word(rd.src,i?info.rounds[i-1].n:0)} [${rd.n}]`);
+      i=j+1;
+    }
+    if(!info.pd.root){ const q=cr.steps.find(x=>x.kind==='note'&&x.key==='sew'&&x.copy===info.copies[0]); if(q) L.push('    '+q.text); }
+  }
+  const fins=cr.steps.filter(q=>q.fin); if(fins.length){ L.push('','FINISHING'); for(const q of fins) if(q.text) L.push('  '+q.text); }
+  return L.join('\n');
+}
+$('#bClassic').addEventListener('click',()=>{ if(!S.cr) return; $('#clText').textContent=classicText(S.cr); const d=$('#classic'); if(d.showModal) d.showModal(); else d.setAttribute('open',''); $('#clText').scrollTop=0; });
+$('#clClose').addEventListener('click',()=>$('#classic').close());
+$('#classic').addEventListener('click',e=>{ if(e.target===$('#classic')) $('#classic').close(); });
+$('#clCopy').addEventListener('click',async()=>{ const b=$('#clCopy'); try{ await navigator.clipboard.writeText($('#clText').textContent); b.textContent='Copied'; }catch(err){ const r=document.createRange(); r.selectNodeContents($('#clText')); const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent='Selected: now copy'; } setTimeout(()=>b.textContent='Copy',1800); });
+$('#clPrint').addEventListener('click',()=>{ $('#printOnly').textContent=$('#clText').textContent; $('#classic').close(); document.body.classList.add('pr'); const done=()=>{ document.body.classList.remove('pr'); removeEventListener('afterprint',done); }; addEventListener('afterprint',done); print(); });
+// How big to make it: five buttons, each with its height and how long it takes; the one in use also says how long is left
+function buildSizes(cr){
+  const host=$('#sizes'); host.textContent='';
+  for(const z of SIZES){
+    const b=document.createElement('button'); b.type='button'; b.innerHTML='<b></b><span></span><em></em><i></i>'; b.children[0].textContent=z.l; b.children[1].textContent=fmtLen(cr.heightCm*z.k); b.title=`${z.name}: ${z.yarn}`;
+    b.addEventListener('click',()=>{ S.size=z; store.set(cr.def.id,{k:z.k}); buildMaterials(cr); S.sizeKey=''; setCursor(S.cur); });
+    host.appendChild(b);
+  }
+  S.sizeKey=''; sizeTick();
+}
+function sizeTick(){
+  const cr=S.cr, bs=$('#sizes').children; if(!cr||bs.length!==SIZES.length) return;
+  const going=S.cur>0&&S.cur<cr.steps.length, put=(el,t)=>{ if(el.textContent!==t) el.textContent=t; };
+  SIZES.forEach((z,i)=>{ const b=bs[i]; b.setAttribute('aria-pressed',String(z===S.size)); put(b.children[2],fmtShort(minutesLeft(cr,0,z))); put(b.children[3],going?fmtShort(minutesLeft(cr,S.cur,z))+' left':''); });
+  const z=S.size;
+  put($('#sizeNote'),`${z.name}: ${z.yarn} and ${z.hook}. Ten stitches side by side should measure about ${fmtLen(7.5*z.k)}. About ${fmtTime(minutesLeft(cr,0,z))} to make`+(going?`, about ${fmtTime(minutesLeft(cr,S.cur,z))} left.`:'.'));
 }
 
 /* controls */
@@ -7012,71 +8324,139 @@ function frame(now){
    thousand triangles and turns freely. It has its own small renderer above the gallery.
    ===================================================================== */
 function skinGeo(cr){
-  const P=[],Nv=[],C=[],I=[],LP=[],LC=[], pal={}, t=new V3(), nn=new V3(), col=new THREE.Color();
-  for(const k in cr.def.yarn) pal[k]=new THREE.Color(cr.def.yarn[k][1]);
-  const vert=(p,n,c,k)=>{ P.push(p.x,p.y,p.z); Nv.push(n.x,n.y,n.z); C.push(c.r*k,c.g*k,c.b*k); return P.length/3-1; };
+  const P=[],Nv=[],C=[],UV=[],I=[], lk=look(cr), S=cr.insts, t=new V3(), nn=new V3(), col=new THREE.Color();
+  const vert=(p,n,c,k,u,v)=>{ P.push(p.x,p.y,p.z); Nv.push(n.x,n.y,n.z); C.push(c.r*k,c.g*k,c.b*k); UV.push(u,v); return P.length/3-1; };
+  const at=(k,ck,u,v)=>{ const s=S[k]; return vert(t.copy(s.p).addScaledVector(s.n,.2),s.n,lk.at(ck),.95+.1*((ck*7919)%97)/97,u,v); };      // stitch k as a corner, in the yarn of stitch ck (no two quite the same shade)
   const tri=(a,b,c)=>{      // wound so that it faces the way its corners do
     const ax=P[a*3],ay=P[a*3+1],az=P[a*3+2], ux=P[b*3]-ax,uy=P[b*3+1]-ay,uz=P[b*3+2]-az, vx=P[c*3]-ax,vy=P[c*3+1]-ay,vz=P[c*3+2]-az;
     const d=(uy*vz-uz*vy)*(Nv[a*3]+Nv[b*3]+Nv[c*3])+(uz*vx-ux*vz)*(Nv[a*3+1]+Nv[b*3+1]+Nv[c*3+1])+(ux*vy-uy*vx)*(Nv[a*3+2]+Nv[b*3+2]+Nv[c*3+2]);
     if(d<0) I.push(a,c,b); else I.push(a,b,c);
   };
   for(const c of cr.copies){
-    const info=c.info, off=P.length/3-c.first;
-    for(let k=c.first;k<c.last;k++){ const s=cr.insts[k]; vert(t.copy(s.p).addScaledVector(s.n,.18),s.n,pal[s.color],.9+.14*((k*7919)%97)/97); }      // no two stitches quite the same shade
-    for(let i=0;i<info.N-1;i++){      // zip each round to the next
-      const a0=off+c.first+info.rstart[i], na=info.counts[i], b0=a0+na, nb=info.counts[i+1]; let a=0,b=0;
-      while(a<na||b<nb){ if(a<na && (b>=nb || (a+1)*nb<=(b+1)*na)){ tri(a0+a%na,b0+b%nb,a0+(a+1)%na); a++; } else { tri(a0+a%na,b0+b%nb,b0+(b+1)%nb); b++; } }
+    const info=c.info, R=i=>c.first+info.rstart[i];
+    for(let i=0;i<info.N-1;i++){      // zip each round to the next. The band between two rounds shows the upper round's posts, so it takes their yarn, and is one picture wide for each of them
+      const na=info.counts[i], nb=info.counts[i+1], A=R(i), B=R(i+1), a0=P.length/3;
+      for(let a=0;a<=na;a++) at(A+a%na,B+Math.floor(a*nb/na)%nb,-a*nb/na,0);
+      const b0=P.length/3; for(let k=0;k<=nb;k++) at(B+k%nb,B+k%nb,-k,1);
+      let a=0,k=0; while(a<na||k<nb){ if(a<na && (k>=nb || (a+1)*nb<=(k+1)*na)){ tri(a0+a,b0+k,a0+a+1); a++; } else { tri(a0+a,b0+k,b0+k+1); k++; } }
     }
-    c.plugs.forEach((pg,pi)=>{ const i=pi?info.N-1:0, r0=off+c.first+info.rstart[i], n=info.counts[i], v=vert(pg.p,pg.n,pal[pg.color],.86); for(let j=0;j<n;j++) tri(v,r0+j,r0+(j+1)%n); });
+    c.plugs.forEach((pg,pi)=>{      // the ends: the first round fans out from its ring, the last one closes in
+      const i=pi?info.N-1:0, r0=R(i), n=info.counts[i];
+      for(let j=0;j<n;j++){ const k=r0+j; tri(vert(pg.p,pg.n,lk.at(k),.9,-(j+.5),pi?1:0),at(k,k,-j,pi?0:1),at(r0+(j+1)%n,k,-(j+1),pi?0:1)); }
+    });
   }
-  const ico=skinGeo.ico||(skinGeo.ico=new THREE.IcosahedronGeometry(1,1)), ip=ico.attributes.position, q=new THREE.Quaternion(), zAx=new V3(0,0,1), pt=new V3(), dark=new THREE.Color('#17131d');
-  const blob=(p,n,sx,sy,sz,c)=>{
-    q.setFromUnitVectors(zAx,n); const base=P.length/3;
+  const ico=skinGeo.ico||(skinGeo.ico=new THREE.IcosahedronGeometry(1,2)), ip=ico.attributes.position, q=new THREE.Quaternion(), zAx=new V3(0,0,1), pt=new V3(), gp=new V3(), gq=new V3(), dark=new THREE.Color('#17131d'), white=new THREE.Color('#ffffff');
+  const bits={eye:{P:[],N:[],C:[]},dot:{P:[],N:[],C:[]}};
+  const blob=(o,p,n,sx,sy,sz,c)=>{
+    q.setFromUnitVectors(zAx,n);
     for(let i=0;i<ip.count;i++){
-      t.set(ip.getX(i)*sx,ip.getY(i)*sy,ip.getZ(i)*sz).applyQuaternion(q); nn.set(ip.getX(i),ip.getY(i),ip.getZ(i)).applyQuaternion(q);
-      P.push(p.x+t.x,p.y+t.y,p.z+t.z); Nv.push(nn.x,nn.y,nn.z); C.push(c.r,c.g,c.b);
+      t.set(ip.getX(i)*sx,ip.getY(i)*sy,ip.getZ(i)*sz).applyQuaternion(q); nn.set(ip.getX(i)/sx,ip.getY(i)/sy,ip.getZ(i)/sz).normalize().applyQuaternion(q);
+      o.P.push(p.x+t.x,p.y+t.y,p.z+t.z); o.N.push(nn.x,nn.y,nn.z); o.C.push(c.r,c.g,c.b);
     }
-    for(let i=0;i<ip.count;i+=3) I.push(base+i,base+i+1,base+i+2);
   };
+  const L=newB();      // embroidery: thin strands of yarn
   for(const x of cr.extras){
-    const e=x.e, size=e.size||.58;
-    if(e.kind==='line'){ col.set(e.color); for(const pl of x.lines) for(let i=0;i<pl.length-1;i++){ LP.push(pl[i].x,pl[i].y,pl[i].z,pl[i+1].x,pl[i+1].y,pl[i+1].z); LC.push(col.r,col.g,col.b,col.r,col.g,col.b); } }
+    const e=x.e, es=e.kind==='eye'?lk.st.e:'', size=(e.size||.58)*(e.kind==='eye'?EYE*(es==='small'?.72:1):1);
+    if(es==='sleepy'||es==='happy'){ for(const s of x.pts){ const v0=L.col.length; tubeInto(L,eyeArc(s,size,es==='happy'),{rad:.12,segs:10,radial:5}); for(let i=v0;i<L.col.length;i+=3){ L.col[i]=dark.r; L.col[i+1]=dark.g; L.col[i+2]=dark.b; } } }
+    else if(e.kind==='line'){ col.set(e.color); for(const pl of x.lines){ const v0=L.col.length; tubeInto(L,pl,{rad:.1,segs:Math.max(6,pl.length*3),radial:5}); for(let i=v0;i<L.col.length;i+=3){ L.col[i]=col.r; L.col[i+1]=col.g; L.col[i+2]=col.b; } } }
     else for(const s of x.pts){
-      if(e.kind==='eye') blob(pt.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.12+.3),s.n,size,size,size*.8,dark);
-      else blob(pt.copy(s.p).addScaledVector(s.n,.5),s.n,size,size*.8,size*.35,col.set(e.color));
+      if(e.kind==='eye'){
+        pt.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.1+.3); blob(bits.eye,pt,s.n,size,size,size*.72,dark);
+        blob(bits.eye,gp.copy(pt).addScaledVector(s.n,size*.6).add(gq.set(-.24*size,.3*size,0)),s.n,size*.21,size*.21,size*.21,white);      // the catchlight
+      }else blob(bits.dot,pt.copy(s.p).addScaledVector(s.n,.5),s.n,size,size*.8,size*.35,col.set(e.color));
     }
   }
-  const geo=new THREE.BufferGeometry();
-  geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(Nv,3)); geo.setAttribute('color',new THREE.Float32BufferAttribute(C,3));
-  geo.setIndex(I); geo.computeBoundingSphere(); geo.computeBoundingBox();
-  let lines=null;
-  if(LP.length){ lines=new THREE.BufferGeometry(); lines.setAttribute('position',new THREE.Float32BufferAttribute(LP,3)); lines.setAttribute('color',new THREE.Float32BufferAttribute(LC,3)); }
-  return {geo,lines};
+  const mk=(P,N,C,idx)=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); g.setAttribute('normal',new THREE.Float32BufferAttribute(N,3)); g.setAttribute('color',new THREE.Float32BufferAttribute(C,3)); if(idx) g.setIndex(idx); return g; };
+  const geo=mk(P,Nv,C,I); geo.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2)); geo.computeBoundingSphere(); geo.computeBoundingBox();
+  return {geo,lines:L.pos.length?toGeo(L):null,eyes:bits.eye.P.length?mk(bits.eye.P,bits.eye.N,bits.eye.C):null,dots:bits.dot.P.length?mk(bits.dot.P,bits.dot.N,bits.dot.C):null};
 }
 const LINEUP=(()=>{
-  const host=$('#lineup'), cv=$('#lu'), tip=$('#luTip'), msg=$('#luMsg'), items=[], SQ=10/CM;      // floor squares are 10 cm
+  const host=$('#lineup'), cv=$('#lu'), tip=$('#luTip'), msg=$('#luMsg'), items=[], sq=()=>(UNIT==='in'?10.16:10)/CM;      // floor squares are 4 inches, or 10 cm
   let ren=null; try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){ host.hidden=true; }
   const scn=new THREE.Scene(), camL=new THREE.PerspectiveCamera(15,2,20,30000), ray=new THREE.Raycaster();
-  const matL=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.92,metalness:0});
-  const matHi=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.92,metalness:0,emissive:0x4a3a52});
-  const lineMat=new THREE.LineBasicMaterial({vertexColors:true});
+  // the same yarn and the same studio light as the pictures on the cards
+  const matL=new THREE.MeshPhysicalMaterial({...yarnProps,map:null,normalMap:null,normalScale:new THREE.Vector2(1.25,1.25),vertexColors:true}), matHi=matL.clone(); matHi.emissive.setHex(0x4a3a52);
+  const lineMat=new THREE.MeshPhysicalMaterial({...yarnProps,vertexColors:true});
+  const eyeMatL=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.1,metalness:0,envMapIntensity:1.3}), dotMatL=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.95,metalness:0});
+  const keyL=new THREE.DirectionalLight(0xfff1dd,2.5), rimL=new THREE.DirectionalLight(0xcfe0ff,1.1); scn.add(keyL,rimL);
+  // One stitch of the fabric as a picture: real stitches, set out as they sit in the work (each row half a stitch along from the one below),
+  // photographed square-on. One shot keeps their own shading, the other the way their surfaces face. Every skin wears it, one picture per stitch.
+  function wear(){
+    if(st.worn||!ren) return; st.worn=true;
+    scn.environment=studioEnv(ren);
+    const geo=stitchGeo(1).clone(), p=geo.attributes.position, sk=geo.attributes.aSkin;
+    for(let i=0;i<p.count;i++){ const z=sk.getZ(i); if(z>.5&&z<2.5) p.setXYZ(i,p.getX(i),p.getY(i)-.03,p.getZ(i)-.17); }      // every top loop here has been worked into, so it sits back
+    const sc=new THREE.Scene(), M=new THREE.Matrix4(), mesh=new THREE.InstancedMesh(geo,null,36), oc=new THREE.OrthographicCamera(0,1,H,0,.1,10); let k=0; oc.position.z=5;
+    for(let j=-2;j<=3;j++) for(let c=-2;c<=3;c++) mesh.setMatrixAt(k++,M.makeTranslation(c-(j&1?0:.5),j*H,0));
+    sc.add(mesh);
+    const shoot=mat=>{ const rt=new THREE.WebGLRenderTarget(512,512,{samples:4,generateMipmaps:true,minFilter:THREE.LinearMipmapLinearFilter,wrapS:THREE.RepeatWrapping,anisotropy:Math.min(8,ren.capabilities.getMaxAnisotropy())}); mesh.material=mat; ren.setRenderTarget(rt); ren.render(sc,oc); ren.setRenderTarget(null); mat.dispose(); return rt.texture; };
+    matL.map=matHi.map=shoot(new THREE.MeshBasicMaterial({vertexColors:true,map:yarnMaps.alb}));
+    matL.normalMap=matHi.normalMap=shoot(new THREE.MeshNormalMaterial({normalMap:yarnMaps.nrm,normalScale:new THREE.Vector2(1.15,1.15)}));
+    matL.needsUpdate=matHi.needsUpdate=true; geo.dispose();
+  }
   const blobMat=new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,toneMapped:false}), blobGeo=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2);
-  scn.add(new THREE.HemisphereLight(0xffffff,0xb7bdd6,1.5)); { const sun=new THREE.DirectionalLight(0xfff1dd,1.9); sun.position.set(-4,7,6); scn.add(sun); }
-  const st={az:0,el:.46,zoom:1,fit:300,fitNow:300,fresh:0,home:new V3(),tgt:new V3(),goal:new V3(),W:1,D:1,H:1,hover:null,ptrs:new Map(),moved:0,touched:0,ready:false,seen:false,raf:0,t0:0,w:1,h:1};
+  const st={az:0,el:.46,zoom:1,fit:300,fitNow:300,fresh:0,home:new V3(),tgt:new V3(),goal:new V3(),W:1,D:1,H:1,hover:null,ptrs:new Map(),moved:0,touched:0,zq:0,zx:0,zy:0,zoomWheel:-1e9,pageWheel:-1e9,ready:false,seen:false,raf:0,t0:0,w:1,h:1};
   const _v=new V3(), _p=new THREE.Vector2(), floorPl=new THREE.Plane(new V3(0,1,0),0);
   const gridMat=new THREE.LineBasicMaterial({color:getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#d9deea',transparent:true,opacity:.85});
-  const HINT='All to scale: the floor squares are 10 cm. Drag to turn, tap one to jump to its pattern.', HINT_IN='Drag to move about, shift-drag to turn, tap one to jump to its pattern.';
+  const hint=()=>`All to scale: the floor squares are ${UNIT==='in'?'4 inches':'10 cm'}. Drag to turn, ${finePointer?'scroll to zoom, click':'tap'} one to jump to its pattern.`, HINT_IN=finePointer?'Drag to move about, shift-drag to turn, click one to jump to its pattern.':'Drag to move about, tap one to jump to its pattern.';
+  // Something whose size everybody knows, standing at the front corner: a sitting house cat and a 30 cm ruler.
+  // Both are plain, the colour of the page's small print, so nobody takes them for patterns. Modelled in centimetres.
+  const ref=(()=>{
+    const g=new THREE.Group(), cat=new THREE.Group(), u=1/CM, tag=$('#luRef');
+    const clay=new THREE.MeshStandardMaterial({color:getComputedStyle(document.documentElement).getPropertyValue('--muted').trim()||'#8e89a6',roughness:.78,metalness:0});
+    const sph=new THREE.SphereGeometry(1,22,16), cone=new THREE.ConeGeometry(1,1,16), X=new V3(1,0,0), Y=new V3(0,1,0);
+    const ball=(x,y,z,rx,ry,rz,rot)=>{ const m=new THREE.Mesh(sph,clay); m.position.set(x,y,z); m.scale.set(rx,ry,rz); if(rot) m.rotation.set(rot[0],rot[1],rot[2]); cat.add(m); return m; };
+    const sweep=(pts,side)=>{      // a tube with a changing oval section, run along a curve: [x, y, z, radius to the side, radius the other way]
+      const path=new THREE.CatmullRomCurve3(pts.map(q=>new V3(q[0],q[1],q[2]))), rad=new THREE.CatmullRomCurve3(pts.map(q=>new V3(q[3],q[4]??q[3],0)));
+      const n=pts.length*6, m=18, P=[], I=[], T=new V3(), A=new V3(), B=new V3(), c=new V3(), r=new V3();
+      for(let i=0;i<=n;i++){
+        path.getPoint(i/n,c); path.getTangent(i/n,T); rad.getPoint(i/n,r); A.copy(side).addScaledVector(T,-side.dot(T)).normalize(); B.crossVectors(T,A);
+        for(let j=0;j<m;j++){ const a=j/m*TAU, ca=Math.cos(a)*r.x, sa=Math.sin(a)*r.y; P.push(c.x+A.x*ca+B.x*sa,c.y+A.y*ca+B.y*sa,c.z+A.z*ca+B.z*sa); }
+        if(i) for(let j=0;j<m;j++){ const a=(i-1)*m+j, b=(i-1)*m+(j+1)%m; I.push(a,b,a+m,b,b+m,a+m); }
+      }
+      const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setIndex(I); geo.computeVertexNormals(); cat.add(new THREE.Mesh(geo,clay));
+    };
+    sweep([[0,2.5,-6,8.5,8],[0,8,-7,11,10.4],[0,15,-5.6,10.2,9.6],[0,22,-2.9,8.4,8],[0,28,-.2,6.7,6.7],[0,33,2,5,5],[0,36.5,3.4,4.2,4.2]],X);      // haunches up to the neck
+    ball(0,24,3.4,6,7.6,5.2); ball(0,37.6,4.6,5.7,5,5.3); ball(0,36,9,2.7,2,2.2);                                                           // chest, head, muzzle
+    for(const s of [-1,1]){
+      const ear=new THREE.Mesh(cone,clay); ear.position.set(s*3.4,43.1,4.1); ear.scale.set(2.5,5,1.3); ear.rotation.set(-.08,0,-s*.26); cat.add(ear);
+      sweep([[s*3.3,25,3.4,2.9,3.2],[s*3.3,16,5.5,2.35,2.5],[s*3.3,7,6.3,2,2.1],[s*3.3,1.4,6.5,2,2.1]],X); ball(s*3.3,1.5,8.1,2.3,1.5,3);        // a front leg and its paw
+      ball(s*7.7,7.6,-5.3,5.2,7.7,8.7,[.22,0,0]); ball(s*8.3,1.4,3.4,2.2,1.4,4.3);                                                            // a thigh and a hind foot
+    }
+    sweep([[0,3,-13,2.3],[6.5,2.4,-15.6,2.25],[12.6,2.2,-11.2,2.1],[14.4,2.1,-3.6,1.9],[12.4,1.9,3.4,1.6]],Y); ball(12.4,1.9,3.4,1.6,1.6,1.6);      // the tail, curled round
+    cat.position.set(4.5,0,-1); cat.rotation.y=-.62;
+    { const sh=new THREE.Mesh(blobGeo,blobMat); sh.scale.set(46,1,46); sh.position.set(4.5,.08,-1); sh.renderOrder=1; g.add(sh); }
+    // the ruler: centimetres up one edge, inches up the other
+    const c=document.createElement('canvas'), PX=40, RH=31.2, RW=3.8; c.width=RW*PX; c.height=RH*PX; const x=c.getContext('2d'), yy=v=>c.height-v*PX;
+    x.fillStyle='#ecd596'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#3b2f20'; x.textBaseline='middle';
+    for(let i=0;i<=60;i++){ const big=i%2===0; x.fillRect(0,yy(i/2)-(big?1.5:1),big?(i%10===0?34:26):15,big?3:2); }
+    x.font='800 25px system-ui,sans-serif'; x.textAlign='left'; for(let v=5;v<=30;v+=5) x.fillText(String(v),38,yy(v)+1);
+    for(let i=0;i<=24;i++){ const big=i%2===0; x.fillRect(c.width-(big?26:14),yy(i*1.27)-(big?1.5:1),big?26:14,big?3:2); }
+    x.font='700 19px system-ui,sans-serif'; x.textAlign='right'; for(let v=2;v<=12;v+=2) x.fillText(String(v),c.width-30,yy(v*2.54)+1);
+    x.font='700 15px system-ui,sans-serif'; x.textAlign='left'; x.fillText('cm',5,yy(.5)-22); x.textAlign='right'; x.fillText('in',c.width-5,yy(.5)-22);
+    const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; if(ren) tex.anisotropy=Math.min(8,ren.capabilities.getMaxAnisotropy());
+    const face=new THREE.MeshStandardMaterial({map:tex,roughness:.7,metalness:0}), edge=new THREE.MeshStandardMaterial({color:'#d9bf7c',roughness:.7,metalness:0});
+    const ruler=new THREE.Mesh(new THREE.BoxGeometry(RW,RH,.45),[edge,edge,edge,edge,face,face]); ruler.position.set(-16,RH/2,7.5); ruler.rotation.y=.12;
+    g.add(cat,ruler); g.scale.setScalar(u); g.visible=false;
+    return {g,tag,clay,w:40*u,d:34*u,h:45.6*u,headX:2.6*u,cx:0,cz:0,y0:0,X:0,Z:0,px:0,pz:0,born:0};
+  })();
   function mkItem(def,cr){
-    const {geo,lines}=skinGeo(cr), a=-(def.view??.45), ca=Math.cos(a), sa=Math.sin(a); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;
+    const a=-(def.view??.45), ca=Math.cos(a), sa=Math.sin(a); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;
     for(const s of cr.insts){ const x=s.p.x*ca+s.p.z*sa, z=-s.p.x*sa+s.p.z*ca; if(x<x0)x0=x; if(x>x1)x1=x; if(z<z0)z0=z; if(z>z1)z1=z; }
-    const g=new THREE.Group(), mesh=new THREE.Mesh(geo,matL); g.add(mesh); if(lines) g.add(new THREE.LineSegments(lines,lineMat));
-    g.rotation.y=a; g.visible=false;
-    return {def,cr,g,mesh,w:x1-x0+1.4,d:z1-z0+1.4,h:cr.box.max.y-cr.box.min.y+1,cx:(x0+x1)/2,cz:(z0+z1)/2,y0:cr.box.min.y-.55,box:new THREE.Box3(),X:0,Z:0,born:0};
+    const g=new THREE.Group(); g.rotation.y=a; g.visible=false;
+    return sized(dress({def,cr,g,dim:[x1-x0+1.4,z1-z0+1.4,cr.box.max.y-cr.box.min.y+1,(x0+x1)/2,(z0+z1)/2,cr.box.min.y-.55],box:new THREE.Box3(),X:0,Z:0,born:0}));
   }
+  function dress(it){      // its skin, in the style picked for it
+    for(const o of [...it.g.children]){ it.g.remove(o); o.geometry.dispose(); }
+    const {geo,lines,eyes,dots}=skinGeo(it.cr); it.mesh=new THREE.Mesh(geo,matL); it.g.add(it.mesh);
+    if(lines) it.g.add(new THREE.Mesh(lines,lineMat)); if(eyes) it.g.add(new THREE.Mesh(eyes,eyeMatL)); if(dots) it.g.add(new THREE.Mesh(dots,dotMatL));
+    it.sKey=JSON.stringify(styleOf(it.def.id)); return it;
+  }
+  function sized(it){ const k=sizeOf(it.def.id).k, m=it.dim; it.k=k; it.w=m[0]*k; it.d=m[1]*k; it.h=m[2]*k; it.cx=m[3]*k; it.cz=m[4]*k; it.y0=m[5]*k; if(it.done) it.g.scale.setScalar(k); return it; }      // the size you are making it
   // smallest at the front, tallest at the back, the tallest of each row in its middle. Run again whenever more have been built: everyone shuffles along.
   let grid3=null;
   function layout(){
-    const gap=3.2, want=clamp((st.w/st.h)*.5,.6,1.5), now=performance.now(); items.sort((a,b)=>a.h-b.h);      // the floor is seen at a slant, so it is about as deep as it is wide
+    wear(); const gap=3.2, want=clamp((st.w/st.h)*.5,.6,1.5), now=performance.now(); items.sort((a,b)=>a.h-b.h);      // the floor is seen at a slant, so it is about as deep as it is wide
     let total=0, wmax=0; for(const it of items){ total+=it.w+gap; wmax=Math.max(wmax,it.w+gap); }
     const arrange=rowW=>{
       const rows=[]; let cur=[], cw=0, D=0, W=0;
@@ -7085,25 +8465,30 @@ const LINEUP=(()=>{
       for(const r of rows){ r.depth=Math.max(...r.map(it=>it.d))+gap+1.5; D+=r.depth; W=Math.max(W,r.reduce((a,it)=>a+it.w+gap,0)); }
       return {rows,D,W};
     };
-    let lo=wmax, hi=total; for(let k=0;k<18;k++){ const m=(lo+hi)/2, a=arrange(m); if(a.W/a.D<want) lo=m; else hi=m; }
-    const {rows,D}=arrange(hi);
-    let z=D/2, W=0, H=0;
+    const side=ref.w+gap*2;      // room for the cat and the ruler, to the right of the front row
+    let lo=wmax, hi=total; for(let k=0;k<18;k++){ const m=(lo+hi)/2, a=arrange(m); if((a.W+side)/a.D<want) lo=m; else hi=m; }
+    const {rows,D:Dr}=arrange(hi), D=Math.max(Dr,ref.d+3);
+    let z=Dr/2, W=0, H=ref.h;
     for(const r of rows){
       const seq=[]; r.slice().reverse().forEach((it,i)=>{ if(i%2) seq.unshift(it); else seq.push(it); });
-      const rw=r.reduce((s,it)=>s+it.w+gap,0); let x=-rw/2; W=Math.max(W,rw);
+      const rw=r.reduce((s,it)=>s+it.w+gap,0); let x=-rw/2-side/2; W=Math.max(W,rw);
       for(const it of seq){
         it.X=x+(it.w+gap)/2; it.Z=z-r.depth/2; x+=it.w+gap; H=Math.max(H,it.h);
         it.box.min.set(it.X-it.w/2,0,it.Z-it.d/2); it.box.max.set(it.X+it.w/2,it.h,it.Z+it.d/2);
         if(!it.sh){      // new arrival: it pops up where it belongs
-          it.px=it.X; it.pz=it.Z; it.born=now+(st.fresh++)*14;
-          it.sh=new THREE.Mesh(blobGeo,blobMat); it.sh.scale.set(it.w*1.5,1,it.d*1.5); it.sh.renderOrder=1; it.sh.visible=false; scn.add(it.sh,it.g);
+          it.px=it.X; it.pz=it.Z; it.born=now+(++st.fresh)*14;
+          it.sh=new THREE.Mesh(blobGeo,blobMat); it.sh.renderOrder=1; it.sh.visible=false; scn.add(it.sh,it.g);
         }
+        it.sh.scale.set(it.w*1.5,1,it.d*1.5);
       }
       z-=r.depth;
     }
+    W+=side; ref.X=W/2-gap-ref.w/2; ref.Z=Dr/2-ref.d/2-1;
+    if(!ref.born){ ref.px=ref.X; ref.pz=ref.Z; ref.born=now; scn.add(ref.g); }
     st.fresh=0; st.W=W; st.D=D; st.H=H; st.home.set(0,H*.2,0); if(st.zoom<=1.001){ st.goal.copy(st.home); if(!st.ready) st.tgt.copy(st.home); }
     // the floor: a 10 cm grid
-    const gx=Math.ceil((W/2+SQ)/SQ)*SQ, gz=Math.ceil((D/2+SQ)/SQ)*SQ, L=[];
+    const SQ=sq(), gx=Math.ceil((W/2+SQ)/SQ)*SQ, gz=Math.ceil((D/2+SQ)/SQ)*SQ, L=[];
+    ref.tag.textContent=UNIT==='in'?'House cat 18 in · ruler 12 in':'House cat 45 cm · ruler 30 cm'; ref.tagW=0;
     for(let x=-gx;x<=gx+.01;x+=SQ) L.push(x,0,-gz,x,0,gz);
     for(let zz=-gz;zz<=gz+.01;zz+=SQ) L.push(-gx,0,zz,gx,0,zz);
     if(grid3){ scn.remove(grid3); grid3.geometry.dispose(); }
@@ -7111,12 +8496,12 @@ const LINEUP=(()=>{
     grid3=new THREE.LineSegments(gg,gridMat); scn.add(grid3);
     fit(); if(!st.ready){ st.fitNow=st.fit; st.ready=true; }
   }
-  function place(dist){ const ce=Math.cos(st.el), az=st.az+(st.sway||0); camL.position.set(st.tgt.x+dist*ce*Math.sin(az),st.tgt.y+dist*Math.sin(st.el),st.tgt.z+dist*ce*Math.cos(az)); camL.lookAt(st.tgt); camL.updateMatrixWorld(); }
+  function place(dist){ const ce=Math.cos(st.el), az=st.az+(st.sway||0), ca=Math.cos(az), sa=Math.sin(az); keyL.position.set(-3.6*ca+4.6*sa,4.6,3.6*sa+4.6*ca); rimL.position.set(4*ca-3.6*sa,2.4,-4*sa-3.6*ca); camL.position.set(st.tgt.x+dist*ce*Math.sin(az),st.tgt.y+dist*Math.sin(st.el),st.tgt.z+dist*ce*Math.cos(az)); camL.lookAt(st.tgt); camL.updateMatrixWorld(); }
   function fit(){      // the nearest the camera can sit with the whole floor in the picture
     let lo=20, hi=30000; const sv=st.tgt.clone(), sway=st.sway; st.tgt.copy(st.home); st.sway=0;
     for(let k=0;k<26;k++){
       const d=(lo+hi)/2; place(d); let ok=true;
-      for(let i=0;i<8&&ok;i++){ _v.set((i&1?1:-1)*st.W/2,i&2?st.H:0,(i&4?1:-1)*st.D/2).project(camL); if(Math.abs(_v.x)>.96||_v.y>.9||_v.y<-.78) ok=false; }
+      for(let i=0;i<8&&ok;i++){ _v.set((i&1?1:-1)*st.W/2,i&2?st.H:0,(i&4?1:-1)*st.D/2).project(camL); if(Math.abs(_v.x)>.94||_v.y>.9||_v.y<-.78) ok=false; }
       if(ok) hi=d; else lo=d;
     }
     st.fit=hi; st.tgt.copy(sv); st.sway=sway;
@@ -7131,24 +8516,31 @@ const LINEUP=(()=>{
     setRay(cx,cy); const hits=[];
     for(const it of items){ if(!it.g.visible) continue; const h=ray.ray.intersectBox(it.box,_v); if(h) hits.push([h.distanceToSquared(ray.ray.origin),it]); }
     hits.sort((a,b)=>a[0]-b[0]);
-    for(const [,it] of hits.slice(0,4)) if(ray.intersectObject(it.mesh,false).length) return it;      // the one you are really pointing at…
-    return hits.length?hits[0][1]:null;                                                               // …or the nearest whose space you are in
+    const rf=ref.g.visible?ray.intersectObject(ref.g,true)[0]:null;                                     // the cat and the ruler are not patterns, and hide what is behind them
+    for(const [,it] of hits.slice(0,4)){ const h=ray.intersectObject(it.mesh,false)[0]; if(h) return rf&&rf.distance<h.distance?null:it; }      // the one you are really pointing at…
+    return rf||!hits.length?null:hits[0][1];                                                            // …or the nearest whose space you are in
   }
   function floorAt(cx,cy,out){ setRay(cx,cy); return ray.ray.intersectPlane(floorPl,out); }
   function zoomAt(cx,cy,f){
     const a=new V3(), b=new V3(), had=floorAt(cx,cy,a); st.zoom=clamp(st.zoom*f,1,10); st.touched=performance.now();
-    cv.style.touchAction=st.zoom>1.05?'none':'pan-y'; msg.textContent=st.zoom>1.05?HINT_IN:HINT;
+    cv.style.touchAction=st.zoom>1.05?'none':'pan-y'; msg.textContent=st.zoom>1.05?HINT_IN:hint();
     if(st.zoom<=1.001){ st.zoom=1; st.goal.copy(st.home); return; }
     place(st.fitNow/st.zoom); if(had && floorAt(cx,cy,b)){ st.tgt.x=clamp(st.tgt.x+a.x-b.x,-st.W/2,st.W/2); st.tgt.z=clamp(st.tgt.z+a.z-b.z,-st.D/2,st.D/2); st.tgt.y=st.home.y/Math.sqrt(st.zoom); st.goal.copy(st.tgt); }
   }
   function showTip(it){
     st.hover=it; for(const o of items) o.mesh.material=o===it?matHi:matL; cv.classList.toggle('over',!!it);
     if(!it){ tip.hidden=true; return; }
-    tip.innerHTML='<b></b><span></span>'; tip.firstChild.textContent=it.def.name; tip.lastChild.textContent=`${it.cr.heightCm} cm tall · about ${fmtTime(minutesLeft(it.cr))}`; tip.hidden=false;
+    tip.innerHTML='<b></b><span></span>'; tip.firstChild.textContent=it.def.name; { const z=sizeOf(it.def.id); tip.lastChild.textContent=`${fmtLen(it.cr.heightCm*z.k)} tall · about ${fmtTime(minutesLeft(it.cr,0,z))}`+(z===FULL?'':` · at ${z.l} size`); } tip.hidden=false;
   }
   function moveTip(){
     const it=st.hover; if(!it) return; _v.set(it.X,it.h+1.5,it.Z).project(camL);
     tip.style.left=clamp((_v.x+1)/2*st.w,70,st.w-70)+'px'; tip.style.top=Math.max(46,(1-_v.y)/2*st.h)+'px';
+  }
+  function stand(it,now,full){      // pop up on arrival, then keep to its place as the others shuffle along
+    if(!it.born) return;
+    if(!it.done){ const u=clamp((now-it.born)/420,0,1); if(u>0){ it.g.visible=true; if(it.sh) it.sh.visible=true; it.g.scale.setScalar(full*Math.max(.001,reduceMotion?1:1-Math.pow(1-u,3)*(1-2.2*u*(1-u)))); } if(u>=1){ it.g.scale.setScalar(full); it.done=true; } }
+    const k=reduceMotion?1:.16; it.px+=(it.X-it.px)*k; it.pz+=(it.Z-it.pz)*k;
+    it.g.position.set(it.px-it.cx,-it.y0,it.pz-it.cz); if(it.sh) it.sh.position.set(it.px,.06,it.pz);
   }
   function frame(now){
     st.raf=0; if(!st.seen||!st.ready||$('#home').hidden) return;
@@ -7156,14 +8548,13 @@ const LINEUP=(()=>{
       const idle=now-st.touched>3500 && !st.ptrs.size && !st.hover && !reduceMotion;
       st.swayK=(st.swayK||0)+((idle?1:0)-(st.swayK||0))*.03; st.sway=.16*Math.sin(now*.00022)*st.swayK;
       st.tgt.lerp(st.goal,.12);
-      for(const it of items){
-        if(!it.sh) continue;
-        if(!it.done){ const u=clamp((now-it.born)/420,0,1); if(u>0){ it.g.visible=it.sh.visible=true; it.g.scale.setScalar(Math.max(.001,reduceMotion?1:1-Math.pow(1-u,3)*(1-2.2*u*(1-u)))); } if(u>=1){ it.g.scale.setScalar(1); it.done=true; } }
-        const k=reduceMotion?1:.16; it.px+=(it.X-it.px)*k; it.pz+=(it.Z-it.pz)*k;
-        it.g.position.set(it.px-it.cx,-it.y0,it.pz-it.cz); it.sh.position.set(it.px,.06,it.pz);
-      }
+      if(Math.abs(st.zq)>.002){ const q=reduceMotion?st.zq:st.zq*.28; st.zq-=q; zoomAt(st.zx,st.zy,Math.exp(q)); } else st.zq=0;      // the wheel and the buttons ask; the zoom eases there
+      for(const it of items) stand(it,now,it.k); stand(ref,now,1/CM);
       st.fitNow+=(st.fit-st.fitNow)*(reduceMotion?1:.1);
       place(st.fitNow/st.zoom); ren.render(scn,camL); moveTip();
+      _v.set(ref.px+ref.headX,ref.h+2.5,ref.pz).project(camL); const tx=(_v.x+1)/2*st.w, ty=(1-_v.y)/2*st.h;
+      const show=!!ref.done && _v.z<1 && tx>20 && tx<st.w-20 && ty>26 && ty<st.h-44; ref.tag.hidden=!show;
+      if(show){ const half=(ref.tagW||(ref.tagW=ref.tag.offsetWidth))/2+6; ref.tag.style.left=clamp(tx,half,Math.max(half,st.w-half))+'px'; ref.tag.style.top=ty+'px'; }      // the label keeps inside the panel
     }
     st.raf=requestAnimationFrame(frame);
   }
@@ -7192,10 +8583,21 @@ const LINEUP=(()=>{
     };
     cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
     cv.addEventListener('pointerleave',()=>{ if(!st.ptrs.size) showTip(null); });
-    cv.addEventListener('wheel',e=>{ if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); zoomAt(e.clientX,e.clientY,Math.exp(-e.deltaY*.012)); },{passive:false});
-    cv.addEventListener('dblclick',e=>zoomAt(e.clientX,e.clientY,1.8));
+    // The wheel zooms toward the pointer. It leaves the page alone when the page was already scrolling as the pointer came over,
+    // when there is nothing left to zoom out of, and when most of the line-up is off the screen: it never traps a scroll down the page.
+    const nudge=(x,y,q)=>{ st.zx=x; st.zy=y; st.zq=clamp(st.zq+q,-1.5,1.5); st.touched=performance.now(); kick(); };
+    addEventListener('wheel',e=>{ if(e.target!==cv) st.pageWheel=performance.now(); },{passive:true});
+    cv.addEventListener('wheel',e=>{
+      const now=performance.now(), pinch=e.ctrlKey||e.metaKey, dy=e.deltaY*(e.deltaMode===1?33:e.deltaMode===2?300:1);
+      if(!pinch && now-st.zoomWheel>320){      // not already zooming: is this one for the page?
+        const r=cv.getBoundingClientRect(), shown=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);
+        if(!dy || now-st.pageWheel<320 || (dy>0 && st.zoom<=1.001) || shown<r.height*.6){ st.pageWheel=now; return; }
+      }
+      e.preventDefault(); st.zoomWheel=now; nudge(e.clientX,e.clientY,-dy*(pinch?.012:.0022));
+    },{passive:false});
+    cv.addEventListener('dblclick',e=>nudge(e.clientX,e.clientY,.6));
     const mid=()=>{ const r=cv.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height*.55]; };
-    $('#luIn').addEventListener('click',()=>zoomAt(...mid(),1.6)); $('#luOut').addEventListener('click',()=>zoomAt(...mid(),1/1.6));
+    $('#luIn').addEventListener('click',()=>nudge(...mid(),.47)); $('#luOut').addEventListener('click',()=>nudge(...mid(),-.47));
   }
   // build every pattern a few at a time, so the page stays live; the card under each one gets its numbers as it is built,
   // and the line-up fills in a dozen at a time
@@ -7207,10 +8609,12 @@ const LINEUP=(()=>{
       while(q.length && performance.now()-t0<12){ const def=q.shift(); try{ const cr=getCreature(def.id); cardFacts(def,cr); if(ren) items.push(mkItem(def,cr)); }catch(err){ console.error(err); } }
       if(ren && items.length && (!q.length || items.length-laid>=12) && size()){ layout(); laid=items.length; kick(); }
       if(q.length){ msg.textContent=`Setting out all ${N}… ${N-q.length}`; setTimeout(step,0); return; }
-      st.touched=performance.now(); msg.textContent=HINT; then();
+      st.touched=performance.now(); st.set=true; msg.textContent=hint(); then();
     })();
   }
-  return {start,items,st,refresh:()=>{ if(st.hover) showTip(st.hover); }};
+  // your pace or a pattern's size has changed: the tip is rewritten, and anything that changed size takes its new place
+  function refresh(units){ if(st.hover) showTip(st.hover); let moved=!!units; if(units && st.set && st.zoom<=1.05) msg.textContent=hint(); for(const it of items){ if(it.k!==sizeOf(it.def.id).k){ sized(it); moved=true; } if(it.sKey!==JSON.stringify(styleOf(it.def.id))) dress(it); } if(moved && st.ready && size()){ layout(); kick(); } }
+  return {start,items,st,ref,refresh};
 })();
 function jumpToCard(id){
   if((S.cat||'all')!=='all'||S.filter){ S.cat='all'; S.filter=''; [...$('#cats').children].forEach(q=>q.setAttribute('aria-pressed',String(q.dataset.c==='all'))); document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed','false')); refreshCards(); }
@@ -7220,6 +8624,8 @@ function jumpToCard(id){
 }
 
 $('#rate').value=String(RATE);
+$('#unit').value=UNIT;
+$('#unit').addEventListener('change',e=>{ UNIT=e.target.value==='cm'?'cm':'in'; try{ localStorage.setItem('lbl-unit',UNIT); }catch(err){} for(const d of CREATURES) if(built[d.id]) cardFacts(d,built[d.id]); LINEUP.refresh(true); });
 $('#rate').addEventListener('change',e=>{ RATE=+e.target.value; try{ localStorage.setItem('lbl-rate',String(RATE)); }catch(err){} for(const d of CREATURES) if(built[d.id]) cardFacts(d,built[d.id]); LINEUP.refresh(); });
 
 /* routing: one view per creature, named in the hash */
