@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // Check a file of Loop by Loop patterns.   node validate.js out/<name>.js
 // The file must contain ONLY a JavaScript array literal of pattern objects: [ {...}, {...} ]
-// It may use these constants: EGG, EGGP, HEAD_BODY, ARM, FOOT, STUB, BALL12, EAR_ROUND, EAR_POINT, LEAF, and Math.
+// It may use these constants: EGG, EGGP, HEAD_BODY, ARM, FOOT, STUB, BALL12, EAR_ROUND, EAR_POINT, LEAF, BIG_HEAD_BODY, QUAD_BODY, LIMB12, and Math.
 const fs = require('fs');
 const APP = require('path').join(__dirname, '..', 'index.html');
 const CATS = ['farm', 'woodland', 'pets', 'ocean', 'polar', 'safari', 'garden', 'makebelieve', 'food', 'things'];
 const html = fs.readFileSync(APP, 'utf8');
 const cut = (a, b) => { const i = html.indexOf(a), j = html.indexOf(b, i); if (i < 0 || j < 0) throw new Error('cannot find engine code in index.html: ' + a); return html.slice(i, j); };
-const NAMES = ['EGG', 'EGGP', 'HEAD_BODY', 'ARM', 'FOOT', 'STUB', 'BALL12', 'EAR_ROUND', 'EAR_POINT', 'LEAF'];
+const NAMES = ['EGG', 'EGGP', 'HEAD_BODY', 'ARM', 'FOOT', 'STUB', 'BALL12', 'EAR_ROUND', 'EAR_POINT', 'LEAF', 'BIG_HEAD_BODY', 'QUAD_BODY', 'LIMB12'];
 const E = new Function('W', 'H', 'TAU', cut('const EGG = `', 'const CREATURES = [') + cut('function splitTop(', '/* =====================================================================\n   BUILD A CREATURE') +
   `; return {${NAMES.join(',')},expandRows,parseSeq,mkProfile};`)(1, 0.9, Math.PI * 2);
 const existing = new Set([...html.matchAll(/\{ id:'([a-z0-9]+)'/g)].map(m => m[1]));
@@ -26,7 +26,7 @@ for (const def of defs) {
   if (existing.has(def.id)) err(`id '${def.id}' already exists in the app`);
   if (seenIds.has(def.id)) err(`id '${def.id}' used twice in this file`); seenIds.add(def.id);
   if (!def.name) err('name missing'); if (!def.blurb) err('blurb missing'); else if (def.blurb.length > 44) warn('blurb is long (keep it under ~40 characters)');
-  if (![1, 2, 3].includes(def.level)) err('level must be 1, 2 or 3');
+  if (![1, 2, 3, 4].includes(def.level)) err('level must be 1, 2, 3 or 4 (4 is a big build)');
   if (!CATS.includes(def.cat)) err(`cat must be one of ${CATS.join(', ')}`);
   if (typeof def.view !== 'number') warn('view (camera angle in radians) missing; 0.3 is a good default');
   const yarn = def.yarn || {}; if (!Object.keys(yarn).length) err('yarn missing');
@@ -88,7 +88,8 @@ for (const def of defs) {
     if (e.kind !== 'eye' && !e.text) err(`${tag}: needs text (the instruction shown to the crocheter)`);
     if (e.kind === 'eye' && !e.text && host && !host.notes.some(n => n.key === e.id)) warn(`${tag}: no !${e.id}: note in '${host.name}', so the eyes are fitted last; add the note where they go in, or give text`);
   }
-  if (total > 1500) warn(`${total} stitches in all is a lot; aim for under about 1300`);
+  if (def.level === 4) { if (total < 2000) warn(`${total} stitches is small for a big build; aim for 2,200 to 4,200`); if (total > 4600) warn(`${total} stitches is too many; keep a big build under about 4,200`); }
+  else if (total > 1500) warn(`${total} stitches in all is a lot; aim for under about 1300`);
   console.log(`  total ${total} stitches`);
 }
 console.log(`\n${defs.length} patterns, ${errors} errors, ${warns} warnings`);

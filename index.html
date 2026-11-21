@@ -6,7 +6,7 @@
 <title>Loop by Loop Crochet Studio</title>
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
-<meta property="og:description" content="A 3D crochet stitch-along: 77 amigurumi patterns, every stitch shown as real yarn.">
+<meta property="og:description" content="A 3D crochet stitch-along: 91 amigurumi patterns, from a practice ball to 3,900-stitch big builds, every stitch shown as real yarn.">
 <meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
 <link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
 <script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
@@ -218,6 +218,7 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
   <div class="filters" id="filters" role="group" aria-label="Show">
     <button class="pill small" type="button" data-f="going" aria-pressed="false">In progress</button>
     <button class="pill small" type="button" data-f="made" aria-pressed="false">Made</button>
+    <button class="pill small" type="button" data-f="big" aria-pressed="false">Big builds</button>
     <span id="tally"></span>
   </div>
   <div id="grid"></div>
@@ -400,6 +401,58 @@ mr 4
 sc 8 | x2
 (sc 2, dec)*2
 (sc, dec)*2`;
+// rows for the big builds
+const BIG_HEAD_BODY = `
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x8
+!eyes:
+(sc 6, dec)*6
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Stuff the head firmly before you carry on.
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x8
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff:
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`;
+const QUAD_BODY = `
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x14
+(sc 6, dec)*6
+(sc 5, dec)*6
+(sc 4, dec)*6
+!stuff:
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`;
+const LIMB12 = `
+mr 6
+inc*6
+sc 12 | x9`;
 
 const CREATURES = [
 { id:'ball', name:'Practice Ball', cat:'things', level:1, blurb:'Every shape starts here',
@@ -2793,7 +2846,1177 @@ sc 4 | x2
 sc 6 | x4`, at:{spots:[[15.5,180],[15.8,155],[15.8,-155]]}, aim:[0,-.8,-.6], mix:.85, flat:.4, sink:.4, sew:'Flatten and sew three long feathers to the back, trailing down.'},
    {name:'Foot', color:'C', rows:FOOT, at:{round:17.2, angles:[24,-24]}, aim:[0,-.15,1], mix:.75, flat:.6, sink:.9, sew:'Flatten and sew under the body.'}
   ],
-  extras:[{id:'eyes', kind:'eye', round:8, apart:9, size:.46}] }
+  extras:[{id:'eyes', kind:'eye', round:8, apart:9, size:.46}] },
+
+/* ---------- big builds: the next class up ---------- */
+{ id:'pony', name:'Pony', cat:'farm', level:4, blurb:'Stands on four legs, with a neck',
+  yarn:{A:['Caramel','#c98a4b'],B:['Cocoa','#5a3a28'],C:['Cream','#f3e6cf'],D:['Berry','#c8436b']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:QUAD_BODY},
+   {name:'Neck', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x10
+(sc 3, inc)*6
+sc 30 | x2
+!stuff: Stuff the neck firmly so it holds the head up.`, at:{round:4.8, angle:180}, aim:[0,1,.55], mix:.85, stuff:1, sink:1.6, sew:'Sew the open end to the top of the body at the front, leaning forward a little.'},
+   {name:'Head', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+sc 18 | x3 | C
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x6
+!eyes:
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff:
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Neck', round:1.6, angle:0, front:true}, aim:[0,-.4,1], mix:.9, stuff:1, sink:3.2, sew:'The cream end is the nose. Sew the closed end to the top of the neck so the nose points forward and a little down.'},
+   {name:'Ear', color:'A', rows:EAR_POINT, at:{on:'Head', round:15.6, angles:[30,-30], front:true}, aim:[.25,1,-.1], mix:.8, flat:.5, sink:.6, sew:'Pinch flat and sew upright behind the eyes.'},
+   {name:'Forelock', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{on:'Head', round:14.2, angle:0, front:true}, aim:[0,.5,1], mix:.5, stuff:.7, sink:.8, sew:'Stuff lightly and sew between the ears, flopping forward.'},
+   {name:'Mane tuft', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{on:'Neck', spots:[[2.4,180],[4.8,180],[7.2,180],[9.6,180],[12,180]], front:true}, stuff:.7, sink:.8, sew:'Stuff lightly and sew in a row down the back of the neck.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+sc 18 | x3 | B
+sc 18 | x11
+!stuff: Stuff the leg firmly, right to the top.`, at:{spots:[[7.5,40],[7.5,-40],[22.5,40],[22.5,-40]]}, aim:[.12,-1,0], mix:.9, stuff:1, sink:1.6, sew:'The dark end is the hoof. Sew the open end under the body. Stand the pony up and adjust until all four hooves touch.'},
+   {name:'Saddle', color:'D', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6`, at:{round:15, angle:180}, sew:'Lay the circle over the middle of the back and sew it down all round.'},
+   {name:'Tail', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x11`, at:{round:27.6, angle:180}, aim:[0,-.75,-1], mix:.85, bend:.5, stuff:.3, sink:.8, sew:'Sew to the top of the rump, hanging down.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:11.5, apart:17, front:true, size:.6},
+          {id:'nostrils', kind:'dot', color:'#5a3a28', on:'Head', round:2.4, apart:5, front:true, size:.3, text:'Embroider two small nostrils on the cream nose.'}] },
+
+{ id:'teddy', name:'Big Teddy', cat:'woodland', level:4, blurb:'A proper bear, with a bow tie',
+  yarn:{A:['Honey','#c9924f'],B:['Oat','#f1e4c9'],C:['Cocoa','#4a3328'],D:['Postbox','#d5433f']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:BIG_HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+(sc 2, inc)*6`, at:{round:14.2, angle:0}, stuff:.8, sink:.6, sew:'Stuff lightly and sew to the lower half of the face.'},
+   {name:'Ear', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3`, at:{round:4.4, angles:[50,-50]}, flat:.5, sink:1.2, sew:'Pinch flat and sew to the top of the head, curving round it a little.'},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{round:27.5, angle:0}, sew:'Sew the circle flat to the front of the tummy.'},
+   {name:'Arm', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+sc 18 | x4
+(sc 4, dec)*3
+sc 15 | x8
+!stuff: Stuff the paw end only, so the arm hangs.`, at:{round:23.2, angles:[70,-70]}, aimRel:[.5,-1], mix:.78, stuff:.8, sink:.9, sew:'The pale end is the paw. Sew the open end just under the neck.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+sc 24 | x4
+(sc 2, dec)*6
+sc 18 | x5
+!stuff: Stuff the foot firmly and the rest lightly.`, at:{round:31.6, angles:[33,-33]}, aim:[.14,.1,1], mix:.9, stuff:1, sink:1.4, sew:'The pale end is the sole. Sew to the front of the base so the bear sits with its legs out.'},
+   {name:'Tail', color:'A', rows:BALL12, at:{round:31.5, angle:180}, sink:1.3, sew:'Sew to the back, low down.'},
+   {name:'Bow loop', color:'D', rows:`
+mr 6
+inc*6
+sc 12 | x3
+(sc, dec)*4`, at:{round:20.6, angles:[16,-16]}, aim:[1,.12,.3], mix:.85, flat:.45, sink:.6, sew:'Pinch flat and sew to the neck, the narrow ends meeting at the middle.'},
+   {name:'Bow knot', color:'D', rows:`
+mr 6
+(sc, inc)*3
+sc 9
+!stuff: Add a pinch of stuffing.
+(sc, dec)*3
+!close:`, at:{round:20.6, angle:0}, sink:.9, sew:'Sew over the place where the two loops meet.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:11, apart:13, size:.75},
+          {id:'nose', kind:'dot', color:'#4a3328', on:'Muzzle', round:0, angle:0, size:.7, text:'Embroider a dark nose on the tip of the muzzle.'},
+          {id:'smile', kind:'line', color:'#4a3328', on:'Muzzle', pts:[[1.2,0],[3.2,0]], front:true, text:'Stitch a short line down from the nose.'}] },
+
+{ id:'dachshund', name:'Dachshund', cat:'pets', level:4, blurb:'Long sausage dog in a little coat',
+  yarn:{A:['Chestnut','#9a5a2e'],B:['Cinnamon','#c98650'],C:['Brick','#b8453a'],D:['Cocoa','#3e2418']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x9
+sc 42 | x6 | C
+sc 42 | x9
+!stuff: Stuff the body very firmly, pushing stuffing into the chest end first, so the sausage stays round and does not sag.
+(sc 5, dec)*6
+sc 36 | x2
+(sc 4, dec)*6
+sc 30
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+!stuff: Top up the rump, then keep stuffing as the rounds close.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Neck', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+sc 24 | x4 | C
+!stuff: Stuff the neck firmly so it holds the head up.`, at:{round:4.5, angle:180}, aim:[0,1,.6], mix:.85, stuff:1, sink:1.6, sew:'Sew the open end to the top of the chest, leaning forward.'},
+   {name:'Head', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+sc 12 | x2 | B
+sc 12 | x3
+(sc 2, inc)*4
+sc 16 | x3
+(sc, inc)*8
+(sc 3, inc)*6
+sc 30 | x3
+!eyes:
+sc 30 | x2
+(sc 3, dec)*6
+!stuff: Stuff the snout firmly first, then the rest of the head, keeping it long and narrow.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Neck', round:1.6, angle:0, front:true}, aim:[0,-.3,1], mix:.9, stuff:1, sink:3.2, sew:'The snout is the narrow end. Sew the closed end to the top of the neck, the snout pointing forward.'},
+   {name:'Ear', color:'D', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x8
+(sc 2, dec)*6
+sc 18 | x2`, at:{on:'Head', round:15.4, angles:[62,-62], front:true}, aim:[.05,-1,-.1], mix:.9, flat:.5, sink:.7, sew:'Flatten and sew the open end high on the side of the head so the ear hangs down.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | D
+sc 18 | x3 | D
+sc 18 | x2
+!stuff: Stuff each leg firmly, right to the top.`, at:{spots:[[11,40],[11,-40],[30,40],[30,-40]]}, aim:[.1,-1,0], mix:.9, stuff:1, sink:1.6, sew:'The dark end is the paw. Sew the open end under the body. Stand the dog up and adjust until all four paws touch.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x6
+(sc, dec)*3
+sc 6 | x4`, at:{round:34, angle:180}, aim:[0,1,-.6], mix:.85, stuff:.4, sink:.8, sew:'Stuff lightly and sew to the rump, pointing up and back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:11, apart:9, front:true, size:.5},
+          {id:'nose', kind:'dot', color:'#1c110b', on:'Head', round:.6, angle:0, front:true, size:.5, text:'Embroider a dark nose on the tip of the snout.'},
+          {id:'buttons', kind:'dot', color:'#f3e3c0', spots:[[19,0],[22,0]], size:.4, text:'Sew two cream buttons on the belly band of the coat.'},
+          {id:'brows', kind:'dot', color:'#c98650', on:'Head', spots:[[10,-14],[10,14]], front:true, size:.3, text:'Embroider two small tan eyebrow dots above the eyes.'}] },
+
+{ id:'sunflower', name:'Sunflower in a Pot', cat:'garden', level:4, blurb:'Tall flower, firm stem, big petals',
+  yarn:{A:['Terracotta','#c4663a'],B:['Soil','#4a3020'],C:['Leaf','#4f9a3c'],D:['Sunshine','#f5c518'],E:['Seed','#4a2c14'],F:['Ladybird','#d83a2e']}, view:.3,
+  parts:[
+   {name:'Pot', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 5, inc)*6 | B
+(sc 6, inc)*6
+sc 48 | x3
+(sc 6, dec)*6
+sc 42 | x3
+(sc 5, dec)*6
+sc 36 | x3
+(sc 4, dec)*6
+sc 30 | x2
+!stuff: Stuff the pot very firmly, and for a steady flower tuck a small bag of dried beans or pellets in the bottom.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Stem', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x38
+!stuff: Stuff the stem very firmly and evenly, a little at a time, so it stands straight with no bend.`, at:{round:.5, angle:0}, aim:[0,1,0], mix:1, stuff:1, sink:1.5, sew:'Sew the open end into the middle of the soil, standing straight up.'},
+   {name:'Leaf', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x9
+(sc, dec)*6
+sc 12 | x3`, at:{on:'Stem', spots:[[25,-90],[18,90]], front:true}, aim:[1,.7,.15], mix:.9, flat:.3, face:[0,.35,1], sink:.6, sew:'Flatten and sew to the stem, sticking out sideways and up, broad side to the front.'},
+   {name:'Low leaf', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x8
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12 | x2`, at:{on:'Stem', round:31, angle:70, front:true}, aim:[1,.25,.45], mix:.9, flat:.3, face:[0,.6,1], sink:.6, sew:'Flatten and sew low on the stem, sticking out sideways, broad side up and to the front.'},
+   {name:'Flower centre', color:'E', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x3
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Stuff the disc firmly so it is plump but flat.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Stem', round:.5, angle:0}, aim:[0,1,0], mix:1, flat:.38, stuff:1, sink:2.5, sew:'Press it into a thick disc and sew its closed end to the top of the stem, so one flat face looks forward.'},
+   {name:'Petal', color:'D', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+sc 12 | x3
+(sc 2, dec)*3
+sc 9 | x2`, at:{on:'Flower centre', spots:[[.5,0],[2.8,90],[2.8,-90],[5,90],[5,-90],[7.3,90],[7.3,-90],[9.7,90],[9.7,-90],[12,90],[12,-90],[14.1,90],[14.1,-90]], front:true}, flat:.35, face:[0,0,1], sink:.6, sew:'Flatten and sew round the edge of the flower centre, like the rays of the sun.'},
+   {name:'Ladybird', color:'F', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18
+!stuff: A pinch of stuffing.
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Low leaf', round:8, angle:0, front:true}, sink:1.3, sew:'Sew onto the middle of the lower leaf.'}
+  ],
+  extras:[{id:'seeds', kind:'dot', color:'#2a170a', on:'Flower centre', spots:[[4.5,0],[8,0],[11.5,0],[6,32],[10,32],[6,-32],[10,-32],[8,58],[8,-58]], front:true, size:.34, text:'Embroider small dark seed dots in a spiral on the flower centre.'},
+          {id:'spots', kind:'dot', color:'#1c110b', on:'Ladybird', spots:[[3,60],[3,-60],[6,0]], front:true, size:.25, text:'Add three black spots to the ladybird.'}] },
+
+{ id:'highlandcow', name:'Highland Cow', cat:'farm', level:4, blurb:'Shaggy coat, long horns, a fringe',
+  yarn:{A:['Rust','#b4531f'],B:['Peat','#3b2a22'],C:['Blush','#e9b9a6'],D:['Bone','#efe2c4'],E:['Ginger','#d27a35']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:QUAD_BODY},
+   {name:'Head', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+sc 18 | x3 | C
+(sc 2, inc)*6 | C
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x7
+!eyes:
+sc 36 | x2
+(sc 4, dec)*6
+sc 30
+!stuff: Stuff the head very firmly and round, pushing stuffing into the muzzle end first.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:3.2, angle:180}, aim:[0,-.5,1], mix:.9, stuff:1, sink:3.2, sew:'The pink end is the muzzle. Sew the closed end to the front of the body, low on the chest, nose forward.'},
+   {name:'Horn', color:'D', rows:`
+mr 6 | B
+sc 6 | x2 | B
+(sc, inc)*3 | B
+sc 9 | x2 | D
+(sc 2, inc)*3 | D
+sc 12 | x3 | D
+(sc 3, inc)*3 | D
+sc 15 | x2 | D
+!stuff: Stuff the horn lightly, the tip a little firmer so it curves.`, at:{on:'Head', round:14.5, angles:[75,-75], front:true}, aim:[1,1.3,-.2], mix:.9, bend:.5, stuff:.6, sink:.8, sew:'The dark end is the tip. Sew the open end to the side of the head, sweeping out and up.'},
+   {name:'Ear', color:'A', rows:EAR_ROUND, at:{on:'Head', round:15.5, angles:[100,-100], front:true}, aim:[1,-.2,-.2], mix:.8, flat:.5, sink:.5, sew:'Pinch flat and sew below the horns, sticking out sideways.'},
+   {name:'Fringe tuft', color:'E', rows:`
+mr 6
+inc*6
+sc 12 | x4`, at:{on:'Head', spots:[[12.6,-34],[12,-17],[11.6,0],[12,17],[12.6,34]], front:true}, aim:[0,-.5,1], mix:.6, stuff:.7, sink:.9, sew:'Stuff lightly and sew in a row across the forehead, hanging toward the eyes.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 8, inc)*2 | B
+sc 20 | x3 | B
+sc 20 | x6
+!stuff: Stuff the leg firmly right to the top.`, at:{spots:[[7.5,40],[7.5,-40],[22.5,40],[22.5,-40]]}, aim:[.12,-1,0], mix:.9, stuff:1, sink:1.6, sew:'The dark end is the hoof. Sew the open end under the body. Stand the cow up and adjust until all four hooves touch.'},
+   {name:'Coat tuft', color:'E', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{spots:[[7,180],[11.5,180],[16,180],[20.5,180],[25,180]]}, stuff:.7, sink:1.3, sew:'Stuff lightly and sew in a row along the back, like a shaggy ridge.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x11`, at:{round:27.6, angle:180}, aim:[0,-.75,-1], mix:.85, bend:.3, stuff:.3, sink:.8, sew:'Sew to the top of the rump, hanging down.'},
+   {name:'Tail tuft', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x2
+(sc, dec)*6
+dec*6`, at:{on:'Tail', round:.5, angle:0, front:true}, stuff:.8, sink:.4, sew:'Stuff lightly and sew over the tip of the tail.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:11.5, apart:15, front:true, size:.62},
+          {id:'nostrils', kind:'dot', color:'#3b2a22', on:'Head', round:2.6, apart:7, front:true, size:.35, text:'Embroider two small nostrils on the pink muzzle.'}] },
+
+{ id:'mammoth', name:'Woolly Mammoth', cat:'polar', level:4, blurb:'Domed head, curling trunk, long tusks',
+  yarn:{A:['Umber','#5b3a26'],B:['Bone','#f1e6cf'],C:['Cocoa','#3a2418'],D:['Rust','#7a4a2c']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:QUAD_BODY},
+   {name:'Head', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x9
+!eyes:
+sc 36 | x2
+(sc 4, dec)*6
+sc 30
+!stuff: Stuff the head very firmly into a tall dome.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:4.6, angle:180}, aim:[0,.5,1], mix:.9, stuff:1, sink:3.6, sew:'Sew the closed end to the front of the body, high on the shoulders, face forward and tipped up a little.'},
+   {name:'Trunk', color:'A', rows:`
+mr 6
+sc 6 | x2
+(sc, inc)*3 
+sc 9 | x3
+(sc 2, inc)*3
+sc 12 | x4
+(sc 3, inc)*3
+sc 15 | x4
+(sc 4, inc)*3
+sc 18 | x3
+!stuff: Stuff lightly, a little more at the curled tip so it holds its curl.`, at:{on:'Head', round:3.5, angle:0, front:true}, aim:[0,-1,.1], mix:.95, bend:.7, stuff:.6, sink:1.2, sew:'Sew the open end to the middle of the face. The trunk hangs down and curls forward at the tip.'},
+   {name:'Tusk', color:'B', rows:`
+mr 6
+sc 6 | x2
+(sc, inc)*3
+sc 9 | x3
+(sc 2, inc)*3
+sc 12 | x3
+(sc 3, inc)*3
+sc 15 | x2
+!stuff: Stuff lightly so the tusk keeps a gentle curve.`, at:{on:'Head', round:4.8, angles:[35,-35], front:true}, aim:[.5,1,1], mix:.9, bend:.6, stuff:.6, sink:.8, sew:'Sew one each side of the trunk, sweeping forward and up.'},
+   {name:'Ear', color:'D', rows:EAR_ROUND, at:{on:'Head', round:16, angles:[85,-85], front:true}, aim:[1,-.1,-.3], mix:.8, flat:.5, sink:.6, sew:'Pinch flat and sew low on each side of the head.'},
+   {name:'Top-knot tuft', color:'D', rows:`
+mr 6
+inc*6
+sc 12 | x3`, at:{on:'Head', spots:[[19,180],[17,-155],[17,155]], front:true}, aim:[0,1,-.2], mix:.5, stuff:.7, sink:.9, sew:'Stuff lightly and sew in a clump on top of the head.'},
+   {name:'Hump tuft', color:'D', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+!stuff: Stuff lightly.`, at:{spots:[[8,180],[11,180],[9.5,150],[9.5,-150]]}, stuff:.7, sink:.9, sew:'Stuff lightly and sew in a cluster over the shoulders to make a hump.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+sc 24 | x2 | B
+sc 24 | x6
+!stuff: Stuff the leg firmly right to the top.`, at:{spots:[[7.5,40],[7.5,-40],[22.5,40],[22.5,-40]]}, aim:[.12,-1,0], mix:.9, stuff:1, sink:1.6, sew:'The dark end is the sole, the pale band the toenails. Sew the open end under the body. Stand it up and adjust until all four feet touch.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x7 
+!stuff: Stuff lightly.`, at:{round:27.6, angle:180}, aim:[0,-.75,-1], mix:.85, stuff:.3, sink:.8, sew:'Sew to the top of the rump, hanging down.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:12, apart:22, front:true, size:.6}] },
+
+{ id:'bronto', name:'Brontosaurus', cat:'makebelieve', level:4, blurb:'Long neck, long tail, spotty back',
+  yarn:{A:['Sage','#8fae7a'],B:['Butter','#f1e6b5'],C:['Fern','#5f8a55'],D:['Sand','#e8d9b0'],E:['Cocoa','#5a4636']}, view:1.0,
+  parts:[
+   {name:'Body and tail', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x12
+!stuff: Stuff the chest and belly very firmly now, then keep adding as you taper.
+(sc 6, dec)*6
+sc 42 | x2
+(sc 5, dec)*6
+sc 36 | x2
+(sc 4, dec)*6
+sc 30 | x3
+(sc 3, dec)*6
+sc 24 | x4
+(sc 2, dec)*6
+sc 18 | x5
+!stuff: Stuff the tail a little less firmly as it narrows, so it can curve.
+(sc, dec)*6
+sc 12 | x6
+(sc, dec)*4
+sc 8 | x5
+dec*4
+!close:`},
+   {name:'Neck', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x5
+(sc 2, inc)*4
+sc 16 | x3
+(sc 7, inc)*2
+sc 18 | x7
+!stuff: Stuff the neck firmly all the way up so it stands; use a little wire or a rolled strip of felt if you want it extra stiff.`, at:{round:5, angle:180}, aim:[0,1,.38], mix:.85, stuff:1, sink:1.8, sew:'Sew the open end to the top of the chest and lean it forward.'},
+   {name:'Head', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+!eyes:
+sc 24 | x2
+!stuff: Stuff the head firmly, pushing stuffing into the snout.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Neck', round:1.6, angle:0, front:true}, aim:[0,-.2,1], mix:.9, stuff:1, sink:3, sew:'Sew the closed end to the top of the neck so the snout points forward.'},
+   {name:'Neck spot', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{on:'Neck', spots:[[6,180],[11,180]], front:true}, sew:'Sew the little circle flat on top of the neck.'},
+   {name:'Back spot', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{spots:[[11,180],[17,180],[11,150],[11,-150],[24,170],[24,-170],[33,180]]}, sew:'Sew the circles flat along the back and sides.'},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6`, at:{spots:[[12,0],[19,0]]}, sew:'Sew the pale circles flat under the belly, touching each other.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | D
+sc 18 | x2 | D
+(sc 2, inc)*6
+sc 24 | x8
+!stuff: Stuff the leg firmly, right to the top, so it is a solid column.`, at:{spots:[[9,40],[9,-40],[19.5,40],[19.5,-40]]}, aim:[.1,-1,0], mix:.9, stuff:1, sink:1.7, sew:'The sand end is the toenails. Sew the open end under the body. Stand it up and adjust until all four feet touch.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:4.8, apart:10, front:true, size:.5},
+          {id:'nostrils', kind:'dot', color:'#5a4636', on:'Head', round:1.2, apart:4, front:true, size:.28, text:'Embroider two small nostrils on the snout.'},
+          {id:'smile', kind:'line', color:'#5a4636', on:'Head', pts:[[2.2,-6],[3.4,0],[2.2,6]], front:true, text:'Embroider a smile under the snout.'}] },
+
+{ id:'triceratops', name:'Triceratops', cat:'makebelieve', level:4, blurb:'Three horns and a big frill',
+  yarn:{A:['Moss','#7f9f5a'],B:['Bone','#efe2c0'],C:['Rose','#d9697a'],D:['Ivory','#f6efdc'],E:['Cocoa','#5a4636']}, view:1.0,
+  parts:[
+   {name:'Body and tail', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x10
+!stuff: Stuff the body very firmly now, and keep stuffing as you decrease.
+(sc 6, dec)*6
+sc 42
+(sc 5, dec)*6
+sc 36
+(sc 4, dec)*6
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+sc 18 | x2
+(sc, dec)*6
+sc 12 | x2
+(sc, dec)*4
+sc 8 | x2
+dec*4
+!close:`},
+   {name:'Head', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+sc 18 | B
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x5
+!eyes:
+sc 36 | x2
+(sc 4, dec)*6
+sc 30 | x2
+!stuff: Stuff the head firmly, especially the beak, before you close it.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:3, angle:180}, aim:[0,-.05,1], mix:.9, stuff:1, sink:3, sew:'The pale end is the beak. Sew the closed end to the front of the body so the head points forward.'},
+   {name:'Frill', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+(sc 7, inc)*6
+(sc 8, inc)*6
+sc 60 | x2 | C
+!stuff: Do not stuff the frill. It is a shallow bowl.`, at:{on:'Head', round:18.6, angle:0, front:true}, aim:[0,.5,-1], mix:1, sink:1.6, sew:'Fit the bowl over the back of the head like a collar, rose edge forward, and sew it to the head and the shoulders so more of it stands above the head than below.'},
+   {name:'Brow horn', color:'D', rows:`
+mr 6
+sc 6 | x3
+(sc, inc)*3
+sc 9 | x4
+(sc 2, inc)*3
+sc 12 | x2
+!stuff: Stuff the horn firmly so it points.`, at:{on:'Head', round:11.5, angles:[28,-28], front:true}, aim:[.15,.6,.9], mix:.85, stuff:1, sink:.9, sew:'Sew above each eye, pointing forward and up.'},
+   {name:'Nose horn', color:'D', rows:`
+mr 6
+sc 6 | x2
+(sc, inc)*3
+sc 9 | x2
+!stuff: Stuff the horn firmly.`, at:{on:'Head', round:6.5, angle:0, front:true}, aim:[0,1,.6], mix:.8, stuff:1, sink:.7, sew:'Sew to the top of the snout, pointing up and forward.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+sc 18 | x2 | B
+(sc 2, inc)*6
+sc 24 | x6
+!stuff: Stuff the leg firmly, right to the top, so it is a sturdy column.`, at:{spots:[[8,40],[8,-40],[19.5,40],[19.5,-40]]}, aim:[.1,-1,0], mix:.9, stuff:1, sink:1.7, sew:'The pale end is the toenails. Sew the open end under the body. Stand it up and adjust until all four feet touch.'},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6`, at:{spots:[[11,0],[17,0]]}, sew:'Sew the pale circles flat under the belly, touching each other.'},
+   {name:'Back plate', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{spots:[[11,180],[15,180],[19,180],[23,180]]}, sew:'Sew the rose circles flat in a row down the back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:10, apart:17, front:true, size:.55},
+          {id:'nostrils', kind:'dot', color:'#5a4636', on:'Head', round:3, apart:4, front:true, size:.3, text:'Embroider two small nostrils on the beak.'},
+          {id:'frilldots', kind:'dot', color:'#f6efdc', on:'Frill', spots:[[11.6,0],[11.6,36],[11.6,-36],[11.6,72],[11.6,-72]], front:true, size:.5, text:'Add cream dots around the rose edge of the frill.'}] },
+
+{ id:'trex', name:'T. rex', cat:'makebelieve', level:4, blurb:'Upright, propped on a long tail',
+  yarn:{A:['Fern','#5f9a4a'],B:['Bone','#f2ead3'],C:['Moss','#3f6e34'],D:['Butter','#e6dca0']}, view:.45,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[.32,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+(sc 3, inc)*6
+sc 30 | x2
+(sc 4, inc)*6
+sc 36 | x2
+(sc 5, inc)*6
+sc 42 | x2
+(sc 6, inc)*6
+sc 48 | x2
+(sc 7, inc)*6
+sc 54 | x4
+!stuff: Start stuffing now and keep going as you decrease. Pack the lower body firmly so the rex can stand.
+(sc 7, dec)*6
+sc 48 | x2
+(sc 6, dec)*6
+sc 42
+(sc 5, dec)*6
+sc 36
+(sc 4, dec)*6
+(sc 3, dec)*6
+!stuff: Top up the stuffing until it is hard.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Head', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x4
+(sc 2, inc)*6
+sc 24 | x3
+(sc 3, inc)*6
+sc 30 | x2
+(sc 4, inc)*6
+sc 36 | x2
+!eyes:
+sc 36 | x2
+!stuff: Stuff the snout firmly first, then the skull. Keep stuffing as you decrease.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:2.2, angle:0}, aim:[0,-.14,1], mix:1, stuff:1, sink:3.4, sew:'The first rounds are the snout tip. Sew the closed end to the top of the body so the snout points forward.'},
+   {name:'Brow', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{on:'Head', spots:[[10.2,150],[10.2,-150]], front:true}, stuff:.6, sink:.7, sew:'Stuff lightly and sew over each eye as a heavy brow.'},
+   {name:'Leg', color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+sc 24 | x2 | B
+sc 24 | x14
+!stuff: Stuff the foot and shin firmly, the thigh a little less.`, at:{spots:[[21,38],[21,-38]]}, aim:[.05,-1,.1], mix:.85, stuff:.9, sink:1.6, sew:'The pale end is the claws. Sew the thigh to the lower sides of the body; the feet must stand flat.'},
+   {name:'Arm', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | B
+sc 9 | x4
+!stuff: Stuff the arm lightly.`, at:{round:9, angles:[45,-45]}, aimRel:[.4,-1], mix:.7, stuff:.8, sink:.7, sew:'The pale end is the claws. Sew high on the chest.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc 2, inc)*3
+sc 12 | x4
+(sc 3, inc)*3
+sc 15 | x4
+(sc 4, inc)*3
+sc 18 | x4
+(sc 5, inc)*3
+sc 21 | x4
+(sc 6, inc)*3
+sc 24 | x3
+!stuff: Stuff firmly, tip to base, so the tail props the body.`, at:{round:22.5, angle:180}, aim:[0,-1.22,-1], mix:.95, stuff:1, sink:2.2, sew:'Sew the wide end low on the back, resting on the floor.'},
+   {name:'Belly', color:'D', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6`, at:{round:13, angle:0}, sew:'Sew the circle flat to the front of the body.'},
+   {name:'Back bump', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{spots:[[3,180],[6,180],[9,180],[12,180],[15,180],[18,180]]}, stuff:.6, sink:.7, sew:'Stuff lightly and sew in a row down the back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:11, apart:15, front:true, size:.6},
+          {id:'nostrils', kind:'dot', color:'#2b3a25', on:'Head', round:1.5, apart:3, front:true, size:.3, text:'Embroider two nostrils at the snout tip.'},
+          {id:'teeth', kind:'line', color:'#ffffff', on:'Head', front:true, lines:[
+            [[2,100],[3,92],[4,100],[5,92],[6,100],[7,92],[8,100]],
+            [[2,-100],[3,-92],[4,-100],[5,-92],[6,-100],[7,-92],[8,-100]]], text:'Embroider a zigzag of white teeth along each side of the mouth.'}] },
+
+{ id:'kangaroo', name:'Kangaroo', cat:'safari', level:4, blurb:'A joey peeking from the pouch',
+  yarn:{A:['Sand','#d2a56e'],B:['Cream','#f3e5c6'],C:['Cocoa','#6b4a30'],D:['Toffee','#b98750'],E:['Biscuit','#e3bd8a']}, view:.3,
+  parts:[
+   {name:'Head and body', root:true, color:'A', rows:BIG_HEAD_BODY},
+   {name:'Muzzle', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x7
+(sc 2, inc)*6
+sc 24
+!stuff: Stuff the muzzle quite firmly so it stays long and straight.`, at:{round:14.2, angle:0}, aim:[0,-.1,1], mix:.5, stuff:1, sink:.7, sew:'Sew the open end to the lower half of the face; the cream tip is the nose end.'},
+   {name:'Ear', color:'A', rows:`
+mr 6 | C
+(sc, inc)*3 | C
+(sc 2, inc)*3 | C
+(sc 3, inc)*3
+sc 15 | x7`, at:{round:4.2, angles:[58,-58]}, aim:[.3,1,-.1], mix:.85, flat:.5, sink:.8, sew:'Pinch flat and sew upright to the top of the head, the dark tips pointing to the sky.'},
+   {name:'Belly', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6`, at:{round:28, angle:0}, sew:'Sew the circle flat to the front of the tummy.'},
+   {name:'Pouch', color:'D', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x2
+!stuff: Add a thin layer of stuffing so the pouch is a shallow cup.`, at:{round:29.5, angle:0}, aim:[0,.1,1], mix:.8, flat:.45, stuff:.4, sink:.9, sew:'Sew the open edge round the lower tummy; leave the top edge free to be a pocket.'},
+   {name:'Joey', color:'E', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+!joyeyes:
+!stuff: Stuff the little head quite firmly.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:26.6, angle:0}, aim:[0,.4,1], mix:.7, stuff:1, sink:2, sew:'Sew the closed end behind the pouch edge so the joey looks over the top.'},
+   {name:'Joey ear', color:'E', rows:`
+mr 6
+inc*6
+sc 12 | x2`, at:{on:'Joey', angles:[45,-45], round:3.3, front:true}, aim:[.2,1,0], mix:.7, flat:.5, sink:.5, sew:'Pinch flat and sew to the top of the joey head.'},
+   {name:'Arm', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+sc 12 | C
+sc 12 | x7
+!stuff: Stuff the paw end only, so the arm bends.`, at:{round:23.2, angles:[62,-62]}, aim:[.15,-.5,1], mix:.8, stuff:.8, sink:.8, sew:'The dark end is the paw. Sew under the neck so the paws are held out in front.'},
+   {name:'Haunch', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!stuff: Stuff the haunch firmly, it makes the big kangaroo thigh.
+!close:`, at:{round:30, angles:[75,-75]}, aim:[.3,-.5,.3], mix:.6, stuff:1, sink:1.8, sew:'Sew to the lower sides of the body.'},
+   {name:'Foot', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6
+sc 18 | x10
+(sc 4, dec)*3
+sc 15 | x2
+!stuff: Stuff the toe end lightly and the heel firmly so the foot stays long.`, at:{round:33, angles:[44,-44]}, aim:[.1,-.1,1], mix:.9, flat:.5, stuff:.8, sink:1.3, sew:'Sew under the base with the toes pointing forward; the heel sits at the back.'},
+   {name:'Tail', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+(sc 2, inc)*3
+sc 12 | x3
+(sc 3, inc)*3
+sc 15 | x3
+(sc 4, inc)*3
+sc 18 | x3
+(sc 5, inc)*3
+sc 21 | x3
+!stuff: Stuff firmly, tip to base.`, at:{round:31, angle:180}, aim:[0,-.25,-1], mix:.85, stuff:1, sink:1.8, sew:'Sew the wide end low on the back so the tail rests on the floor.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:11, apart:15, size:.7},
+          {id:'joyeyes', kind:'eye', on:'Joey', round:4, apart:6, front:true, size:.4},
+          {id:'nose', kind:'dot', color:'#4a3022', on:'Muzzle', round:0, angle:0, size:.7, text:'Embroider a dark nose on the tip of the muzzle.'},
+          {id:'mouth', kind:'line', color:'#4a3022', on:'Muzzle', pts:[[1.2,0],[3.6,0]], front:true, text:'Stitch a short line down from the nose.'}] },
+
+{ id:'humpback', name:'Humpback Whale', cat:'ocean', level:4, blurb:'Long flippers, throat grooves, big flukes',
+  yarn:{A:['Deep slate','#3f5a73'],B:['Foam','#e9eef2'],C:['Ink','#1f2d3d']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+(sc 7, inc)*6
+(sc 8, inc)*6
+sc 60 | x6
+!eyes:
+(sc 8, dec)*6
+sc 54 | x3
+(sc 7, dec)*6
+sc 48 | x3
+(sc 6, dec)*6
+sc 42 | x4
+(sc 5, dec)*6
+sc 36 | x4
+!stuff: Stuff firmly and evenly, a handful at a time, so the body is plump and round.
+(sc 4, dec)*6
+sc 30 | x4
+(sc 3, dec)*6
+sc 24 | x4
+(sc 2, dec)*6
+sc 18 | x5
+!stuff: Keep stuffing the tail stock, but more lightly as it narrows. Stop about 4 rounds from the end.
+(sc, dec)*6
+sc 12 | x2
+dec*6
+!close:`},
+   {name:'Flipper', color:'A', rows:`
+mr 6 | B
+sc 6 | x3 | B
+(sc, inc)*3 | B
+sc 9 | x3 | B
+(sc 2, inc)*3
+sc 12 | x6
+(sc 3, inc)*3
+sc 15 | x8
+(sc 4, inc)*3
+sc 18 | x6
+!stuff: Stuff the flipper very lightly, just enough to stay plump, then flatten it.`, at:{round:11.5, angles:[68,-68]}, aim:[1,-.2,-.9], mix:.9, flat:.4, stuff:.3, sink:.7, sew:'The pale end is the tip. Flatten and sew the open end low on each side of the body, with the flipper sweeping back.'},
+   {name:'Fluke', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+(sc 2, inc)*3 | B
+(sc 3, inc)*3
+sc 15 | x3
+(sc 4, inc)*3
+sc 18 | x4
+(sc 5, inc)*3
+sc 21 | x3
+(sc, dec)*7
+sc 14 | x2`, at:{round:46.3, angles:[150,-150]}, aim:[1,0,-.5], mix:.9, flat:.4, sink:.6, sew:'The pale end is the outer tip. Flatten and sew one to each side of the tail tip, spreading sideways.'},
+   {name:'Dorsal fin', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2
+!stuff: Add a pinch of stuffing, then flatten.`, at:{round:34, angle:180}, aim:[0,1,-.6], mix:.8, flat:.5, stuff:.4, sink:.7, sew:'Sew on top of the back, leaning slightly toward the tail.'},
+   {name:'Head knob', color:'A', rows:BALL12, at:{spots:[[3,180],[4.6,158],[4.6,-158],[6.4,180],[7.6,150],[7.6,-150]]}, sink:1.2, sew:'Stuff lightly and sew in two rows along the top of the snout, like the bumps on a real humpback.'},
+   {name:'Belly patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{round:33, angle:0}, sew:'Sew the pale circle flat under the belly, behind the flippers.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', round:9.5, apart:23, center:0, size:.6, text:'Push in the safety eyes between rounds 9 and 10, low on each side of the head just above the end of the mouth line.'},
+          {id:'mouth', kind:'line', color:'#1f2d3d', lines:[[[2,50],[4,55],[7,60],[10,62]],[[2,-50],[4,-55],[7,-60],[10,-62]]], text:'Embroider a long mouth line down each side of the head with dark yarn.'},
+          {id:'grooves', kind:'line', color:'#e9eef2', lines:[[[5,0],[28,0]],[[5,8],[28,8]],[[5,-8],[28,-8]],[[5,16],[28,16]],[[5,-16],[28,-16]],[[5,24],[28,24]],[[5,-24],[28,-24]]], text:'Embroider seven pale throat grooves with Foam yarn, running along the belly from the chin back to about round 28.'},
+          {id:'barnacles', kind:'dot', color:'#e9eef2', spots:[[3,32],[4,-34],[5,36],[6,-30],[7,34],[8,-36],[2.4,-18],[3.4,20]], size:.3, text:'Add small pale barnacle dots on the chin with Foam yarn.'}] },
+
+{ id:'seaturtle', name:'Sea Turtle', cat:'ocean', level:4, blurb:'Domed shell, winged flippers, scutes',
+  yarn:{A:['Sea green','#4f9d7f'],B:['Sand','#eadbb0'],C:['Kelp','#2f6b4f'],D:['Ink','#1f3a2f']}, view:.5,
+  parts:[
+   {name:'Shell', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc, inc)*12
+(sc 2, inc)*12
+(sc 3, inc)*12
+sc 60 | x7
+! Switch to the sand yarn for the underside.
+(sc 3, dec)*12 | B
+sc 48 | B
+(sc 2, dec)*12 | B
+sc 36 | B
+!stuff: Stuff the shell firmly now, pushing stuffing up under the dome so it stays high and round.
+(sc, dec)*12 | B
+dec*12 | B
+dec*6 | B
+!close:`},
+   {name:'Scute', color:'C', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{spots:[[.8,0],[6.4,0],[6.4,60],[6.4,120],[6.4,180],[6.4,-120],[6.4,-60]]}, sew:'Sew one scute in the middle of the dome and six in a ring around it, with a small gap between each.'},
+   {name:'Neck', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x8
+!stuff: Stuff the neck firmly so it holds the head up.`, at:{round:12.3, angle:0}, aim:[0,.5,1], mix:.8, stuff:1, sink:1.4, sew:'Sew the open end to the front of the shell, between the green and sand, leaning forward and a little up.'},
+   {name:'Head', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x6
+!eyes:
+sc 24 | x2
+(sc 2, dec)*6
+!stuff: Stuff the head firmly, shaping the snout.
+(sc, dec)*6
+dec*6
+!close:`, at:{on:'Neck', round:1.6, angle:0, front:true}, aim:[0,.1,1], mix:.9, stuff:1, sink:3.2, sew:'The round end is the snout. Sew the closed end to the end of the neck so the snout points forward.'},
+   {name:'Front flipper', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | x2 | B
+(sc 2, inc)*3
+sc 12 | x3
+(sc 3, inc)*3
+sc 15 | x3
+(sc 4, inc)*3
+sc 18 | x3
+(sc 5, inc)*3
+sc 21 | x3`, at:{round:15.3, angles:[68,-68]}, aim:[1,-.1,-.7], mix:.9, flat:.35, face:[0,1,.2], sink:.7, sew:'The sand end is the tip. Flatten and sew the open end to each side of the shell, just above the underside, sweeping back like a wing.'},
+   {name:'Back flipper', color:'A', rows:`
+mr 6 | B
+(sc, inc)*3 | B
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x4
+(sc 3, inc)*3
+sc 15 | x3`, at:{round:16.4, angles:[148,-148]}, aim:[.9,-.1,-1], mix:.9, flat:.4, face:[0,1,0], sink:.6, sew:'Flatten and sew to each side at the back of the shell, pointing back.'},
+   {name:'Tail', color:'A', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x4
+(sc, dec)*2
+!stuff: Add a tiny pinch of stuffing.
+dec*2`, at:{round:16.2, angle:180}, aim:[0,-.1,-1], mix:.9, stuff:.5, sink:.4, sew:'Sew to the middle of the back edge, pointing back.'}
+  ],
+  extras:[{id:'eyes', kind:'eye', on:'Head', round:7, apart:15, front:true, size:.5, text:'Push in the safety eyes between rounds 7 and 8 of the head, 15 stitches apart.'},
+          {id:'smile', kind:'line', color:'#1f3a2f', on:'Head', pts:[[3.6,-48],[4.8,-24],[5.2,0],[4.8,24],[3.6,48]], front:true, text:'Embroider a gentle smile under the snout.'},
+          {id:'headdots', kind:'dot', color:'#eadbb0', on:'Head', spots:[[9,-50],[9.5,-20],[10,15],[9,50],[11,-5],[11.5,30],[11.5,-35],[8,10]], front:true, size:.28, text:'Embroider small sand speckles on the top and sides of the head.'},
+          {id:'flipdots', kind:'dot', color:'#eadbb0', on:'Front flipper', spots:[[5,-10],[8,12],[11,-14],[14,10],[17,-8],[10,0]], front:true, size:.3, text:'Embroider small sand speckles along each front flipper.'}] },
+
+{ id:'layercake', name:'Layer Cake', cat:'food', level:4, blurb:'Three tiers, drips and candles',
+  yarn:{A:['Vanilla','#f6e7c8'],B:['Rose icing','#f4b6c9'],C:['Mint icing','#b9e4cf'],D:['Lilac icing','#cdb8ec'],E:['Cherry','#d9405a'],F:['Candle','#9fd0f0'],G:['Flame','#ffc233'],H:['Cream','#fffaf0']}, view:.3,
+  parts:[
+   {name:'Bottom tier', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 5, inc)*6 | B
+(sc 6, inc)*6 | B
+(sc 7, inc)*6 | B
+(sc 8, inc)*6 | B
+sc 60 | B
+sc 60 | B
+sc 60 | A
+sc 60 | A
+sc 60 | A
+!stuff: Stuff each tier very firmly so it is a solid drum with flat top and bottom; pack the edges.
+(sc 8, dec)*6 | A
+(sc 7, dec)*6 | A
+(sc 6, dec)*6 | A
+(sc 5, dec)*6 | A
+(sc 4, dec)*6 | A
+(sc 3, dec)*6 | A
+(sc 2, dec)*6 | A
+(sc, dec)*6 | A
+dec*6 | A
+!close:`},
+   {name:'Middle tier', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+(sc 3, inc)*6 | C
+(sc 4, inc)*6 | C
+(sc 5, inc)*6 | C
+(sc 6, inc)*6 | C
+sc 48 | C
+sc 48 | C
+sc 48 | A
+sc 48 | A
+!stuff: Stuff each tier very firmly so it is a solid drum with flat top and bottom; pack the edges.
+(sc 6, dec)*6 | A
+(sc 5, dec)*6 | A
+(sc 4, dec)*6 | A
+(sc 3, dec)*6 | A
+(sc 2, dec)*6 | A
+(sc, dec)*6 | A
+dec*6 | A
+!close:`, at:{round:0.5, angle:0}, aim:[0,1,0], mix:1, stuff:1, sink:1.6, sew:'Sew the bottom of this drum centrally onto the top of the bottom tier.'},
+   {name:'Top tier', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | D
+(sc 2, inc)*6 | D
+(sc 3, inc)*6 | D
+(sc 4, inc)*6 | D
+sc 36 | D
+sc 36 | D
+sc 36 | A
+!stuff: Stuff each tier very firmly so it is a solid drum with flat top and bottom; pack the edges.
+(sc 4, dec)*6 | A
+(sc 3, dec)*6 | A
+(sc 2, dec)*6 | A
+(sc, dec)*6 | A
+dec*6 | A
+!close:`, at:{on:'Middle tier', round:0.5, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:1, sink:1.6, sew:'Sew the bottom of this drum centrally onto the top of the middle tier.'},
+   {name:'Bottom drip', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+!stuff: Stuff the drip lightly, just enough to make it round.`, at:{spots:[[10.8,0],[10.8,45],[10.8,90],[10.8,135],[10.8,180],[10.8,-135],[10.8,-90],[10.8,-45]]}, aim:[0,-1,0], mix:.9, stuff:.5, sink:.7, sew:'Sew the open end just under the icing edge so the drip hangs down the side.'},
+   {name:'Middle drip', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+!stuff: Stuff the drip lightly, just enough to make it round.`, at:{spots:[[8.8,11],[8.8,62],[8.8,114],[8.8,165],[8.8,-143],[8.8,-92],[8.8,-40]], on:'Middle tier', front:true}, aim:[0,-1,0], mix:.9, stuff:.5, sink:.7, sew:'Sew the open end just under the icing edge so the drip hangs down the side.'},
+   {name:'Top drip', color:'D', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3
+!stuff: Stuff the drip lightly, just enough to make it round.`, at:{spots:[[6.8,0],[6.8,72],[6.8,144],[6.8,-144],[6.8,-72]], on:'Top tier', front:true}, aim:[0,-1,0], mix:.9, stuff:.5, sink:.7, sew:'Sew the open end just under the icing edge so the drip hangs down the side.'},
+   {name:'Bottom pearl', color:'H', rows:`
+mr 6
+sc 6 | x2
+!stuff: Add a tiny pinch of stuffing.
+dec*3
+!close:`, at:{spots:[[15.9,0],[15.9,30],[15.9,60],[15.9,90],[15.9,120],[15.9,150],[15.9,180],[15.9,-150],[15.9,-120],[15.9,-90],[15.9,-60],[15.9,-30]]}, stuff:.6, sink:.5, sew:'Sew each bead on in a ring, evenly spaced around the base of the tier.'},
+   {name:'Middle pearl', color:'H', rows:`
+mr 6
+sc 6 | x2
+!stuff: Add a tiny pinch of stuffing.
+dec*3
+!close:`, at:{spots:[[12.9,0],[12.9,36],[12.9,72],[12.9,108],[12.9,144],[12.9,180],[12.9,-144],[12.9,-108],[12.9,-72],[12.9,-36]], on:'Middle tier', front:true}, stuff:.6, sink:.5, sew:'Sew each bead on in a ring, evenly spaced around the base of the tier.'},
+   {name:'Top pearl', color:'H', rows:`
+mr 6
+sc 6 | x2
+!stuff: Add a tiny pinch of stuffing.
+dec*3
+!close:`, at:{spots:[[9.9,0],[9.9,45],[9.9,90],[9.9,135],[9.9,180],[9.9,-135],[9.9,-90],[9.9,-45]], on:'Top tier', front:true}, stuff:.6, sink:.5, sew:'Sew each bead on in a ring, evenly spaced around the base of the tier.'},
+   {name:'Candle', color:'F', rows:`
+mr 4 | G
+sc 4 | G
+(sc, inc)*2 | F
+sc 6 | x5 | F
+!stuff: Leave the candle unstuffed or add one tiny roll of stuffing so it stands straight.`, at:{on:'Top tier', spots:[[3.4,0],[3.4,72],[3.4,144],[3.4,-144],[3.4,-72]], front:true}, aim:[0,1,0], mix:1, stuff:.4, sink:.6, sew:'The yellow tip is the flame. Sew the open end upright into the top of the cake in a ring.'},
+   {name:'Cherry', color:'E', rows:`
+mr 6
+inc*6
+sc 12
+!stuff: Stuff the cherry round and firm.
+dec*6
+!close:`, at:{on:'Top tier', spots:[[5.2,36],[5.2,108],[5.2,180],[5.2,-108],[5.2,-36]], front:true}, aim:[0,1,0], mix:.9, stuff:1, sink:1.2, sew:'Sew a cherry between each pair of candles.'},
+   {name:'Berry', color:'E', rows:`
+mr 6
+inc*6
+sc 12
+!stuff: Stuff the berry round and firm.
+dec*6
+!close:`, at:{on:'Middle tier', spots:[[7.2,0],[7.2,60],[7.2,120],[7.2,180],[7.2,-120],[7.2,-60]], front:true}, aim:[0,1,0], mix:.9, stuff:1, sink:1.2, sew:'Sew the berries in a ring on the shelf of the middle tier.'},
+  ],
+  extras:[{id:'swag', kind:'line', color:'#f4b6c9', on:'Middle tier', front:true, pts:[[10.4,-50],[11.2,-25],[11.5,0],[11.2,25],[10.4,50]], text:'Embroider a rose-pink swag across the front of the middle tier, with a small loop at each end.'},
+          {id:'sprinkles', kind:'dot', color:'#e9718f', on:'Bottom tier', front:true, spots:[[13.5,-40],[14.5,-10],[13.5,25],[14.5,55],[13.2,0]], size:.3, text:'Embroider a few small pink sprinkles on the front of the bottom tier.'},
+          {id:'sprinkles2', kind:'dot', color:'#7bb6e0', on:'Top tier', front:true, spots:[[9.5,-30],[10,20],[9.2,45],[10,-60]], size:.3, text:'Add a few small blue sprinkles to the top tier.'}] },
+
+{ id:'lighthouse', name:'Lighthouse', cat:'things', level:4, blurb:'Red and white bands, a lantern top',
+  yarn:{W:['Chalk','#f6f3ea'],R:['Brick red','#cf4a3f'],S:['Granite','#a7aab0'],K:['Slate','#4b5563'],Y:['Lamp','#ffd45a'],B:['Oak door','#7a4a2b']}, view:.3,
+  parts:[
+   {name:'Tower', root:true, color:'W', rows:`
+mr 6 | W
+inc*6 | W
+(sc, inc)*6 | W
+(sc 2, inc)*6 | W
+sc 24 | x2 | W
+sc 24 | x3 | R
+(sc 3, inc)*6 | R
+sc 30 | x3 | W
+(sc 4, inc)*6 | W
+sc 36 | x3 | R
+(sc 5, inc)*6 | R
+sc 42 | x4 | W
+!stuff: Stuff the tower very firmly as you go, packing it so it stands straight and does not sag.
+(sc 6, inc)*6 | S
+(sc 7, inc)*6 | S
+(sc 8, inc)*6 | S
+sc 60 | x2 | S
+!stuff: Stuff the rocky base very firmly, pushing stuffing out to the edge so the bottom is flat.
+(sc 3, dec)*12 | S
+(sc 2, dec)*12 | S
+(sc, dec)*12 | S
+dec*12 | S
+dec*6 | S
+!close:`},
+   {name:'Gallery', color:'K', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x2
+!stuff: Stuff the gallery ring firmly so it forms a flat platform.`, at:{round:0.5, angle:0}, aim:[0,1,0], mix:1, stuff:1, sink:1.4, sew:'Sew the open end flat across the top of the tower so the ring overhangs all round.'},
+   {name:'Lantern', color:'Y', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x8
+!stuff: Stuff lightly so the lantern stays round and glowing.`, at:{on:'Gallery', round:0.5, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:.8, sink:1.2, sew:'Sew the open end to the middle of the gallery.'},
+   {name:'Roof', color:'R', rows:`
+mr 6
+sc 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12
+(sc 3, inc)*3
+sc 15
+(sc 4, inc)*3
+sc 18
+(sc 5, inc)*3
+(sc 6, inc)*3
+sc 24
+!stuff: Stuff the roof firmly, pushing stuffing up into the point.`, at:{on:'Lantern', round:0.5, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:1, sink:.8, sew:'Sew the wide open end over the lantern so the roof overhangs it all round.'},
+   {name:'Beacon ball', color:'Y', rows:`
+mr 6
+inc*6
+sc 12
+!stuff: Stuff the ball firmly.
+dec*6
+!close:`, at:{on:'Roof', round:0.5, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:1, sink:1.1, sew:'Sew the ball to the very point of the roof.'},
+   {name:'Rail post', color:'K', rows:`
+mr 6
+sc 6 | x2
+!stuff: Add a tiny pinch of stuffing.
+dec*3
+!close:`, at:{on:'Gallery', spots:[[5.2,0],[5.2,30],[5.2,60],[5.2,90],[5.2,120],[5.2,150],[5.2,180],[5.2,-150],[5.2,-120],[5.2,-90],[5.2,-60],[5.2,-30]], front:true}, aim:[0,1,0], mix:.9, stuff:.6, sink:.6, sew:'Sew the posts in an even ring around the edge of the gallery.'},
+   {name:'Door', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:19.6, angle:0}, sew:'Sew the circle flat on the lower front of the tower; it is the door.'},
+   {name:'Rock', color:'S', rows:`
+mr 6 | S
+inc*6 | S
+(sc, inc)*6 | S
+sc 18 | x2 | S
+!stuff: Stuff the rock firmly so it is a lumpy ball.
+(sc, dec)*6 | S
+dec*6 | S
+!close:`, at:{spots:[[25.6,20],[25.6,-40],[25.6,65],[25.6,115],[25.6,-95],[25.6,-140],[25.6,160],[25.6,-180]]}, aimRel:[1,-.15], mix:.6, stuff:1, sink:1.3, sew:'Sew the rocks around the foot of the lighthouse, close to the floor, in a loose group.'},
+  ],
+  extras:[{id:'windows', kind:'dot', color:'#2f4a6b', spots:[[8.6,0],[13.6,0],[17,0],[11,90],[15,-90],[11,-90],[15,90]], size:.42, text:'Embroider small navy windows up the tower: three down the front, and two on each side.'},
+          {id:'knob', kind:'dot', color:'#ffd45a', spots:[[19.3,-4]], size:.28, text:'Add a tiny gold doorknob.'},
+          {id:'bars', kind:'line', color:'#4b5563', on:'Lantern', front:true, lines:[[[4,-50],[9,-50]],[[4,0],[9,0]],[[4,50],[9,50]]], text:'Stitch three dark upright bars across the lantern glass.'}] }
 ];
 
 /* =====================================================================
@@ -2904,6 +4127,14 @@ function surf(c, t, angDeg){
   deform(c,p,n,null); n.normalize();
   return {p,n};
 }
+// The side of a part that faces the viewer (or the sky, if the part points at the viewer), and which way round is the viewer's right.
+// "front:true" measures angles from there, so a face goes on the front of a head however the head is tilted.
+function frontOf(c){
+  if(c.front) return c.front;
+  const t=c.info.N/2; let best=0, bv=-9;
+  for(let a=0;a<360;a+=3){ const s=surf(c,t,a), v=s.n.z*.85+s.n.y*.15; if(v>bv){bv=v;best=a;} }
+  return c.front={a:best,dir:surf(c,t,best+20).p.x>=surf(c,t,best-20).p.x?1:-1};
+}
 function buildCreature(def){
   const insts=[], steps=[], copies=[], byName={}, partInfo=[];
   let rootCopy=null;
@@ -2935,6 +4166,7 @@ function buildCreature(def){
       if(pd.root){ if(pd.rot) c.m.makeRotationFromEuler(new THREE.Euler(...pd.rot)); rootCopy=c; }
       else{
         host=(byName[pd.at.on]||rootCopy.info).copies[0];
+        if(pd.at.front){ const f=frontOf(host); ang=f.a+f.dir*ang; }
         S=surf(host, rnd, ang);
         if(pd.conform){
           const ax=new V3(0,1,0).transformDirection(host.m);
@@ -2947,6 +4179,7 @@ function buildCreature(def){
           if(pd.aimRel){ const rad=new V3(S.n.x,0,S.n.z); if(rad.lengthSq()<1e-4) rad.set(Math.sin(ang*DEG),0,Math.cos(ang*DEG)); rad.normalize(); a=rad.multiplyScalar(pd.aimRel[0]).add(new V3(0,pd.aimRel[1],0)); }
           if(a){ const mix=pd.mix??.7; dir.multiplyScalar(1-mix).addScaledVector(a.normalize(),mix).normalize(); }
           let Z=S.n.clone().addScaledVector(dir,-S.n.dot(dir));
+          if(pd.face){ Z.set(pd.face[0]*sgn,pd.face[1],pd.face[2]); Z.addScaledVector(dir,-Z.dot(dir)); }      // which way the broad side of a flattened part looks
           if(Z.lengthSq()<.01){ Z.set(0,1,0).addScaledVector(dir,-dir.y); }
           if(Z.lengthSq()<.01){ Z.set(0,0,1).addScaledVector(dir,-dir.z); }
           Z.normalize();
@@ -3010,13 +4243,14 @@ function buildCreature(def){
     for(const c of info.copies){
       const cnt=info.counts[Math.max(0,Math.min(info.N-1,Math.round(e.round)-1))];
       let pts=[], lines=null;
-      if(e.kind==='line') lines=(e.lines||[e.pts]).map(pl=>pl.map(q=>{ const s=surf(c,q[0],q[1]); return s.p.addScaledVector(s.n,.5); }));
-      else if(e.spots) pts=e.spots.map(q=>surf(c,q[0],q[1]));
+      const fr=e.front?frontOf(c):null, A=a=>fr?fr.a+fr.dir*a:a;
+      if(e.kind==='line') lines=(e.lines||[e.pts]).map(pl=>pl.map(q=>{ const s=surf(c,q[0],A(q[1])); return s.p.addScaledVector(s.n,.5); }));
+      else if(e.spots) pts=e.spots.map(q=>surf(c,q[0],A(q[1])));
       else{
         let angs;
         if(e.angle==='front'){ let best=0,bv=-9; for(let a=0;a<360;a+=6){ const s=surf(c,e.round,a); const v=s.n.z*.85+s.n.y*.15; if(v>bv){bv=v;best=a;} } angs=[best]; }
-        else if(e.apart){ const h=(e.apart/2)/cnt*360, ce=e.center||0; angs=[ce+h,ce-h]; }
-        else angs=[e.angle||0];
+        else if(e.apart){ const h=(e.apart/2)/cnt*360, ce=e.center||0; angs=[A(ce+h),A(ce-h)]; }
+        else angs=[A(e.angle||0)];
         pts=angs.map(a=>surf(c,e.round,a));
       }
       let si=steps.findIndex(s=>s.kind==='note'&&s.key===e.id&&s.copy===c);
@@ -3057,7 +4291,7 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 renderer.setClearColor(0x000000,0);
 renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 const scene=new THREE.Scene(), world=new THREE.Group(); scene.add(world);
-const camera=new THREE.PerspectiveCamera(30,1,.05,60);
+const camera=new THREE.PerspectiveCamera(30,1,.02,60);      // near enough for the close-up on the tallest builds
 const key=new THREE.DirectionalLight(0xfff1dd,2.5); key.position.set(-3.6,4.6,4.6); key.castShadow=true;
 key.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048); key.shadow.camera.near=1; key.shadow.camera.far=16; key.shadow.bias=-.0004;
 const rim=new THREE.DirectionalLight(0xcfe0ff,1.1); rim.position.set(4,2.4,-3.6);
@@ -3212,26 +4446,29 @@ function strandGeo(pts,rad,segs,radial){ const B=newB(); tubeInto(B,pts,{rad,seg
 // posts and the feet of the next sit side by side, evenly, and none runs through another (measured: worst leg-on-leg overlap 34%, was 87%).
 const LEG=[[.10,-.56,-.2],[.12,-.80,-.04],[.125,-.72,.2],[.2,-.47,.37],[.25,-.2,.39],[.15,.04,.35],[.09,.22,.25],[.08,.33,0]];      // one leg of the post; the other is its mirror
 const TEAR=[[1.02,.1,0],[.9,.2,.02],[.72,.42,.08],[.42,.475,.18],[.1,.46,.2],[-.12,.44,.03],[.02,.46,-.15],[.42,.485,-.16],[.72,.43,-.08],[.9,.21,-.02],[1.02,.11,-.02]];   // the top loops: each comes up from under the end of the one before
-const stitchGeo=(()=>{
-  const B=newB(), rs=LOW?7:10, ends=t=>t<.12?.7+.3*t/.12:t>.88?.7+.3*(1-t)/.12:1;
+const mkStitchGeo=lod=>{      // 0 full · 1 lighter (phones, or a big build) · 2 lightest (a big build on a phone)
+  const pick=(a,b,c)=>[a,b,c][lod];
+  const B=newB(), rs=pick(10,7,5), ends=t=>t<.12?.7+.3*t/.12:t>.88?.7+.3*(1-t)/.12:1;
   for(const s of [1,-1]) tubeInto(B,LEG.map(p=>[p[0]*s,p[1],p[2]]),
-    {rad:YARN_R,segs:LOW?9:13,radial:rs,u0:s>0?0:.37,taper:ends,
+    {rad:YARN_R,segs:pick(13,9,7),radial:rs,u0:s>0?0:.37,taper:ends,
      skin:p=>[clamp((.36-p.y)/.9,0,1),s,0],
      shade:p=>clamp(.5+1.7*(p.z-.02),.42,1)*(p.y<-.5?.86:1)});
   tubeInto(B,TEAR,
-    {rad:YARN_R*.97,segs:LOW?15:22,radial:rs,u0:.61,taper:ends,
+    {rad:YARN_R*.97,segs:pick(22,15,11),radial:rs,u0:.61,taper:ends,
      skin:(p,t)=>[0,0,t<.5?1:2],
      shade:p=>clamp(.56+1.1*Math.max(p.z+.1,(p.y-.38)*2.2),.5,1)});
   const sq=x=>Math.sign(x)*Math.pow(Math.abs(x),.6);      // squared-off outline, so four pads leave no pinhole where their corners meet
-  const sp=new THREE.SphereGeometry(1,LOW?8:12,LOW?5:7), pp=sp.attributes.position, pn=sp.attributes.normal, base=B.pos.length/3;
+  const sp=new THREE.SphereGeometry(1,pick(12,8,6),pick(7,5,4)), pp=sp.attributes.position, pn=sp.attributes.normal, base=B.pos.length/3;
   for(let i=0;i<pp.count;i++){
     const z=pp.getZ(i), nx=pn.getX(i)/.62, ny=pn.getY(i)/.57, nz=pn.getZ(i)/.14, l=1/Math.hypot(nx,ny,nz), s=z>0?.36:.62;
     B.pos.push(sq(pp.getX(i))*.64,sq(pp.getY(i))*.58,z*.14-.1); B.nrm.push(nx*l,ny*l,nz*l); B.uv.push(.0625,.0625); B.col.push(s,s,s); B.skin.push(0,0,3);
   }
   for(const k of sp.index.array) B.idx.push(base+k);
-  tubeInto(B,[[-.54,.06,-.2],[-.2,.12,-.27],[.2,.12,-.27],[.54,.06,-.2]],{rad:YARN_R*.9,segs:LOW?4:6,radial:LOW?5:7,u0:.2,skin:()=>[0,0,3],shade:()=>.9});   // wrong side: one bar per stitch
+  tubeInto(B,[[-.54,.06,-.2],[-.2,.12,-.27],[.2,.12,-.27],[.54,.06,-.2]],{rad:YARN_R*.9,segs:pick(6,4,3),radial:pick(7,5,4),u0:.2,skin:()=>[0,0,3],shade:()=>.9});   // wrong side: one bar per stitch
   return toGeo(B);
-})();
+};
+const stitchGeos=[], stitchGeo=lod=>stitchGeos[lod]||(stitchGeos[lod]=mkStitchGeo(lod));
+const BIG=1800;      // stitches: past this a pattern is drawn with lighter stitches
 const eyeGeo=new THREE.SphereGeometry(1,24,16);
 const eyeMat=new THREE.MeshStandardMaterial({color:0x17131d,roughness:.1,metalness:0,envMapIntensity:1.3});
 const glintMat=new THREE.MeshBasicMaterial({color:0xffffff,toneMapped:false});
@@ -3266,7 +4503,7 @@ const TYPE_COL={mr:new THREE.Color('#f2b33d'),sc:new THREE.Color('#e9e2d6'),inc:
 const WHITE=new THREE.Color('#ffffff'), SUN=new THREE.Color('#ffd23d');
 
 function makeView(cr){
-  const group=new THREE.Group(), n=cr.insts.length, geo=stitchGeo.clone();
+  const group=new THREE.Group(), n=cr.insts.length, geo=stitchGeo((LOW?1:0)+(n>BIG?1:0)).clone();
   const mesh=new THREE.InstancedMesh(geo,yarnMat,n); mesh.frustumCulled=false; mesh.castShadow=mesh.receiveShadow=true; mesh.customDepthMaterial=depthMat;
   const m=new THREE.Matrix4(), inv=new THREE.Matrix4(), a=new V3(), q=new V3(), mats=[], frames=[], base=[], aBase=new Float32Array(n*3), aMeta=new Float32Array(n*3);
   const pal={}; for(const k in cr.def.yarn) pal[k]=new THREE.Color(cr.def.yarn[k][1]);
@@ -3350,7 +4587,7 @@ function placeCamera(){
 const built={};
 const getCreature=id=>built[id]||(built[id]=buildCreature(CREATURES.find(c=>c.id===id)));
 const grid=$('#grid');
-const LVL=['','Beginner','Easy','A bit more'];
+const LVL=['','Beginner','Easy','A bit more','Big build'];
 const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['food','Food'],['things','Things']];
 const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat===key)})).filter(c=>c.defs.length);      // the gallery, one shelf per category
 { const chip=(key,label,n)=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'; b.dataset.c=key; b.setAttribute('aria-pressed',String(key==='all')); b.innerHTML=`${label}<small>${n}</small>`; $('#cats').appendChild(b); };
@@ -3360,7 +4597,7 @@ const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat==
     const sec=document.createElement('section'); sec.className='cat'; sec.dataset.cat=c.key; sec.innerHTML=`<h2>${c.label} <small></small></h2><div class="grid"></div>`;
     for(const def of c.defs){
       const b=document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=def.id;
-      b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
+      b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3,4].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
       b.addEventListener('click',()=>{ location.hash=def.id; });
       sec.lastChild.appendChild(b);
     }
@@ -3377,7 +4614,7 @@ function refreshCards(){
       el.querySelector('.prog').hidden=!(pct||isMade); el.querySelector('.prog i').style.width=(pct?pct*100:100)+'%';
       el.querySelector('.state').textContent=pct?`${Math.round(pct*100)}% done · carry on`:isMade?'✓ Made':'';
       el.classList.toggle('made',isMade&&!pct);
-      el.hidden=(cat!=='all'&&cat!==c.key) || (f==='going'&&!pct) || (f==='made'&&!isMade);
+      el.hidden=(cat!=='all'&&cat!==c.key) || (f==='going'&&!pct) || (f==='made'&&!isMade) || (f==='big'&&def.level<4);
       if(!el.hidden) here++;
     }
     const sec=grid.querySelector(`[data-cat="${c.key}"]`); sec.hidden=!here; sec.querySelector('h2 small').textContent=`${here} ${here===1?'pattern':'patterns'}`; shown+=here;
@@ -3389,15 +4626,19 @@ $('#cats').addEventListener('click',e=>{ const b=e.target.closest('button'); if(
 document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{      // In progress / Made: press again to clear
   S.filter=S.filter===b.dataset.f?'':b.dataset.f; document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed',String(q.dataset.f===S.filter))); refreshCards();
 }));
-function renderThumb(def){
+function snap(def,az,el){      // one still of the finished piece, from any side
   const cr=getCreature(def.id), v=makeView(cr);
   world.add(v.group); v.mesh.count=v.pre.count=cr.insts.length; ring.visible=marker.visible=false; setFloor(v); shadow.visible=ground.visible=true;
   U.uExpert.value=0; U.uCount.value=1e7; U.uCur.value=-1; U.uNext.value.set(-1,-1,1); U.uSolo.value=-1; U.uHookR.value.x=0;
   renderer.setPixelRatio(1); renderer.setSize(512,512,false); camera.aspect=1; camera.updateProjectionMatrix();
-  cam.az=def.view??.45; cam.el=.2; cam.zoom=cam.z=1; cam.target.set(0,0,0); cam.up.set(0,1,0); cam.dist=fitDist(1); orbitDir(); placeCamera();
+  cam.az=az??def.view??.45; cam.el=el??.2; cam.zoom=cam.z=1; cam.target.set(0,0,0); cam.up.set(0,1,0); cam.dist=fitDist(1); orbitDir(); placeCamera();
   renderer.render(scene,camera);
   const url=canvas.toDataURL('image/png');
   world.remove(v.group); v.dispose();
+  return {url,cr};
+}
+function renderThumb(def){
+  const {url,cr}=snap(def);
   const img=new Image(); img.alt=''; img.src=url;
   const t=grid.querySelector(`[data-id="${def.id}"] .thumb`); t.textContent=''; t.appendChild(img);
   const sub=grid.querySelector(`[data-id="${def.id}"] .sub`); sub.textContent=`${def.blurb} · ${cr.insts.length} stitches`;
@@ -4166,7 +5407,7 @@ function frame(now){
 function route(){ const id=location.hash.replace('#',''); if(id && CREATURES.some(c=>c.id===id)) openCreature(id); else if(S.cr) closeStudio(); }
 addEventListener('hashchange',route);
 addEventListener('pagehide',saveProgress);
-window.__lbl={S,CREATURES,getCreature,cam,XP,Q,U,key,rim,renderer,scene,yarnMat,strandMat,setCursor,setExpert,setMode};
+window.__lbl={snap,S,CREATURES,getCreature,cam,XP,Q,U,key,rim,renderer,scene,yarnMat,strandMat,setCursor,setExpert,setMode};
 refreshCards(); route(); setTimeout(thumbTick,60);
 })();
 </script>

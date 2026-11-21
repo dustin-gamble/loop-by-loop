@@ -19,7 +19,7 @@ Check it with `node tools/validate.js <yourfile>.js` and fix every ERROR. Read t
   extras:[ ... ] }                                      // eyes and embroidery
 ```
 
-`level`: 1 beginner, 2 easy, 3 a bit more. `blurb`: under 40 characters, says what is distinctive about making it.
+`level`: 1 beginner, 2 easy, 3 a bit more, 4 a big build (see the last section). `blurb`: under 40 characters, says what is distinctive about making it.
 `cat` is given to you.
 
 ## Rounds
@@ -82,6 +82,8 @@ host's surface. To steer it:
 - `mix:` 0-1, how much the aim overrides "straight out" (default .7).
 - `sink:` how far the open end is pushed into the host (default .3; .5-.9 for limbs; 1-1.7 for closed balls).
 - `flat:.3`-`.6` squashes it flat: ears, wings, fins, feet.
+- `face:[x,y,z]` says which way the broad side of a flattened part looks (a world direction, x mirrored for a pair):
+  `face:[0,0,1]` turns petals and leaves toward the viewer, `face:[0,1,0]` lays flippers flat.
 - `bend:` curls it, in radians (try 1 for a curl, -1 for the other way; you cannot see it, so keep it modest).
 - `stuff:.6`-`1` plumps it.
 - `conform:true` makes it a flat patch sewn onto the host's surface (belly, spot, eye patch). Its rows must be a flat
@@ -122,3 +124,66 @@ Eyes default to size .58; use .42-.5 on small heads. Eyes over a patch need `lif
 - If the validator prints a part with a length under 2 and a sink over 1, it is buried. If a limb is longer than the
   body is wide, it is too long.
 
+## Big builds (level 4)
+
+A big build is the next class up: 2,200 to 4,200 stitches, 8 to 14 kinds of part, a finished piece 25-40 cm tall.
+The `pony` and `teddy` patterns in `index.html` are two that are known to look right. Read them first.
+
+Where the size comes from: a bigger root (42-60 stitches around at its widest) and thick limbs (15-24 around), not from
+a pile of tiny parts. Then add the detail a small pattern has no room for:
+
+- color changes inside a part: hooves, soles, paws, a pale nose end, stripes (`sc 18 | x3 | B`);
+- patches (`conform:true`): belly, saddle, spots, shell plates;
+- a row of the same small part with `spots`: mane tufts, back plates, spikes, drips of icing;
+- embroidery `line`s and `dot`s.
+
+More ready-made rows:
+`BIG_HEAD_BODY` (37 rounds, 1,302 stitches: head is rounds 1-20, widest 48 at rounds 8-16; neck at round 20 with 24
+stitches; body is rounds 21-37, widest 42 at rounds 23-31; has `!eyes:`),
+`QUAD_BODY` (29 rounds, 1,056 stitches, closed: widest 48 at rounds 8-22; the body of a four-legged animal lying down),
+`LIMB12` (12-stitch tube, 11 rounds).
+
+Proven positions on `BIG_HEAD_BODY` (sitting, like the teddy): eyes round 11, apart 13, size .75; muzzle 14.2;
+ears 4.4 at +-50; collar or bow 20.6; arms 23.2 at +-70; belly patch 27.5; tail 31.5 at 180;
+legs 31.6 at +-33 with `aim:[.14,.1,1], mix:.9, sink:1.4` so they stick out in front and the bear sits on its bottom.
+
+Proven positions on `QUAD_BODY` lying down (`rot:[Math.PI/2,0,0]`, `view:1.0`), like the pony. Remember angle 0 is the
+belly and 180 the top of the back; round 1 is the chest end, toward the viewer:
+four legs `at:{spots:[[7.5,40],[7.5,-40],[22.5,40],[22.5,-40]]}, aim:[.12,-1,0], mix:.9, sink:1.6`;
+a neck `at:{round:4.8, angle:180}, aim:[0,1,.55], mix:.85, sink:1.6`; a saddle patch at round 15, angle 180;
+a tail `at:{round:27.6, angle:180}, aim:[0,-.75,-1]`.
+
+You can write your own root rows. A lying root that ends in a long taper is a body and tail in one piece.
+
+### `front:true`
+
+On a part used as a host (a head on a neck, a tilted head) plain angles are hard to predict. Put `front:true` in `at`
+or in an extra, and angle 0 becomes the side of the host that faces the viewer (or its upper side, if the host points
+straight at the viewer), and positive angles go toward the viewer's right, whichever way the host is tilted.
+Use it for everything you put on a part other than the root:
+
+```js
+at:{on:'Head', round:15.6, angles:[30,-30], front:true}                  // a pair of ears
+at:{on:'Neck', spots:[[2.4,180],[4.8,180],[7.2,180]], front:true}        // tufts down the back of the neck
+{id:'eyes', kind:'eye', on:'Head', round:11.5, apart:17, front:true}
+```
+
+A separate head is a closed ball or egg. Its FIRST rounds are the far end (the nose, if it points forward), and its
+closed end is sewn to the neck or body with `sink` 2.5-3.5. Its rows need `!eyes:` where the eyes go in.
+
+A part attached `on` a part that has several copies only goes on the FIRST copy. Never attach to one of a pair; give
+paired parts their detail with color changes in their rows instead.
+
+### Look at it
+
+`node tools/look.js <yourfile>.js` (or add an id for one; it needs three.js once: `npm i --no-save three@0.160.0` in `tools/`) builds each pattern with the app's
+own code and prints where every part ended up, what touches the floor, and three text pictures: FRONT, SIDE and TOP,
+one letter per part. Run it after every change, and keep changing the pattern until:
+
+- the outline reads as the thing from the FRONT or the SIDE;
+- every foot or base that should touch the floor is listed as touching it, and nothing else is;
+- no part shows 0 cells everywhere (buried), and nothing sticks out the wrong way;
+- pairs are mirror images, and the eyes (`@`) show in the FRONT or SIDE picture;
+- a part's "sewn on at" point is on the surface of its host, not floating.
+
+Every stuffed part of a big build needs a `!stuff:` note with a sentence of real advice (how firmly, which end).

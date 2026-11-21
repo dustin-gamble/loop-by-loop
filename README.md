@@ -1,7 +1,8 @@
 # Loop by Loop
 
-A 3D crochet stitch-along. Pick one of 77 amigurumi patterns, in ten categories, watch it grow in a time-lapse, then
-crochet along one stitch at a time while the model shows every strand of yarn.
+A 3D crochet stitch-along. Pick one of 91 amigurumi patterns, in ten categories, watch it grow in a time-lapse, then
+crochet along one stitch at a time while the model shows every strand of yarn. Fourteen are big builds of 2,600 to
+4,000 stitches: a pony on four legs, a teddy, a T. rex, a lighthouse, a three-tier cake.
 
 **Live:** https://dustingamble.com/loop-by-loop/
 
@@ -87,8 +88,15 @@ sc 30 | B            this round in yarn B
   circle onto the host. `at.on` names another part as the host.
 - `extras` add safety eyes, embroidered dots (`spots` for many) and lines (`lines` for many).
 - `cat` files a pattern on a shelf in the gallery: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, food, things.
-- `tools/PATTERN-GUIDE.md` is the full guide to writing one, and `node tools/validate.js <file>` checks a file of new
-  patterns (stitch counts, attachments, sizes) before they go into the page.
+- `level` runs 1 to 4. Level 4 is a **big build**: 2,200 to 4,200 stitches, a separate head and neck, thick limbs,
+  25-40 cm tall. The *Big builds* chip in the gallery shows just those. Past 1,800 stitches a pattern is drawn with
+  lighter stitch geometry (`mkStitchGeo`), so the frame rate holds.
+- `front:true` in `at` or in an extra measures angles from the side of the host that faces the viewer (`frontOf`),
+  so a face lands on the front of a head however the head is tilted.
+- `tools/PATTERN-GUIDE.md` is the full guide to writing one. `node tools/validate.js <file>` checks a file of new
+  patterns (stitch counts, attachments, sizes) before they go into the page, and `node tools/look.js <file>` builds
+  them with the page's own code and prints front, side and top views as text, one letter per part
+  (it needs three.js once: `npm i --no-save three@0.160.0` in `tools/`).
 
 ## Rendering notes
 
