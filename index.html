@@ -7,7 +7,9 @@
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
 <meta property="og:description" content="A 3D crochet stitch-along: 41 amigurumi patterns, every stitch shown as real yarn.">
-<meta property="og:image" content="https://dustin-gamble.github.io/loop-by-loop/preview.jpg">
+<meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
+<link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
+<script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -1893,7 +1895,7 @@ scene.environment=(()=>{
 })();
 
 /* ---- yarn: a plied strand, as a normal map and a shading map that wrap around every tube ---- */
-const YARN_R=.178, LU=1.6, TOP_X=.5;   // strand radius · strand length one texture repeat covers · where along a top loop the next round's hook goes in
+const YARN_R=.168, LU=1.6, TOP_X=.5;   // strand radius · strand length one texture repeat covers · where along a top loop the next round's hook goes in
 const yarnMaps=(()=>{
   const N=LOW?256:1024, P=4, G=64, h=new Float32Array(N*N), lat=new Float32Array(G*G);
   let seed=11; for(let i=0;i<G*G;i++){ seed=seed*16807%2147483647; lat[i]=seed/2147483647; }
@@ -1917,7 +1919,7 @@ const yarnMaps=(()=>{
   return {nrm:tex(nrm,false),alb:tex(alb,true)};
 })();
 // uniforms shared by every stitch: which loops to tint in the expert view
-const U={uExpert:{value:0},uCount:{value:1e7},uCur:{value:-1},uNext:{value:new V3(-1,-1,1)},uPulse:{value:0},uOpen:{value:.8},uCurK:{value:1},uSolo:{value:-1},uTuck:{value:new THREE.Vector2(-1,0)},uFocus:{value:new V3()},uHookA:{value:new V3(0,1e3,0)},uHookB:{value:new V3(0,1e3+1,0)},uHookR:{value:new THREE.Vector2(0,.58)},
+const U={uExpert:{value:0},uCount:{value:1e7},uCur:{value:-1},uNext:{value:new V3(-1,-1,1)},uPulse:{value:0},uOpen:{value:.8},uCurK:{value:1},uSolo:{value:-1},uTuck:{value:new THREE.Vector2(-1,0)},uFuzz:{value:.055},uFuzzA:{value:1.5},uFocus:{value:new V3()},uHookA:{value:new V3(0,1e3,0)},uHookB:{value:new V3(0,1e3+1,0)},uHookR:{value:new THREE.Vector2(0,.58)},
          uFL:{value:new THREE.Color('#ffa51f')},uBL:{value:new THREE.Color('#2f7df6')}};
 const yarnProps={roughness:.96,metalness:0,map:yarnMaps.alb,normalMap:yarnMaps.nrm,normalScale:new THREE.Vector2(1.15,1.15),sheen:.5,sheenRoughness:.72,sheenColor:new THREE.Color(0xffffff),envMapIntensity:.8};      // matt, with the soft bright edge that fuzz gives
 const yarnMat=new THREE.MeshPhysicalMaterial({...yarnProps,vertexColors:true});
@@ -1966,6 +1968,31 @@ yarnMat.onBeforeCompile=sh=>{
       #endif`);
   sh.fragmentShader='varying vec3 vGlow;\n'+sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance+=vGlow;\n');
 };
+const fuzzTex=(()=>{
+  const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d'); g.fillStyle='#000'; g.fillRect(0,0,256,256); g.lineCap='round';
+  let sd=5; const rnd=()=>(sd=sd*16807%2147483647)/2147483647;
+  for(let k=0;k<620;k++){
+    const x=rnd()*256, y=rnd()*256, a=(rnd()-.5)*1.5, l=7+rnd()*22, bend=(rnd()-.5)*7, tone=Math.round(110+rnd()*145); g.strokeStyle=`rgb(${tone},${tone},${tone})`; g.lineWidth=.6+rnd()*.8;
+    for(const ox of [-256,0,256]) for(const oy of [-256,0,256]){ g.beginPath(); g.moveTo(x+ox,y+oy); g.quadraticCurveTo(x+ox+Math.cos(a)*l*.5,y+oy+Math.sin(a)*l*.5+bend,x+ox+Math.cos(a)*l,y+oy+Math.sin(a)*l); g.stroke(); }
+  }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(3,2); return t;
+})();
+const fuzzProps={roughness:1,metalness:0,transparent:true,depthWrite:false,alphaMap:fuzzTex};
+const FUZZ_FRAG=sh=>{ sh.fragmentShader='varying float vFuzz; uniform float uFuzzA;\n'+sh.fragmentShader.replace('#include <alphamap_fragment>','#include <alphamap_fragment>\ndiffuseColor.a*=vFuzz*uFuzzA*pow(1.-abs(dot(normalize(vNormal),normalize(vViewPosition))),1.15);\n'); };
+const fuzzMat=new THREE.MeshStandardMaterial({...fuzzProps,vertexColors:true});          // on the stitches: only round the one in hand, and only in the close-up
+fuzzMat.onBeforeCompile=sh=>{
+  Object.assign(sh.uniforms,U);
+  sh.vertexShader=SKIN_PARS+'uniform float uExpert,uFuzz; uniform vec3 uFocus; varying float vFuzz;\n'+sh.vertexShader
+    .replace('#include <begin_vertex>',SKIN_MOVE+'vFuzz=uExpert*(1.-smoothstep(2.4,4.,distance(instanceMatrix[3].xyz,uFocus)))*(1.-step(2.5,aSkin.z)); transformed+=normalize(objectNormal)*uFuzz; transformed*=step(.02,vFuzz);\n')
+    .replace('#include <project_vertex>',HOOK_PUSH);
+  FUZZ_FRAG(sh);
+};
+const fuzzLive=new THREE.MeshStandardMaterial(fuzzProps);                                 // on the loose strands
+fuzzLive.onBeforeCompile=sh=>{
+  Object.assign(sh.uniforms,U);
+  sh.vertexShader='uniform float uExpert,uFuzz; varying float vFuzz;\n'+sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvFuzz=uExpert; transformed+=normalize(objectNormal)*uFuzz;\n');
+  FUZZ_FRAG(sh);
+};
 const depthMat=new THREE.MeshDepthMaterial({depthPacking:THREE.RGBADepthPacking});
 const preMat=new THREE.MeshBasicMaterial({colorWrite:false,polygonOffset:true,polygonOffsetFactor:.5,polygonOffsetUnits:1});   // depth laid down first, so the costly yarn shader only runs on what is seen
 depthMat.onBeforeCompile=preMat.onBeforeCompile=sh=>{ Object.assign(sh.uniforms,U); sh.vertexShader=SKIN_PARS+sh.vertexShader.replace('#include <begin_vertex>',SKIN_MOVE).replace('#include <project_vertex>',HOOK_PUSH); };
@@ -2001,8 +2028,10 @@ function strandGeo(pts,rad,segs,radial){ const B=newB(); tubeInto(B,pts,{rad,seg
    - the top loops: one flat loop lying along the top edge, trailing back to the stitch before.
      Its near strand is the front loop, its far strand the back loop; the next round goes under both.
    - a pad of shadowed fabric behind, so the piece is not see-through */
-const LEG=[[.08,-.52,-.16],[.14,-.80,-.02],[.17,-.74,.27],[.20,-.42,.38],[.27,-.05,.33],[.34,.24,.22],[.30,.40,.04],[.17,.43,-.12]];      // one leg of the post; the other is its mirror
-const TEAR=[[.99,.28,0],[.88,.42,.035],[.6,.47,.09],[.3,.475,.165],[.05,.45,.2],[-.12,.33,.03],[0,.44,-.15],[.3,.485,-.145],[.6,.48,-.075],[.88,.43,-.03],[.99,.29,-.02]];   // the top loops
+// The two legs of a post come up close together, spread, and close again, so that across the fabric the tops of one round's
+// posts and the feet of the next sit side by side, evenly, and none runs through another (measured: worst leg-on-leg overlap 34%, was 87%).
+const LEG=[[.10,-.56,-.2],[.12,-.80,-.04],[.125,-.72,.2],[.2,-.47,.37],[.25,-.2,.39],[.15,.04,.35],[.09,.22,.25],[.08,.33,0]];      // one leg of the post; the other is its mirror
+const TEAR=[[1.02,.1,0],[.9,.2,.02],[.72,.42,.08],[.42,.475,.18],[.1,.46,.2],[-.12,.44,.03],[.02,.46,-.15],[.42,.485,-.16],[.72,.43,-.08],[.9,.21,-.02],[1.02,.11,-.02]];   // the top loops: each comes up from under the end of the one before
 const stitchGeo=(()=>{
   const B=newB(), rs=LOW?7:10, ends=t=>t<.12?.7+.3*t/.12:t>.88?.7+.3*(1-t)/.12:1;
   for(const s of [1,-1]) tubeInto(B,LEG.map(p=>[p[0]*s,p[1],p[2]]),
@@ -2079,7 +2108,8 @@ function makeView(cr){
   });
   geo.setAttribute('aBase',new THREE.InstancedBufferAttribute(aBase,3)); geo.setAttribute('aMeta',new THREE.InstancedBufferAttribute(aMeta,3));
   const pre=new THREE.InstancedMesh(geo,preMat,n); pre.instanceMatrix=mesh.instanceMatrix; pre.frustumCulled=false; pre.renderOrder=-1;
-  group.add(pre,mesh);
+  const fuzz=new THREE.InstancedMesh(geo,fuzzMat,n); fuzz.instanceMatrix=mesh.instanceMatrix; fuzz.instanceColor=mesh.instanceColor; fuzz.frustumCulled=false; fuzz.renderOrder=2; fuzz.visible=false;
+  group.add(pre,mesh,fuzz);
   const ex=[];
   for(const x of cr.extras){
     const e=x.e, objs=[];
@@ -2106,7 +2136,7 @@ function makeView(cr){
   }
   group.add(ring,marker);
   group.scale.setScalar(cr.sc); group.position.copy(cr.cen).multiplyScalar(-cr.sc);
-  const view={group,mesh,pre,mats,frames,base,aBase,ex,kit:null,floorY:(cr.box.min.y-cr.cen.y-.75)*cr.sc,
+  const view={group,mesh,pre,fuzz,mats,frames,base,aBase,aMeta,ex,kit:null,floorY:(cr.box.min.y-cr.cen.y-.75)*cr.sc,
     dispose(){ group.remove(ring,marker); mesh.dispose(); geo.dispose(); if(view.kit) view.kit.dispose();
       for(const x of ex){ if(x.o.geometry!==eyeGeo) x.o.geometry.dispose(); if(x.o.material!==eyeMat&&x.o.material!==glintMat) x.o.material.dispose(); } }};
   return view;
@@ -2247,7 +2277,7 @@ function play(on){
 function setCursor(c, fromUser){
   const cr=S.cr; c=Math.max(0,Math.min(cr.steps.length,c));
   S.fwd=c===S.cur+1;                             // one step forward is what the hook acts out in the expert view
-  S.cur=c; S.view.mesh.count=S.view.pre.count=cr.instAt[c];
+  S.cur=c; S.view.mesh.count=S.view.pre.count=S.view.fuzz.count=cr.instAt[c];
   syncExtras();
   S.popAt=performance.now();
   $('#scrub').value=c;
@@ -2321,17 +2351,19 @@ const smooth=(a,b,x)=>{ x=clamp((x-a)/(b-a),0,1); return x*x*(3-2*x); };
 const hookRad=s=>s<.5?.2:s<.56?.12:s<1.25?.12+.05*(s-.56)/.69:.17;      // how thick the hook is, s along from the tip
 const _t1=new V3(), _t2=new V3(), _t3=new V3();
 class Strand{
-  constructor(n,segs,rs,mat){
+  constructor(n,segs,rs,mat,fz){
     this.pts=Array.from({length:n},()=>new V3()); this.segs=segs; this.rs=rs; this.curve=new THREE.CatmullRomCurve3(this.pts,false,'centripetal');
     const count=(segs+1)*(rs+1), g=new THREE.BufferGeometry(), idx=[];
     this.pos=new THREE.BufferAttribute(new Float32Array(count*3),3); this.nrm=new THREE.BufferAttribute(new Float32Array(count*3),3); this.uv=new THREE.BufferAttribute(new Float32Array(count*2),2);
     for(let i=0;i<segs;i++) for(let k=0;k<rs;k++){ const a=i*(rs+1)+k, b=a+rs+1; idx.push(a,a+1,b,a+1,b+1,b); }
     g.setAttribute('position',this.pos); g.setAttribute('normal',this.nrm); g.setAttribute('uv',this.uv); g.setIndex(idx);
     this.mesh=new THREE.Mesh(g,mat); this.mesh.frustumCulled=false; this.mesh.castShadow=this.mesh.receiveShadow=true;
+    if(fz){ const f=new THREE.Mesh(g,fz); f.frustumCulled=false; f.renderOrder=2; this.mesh.add(f); }
   }
-  update(rad){                                   // sweep the tube again around wherever the control points are now
-    this.curve.updateArcLengths();
-    const P=this.curve.getSpacedPoints(this.segs), n=P.length, rs=this.rs, pos=this.pos.array, nrm=this.nrm.array, uv=this.uv.array, T=_t1, N=_t2, B=_t3; let len=0, o=0, q=0;
+  sample(){ this.curve.updateArcLengths(); return this.P=this.curve.getSpacedPoints(this.segs); }      // points along the strand, from the control points
+  update(rad){ this.sample(); this.build(rad); }
+  build(rad){                                    // sweep the tube around those points
+    const P=this.P, n=P.length, rs=this.rs, pos=this.pos.array, nrm=this.nrm.array, uv=this.uv.array, T=_t1, N=_t2, B=_t3; let len=0, o=0, q=0;
     for(let i=0;i<n;i++){
       T.subVectors(P[Math.min(n-1,i+1)],P[Math.max(0,i-1)]).normalize();
       if(!i){ N.set(0,0,1); if(Math.abs(T.z)>.9) N.set(1,0,0); } else len+=P[i].distanceTo(P[i-1]);
@@ -2384,7 +2416,7 @@ const guideMat=new THREE.MeshBasicMaterial({color:0xff2f7a,transparent:true,opac
 const guideHead=(()=>{ const g=new THREE.ConeGeometry(.13,.34,14); g.translate(0,-.1,0); return g; })();
 function makeKit(v){
   const g=new THREE.Group(); g.visible=false; v.group.add(g);
-  const rs=LOW?7:12, mats=[], mk=(n,segs)=>{ const m=strandMat.clone(); m.emissive.set(0xff2f7a); m.emissiveIntensity=0; mats.push(m); const s=new Strand(n,segs,rs,m); g.add(s.mesh); return s; };
+  const rs=LOW?7:12, fz=fuzzLive.clone(); fz.onBeforeCompile=fuzzLive.onBeforeCompile; const mats=[fz], mk=(n,segs)=>{ const m=strandMat.clone(); m.emissive.set(0xff2f7a); m.emissiveIntensity=0; mats.push(m); const s=new Strand(n,segs,rs,m,fz); g.add(s.mesh); return s; };
   const hook=new THREE.Group(); hook.add(new THREE.Mesh(hookGeo.head,hookMetal),new THREE.Mesh(hookGeo.shaft,hookMetal),new THREE.Mesh(hookGeo.grip,hookGrip));
   const arrows=[0,1].map(()=>{ const a=new THREE.Group(); a.add(new THREE.Mesh(arrowGeo[0],arrowMat),new THREE.Mesh(arrowGeo[1],arrowMat)); a.visible=false; return a; });
   const guide=new Strand(9,LOW?20:32,6,guideMat), head=new THREE.Mesh(guideHead,guideMat); guide.mesh.castShadow=guide.mesh.receiveShadow=false; guide.mesh.renderOrder=head.renderOrder=10;
@@ -2423,11 +2455,20 @@ function prepStitch(v,cr,st,from){
   key(.61,T5,A5,2.3,{sA:1.12,sB:.74}); key(.66,T5,A5,2.3);
   key(.84,add(T5,A5,1.3).add(Dn(0,.8,.4).multiplyScalar(.1)),Dn(.74,.42,.52),.5,{sA:-.18,sB:-.56});
   key(1,rest.tip,rest.A,0,{sC:HOOK_LOOP});
+  // the fabric round about, as points the moving strands must keep clear of
+  const stat=[], dyn=[], seen=new Set(), line=pts=>new THREE.CatmullRomCurve3(pts,false,'centripetal');
+  for(const j of [i-1,i-2,i-3,...s.par,...s.par.map(q=>q-1),...s.par.map(q=>q+1)]){
+    if(j<0||j>=i||seen.has(j)) continue; seen.add(j);
+    const Mj=v.mats[j], bj=v.aBase[j*3], yj=v.aBase[j*3+1], sj=v.aBase[j*3+2], used=v.aMeta[j*3+1], at=(q,dy,dz)=>new V3(q[0],q[1]+dy,q[2]+dz).applyMatrix4(Mj);
+    for(const sd of [1,-1]) stat.push(...line(LEG.map(q=>{ const w=clamp((.36-q[1])/.9,0,1); return new V3(q[0]*sd+w*(bj+sd*sj),q[1]+w*yj,q[2]).applyMatrix4(Mj); })).getSpacedPoints(9));
+    const open=line(TEAR.map(q=>at(q,0,0))).getSpacedPoints(13), back=line(TEAR.map(q=>at(q,-.03,-.17))).getSpacedPoints(13);
+    if(used>i) stat.push(...open); else if(used<i) stat.push(...back); else open.forEach((q,k)=>dyn.push([q,back[k]]));      // open, already worked into, or being worked into now
+  }
   const S3=[[.9,.36,-.2],[bx,-.55+by,-.3],[-.1,.36,-.2]];      // where the ball-end yarn leaves the fabric: last stitch, the gap, this stitch
   const side=(k,Sl)=>{ const {lip}=lipOf(k.A,k.r,F.Y), Cw=add(k.T,k.A,.6); return L(Sl[0],Sl[1],Sl[2]).sub(Cw).dot(new V3().crossVectors(k.A,lip))>=0?1:-1; };
-  return {i,M,Y:F.Y,dec,keys,finalA,finalB:[...lf,L(0,.45,-.2),...rt.slice().reverse()],
+  return {i,M,Y:F.Y,dec,keys,finalA,finalB:[...lf,L(0,.36,-.06),...rt.slice().reverse()],
     aA:[finalA[0],finalA[1]],aB:[finalA[10],finalA[9]],bA:[lf[0],lf[1],lf[2]],bB:[rt[0],rt[1],rt[2]],hbA:[add(hb,F.X,-.05)],hbB:[add(hb,F.X,.05)],
-    cA:[L(-.04,.26,.03),L(-.12,.43,.06)],cB:[L(-.04,.27,-.03),L(-.12,.43,-.05)],S3,sig1:side(keys.find(k=>k.t===.36),S3[0]),sig2:side(keys.find(k=>k.t===.66),S3[1]),
+    cA:[L(.02,.1,0),L(-.1,.2,.02)],cB:[L(.02,.11,-.02),L(-.1,.21,-.02)],stat,dyn,S3,sig1:side(keys.find(k=>k.t===.36),S3[0]),sig2:side(keys.find(k=>k.t===.66),S3[1]),
     postAt:L(.2+.45*bx,-.06,.36),kind:dec?'dec':s.t==='mr'?'mr':s.t==='inc'&&st.st.k===2?'inc2':'sc'};
 }
 function syncExpert(st){
@@ -2449,6 +2490,39 @@ function hookAt(x,t){                            // where the hook is at time t 
   const k0=ks[n], k1=ks[n+1], u=smooth(k0.t,k1.t,t), mix=f=>k0[f]+(k1[f]-k0[f])*u;
   return {tip:new V3().lerpVectors(k0.T,k1.T,u),A:new V3().lerpVectors(k0.A,k1.A,u).normalize(),r:mix('r'),sA:mix('sA'),sB:mix('sB'),sC:mix('sC')};
 }
+/* The moving strands may touch, but not pass through. Each point along them is pushed off the other strands, off the fabric
+   near by and off the hook, then the pushes are smoothed along the strand. It starts fresh from the choreographed path
+   every time, so the clip still plays the same forwards, backwards or dragged by hand. */
+function relax(K,x,t,tip,A){
+  const strands=[K.a,K.b,K.c,K.feed].filter(q=>q.mesh.visible), dmin=YARN_R*1.85, d2min=dmin*dmin, tk=smooth(.38,.6,t), fab=x.stat.slice();
+  for(const q of x.dyn) fab.push(new V3().lerpVectors(q[0],q[1],tk));
+  for(const q of strands){
+    q.k=q===K.a?1-smooth(.78,.95,t):q===K.b?1-smooth(.76,.95,t):1;         // the two that become the stitch settle onto its exact shape
+    if(!q.rest||q.rest.length!==q.P.length) q.rest=q.P.map(p=>p.clone()); else q.P.forEach((p,i)=>q.rest[i].copy(p));
+  }
+  for(let it=0;it<5;it++){
+    for(const q of strands){
+      if(q.k<=0) continue; const P=q.P, n=P.length;
+      for(let i=2;i<n-2;i++){
+        const p=P[i]; let mx=0, my=0, mz=0;
+        for(const o of strands){ const Q=o.P, self=o===q; for(let j=0;j<Q.length;j++){ if(self&&Math.abs(i-j)<8) continue; const c=Q[j], dx=p.x-c.x, dy=p.y-c.y, dz=p.z-c.z, d2=dx*dx+dy*dy+dz*dz; if(d2<d2min&&d2>1e-9){ const d=Math.sqrt(d2), w=(dmin-d)/d*.5; mx+=dx*w; my+=dy*w; mz+=dz*w; } } }
+        for(let j=0;j<fab.length;j++){ const c=fab[j], dx=p.x-c.x, dy=p.y-c.y, dz=p.z-c.z, d2=dx*dx+dy*dy+dz*dz; if(d2<d2min&&d2>1e-9){ const d=Math.sqrt(d2), w=(dmin-d)/d; mx+=dx*w; my+=dy*w; mz+=dz*w; } }
+        const hx=p.x-tip.x, hy=p.y-tip.y, hz=p.z-tip.z, sa=hx*A.x+hy*A.y+hz*A.z;
+        if(sa>-.3&&sa<3.9){ const sc=Math.max(0,sa), cx=hx-A.x*sc, cy=hy-A.y*sc, cz=hz-A.z*sc, d=Math.hypot(cx,cy,cz), need=hookRad(sc)+YARN_R*.9; if(d<need&&d>1e-6){ const w=(need-d)/d; mx+=cx*w; my+=cy*w; mz+=cz*w; } }
+        const m=Math.hypot(mx,my,mz); if(m>0){ const c=Math.min(1,.11/m); p.x+=mx*c; p.y+=my*c; p.z+=mz*c; }
+      }
+    }
+    for(const q of strands){                    // smooth the pushes along the strand, so it bends rather than kinks
+      if(q.k<=0) continue; const P=q.P, R0=q.rest, n=P.length; let px=0, py=0, pz=0;
+      for(let i=2;i<n-2;i++){
+        const ax=P[i].x-R0[i].x, ay=P[i].y-R0[i].y, az=P[i].z-R0[i].z, bx=P[i+1].x-R0[i+1].x, by=P[i+1].y-R0[i+1].y, bz=P[i+1].z-R0[i+1].z;
+        const sx=ax+((px+bx)*.5-ax)*.3, sy=ay+((py+by)*.5-ay)*.3, sz=az+((pz+bz)*.5-az)*.3; px=ax; py=ay; pz=az;
+        P[i].set(R0[i].x+sx,R0[i].y+sy,R0[i].z+sz);
+      }
+    }
+  }
+  for(const q of strands) if(q.k<1) q.P.forEach((p,i)=>p.lerpVectors(q.rest[i],p,q.k));
+}
 function evalStitch(v,K,t){
   const x=K.x, P=hookAt(x,t), {tip,A}=P, {D,lip}=lipOf(A,P.r,x.Y);
   K.pose={tip,A,r:P.r};
@@ -2460,17 +2534,17 @@ function evalStitch(v,K,t){
     const open=smooth(.6,.68,t), give=q=>.17*open*Math.exp(-Math.pow((q-.62)/.32,2));      // a loop stretches as the mouth, full of yarn, is drawn through it
     hang(K.a.pts,x.aA,x.aB,1,tip,A,P.sA,D,give(P.sA));
     const wA=smooth(.74,.95,t); if(wA>0) K.a.pts.forEach((p,j)=>p.lerp(x.finalA[j],wA));
-    K.a.update(rad);
+    K.a.sample();
     if(t>=.36){
       // b: caught behind the fabric, drawn through to the front, then tightened into the two legs of the post
       const through=smooth(.38,.5,t);
       hang(K.b.pts,x.bA,x.bB,3,tip,A,P.sB,D,give(P.sB));
       if(through<1){ hang(K.tmp,x.hbA,x.hbB,5,tip,A,P.sB,D,give(P.sB)); K.b.pts.forEach((p,j)=>p.lerpVectors(K.tmp[j],p,through)); }
       const wB=smooth(.72,.95,t); if(wB>0) K.b.pts.forEach((p,j)=>p.lerp(x.finalB[j],wB));
-      K.b.update(rad);
+      K.b.sample();
     }
   }
-  if(t>=.66){ hang(K.c.pts,x.cA,x.cB,1,tip,A,P.sC,D); K.c.update(rad); }
+  if(t>=.66){ hang(K.c.pts,x.cA,x.cB,1,tip,A,P.sC,D); K.c.sample(); }
   K.top=(t<.7?K.a:K.c).pts[5].clone(); K.bTop=live&&t>=.4?K.b.pts[8].clone():null;
   // the yarn from the ball: it lies in the hook's mouth for each yarn-over, then gets drawn into the new loop
   const S3=x.S3, w=t<.5?smooth(.26,.34,t)*(1-smooth(.36,.43,t)):smooth(.56,.64,t)*(1-smooth(.66,.74,t)), sig=t<.5?x.sig1:x.sig2;
@@ -2481,7 +2555,9 @@ function evalStitch(v,K,t){
   F[3].copy(L(sx-.3,sy+.7,sz-.45)).lerp(wrap(sig*.9,-.3),w); F[4].copy(L(sx-.55,sy+.95,sz-.75)).lerp(wrap(0,1),w); F[5].copy(L(sx-.9,sy+1.15,sz-1.05)).lerp(wrap(-sig*.9,-.3),w);
   F[7].copy(L(sx*.3-3.6,sy*.3+2.6,sz*.3-3.6)); F[8].copy(L(-7,3.6,-6.5));
   F[2].lerpVectors(F[1],F[3],.45); F[6].lerpVectors(F[5],F[7],.35);
-  K.feed.update(rad);
+  K.feed.sample();
+  relax(K,x,t,tip,A);
+  for(const q of [K.a,K.b,K.c,K.feed]) if(q.mesh.visible) q.build(rad);
   // guide: a pink arrow along what happens next. For a hook move, the path of the tip; for a yarn-over, the way the yarn goes over the hook
   const G=K.guide, gp=G.pts; G.mesh.visible=K.head.visible=false;
   if(t<1-1e-6){
@@ -2887,7 +2963,7 @@ function frame(now){
   const k=1-Math.exp(-dt*4); cam.target.lerp(cam.goalT,k); cam.dist+=(cam.goalD-cam.dist)*k; cam.z+=((xp?XP.zoom:cam.zoom)-cam.z)*(1-Math.exp(-dt*9));
   placeCamera();
   ground.visible=shadow.visible=U.uExpert.value<.5;
-  if(K) K.g.visible=xp; labelsEl.hidden=phaseEl.hidden=!xp;
+  if(K) K.g.visible=xp; v.fuzz.visible=U.uExpert.value>.02; labelsEl.hidden=phaseEl.hidden=!xp;
   if(xp){ runKit(now,dt); updateLabels(); }
   renderer.render(scene,camera);
 }

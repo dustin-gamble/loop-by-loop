@@ -3,7 +3,10 @@
 A 3D crochet stitch-along. Pick one of 41 amigurumi patterns, watch it grow in a time-lapse, then
 crochet along one stitch at a time while the model shows every strand of yarn.
 
-**Live:** https://dustin-gamble.github.io/loop-by-loop/
+**Live:** https://dustingamble.com/loop-by-loop/
+
+(The site's deploy copies `index.html` in from this repo. After pushing here, re-run it:
+`gh workflow run "Deploy to GitHub Pages" -R dustin-gamble/dustingamble`. The github.io address forwards there.)
 
 The whole thing is one self-contained page, `index.html`. It needs internet once, for three.js 0.160.0
 from jsDelivr and two Google Fonts. Nothing is sent anywhere; progress is kept in the browser.
@@ -58,9 +61,12 @@ A close-up from the crocheter's side: working edge up, hook coming in from the r
 - A pink arrow shows what happens next: the path of the hook, or the way the yarn goes over it. The strand
   that is moving glows, the fabric gives way around the hook (`HOOK_PUSH`), and the view tips further over
   the edge while the hook is behind the fabric.
-- Yarn should not pass through yarn. Loops ride on the hook a strand's width apart and stretch open to let
-  the hook's mouth through (`hang`), and top loops that have been worked into sit back behind the legs
-  wrapped around them (`uTuck` and the worked test in `SKIN_MOVE`).
+- Yarn should not pass through yarn. The stitch is shaped so the tops of one round's posts and the feet of
+  the next sit side by side (`LEG`, `TEAR`); top loops that have been worked into sit back behind the legs
+  wrapped around them (`uTuck`); and during the clip every point on the loose strands is pushed off the
+  other strands, the fabric near by and the hook (`relax`). In tight fabric strands still press into each
+  other by up to about a third of their width, as real yarn squashes.
+- In the close-up a halo of fine fibres is drawn round the yarn near the stitch in hand (`fuzzMat`, `fuzzLive`).
 
 ## Writing patterns
 
