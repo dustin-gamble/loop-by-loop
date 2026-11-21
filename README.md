@@ -120,6 +120,10 @@ sc 30 | B            this round in yarn B
 - `front:true` in `at` or in an extra measures angles from the side of the host that faces the viewer (`frontOf`),
   so a face lands on the front of a head however the head is tilted. `face:[x,y,z]` says which way the broad side
   of a flattened part looks: sails, wheels, petals, flippers.
+- Bodies and heads are domes, not drums: from about 60% of the width a plain round follows each increase round, so
+  the shoulders curve. `node tools/round.js index.html` reworks the stitch counts of flat-capped parts that way, keeping
+  every part's number of rounds (so eyes, limbs and notes stay on the rounds they were on). It was run once over the
+  catalog; patterns whose straight sides are the point (the pencil, the mug, the train) are left alone.
 - `tools/PATTERN-GUIDE.md` is the full guide to writing one. `node tools/validate.js <file>` checks a file of new
   patterns (stitch counts, attachments, sizes) before they go into the page, and `node tools/look.js <file>` builds
   them with the page's own code and prints front, side and top views as text, one letter per part

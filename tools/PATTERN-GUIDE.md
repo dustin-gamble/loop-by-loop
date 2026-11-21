@@ -45,14 +45,19 @@ makes 1. The validator checks this.
 ### How counts become shape
 
 - Radius of a round is about `stitches / 6.28` stitch-widths. A round is about 0.9 tall.
-- Adding 6 per round (6, 12, 18, 24...) makes a flat circle, which stuffing rounds into a dome. Adding fewer makes a
-  cone. Rounds of plain `sc` make a straight tube. Decreasing by 6 per round closes it back up.
+- Adding 6 per round (6, 12, 18, 24...) makes a flat circle. Adding fewer makes a cone. Rounds of plain `sc` make a
+  straight tube. Decreasing by 6 per round closes it back up.
+- **For a round shape, do not climb 6 every round all the way out and then go straight**: that is a drum, flat on top
+  and square at the shoulder. Climb every round up to about 60% of the width, then put a plain round after each increase
+  round (6, 12, 18, 24, 30, 30, 36, 36...), keep only a few rounds at full width, and come back in the same way. A ball
+  36 around wants about 18 to 20 rounds in all. `node tools/round.js index.html --only <id>` does this to a pattern
+  for you without changing its number of rounds, so nothing that names a round has to move.
 - The root is stuffed, so it bulges into rounded forms. Other parts are unstuffed unless you give `stuff:.5`-`1`.
 - A body 36 stitches around is about 11 stitch-widths across. A 6-stitch tube is 2 across. Keep parts in proportion.
 
 Ready-made rows you can use by name:
 `EGG` (19 rounds, widest 36: one-piece egg body with `!eyes:`), `EGGP` (the same without the eyes note),
-`HEAD_BODY` (26 rounds: head rounds 1-15 widest 36, neck at 15-16, body 16-26 widest 30, has `!eyes:`),
+`HEAD_BODY` (26 rounds: a round head, rounds 1-15, widest 36 at rounds 7-11; neck at 15; a round body 16-26, widest 30; has `!eyes:`),
 `ARM` (6-stitch tube, 6 rounds), `FOOT` (9 stitches, 4 rounds), `STUB` (6-stitch tube, 4 rounds),
 `BALL12` (small closed ball), `EAR_ROUND` (12-stitch cup), `EAR_POINT` (pointed, 4 to 10), `LEAF`.
 
