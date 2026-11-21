@@ -4,7 +4,7 @@
 // It may use these constants: EGG, EGGP, HEAD_BODY, ARM, FOOT, STUB, BALL12, EAR_ROUND, EAR_POINT, LEAF, BIG_HEAD_BODY, QUAD_BODY, LIMB12, and Math.
 const fs = require('fs');
 const APP = require('path').join(__dirname, '..', 'index.html');
-const CATS = ['farm', 'woodland', 'pets', 'ocean', 'polar', 'safari', 'garden', 'makebelieve', 'food', 'things'];
+const CATS = ['farm', 'woodland', 'pets', 'ocean', 'polar', 'safari', 'garden', 'makebelieve', 'food', 'things', 'vehicles', 'space', 'home', 'camp', 'play'];
 const html = fs.readFileSync(APP, 'utf8');
 const cut = (a, b) => { const i = html.indexOf(a), j = html.indexOf(b, i); if (i < 0 || j < 0) throw new Error('cannot find engine code in index.html: ' + a); return html.slice(i, j); };
 const NAMES = ['EGG', 'EGGP', 'HEAD_BODY', 'ARM', 'FOOT', 'STUB', 'BALL12', 'EAR_ROUND', 'EAR_POINT', 'LEAF', 'BIG_HEAD_BODY', 'QUAD_BODY', 'LIMB12'];

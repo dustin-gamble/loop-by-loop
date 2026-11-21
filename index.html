@@ -6,7 +6,7 @@
 <title>Loop by Loop Crochet Studio</title>
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
-<meta property="og:description" content="A 3D crochet stitch-along: 91 amigurumi patterns, from a practice ball to 3,900-stitch big builds, every stitch shown as real yarn.">
+<meta property="og:description" content="A 3D crochet stitch-along: 123 amigurumi patterns, animals and objects, all standing together to scale, every stitch shown as real yarn.">
 <meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
 <link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
 <script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
@@ -66,7 +66,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 #grid{display:flex;flex-direction:column;gap:28px}
 .cat h2{font-size:1.3rem;display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .cat h2 small{font-family:var(--font-body);font-weight:700;font-size:.8rem;color:var(--muted)}
-#tally{margin-left:auto;font-size:.82rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+#tally{margin-left:8px;font-size:.82rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
 #none{margin:0;color:var(--muted)}
 .card .prog{display:block;height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:3px}
 .card .prog i{display:block;height:100%;width:0;background:var(--accent)}
@@ -75,6 +75,23 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;margin:0;text-wrap:bala
 .card.made .state{color:var(--teal)}
 .card .state:empty{display:none}
 #home footer{color:var(--muted);font-size:.82rem;max-width:44rem}
+.lineup{position:relative;height:clamp(300px,54vh,580px);border-radius:22px;border:1px solid var(--line);background:radial-gradient(circle at 50% 30%,var(--stage-a),var(--stage-b));overflow:hidden}
+.lineup canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}
+.lineup canvas:active{cursor:grabbing}
+.lineup canvas.over{cursor:pointer}
+.lu-tip{position:absolute;transform:translate(-50%,-100%);pointer-events:none;background:var(--ink);color:var(--paper);padding:7px 12px;border-radius:12px;font-size:.78rem;line-height:1.25;white-space:nowrap;display:flex;flex-direction:column;gap:1px;box-shadow:0 6px 18px rgba(20,12,40,.25)}
+.lu-tip[hidden]{display:none}
+.lu-tip b{font-family:var(--font-display);font-weight:600;font-size:.95rem}
+.lu-tip span{opacity:.82}
+.lu-bar{position:absolute;left:10px;right:10px;bottom:9px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;pointer-events:none;font-size:.76rem;font-weight:700;color:var(--muted)}
+.lu-bar>span:first-child{background:color-mix(in srgb,var(--surface) 82%,transparent);padding:6px 11px;border-radius:14px;line-height:1.3;min-width:0}
+.lu-zoom{display:flex;gap:6px;flex:none}
+.lu-zoom button{pointer-events:auto;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.15rem;font-weight:800;line-height:1}
+.card .facts{font-size:.76rem;font-weight:700;color:var(--ink);opacity:.82;font-variant-numeric:tabular-nums}
+.card .facts:empty{display:none}
+.card.flash{outline:3px solid var(--accent);outline-offset:3px;border-color:var(--accent)}
+.rate{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.rate select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 9px}
 
 /* ---------- studio ---------- */
 #studio{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--paper)}
@@ -214,11 +231,17 @@ summary{padding:12px 14px;font-family:var(--font-display);font-weight:600;font-s
     <h1>Loop by Loop</h1>
     <p>Pick a pattern. Watch it grow in a time-lapse, then slow it down and crochet along one stitch at a time. Switch on Expert view to watch the hook and the yarn make each stitch, close up and in slow motion.</p>
   </header>
+  <section class="lineup" id="lineup" aria-label="Every pattern side by side, to scale">
+    <canvas id="lu"></canvas>
+    <div class="lu-tip" id="luTip" hidden></div>
+    <div class="lu-bar"><span id="luMsg">Setting everything out…</span><span class="lu-zoom"><button type="button" id="luOut" aria-label="Zoom out">&minus;</button><button type="button" id="luIn" aria-label="Zoom in">+</button></span></div>
+  </section>
   <div class="filters" id="cats" role="group" aria-label="Category"></div>
   <div class="filters" id="filters" role="group" aria-label="Show">
     <button class="pill small" type="button" data-f="going" aria-pressed="false">In progress</button>
     <button class="pill small" type="button" data-f="made" aria-pressed="false">Made</button>
     <button class="pill small" type="button" data-f="big" aria-pressed="false">Big builds</button>
+    <label class="rate">Your pace <select id="rate"><option value="8">relaxed · 8 stitches a minute</option><option value="12">steady · 12 a minute</option><option value="18">quick · 18 a minute</option></select></label>
     <span id="tally"></span>
   </div>
   <div id="grid"></div>
@@ -1595,7 +1618,7 @@ sc 4 | x7`, at:{round:18.2, angles:[82,-82]}, aimRel:[1,.5], mix:.85, sink:.3, s
           {id:'smile', kind:'dot', color:'#2f2c35', spots:[[10.3,-16],[10.8,-8],[11,0],[10.8,8],[10.3,16]], size:.16, text:'Embroider a dotted coal smile.'},
           {id:'buttons', kind:'dot', color:'#2f2c35', spots:[[18.6,0],[20.4,0],[22,0]], size:.3, text:'Sew or embroider three buttons down the front.'}] },
 
-{ id:'rocket', name:'Rocket', cat:'things', level:2, blurb:'Nose cone, three fins and a flame',
+{ id:'rocket', name:'Rocket', cat:'space', level:2, blurb:'Nose cone, three fins and a flame',
   yarn:{A:['Hull white','#f2f3f5'],B:['Rocket red','#e0453f'],C:['Steel','#8d96a8'],D:['Sky','#5aa9e6'],E:['Flame','#f59a2e'],F:['Spark','#ffd84a']}, view:.5,
   parts:[
    {name:'Rocket', root:true, color:'A', rows:`
@@ -1984,7 +2007,7 @@ sc 15 | x2
   ],
   extras:[] },
 
-{ id:'balloon', name:'Hot-air balloon', cat:'things', level:2, blurb:'Striped by color changes, basket below',
+{ id:'balloon', name:'Hot-air balloon', cat:'vehicles', level:2, blurb:'Striped by color changes, basket below',
   yarn:{A:['Coral','#e2543f'],B:['Cream','#f6ecd2'],C:['Basket','#8a5a32']}, view:.3,
   parts:[
    {name:'Balloon', root:true, color:'A', rows:`
@@ -4016,7 +4039,1559 @@ dec*6 | S
   ],
   extras:[{id:'windows', kind:'dot', color:'#2f4a6b', spots:[[8.6,0],[13.6,0],[17,0],[11,90],[15,-90],[11,-90],[15,90]], size:.42, text:'Embroider small navy windows up the tower: three down the front, and two on each side.'},
           {id:'knob', kind:'dot', color:'#ffd45a', spots:[[19.3,-4]], size:.28, text:'Add a tiny gold doorknob.'},
-          {id:'bars', kind:'line', color:'#4b5563', on:'Lantern', front:true, lines:[[[4,-50],[9,-50]],[[4,0],[9,0]],[[4,50],[9,50]]], text:'Stitch three dark upright bars across the lantern glass.'}] }
+          {id:'bars', kind:'line', color:'#4b5563', on:'Lantern', front:true, lines:[[[4,-50],[9,-50]],[[4,0],[9,0]],[[4,50],[9,50]]], text:'Stitch three dark upright bars across the lantern glass.'}] },
+
+/* ---------- beyond creatures: vehicles, space, home, outdoors, toys ---------- */
+{ id:'car', name:'Little Car', cat:'vehicles', level:2, blurb:'Round body, dome cabin, four wheels',
+  yarn:{A:['Cherry','#d8342f'],B:['Glass','#9fd3ee'],C:['Tyre','#2f2d33'],D:['Hub','#e8e4da'],E:['Lamp','#ffd84a'],F:['Tail lamp','#ff6a3d']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x13
+!stuff: Stuff firmly as you go so the body is plump and round, and fill right out into both ends.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cabin', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x5
+!stuff: Stuff the cabin dome firmly, then sew it on with the open end down.`, at:{round:11.6, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:1.0, sew:'Sew the open end on top of the body, a little behind the middle.'},
+   {name:'Window', color:'B', conform:true, rows:`
+mr 6
+inc*6`, at:{on:'Cabin', spots:[[4.6,90],[4.6,-90],[3.6,0],[3.6,180]], front:true}, sew:'Sew a flat circle on each side of the cabin, and one at the front and back.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6 | C
+(sc, dec)*6 | C
+dec*6 | C
+!close:`, at:{spots:[[5.6,42],[5.6,-42],[16.8,42],[16.8,-42]]}, aim:[1,0,0], mix:1, stuff:1, sink:.8, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back.'}
+  ],
+  extras:[
+   {id:'headlights', kind:'dot', color:'#ffd84a', spots:[[2.2,135],[2.2,-135]], size:.5, text:'Embroider a yellow headlight each side at the front.'},
+   {id:'taillights', kind:'dot', color:'#ff6a3d', spots:[[22.2,140],[22.2,-140]], size:.45, text:'Embroider an orange tail light each side at the back.'}
+  ] },
+
+{ id:'tractor', name:'Tractor', cat:'vehicles', level:3, blurb:'Big back wheels and a cab',
+  yarn:{A:['Meadow green','#4f9a3f'],B:['Glass','#9fd3ee'],C:['Tyre','#2f2d33'],D:['Hub yellow','#f2c230'],E:['Pipe','#6b6f78'],F:['Lamp','#fff2b0']}, view:1.0,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x5
+(sc 3, inc)*6
+sc 30 | x5
+!stuff: Stuff firmly, the thin bonnet end first, then the fat back end.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cab', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x5
+!stuff: Stuff the cab firmly so it stands up square.`, at:{round:12, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:1.0, sew:'Sew the open end on top of the back of the body.'},
+   {name:'Window', color:'B', conform:true, rows:`
+mr 6
+inc*6`, at:{on:'Cab', spots:[[5.8,90],[5.8,-90],[4.5,0]], front:true}, sew:'Sew a flat circle on each side of the cab, and one at the front.'},
+   {name:'Big wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+(sc 3, inc)*6 | C
+(sc 4, inc)*6 | C
+(sc 5, inc)*6 | C
+!stuff: Stuff the wheel very firmly so it is a fat disc.
+(sc 5, dec)*6 | C
+(sc 4, dec)*6 | C
+(sc 3, dec)*6 | C
+(sc 2, dec)*6 | C
+(sc, dec)*6 | C
+dec*6 | C
+!close:`, at:{round:12.5, angles:[84,-84]}, aim:[1,0,0], mix:1, stuff:1, sink:4, sew:'Sew the open side of a big wheel to each side at the back.'},
+   {name:'Front wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+!stuff: Stuff the wheel firmly.
+(sc 2, dec)*6 | C
+(sc, dec)*6 | C
+dec*6 | C
+!close:`, at:{round:5.5, angles:[38,-38]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a small wheel to each side of the bonnet.'},
+   {name:'Exhaust', color:'E', rows:`
+mr 6
+sc 6 | x5
+(sc, inc)*3
+!stuff: Stuff it lightly so the pipe stands up.`, at:{round:4.5, angle:180}, aim:[0,1,0], mix:1, stuff:.6, sink:.6, sew:'Sew the pipe standing up from the bonnet.'}
+  ],
+  extras:[
+   {id:'headlights', kind:'dot', color:'#fff2b0', spots:[[2.2,140],[2.2,-140]], size:.45, text:'Embroider a pale yellow headlight each side of the nose.'}
+  ] },
+
+{ id:'train', name:'Steam Engine', cat:'vehicles', level:4, blurb:'Boiler, chimney, cab and six wheels',
+  yarn:{A:['Engine green','#2f6b4f'],B:['Coal','#2b2b30'],C:['Brass','#d8a935'],D:['Signal red','#c9372c'],E:['Glass','#9fd3ee'],F:['Cream','#f0e6c8']}, view:1.0,
+  parts:[
+   {name:'Boiler', root:true, color:'A', rot:[Math.PI/2,0,0], stuff:1, rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+sc 36 | x3 | B
+sc 36 | C
+sc 36 | x5 | A
+sc 36 | C
+sc 36 | x5 | A
+sc 36 | C
+sc 36 | x5 | A
+!stuff: Stuff the boiler very firmly as you go, packing it so it is a plump, even tube with no soft spots.
+sc 36 | C
+sc 36 | x4 | A
+!stuff: Pack it hard again so the long boiler does not sag in the middle.
+(sc 4, dec)*6 | A
+(sc 3, dec)*6 | A
+!stuff: Finish stuffing firmly before the end closes.
+(sc 2, dec)*6 | A
+(sc, dec)*6 | A
+dec*6 | A
+!close:`},
+   {name:'Cab', color:'D', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 4, dec)*6 | B
+sc 30 | x9 | D
+!stuff: Stuff the cab firmly, squeezing stuffing up into the roof so it stands square and tall.`, at:{round:29, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:2.4, sew:'Sew the open end on top of the back of the boiler, with the roof overhanging a little.'},
+   {name:'Cab window', color:'E', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{on:'Cab', spots:[[11.5,90],[11.5,-90]], front:true}, sew:'Sew a flat circle on each side of the cab.'},
+   {name:'Chimney', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc, dec)*6
+sc 12 | x7
+(sc 3, inc)*3
+sc 15
+!stuff: Stuff the chimney firmly, especially the wide top, so it stands straight.`, at:{round:5.5, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:1.4, sew:'Sew the open end on top of the boiler, near the front.'},
+   {name:'Dome', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+!stuff: Stuff the dome firmly so it is round.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:17, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:1.4, sew:'Sew the dome on top of the middle of the boiler.'},
+   {name:'Cow-catcher', color:'D', rows:`
+mr 6
+sc 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12 | x2
+(sc 3, inc)*3
+sc 15
+!stuff: Stuff lightly and flatten it into a wedge.`, at:{round:3.2, angle:0}, aim:[0,-.45,1], mix:.9, flat:.4, face:[0,1,0], stuff:.5, sink:.8, sew:'Flatten and sew under the nose, pointing forward and a little down.'},
+   {name:'Wheel', color:'B', rows:`
+mr 6 | F
+inc*6 | F
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+!stuff: Stuff the wheel very firmly so it is a fat disc.
+(sc 3, dec)*6 | B
+(sc 2, dec)*6 | B
+(sc, dec)*6 | B
+dec*6 | B
+!close:`, at:{spots:[[9.5,55],[18.5,55],[27.5,55],[9.5,-55],[18.5,-55],[27.5,-55]]}, aim:[1,0,0], mix:1, stuff:1, sink:2.4, sew:'Sew the open side of a wheel low on the boiler, three along each side, all level.'}
+  ],
+  extras:[
+   {id:'lamp', kind:'dot', color:'#ffd84a', round:2.4, angle:180, size:.7, text:'Embroider a big yellow lamp on the top of the nose.'},
+   {id:'rails', kind:'line', color:'#d8a935', lines:[[[9,82],[27,82]],[[9,-82],[27,-82]]], text:'Embroider a brass line along each side of the boiler, above the wheels.'}
+  ] },
+
+{ id:'sailboat', name:'Sailboat', cat:'vehicles', level:2, blurb:'A hull, a mast and two sails',
+  yarn:{A:['Sea blue','#2f6fb0'],B:['Keel red','#b3342f'],C:['Sail white','#f6f3ea'],D:['Sunny','#f2c75a'],E:['Oak','#8a5a34'],F:['Flag red','#e0453f']}, view:1.0,
+  parts:[
+   {name:'Hull', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 5, inc)*3
+(sc 6, inc)*3
+(sc 7, inc)*3
+(sc 8, inc)*3
+sc 30 | x5
+!stuff: Stuff firmly as you go so the hull is plump, and push stuffing well into the pointed bow.
+(sc 8, dec)*3
+(sc 7, dec)*3
+(sc 6, dec)*3
+(sc 5, dec)*3
+(sc 4, dec)*3
+(sc 3, dec)*3
+(sc 2, dec)*3
+(sc, dec)*3
+dec*3
+!close:`},
+   {name:'Keel patch', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{spots:[[9,0],[13.5,0],[18,0]]}, sew:'Sew three overlapping flat circles along the underside of the hull, for the part below the waterline.'},
+   {name:'Mast', color:'E', rows:`
+mr 6
+sc 6 | x22
+!stuff: Stuff the mast firmly and evenly so it stands up straight.`, at:{round:12, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:.8, sew:'Sew the open end upright to the middle of the deck.'},
+   {name:'Main sail', color:'C', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+(sc 4, inc)*2
+sc 12
+(sc 5, inc)*2
+sc 14
+(sc 6, inc)*2
+sc 16
+(sc 7, inc)*2
+sc 18
+(sc 8, inc)*2
+sc 20
+(sc 9, inc)*2
+sc 22
+(sc 10, inc)*2
+sc 24`, at:{round:17.2, angle:180}, aim:[0,1,0], mix:1, flat:.14, face:[1,0,0], sink:1.6, sew:'Do not stuff. Press flat into a tall triangle, point up. Sew the wide end to the deck behind the mast and catch the front edge to the mast.'},
+   {name:'Jib', color:'D', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+(sc 3, inc)*2
+sc 10
+(sc 4, inc)*2
+sc 12
+(sc 5, inc)*2
+sc 14
+(sc 6, inc)*2
+sc 16
+(sc 7, inc)*2
+sc 18`, at:{round:7.4, angle:180}, aim:[0,1,.12], mix:1, flat:.14, face:[1,0,0], sink:1.1, sew:'Do not stuff. Press flat into a triangle, point up, and sew the wide end to the deck in front of the mast.'},
+   {name:'Flag', color:'F', rows:`
+mr 6
+sc 6 | x3`, at:{on:'Mast', round:1.2, angle:0, front:true}, aim:[0,.05,-1], mix:1, flat:.25, face:[1,0,0], sink:.3, sew:'Flatten and sew to the very top of the mast, streaming backward.'}
+  ] },
+
+{ id:'airplane', name:'Airplane', cat:'vehicles', level:3, blurb:'Long wings, tail fin, spinning prop',
+  yarn:{A:['Sky blue','#4a90d9'],B:['Cloud','#f4f6f8'],C:['Coal','#33363d'],D:['Glass','#9fd8f0'],E:['Sun','#f2b632']}, view:1.0,
+  parts:[
+   {name:'Fuselage', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6 | E
+inc*6 | E
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x8
+(sc 2, dec)*6
+sc 18 | x3
+!stuff:
+(sc, dec)*6
+sc 12 | x5
+(sc, dec)*4
+sc 8 | x2
+!close:`},
+   {name:'Wing', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x10
+(sc, dec)*3`, at:{round:8.5, angles:[90,-90]}, aim:[1,-.05,.1], mix:.95, flat:.3, face:[0,1,0], sink:.6, sew:'Flatten and sew straight out from each side, just below the middle of the body.'},
+   {name:'Tailplane', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4
+(sc, dec)*3`, at:{round:21.5, angles:[90,-90]}, aim:[1,0,-.25], mix:.95, flat:.3, face:[0,1,0], sink:.5, sew:'Flatten and sew straight out from each side of the tail.'},
+   {name:'Fin', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4
+(sc, dec)*3`, at:{round:21, angle:180}, aim:[0,1,-.35], mix:.95, flat:.3, face:[1,0,0], sink:.5, sew:'Flatten and sew upright on top of the tail.'},
+   {name:'Cockpit', color:'D', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:6.5, angle:180}, sew:'Sew the oval patch on top of the body behind the nose.'},
+   {name:'Hub', color:'C', rows:`
+mr 6
+inc*6
+sc 12
+dec*6
+!close:`, at:{round:.4, angle:0}, aim:[0,0,1], mix:1, stuff:1, sink:1.2, sew:'Stuff the ball and sew on the very tip of the nose.'},
+   {name:'Upper blade', color:'C', rows:`
+mr 6
+sc 6 | x4`, at:{on:'Hub', round:.6, angle:0, front:true}, aim:[0,1,0], mix:1, flat:.4, face:[1,0,0], sink:.4, sew:'Flatten and sew to the top of the hub, pointing up.'},
+   {name:'Lower blade', color:'C', rows:`
+mr 6
+sc 6 | x4`, at:{on:'Hub', round:.6, angle:0, front:true}, aim:[0,-1,0], mix:1, flat:.4, face:[1,0,0], sink:.4, sew:'Flatten and sew to the bottom of the hub, pointing down.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2
+dec*6
+!close:`, at:{round:11, angles:[28,-28]}, aim:[0,-1,0], mix:1, flat:.4, face:[1,0,0], stuff:.8, sink:.7, sew:'Stuff lightly, flatten, and sew under the body so the wheel stands on its edge.'}
+  ],
+  extras:[] },
+
+{ id:'quadcopter', name:'Quadcopter', cat:'vehicles', level:3, blurb:'Four arms, four rotors, camera ball',
+  yarn:{A:['Graphite','#4a4e57'],B:['Charcoal','#2b2d33'],C:['Orange','#f28a2a'],D:['Lens','#79b8e8']}, view:.5,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff firmly so the body stays round and holds the arms; add a little more before the last round.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Arm', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+(sc, dec)*6 | B
+sc 12 | x2 | B
+dec*6 | B
+sc 6 | x8`, at:{angles:[45,-45], round:7.5}, aimRel:[1,.1], mix:.7, bend:-1.5, sink:.6, sew:'Sew the plain end to the side of the body, front. The orange disc is the rotor and curls up on top.'},
+   {name:'Back arm', color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+(sc, dec)*6 | B
+sc 12 | x2 | B
+dec*6 | B
+sc 6 | x8`, at:{angles:[135,-135], round:7.5}, aimRel:[1,.1], mix:.7, bend:-1.5, sink:.6, sew:'Sew the plain end to the side of the body, back. The orange disc is the rotor and curls up on top.'},
+   {name:'Front leg', color:'B', rows:`
+mr 6
+sc 6 | x2
+inc*6
+sc 12
+dec*6`, at:{angles:[50,-50], round:9.5}, aimRel:[.35,-1], mix:.9, stuff:.6, sink:.5, sew:'Stuff the foot lightly and sew under the front of the body.'},
+   {name:'Back leg', color:'B', rows:`
+mr 6
+sc 6 | x2
+inc*6
+sc 12
+dec*6`, at:{angles:[130,-130], round:9.5}, aimRel:[.35,-1], mix:.9, stuff:.6, sink:.5, sew:'Stuff the foot lightly and sew under the back of the body.'},
+   {name:'Camera', color:'B', rows:`
+mr 6
+inc*6
+sc 12 | x2
+dec*6
+!close:`, at:{round:10, angle:0}, aim:[0,-.45,1], mix:.8, stuff:1, sink:1.2, sew:'Stuff the ball and sew under the front of the body.'}
+  ],
+  extras:[{id:'lens', kind:'dot', color:'#79b8e8', on:'Camera', round:.4, angle:0, size:.5, front:true, text:'Embroider a blue lens on the front of the camera ball.'}] },
+
+{ id:'submarine', name:'Submarine', cat:'vehicles', level:2, blurb:'Round hull, portholes, bent periscope',
+  yarn:{A:['Sunshine','#f4c430'],B:['Hatch red','#d8453a'],C:['Steel','#6b7585'],D:['Deep sea','#27384d'],E:['Glass','#a9dcf2']}, view:1.0,
+  parts:[
+   {name:'Hull', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+sc 36 | x2 | B
+sc 36 | x4
+(sc 4, dec)*6
+sc 30
+(sc 3, dec)*6
+sc 24
+!stuff: Stuff the hull firmly and evenly into a smooth fat sausage, filling the nose end first.
+(sc 2, dec)*6
+sc 18
+(sc, dec)*6
+sc 12 | x2
+dec*6
+!close:`},
+   {name:'Porthole', color:'D', conform:true, rows:`
+mr 6 | D
+inc*6 | E
+(sc, inc)*6 | E`, at:{spots:[[8,90],[8,-90],[11.5,90],[11.5,-90],[15,90],[15,-90]]}, sew:'Sew a round window to each side of the hull, three on each side in a row.'},
+   {name:'Tower', color:'A', rows:`
+mr 6
+inc*6
+sc 12 | x5
+(sc, inc)*6 | B`, at:{round:10, angle:180}, aim:[0,1,0], mix:1, stuff:.8, sink:.7, sew:'Stuff lightly and sew upright on top of the hull, above the middle.'},
+   {name:'Periscope', color:'C', rows:`
+mr 4
+sc 4 | x6`, at:{on:'Tower', round:.5, angle:0}, aim:[0,1,0], mix:1, bend:-1.2, stuff:.7, sink:.5, sew:'Stuff the thin tube firmly and sew to the top of the tower so the tip bends forward.'},
+   {name:'Hub', color:'C', rows:`
+mr 6
+inc*6
+sc 12
+dec*6
+!close:`, at:{round:26.2, angle:0}, aim:[0,0,-1], mix:1, stuff:1, sink:1, sew:'Stuff the ball and sew on the very end of the stern.'},
+   {name:'Blade', color:'C', rows:`
+mr 6
+sc 6 | x4`, at:{on:'Hub', round:.6, angle:0, front:true}, aim:[0,1,0], mix:1, flat:.4, face:[1,0,0], sink:.4, sew:'Flatten and sew one blade to the top of the hub.'},
+   {name:'Lower blade', color:'C', rows:`
+mr 6
+sc 6 | x4`, at:{on:'Hub', round:.6, angle:0, front:true}, aim:[0,-1,0], mix:1, flat:.4, face:[1,0,0], sink:.4, sew:'Flatten and sew one blade to the bottom of the hub.'},
+   {name:'Fin', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x3`, at:{round:19, angles:[90,-90]}, aim:[1,0,-.5], mix:.9, flat:.3, face:[0,1,0], sink:.5, sew:'Flatten and sew a fin to each side near the stern, pointing out and back.'}
+  ],
+  extras:[] },
+
+{ id:'canoe', name:'Canoe', cat:'camp', level:2, blurb:'Pointed hull, open top, two paddles',
+  yarn:{A:['Canoe red','#c8402f'],B:['Birch','#f1e3c4'],C:['Cedar','#8a5a33']}, view:1.0,
+  parts:[
+   {name:'Hull', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.6, rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 5, inc)*3
+(sc 6, inc)*3
+sc 24 | x14
+!stuff: Stuff lightly and evenly, then press the hull flat from above so it is wider than it is tall; push a little extra into both pointed ends.
+sc 24 | x4
+(sc 6, dec)*3
+(sc 5, dec)*3
+(sc 4, dec)*3
+(sc 3, dec)*3
+(sc 2, dec)*3
+(sc, dec)*3
+dec*3
+!close:`},
+   {name:'Inside', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{spots:[[11,180],[15,180],[19,180],[23,180]]}, sew:'Sew four pale patches in a row down the top of the hull so they overlap into one long pale inside.'},
+   {name:'Inside end', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{spots:[[7.5,180],[27.5,180]]}, sew:'Sew a smaller pale patch at each end of the row, where the hull narrows.'},
+   {name:'Front thwart', color:'C', rows:`
+mr 6
+sc 6 | x6`, at:{round:13, angles:[170,-170]}, aim:[1,.1,0], mix:1, sink:0, stuff:.5, sew:'Sew one bar out from each side of the middle top, so they meet to form a seat across the canoe.'},
+   {name:'Rear thwart', color:'C', rows:`
+mr 6
+sc 6 | x6`, at:{round:21, angles:[170,-170]}, aim:[1,.1,0], mix:1, sink:0, stuff:.5, sew:'Sew one bar out from each side of the middle top, so they meet to form a seat across the canoe.'},
+   {name:'Paddle', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4
+(sc, dec)*3
+(sc, dec)*2
+sc 4 | x9`, at:{round:16, angle:180}, aim:[1,.12,.35], mix:1, flat:.35, face:[0,1,0], sink:.1, sew:'Flatten the blade and lay the paddle across the top of the canoe, sewing the handle end down.'},
+   {name:'Second paddle', color:'C', rows:`
+mr 6
+(sc, inc)*3
+sc 9 | x4
+(sc, dec)*3
+(sc, dec)*2
+sc 4 | x9`, at:{round:18, angle:180}, aim:[-1,.12,-.35], mix:1, flat:.35, face:[0,1,0], sink:.1, sew:'Flatten the blade and lay the second paddle across the top the other way, sewing the handle end down.'}
+  ],
+  extras:[{id:'gunwale', kind:'line', color:'#f1e3c4', lines:[[[4,64],[28,64]],[[4,-64],[28,-64]]], text:'Backstitch a pale line along each side of the top edge to make the rim.'}] },
+
+{ id:'saturn', name:'Saturn', cat:'space', level:2, blurb:'Banded ball with a wide tilted ring',
+  yarn:{A:['Butter','#f3d98a'],B:['Honey band','#e3b95c'],C:['Sand ring','#d9c3a0'],D:['Dusk ring','#a98f6e']}, view:.35,
+  parts:[
+   {name:'Planet', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x2
+sc 42 | x2 | B
+sc 42
+sc 42 | x2 | B
+!stuff: Start stuffing now, firm and round, and keep adding as you decrease.
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Top up until the ball is hard and round.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Ring', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+(sc 7, inc)*6
+(sc 8, inc)*6
+(sc 9, inc)*6 | D
+(sc 10, inc)*6 | D
+(sc 11, inc)*6 | D
+!stuff: Do not stuff. Press the ring flat under a heavy book before you sew.`, at:{round:.4, angle:0}, aim:[.13,1,.06], mix:1, sink:7.4, sew:'Slip the ring over the ball like a brim and sew the middle of the ring to the planet all round its middle, tilted a little.'}
+  ],
+  extras:[] },
+
+{ id:'earth', name:'Planet Earth', cat:'space', level:2, blurb:'Blue ball, green lands, white poles',
+  yarn:{A:['Ocean','#2f6fd0'],B:['Land green','#4fa04a'],C:['Ice','#f4f7fb'],D:['Moon grey','#b4b7bf']}, view:.35,
+  parts:[
+   {name:'Planet', root:true, color:'A', rows:`
+mr 6 | C
+inc*6 | C
+(sc, inc)*6 | C
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x6
+!stuff: Start stuffing now, firm and round, and keep adding as you decrease.
+(sc 5, dec)*6
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6 | C
+!stuff: Top up until the ball is hard and round.
+(sc, dec)*6 | C
+dec*6 | C
+!close:`},
+   {name:'Big continent', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{spots:[[8,-48],[10.5,38],[9,160]]}, sew:'Sew the three big green patches flat to the ball, one on the front left, one front right, one on the back.'},
+   {name:'Mid continent', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{spots:[[11.8,-42],[11.5,52],[7.5,-150]]}, sew:'Sew each medium patch so it overlaps the edge of a big one (two on the front, one on the back) and makes a ragged coastline.'},
+   {name:'Small island', color:'B', conform:true, rows:`
+mr 6
+inc*6`, at:{spots:[[12.6,-60],[7,14],[13.5,28],[10,100]]}, sew:'Sew the small patches as islands, some touching a bigger patch and some alone.'},
+   {name:'Moon stalk', color:'D', rows:`
+mr 4
+sc 4 | x5
+!stuff: Stuff the stalk lightly so it holds the moon out.`, at:{round:5, angle:80}, aim:[1,.55,.1], mix:.9, stuff:.6, sink:.5, sew:'Sew the open end to the upper right of the planet.'},
+   {name:'Moon', color:'D', rows:`
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Stuff the little ball firmly.
+dec*6
+!close:`, at:{on:'Moon stalk', round:.4, angle:0, front:true}, aim:[1,.55,.1], mix:1, stuff:1, sink:1.2, sew:'Sew the moon to the free end of the stalk.'}
+  ],
+  extras:[{id:'clouds', kind:'dot', color:'#ffffff', spots:[[6.5,-12],[9.5,-10],[12.5,8],[5.5,48],[9,75],[7,-75],[12,-85],[10.5,120],[12,-175]], size:.4, text:'Embroider a few white cloud dots in the blue, each a short cluster of stitches.'}] },
+
+{ id:'ufo', name:'Flying Saucer', cat:'space', level:2, blurb:'Wide saucer, glass dome, three legs',
+  yarn:{A:['Moon silver','#b9c0cc'],B:['Rim teal','#2f9c9a'],C:['Glass blue','#7cc4f0'],D:['Strut grey','#7b8494'],E:['Foot red','#e0504a'],F:['Lamp yellow','#ffd84a'],G:['Lamp pink','#ff7fb0']}, view:.3,
+  parts:[
+   {name:'Saucer', root:true, color:'A', rows:`
+mr 6
+inc*6
+inc*12
+(sc, inc)*12
+(sc 2, inc)*12
+(sc 3, inc)*12
+(sc 4, inc)*12
+! Three straight rounds in the rim color.
+sc 72 | x3 | B
+(sc 4, dec)*12
+(sc 3, dec)*12
+!stuff: Stuff the saucer firmly now and keep adding as you decrease; pack it out to the rim so it stays wide and flat.
+(sc 2, dec)*12
+(sc, dec)*12
+dec*12
+dec*6
+!close:`},
+   {name:'Dome', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x3
+!stuff: Stuff the dome lightly with a thin layer so it stays clear and round.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.7, sink:.9, sew:'Sew the open edge to the middle of the saucer top.'},
+   {name:'Leg', color:'D', rows:`
+mr 6 | E
+inc*6 | E
+sc 12 | x2 | E
+dec*6 | E
+sc 6 | x2
+!stuff: Stuff the red foot ball firmly and the strut lightly.`, at:{spots:[[12.8,0],[12.8,125],[12.8,-125]]}, aimRel:[.5,-1], mix:.9, stuff:.9, sink:.6, sew:'Sew three legs under the saucer, evenly round, so it stands on the red feet.'}
+  ],
+  extras:[{id:'lightsA', kind:'dot', color:'#ffd84a', spots:[[10.2,0],[10.2,60],[10.2,120],[10.2,180],[10.2,-120],[10.2,-60]], size:.4, text:'Sew six yellow beads or French knots round the rim, evenly spaced.'},
+          {id:'lightsB', kind:'dot', color:'#ff7fb0', spots:[[10.2,30],[10.2,90],[10.2,150],[10.2,-150],[10.2,-90],[10.2,-30]], size:.4, text:'Sew six pink beads between the yellow ones to finish the ring of lights.'}] },
+
+{ id:'satellite', name:'Satellite', cat:'space', level:3, blurb:'Gold can, two panels and a dish',
+  yarn:{A:['Foil gold','#e0b84a'],B:['Silver','#c9ced8'],C:['Panel blue','#2c3f86'],D:['Grid pale','#9fb6e8'],E:['Dish white','#f1f3f7'],F:['Beacon red','#e04a4a']}, view:.4,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x3
+sc 30 | x2 | B
+sc 30 | x3
+!stuff: Stuff the can firmly, packing the corners, so it stands straight on its flat base.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6 | B
+!close:`},
+   {name:'Solar panel', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2 | D
+sc 24 | x2
+sc 24 | x2 | D
+sc 24 | x2
+sc 24 | x2 | D
+sc 24 | x2
+!stuff: Do not stuff. Press the panel flat.`, at:{round:8.5, angles:[90,-90]}, aim:[1,.05,0], mix:1, flat:.3, face:[0,0,1], sink:.4, sew:'Flatten the tube and sew the open end to each side of the can, the broad side facing front.'},
+   {name:'Dish mast', color:'B', rows:`
+mr 6
+sc 6 | x4
+!stuff: Stuff the mast firmly so it holds the dish out straight.`, at:{round:6.5, angle:0}, aim:[0,.1,1], mix:1, stuff:1, sink:.5, sew:'Sew the open end to the front of the can, high up.'},
+   {name:'Dish', color:'E', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x2
+!stuff: Do not stuff; the dish is a shallow cup.`, at:{on:'Dish mast', round:.4, angle:0, front:true}, aim:[0,.1,-1], mix:1, sink:.2, sew:'Turn the cup so its hollow faces front and sew its middle to the tip of the mast.'},
+   {name:'Feed ball', color:'F', rows:`
+mr 6
+inc*6
+sc 12
+!stuff: Stuff the little ball firmly.
+dec*6
+!close:`, at:{on:'Dish mast', round:.4, angle:0, front:true}, aim:[0,.1,1], mix:1, stuff:1, sink:.6, sew:'Sew the ball to the tip of the mast, sitting in the hollow of the dish.'},
+   {name:'Aerial', color:'B', rows:`
+mr 4
+sc 4 | x9
+!stuff: Stuff the aerial lightly so it stays straight.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.8, sink:.4, sew:'Sew the aerial to the middle of the top.'},
+   {name:'Aerial tip', color:'F', rows:`
+mr 4
+inc*4
+sc 8
+!stuff: Add a pinch of stuffing.
+dec*4
+!close:`, at:{on:'Aerial', round:.4, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:1, sink:.7, sew:'Sew the little ball to the tip of the aerial.'}
+  ],
+  extras:[] },
+
+{ id:'shuttle', name:'Space Shuttle', cat:'space', level:4, blurb:'Orbiter, orange tank, two boosters',
+  yarn:{A:['Tank orange','#e8833a'],B:['Hull white','#f4f5f7'],K:['Heat black','#2b2d33'],G:['Booster grey','#9aa1ad'],W:['Window blue','#6fb7ee'],R:['Rust','#b9561f']}, view:.4,
+  parts:[
+   {name:'Tank', root:true, color:'A', rows:`
+mr 6 | R
+(sc, inc)*3 | R
+(sc 2, inc)*3 | R
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x8
+!stuff: Start stuffing the pointed top now, firmly into the tip, and keep adding as you work down the tank.
+sc 36 | x14
+!stuff: Pack the barrel hard so the tank stands tall without bending.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Top up the stuffing so the base is flat and firm.
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Orbiter strut', color:'G', rows:`
+mr 6
+sc 6 | x3
+!stuff: Stuff the strut firmly so it can hold the orbiter.`, at:{round:11.9, angle:0}, aim:[0,0,1], mix:1, stuff:1, sink:.5, sew:'Sew the open end to the front of the tank, pointing straight out.'},
+   {name:'Orbiter', color:'B', rows:`
+mr 6 | K
+inc*6 | K
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x14
+!stuff: Stuff the orbiter firmly from the tail end up, keeping the flat tail round and the body straight.
+(sc 6, dec)*3
+(sc 5, dec)*3
+(sc 4, dec)*3 | K
+(sc 3, dec)*3 | K
+!stuff: Pack the nose full.
+(sc 2, dec)*3 | K
+(sc, dec)*3 | K
+!close:`, at:{on:'Orbiter strut', round:.4, angle:0, front:true}, aim:[0,-1,0], mix:1, stuff:1, sink:.4, sew:'Hold the orbiter upright, tail down, and sew the black nose tip to the end of the strut.'},
+   {name:'Left strut', color:'G', rows:`
+mr 6
+sc 6 | x3
+!stuff: Stuff the strut firmly so it can hold the booster.`, at:{round:8.6, angle:-90}, aim:[1,0,0], mix:1, stuff:1, sink:.5, sew:'Sew the open end to the side of the tank, pointing straight out.'},
+   {name:'Left booster', color:'B', rows:`
+mr 6 | G
+inc*6 | G
+(sc, inc)*6 | G
+sc 18 | x2 | G
+sc 18 | x22
+!stuff: Stuff the booster very firmly, base first, so it is a straight stiff tube.
+(sc, dec)*6 | G
+dec*6 | G
+!close:`, at:{on:'Left strut', round:.4, angle:0, front:true}, aim:[0,-1,0], mix:1, stuff:1, sink:.4, sew:'Hold the booster upright with its flat base on the table and sew its rounded top to the end of the strut.'},
+   {name:'Right strut', color:'G', rows:`
+mr 6
+sc 6 | x3
+!stuff: Stuff the strut firmly so it can hold the booster.`, at:{round:8.6, angle:90}, aim:[1,0,0], mix:1, stuff:1, sink:.5, sew:'Sew the open end to the side of the tank, pointing straight out.'},
+   {name:'Right booster', color:'B', rows:`
+mr 6 | G
+inc*6 | G
+(sc, inc)*6 | G
+sc 18 | x2 | G
+sc 18 | x22
+!stuff: Stuff the booster very firmly, base first, so it is a straight stiff tube.
+(sc, dec)*6 | G
+dec*6 | G
+!close:`, at:{on:'Right strut', round:.4, angle:0, front:true}, aim:[0,-1,0], mix:1, stuff:1, sink:.4, sew:'Hold the booster upright with its flat base on the table and sew its rounded top to the end of the strut.'},
+   {name:'Wing', color:'B', rows:`
+mr 6
+(sc, inc)*3
+sc 9
+(sc 2, inc)*3
+sc 12
+(sc 3, inc)*3
+sc 15
+(sc 4, inc)*3
+sc 18 | x2
+(sc 5, inc)*3
+sc 21 | x2 | K
+!stuff: Do not stuff. Press the wing flat before you sew.`, at:{on:'Orbiter', round:7, angles:[90,-90], front:true}, aim:[1,-.6,0], mix:.9, flat:.3, face:[0,0,1], sink:.6, sew:'Flatten and sew a wing low on each side of the orbiter, the black end at the body, sweeping out and down.'},
+   {name:'Tail fin', color:'B', rows:`
+mr 6
+sc 6
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x2
+!stuff: Do not stuff. Press the fin flat.`, at:{on:'Orbiter', round:6, angle:0, front:true}, aim:[0,-.45,1], mix:.85, flat:.3, face:[1,0,0], sink:.6, sew:'Flatten and sew up the middle of the orbiter front near the tail, leaning down toward the tail.'},
+   {name:'Engine bell', color:'K', rows:`
+mr 6
+inc*6
+sc 12
+(sc 2, dec)*3
+sc 9
+!stuff: Do not stuff; keep the bell open and light.`, at:{on:'Orbiter', spots:[[1.8,0],[1.8,120],[1.8,-120]], front:true}, aim:[0,-1,0], mix:1, sink:.5, sew:'Sew three bells to the flat tail end of the orbiter in a triangle.'},
+   {name:'Cockpit window', color:'W', conform:true, rows:`
+mr 6
+inc*6`, at:{on:'Orbiter', spots:[[19.2,-24],[19.2,24]], front:true}, sew:'Sew a flat blue window to each side of the front, high up near the black nose.'},
+   {name:'Belly', color:'K', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{on:'Orbiter', spots:[[9,180],[14,180]], front:true}, sew:'Sew two black patches to the back of the orbiter, the side facing the tank.'}
+  ],
+  extras:[] },
+
+{ id:'candle', name:'Candle', cat:'home', level:1, blurb:'A fat pillar, a saucer and a flame',
+  yarn:{A:['Ivory wax','#f4ead2'],B:['Saucer blue','#5f8fb8'],C:['Flame yellow','#ffd23f'],D:['Flame orange','#f58a1f'],E:['Drip white','#fffaf0']}, view:.3,
+  parts:[
+   {name:'Candle', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x12
+!stuff: Stuff the candle firmly so it stands straight, and press the bottom flat.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Saucer', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x2
+!stuff: Do not stuff the saucer. It is a flat dish with a low rim.`, at:{round:19.4, angle:0}, aim:[0,-1,0], mix:1, sink:1.6, sew:'Stand the candle in the middle of the dish, rim up, and sew round the bottom of the candle.'},
+   {name:'Flame', color:'C', rows:`
+mr 4 | D
+(sc, inc)*2 | D
+sc 6 | D
+(sc 2, inc)*2
+sc 8 | x2
+!stuff: Stuff the flame lightly, a pinch only.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.5, sink:.5, sew:'Sew the open end to the middle of the top of the candle.'},
+   {name:'Drip', color:'E', rows:`
+mr 4
+sc 4 | x3
+!stuff: Leave unstuffed.`, at:{spots:[[4.6,35],[4.6,-70],[4.6,160]]}, aim:[0,-1,.35], mix:.8, flat:.5, sink:.3, sew:'Flatten and sew under the top edge so each drip runs down the side.'}
+  ],
+  extras:[] },
+
+{ id:'mug', name:'Mug of Cocoa', cat:'home', level:2, blurb:'Cocoa top, marshmallows, a handle',
+  yarn:{A:['Mug cream','#f1e6cf'],B:['Cocoa','#5a3522'],C:['Marshmallow','#fffaf2'],D:['Heart red','#d8454f']}, view:.3,
+  parts:[
+   {name:'Mug', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+! The rim round, in mug color.
+sc 36
+sc 36 | x8
+(sc 4, dec)*6
+sc 30
+!stuff: Stuff the mug firmly, pressing the cocoa top flat as you go.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Marshmallow', color:'C', rows:`
+mr 6
+inc*6
+sc 12 | x2
+!stuff: Add a pinch of stuffing.
+dec*6
+!close:`, at:{spots:[[3.2,0],[4,120],[4,-120]]}, aim:[0,1,0], mix:1, stuff:.8, sink:.6, sew:'Sew the three marshmallows flat on the cocoa.'},
+   {name:'Handle', color:'A', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff lightly.`, at:{round:5.5, angle:90}, aim:[1,.2,0], mix:.9, bend:-2.6, stuff:.6, sink:.7, sew:'Sew one end to the side of the mug, near the top, curling down; stitch the tip back to the mug lower down.'}
+  ],
+  extras:[{id:'heart', kind:'dot', color:'#d8454f', spots:[[9,-6],[9,6],[10.2,-3.5],[10.2,3.5],[11.2,0]], size:.4, text:'Embroider a heart on the front of the mug in red, five stitches.'}] },
+
+{ id:'teapot', name:'Teapot', cat:'home', level:3, blurb:'Fat pot, lid, spout and handle',
+  yarn:{A:['Teapot cream','#f2e8d5'],B:['Teal','#3d9a96'],C:['Knob gold','#e5b84a']}, view:.3,
+  parts:[
+   {name:'Pot', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42 | x3
+sc 42 | x2 | B
+sc 42 | x2
+(sc 5, dec)*6
+sc 36 | x2
+(sc 4, dec)*6
+sc 30
+!stuff: Stuff the pot very firmly so it is round and stands straight.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Lid', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+!stuff: Stuff the lid firmly into a dome.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.9, sink:.3, sew:'Sew the open edge of the lid to the top of the pot.'},
+   {name:'Knob', color:'C', rows:BALL12, at:{on:'Lid', round:.4, angle:0, front:true}, aim:[0,1,0], mix:1, stuff:1, sink:.7, sew:'Sew on the very top of the lid.'},
+   {name:'Spout', color:'A', rows:`
+mr 6
+sc 6
+(sc, inc)*3
+sc 9 | x2
+(sc 2, inc)*3
+sc 12 | x3
+!stuff: Stuff lightly.`, at:{round:13, angle:-90}, aim:[1,.7,0], mix:1, bend:-.4, stuff:.6, sink:.6, sew:'Sew the wide end to the left side of the pot, curving up and out.'},
+   {name:'Handle', color:'B', rows:`
+mr 6
+sc 6 | x11
+!stuff: Stuff lightly.`, at:{round:7, angle:90}, aim:[1,.2,0], mix:.9, bend:-3.0, stuff:.6, sink:.8, sew:'Sew one end to the right side near the top; curl it round and stitch the tip to the pot lower down.'}
+  ],
+  extras:[{id:'spots', kind:'dot', color:'#3d9a96', spots:[[8,-40],[8,0],[8,40],[8,-80],[8,80],[16,-20],[16,20]], size:.35, text:'Embroider teal spots on the pot.'}] },
+
+{ id:'cottage', name:'Round Cottage', cat:'home', level:2, blurb:'A cone roof, door and windows',
+  yarn:{A:['Cream','#f3e6c8'],B:['Roof red','#c4473a'],C:['Door brown','#6b4026'],D:['Pane','#2e3a52'],E:['Chimney brick','#a8573a'],F:['Bloom','#f58ab0']}, view:.3,
+  parts:[
+   {name:'Walls', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x10
+!stuff: Stuff the walls firmly so they stay a straight round drum.
+(sc 4, dec)*6
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Roof', color:'B', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 5, inc)*3
+(sc 6, inc)*3
+(sc 7, inc)*3
+(sc 8, inc)*3
+(sc 9, inc)*3
+(sc 10, inc)*3
+(sc 11, inc)*3
+(sc 12, inc)*3
+(sc 13, inc)*3
+sc 45
+!stuff: Stuff the cone lightly, mostly in the point.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.5, sink:3.4, sew:'Sew the roof over the top of the walls. Its edge is wider than the walls, so it overhangs all round.'},
+   {name:'Chimney', color:'E', rows:`
+mr 6
+inc*6
+sc 12 | x4
+!stuff: Stuff lightly.`, at:{on:'Roof', round:9, angle:115, front:true}, aim:[0,1,0], mix:1, stuff:.7, sink:1.2, sew:'Sew upright to the side of the roof.'},
+   {name:'Door', color:'C', conform:true, rows:`
+mr 6
+inc*6`, at:{round:14.6, angle:0}, sew:'Sew the door flat at the bottom of the front.'},
+   {name:'Door top', color:'C', conform:true, rows:`
+mr 6`, at:{round:13, angle:0}, sew:'Sew this small round just above the door, to round off the top.'},
+   {name:'Window', color:'D', conform:true, rows:`
+mr 6
+inc*6`, at:{round:11.4, angles:[50,-50]}, sew:'Sew a window patch on each side of the door.'}
+  ],
+  extras:[{id:'flowers', kind:'dot', color:'#f58ab0', spots:[[16.3,-25],[16.3,-45],[16.3,22],[16.3,42],[16.3,70],[16.3,-70]], size:.34, text:'Embroider pink flowers round the base.'},
+          {id:'cross', kind:'line', color:'#f3e6c8', lines:[[[10.4,50],[12.4,50]],[[11.4,43],[11.4,57]],[[10.4,-50],[12.4,-50]],[[11.4,-57],[11.4,-43]]], text:'Embroider cream window bars over the panes.'}] },
+
+{ id:'yarnbasket', name:'Basket of Yarn', cat:'home', level:2, blurb:'A woven basket and three yarn balls',
+  yarn:{A:['Wicker','#b98a52'],B:['Inside brown','#6b4a2c'],C:['Rose','#e2677f'],D:['Sky','#6fb4e0'],E:['Lime','#9ccb4a'],F:['Hook steel','#aab3bd']}, view:.3,
+  parts:[
+   {name:'Basket', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 5, inc)*6 | B
+sc 42
+sc 42 | x6
+(sc 5, dec)*6
+(sc 4, dec)*6
+sc 30
+!stuff: Stuff the basket firmly, pressing the inside flat so the yarn balls can sit on top.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Ball rose', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc, dec)*6
+dec*6
+!stuff: Stuff the ball firmly and round.
+!close:`, at:{round:3.2, angle:-40}, aim:[0,1,0], mix:1, stuff:1, sink:1.2, sew:'Sew the ball into the basket on the left.'},
+   {name:'Ball sky', color:'D', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc, dec)*6
+dec*6
+!stuff: Stuff the ball firmly and round.
+!close:`, at:{round:3.4, angle:70}, aim:[0,1,0], mix:1, stuff:1, sink:1.2, sew:'Sew the ball into the basket on the right.'},
+   {name:'Ball lime', color:'E', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+(sc, dec)*6
+dec*6
+!stuff: Stuff the ball firmly and round.
+!close:`, at:{round:3.4, angle:180}, aim:[0,1,0], mix:1, stuff:1, sink:1.2, sew:'Sew the ball into the back of the basket.'},
+   {name:'Handle', color:'A', rows:`
+mr 6
+sc 6 | x5`, at:{round:8.5, angles:[90,-90]}, aim:[1,.4,0], mix:.8, bend:.9, sink:.5, sew:'Sew a small handle on each side, curling up.'},
+   {name:'Hook', color:'F', rows:`
+mr 4
+sc 4 | x9
+!stuff: Stuff lightly.`, at:{round:3, angle:120}, aim:[.2,1,-.2], mix:.9, bend:.5, stuff:.7, sink:1.5, sew:'Push into the basket between the balls, standing up.'}
+  ],
+  extras:[{id:'wrap1', kind:'line', color:'#9c3050', on:'Ball rose', lines:[[[3,-60],[3,60]],[[5,-60],[5,60]],[[7,-80],[7,80]]], text:'Embroider wrap lines in dark rose around the ball.'},
+          {id:'wrap2', kind:'line', color:'#3a76a0', on:'Ball sky', lines:[[[3,-60],[3,60]],[[5,-60],[5,60]],[[7,-80],[7,80]]], text:'Embroider wrap lines in dark blue around the ball.'},
+          {id:'wrap3', kind:'line', color:'#5a8a2a', on:'Ball lime', lines:[[[3,-60],[3,60]],[[5,-60],[5,60]],[[7,-80],[7,80]]], text:'Embroider wrap lines in dark green around the ball.'}] },
+
+{ id:'succulent', name:'Potted Succulent', cat:'garden', level:2, blurb:'A rosette of pink-tipped leaves',
+  yarn:{A:['Terracotta','#c4663a'],B:['Soil','#4a3020'],C:['Jade','#5fa07a'],D:['Sage','#8cc29a'],E:['Blush','#f09ab0']}, view:.3,
+  parts:[
+   {name:'Pot', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 5, inc)*6
+sc 42 | x2
+(sc 5, dec)*6
+sc 36 | x2
+(sc 4, dec)*6
+sc 30 | x2
+!stuff: Stuff the pot firmly so the leaves have a solid base.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Outer leaf', color:'C', rows:`
+mr 4 | E
+(sc, inc)*2 | E
+sc 6 | E
+(sc 2, inc)*2
+sc 8
+(sc 3, inc)*2
+sc 10 | x2
+!stuff: Stuff lightly so the leaf stays fat.`, at:{spots:[[4.4,0],[4.4,45],[4.4,90],[4.4,135],[4.4,180],[4.4,-135],[4.4,-90],[4.4,-45]]}, aimRel:[.9,1], mix:.9, stuff:.5, flat:.5, sink:.8, sew:'Sew a ring of eight round the edge of the soil, pointing out and up.'},
+   {name:'Middle leaf', color:'D', rows:`
+mr 4 | E
+(sc, inc)*2 | E
+sc 6 | E
+(sc 2, inc)*2
+sc 8 | x3
+!stuff: Stuff lightly so the leaf stays fat.`, at:{spots:[[2.8,22],[2.8,82],[2.8,142],[2.8,-158],[2.8,-98],[2.8,-38]]}, aimRel:[.35,1], mix:1, stuff:.5, flat:.5, sink:.5, sew:'Sew in a ring inside the outer leaves, leaning up and out.'},
+   {name:'Heart leaf', color:'C', rows:`
+mr 4 | E
+(sc, inc)*2 | E
+sc 6 | x4
+!stuff: Stuff lightly.`, at:{spots:[[.8,0],[.8,120],[.8,-120]]}, aim:[0,1,0], mix:.95, stuff:.5, flat:.5, sink:.5, sew:'Sew three small leaves in the very centre, standing up.'}
+  ],
+  extras:[] },
+
+{ id:'campfire', name:'Campfire', cat:'camp', level:2, blurb:'Logs leaning in round three flames',
+  yarn:{A:['Stone','#8d8f94'],B:['Bark','#6b4a2e'],C:['Pale wood','#d9b98a'],D:['Flame','#f08a2e'],E:['Yolk','#ffd84a'],G:['Ash','#4a4642'],F:['Ember','#e5472f']}, view:.55,
+  parts:[
+   {name:'Ash mound', root:true, color:'G', stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48
+!stuff: Stuff firmly, packing the edge so the mound stays low, flat and wide.
+(sc 2, dec)*12
+(sc, dec)*12
+dec*12
+dec*6
+!close:`},
+   {name:'Stone', color:'A', rows:`
+mr 6
+(sc, inc)*3
+sc 9
+!stuff: Stuff firmly so each stone is a hard round pebble.
+(sc, dec)*3
+!close:`, at:{round:8.5, spots:[[8.5,0],[8.5,60],[8.5,120],[8.5,180],[8.5,-120],[8.5,-60]]}, aimRel:[1,.2], mix:.8, stuff:1, sink:.9, sew:'Sew the stones round the edge of the mound, touching one another.'},
+   {name:'Log', color:'B', rows:`
+mr 6 | C
+inc*6 | C
+sc 12 | x8
+!stuff: Stuff each log firmly so it stays straight.`, at:{spots:[[4.6,45],[4.6,135],[4.6,-135],[4.6,-45]]}, aimRel:[-1,1], mix:1, stuff:.9, sink:.6, sew:'Sew the open ends to the mound, then lean all four logs in so the pale ends touch.'},
+   {name:'Tall flame', color:'D', rows:`
+mr 4
+(sc, inc)*2
+sc 6
+(sc 2, inc)*2
+sc 8
+(sc 3, inc)*2
+sc 10
+(sc 4, inc)*2
+sc 12
+(sc 5, inc)*2
+sc 14
+(sc 6, inc)*2
+sc 16 | x2
+!stuff: Stuff lightly, more at the base than the tip.`, at:{round:.5, angle:0}, aim:[0,1,0], mix:1, stuff:.7, sink:.8, sew:'Sew the open end to the middle of the mound.'},
+   {name:'Yellow heart', color:'E', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8 | x2`, at:{on:'Tall flame', round:11.5, angle:0, front:true}, aim:[0,1,.1], mix:1, flat:.5, sink:.5, sew:'Flatten and sew up the front of the tall flame, tip toward the top.'},
+   {name:'Small flame', color:'D', rows:`
+mr 4
+(sc, inc)*2
+sc 6 | x2
+(sc 2, inc)*2
+sc 8 | x2
+(sc 3, inc)*2
+sc 10 | x2
+!stuff: Stuff lightly.`, at:{round:3, angles:[100,-100]}, aim:[.45,1,0], mix:.9, stuff:.6, sink:.7, sew:'Sew one either side of the tall flame, leaning out.'}
+  ],
+  extras:[{id:'sparks', kind:'dot', color:'#f0702e', spots:[[6.4,20],[6.2,-30],[6,70],[6.4,-80],[6,130],[6.2,-170],[6.4,170]], size:.25, text:'Embroider a few orange ember dots on the ash.'}] },
+
+{ id:'tipi', name:'Tipi Tent', cat:'camp', level:2, blurb:'Tall cone, crossed poles, zigzag base',
+  yarn:{A:['Canvas','#ecdcb8'],B:['Rust','#c2573a'],C:['Teal','#2f7f86'],D:['Night','#3a2c26'],E:['Pole','#8a5a34']}, view:.3,
+  parts:[
+   {name:'Tent', root:true, color:'A', rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3
+(sc 5, inc)*3
+(sc 6, inc)*3
+(sc 7, inc)*3
+(sc 8, inc)*3 | B
+(sc 9, inc)*3 | B
+(sc 10, inc)*3
+(sc 11, inc)*3
+(sc 12, inc)*3
+(sc 13, inc)*3
+(sc 14, inc)*3
+(sc 15, inc)*3
+(sc 16, inc)*3
+sc 54 | x2 | C
+sc 54 | B
+sc 54 | x2
+!stuff: Stuff the cone very firmly from the tip down, so it stands straight.
+(sc 4, dec)*9
+(sc 3, dec)*9
+(sc 2, dec)*9
+!stuff: Pack the base firmly so it sits flat.
+(sc, dec)*9
+dec*9
+(sc, dec)*3
+!close:`},
+   {name:'Pole', color:'E', rows:`
+mr 4
+sc 4 | x9`, at:{round:.4, angles:[90,-90]}, aim:[.5,1,0], mix:1, sink:1.2, sew:'Sew into the tip of the tent, one leaning right and one left so they cross.'},
+   {name:'Pole front', color:'E', rows:`
+mr 4
+sc 4 | x9`, at:{round:.4, angle:0}, aim:[0,1,.5], mix:1, sink:1.2, sew:'Sew into the tip, leaning to the front.'},
+   {name:'Pole back', color:'E', rows:`
+mr 4
+sc 4 | x9`, at:{round:.4, angle:180}, aim:[0,1,-.5], mix:1, sink:1.2, sew:'Sew into the tip, leaning to the back.'},
+   {name:'Door', color:'D', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6`, at:{round:20.5, angle:0}, sew:'Sew the dark door patch flat on the lower front of the tent.'},
+   {name:'Door flap', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6`, at:{round:19, angle:26}, sew:'Sew the flap beside the door, overlapping its edge.'}
+  ],
+  extras:[{id:'zig', kind:'line', color:'#c2573a', pts:[[21.2,40],[22.2,50],[21.2,60],[22.2,70],[21.2,80],[22.2,90],[21.2,100],[22.2,110],[21.2,120],[22.2,130],[21.2,140],[22.2,150],[21.2,160],[22.2,170],[21.2,180]], text:'Zigzag a rust line round the base on the right, from the door to the back.'},
+          {id:'zig2', kind:'line', color:'#2f7f86', pts:[[21.2,-40],[22.2,-50],[21.2,-60],[22.2,-70],[21.2,-80],[22.2,-90],[21.2,-100],[22.2,-110],[21.2,-120],[22.2,-130],[21.2,-140],[22.2,-150],[21.2,-160],[22.2,-170],[21.2,-180]], text:'Zigzag a teal line on the left, from the door to the back.'}] },
+
+{ id:'lantern', name:'Camp Lantern', cat:'camp', level:2, blurb:'Glowing glass and a wire handle',
+  yarn:{A:['Iron','#3b3b42'],B:['Glow','#ffd45a'],C:['Brass','#b88a3a']}, view:.3,
+  parts:[
+   {name:'Lantern', root:true, color:'A', rows:`
+mr 6 | A
+inc*6 | A
+(sc, inc)*6 | A
+(sc 2, inc)*6 | A
+(sc 3, inc)*6 | A
+sc 30 | A
+(sc 4, inc)*6 | B
+(sc 5, inc)*6 | B
+sc 42 | x4 | B
+!stuff: Stuff the globe very firmly and evenly so it is round and glows.
+(sc 5, dec)*6 | B
+(sc 4, dec)*6 | A
+(sc 4, inc)*6 | A
+sc 36 | x3 | A
+(sc 4, dec)*6 | A
+(sc 3, dec)*6 | A
+!stuff: Pack the base firmly so the lantern stands flat.
+(sc 2, dec)*6 | A
+(sc, dec)*6 | A
+dec*6 | A
+!close:`},
+   {name:'Chimney', color:'A', rows:`
+mr 6
+sc 6 | x3
+(sc, inc)*3
+sc 9
+!stuff: Add a pinch of stuffing.`, at:{round:.4, angle:0}, aim:[0,1,0], mix:1, stuff:.6, sink:.7, sew:'Sew the wide end on top of the cap.'},
+   {name:'Handle', color:'C', rows:`
+mr 4
+sc 4 | x11`, at:{round:3.6, angles:[85,-85]}, aim:[.8,1,0], mix:1, bend:2.0, sink:.7, sew:'Sew one end each side of the cap; they arch up and meet above the chimney. Stitch the tips together.'}
+  ],
+  extras:[{id:'guard1', kind:'line', color:'#3b3b42', pts:[[8.2,-60],[8.2,-30],[8.2,0],[8.2,30],[8.2,60]], text:'Embroider a dark guard wire across the globe.'},
+          {id:'guard2', kind:'line', color:'#3b3b42', pts:[[10.8,-60],[10.8,-30],[10.8,0],[10.8,30],[10.8,60]], text:'Embroider a second wire below it.'}] },
+
+{ id:'compass', name:'Compass', cat:'camp', level:1, blurb:'A brass disc with a red needle',
+  yarn:{A:['Brass','#b88a3a'],B:['Dial','#f2ead2'],C:['Needle red','#d8362f'],D:['Ink','#2f2c35']}, view:.35,
+  parts:[
+   {name:'Compass', root:true, color:'B', rot:[Math.PI/2,0,0], stuff:.55, rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+(sc 5, inc)*6 | B
+(sc 6, inc)*6 | A
+sc 48 | x2 | A
+!stuff: Stuff firmly and evenly so the disc stays flat and plump.
+(sc 2, dec)*12 | A
+(sc, dec)*12 | A
+dec*12 | A
+dec*6 | A
+!close:`},
+   {name:'Loop', color:'A', rows:`
+mr 6
+sc 6 | x3
+(sc, dec)*2
+sc 4
+!stuff: Add a pinch of stuffing.`, at:{round:9.5, angle:180}, aim:[0,1,0], mix:1, stuff:.6, sink:.9, sew:'Sew to the rim at the top, above the red N, as the hanging loop.'}
+  ],
+  extras:[{id:'north', kind:'line', color:'#d8362f', lines:[[[.6,180],[6.4,180]]], text:'Embroider the red half of the needle toward the north.'},
+          {id:'south', kind:'line', color:'#ffffff', lines:[[[.6,0],[6.4,0]]], text:'Embroider the white half of the needle toward the south.'},
+          {id:'marks', kind:'dot', color:'#2f2c35', spots:[[7.4,0],[7.4,90],[7.4,-90]], size:.3, text:'Add dark dots for S, E and W.'},
+          {id:'markN', kind:'dot', color:'#d8362f', spots:[[7.4,180]], size:.36, text:'Add a red dot for N.'}] },
+
+{ id:'backpack', name:'Backpack', cat:'camp', level:3, blurb:'Flap, pocket, straps and a bedroll',
+  yarn:{A:['Forest','#2f6b3f'],B:['Rust','#b9552f'],C:['Sand','#e6d6a8'],D:['Sky','#4a8fd9'],E:['Brass','#c9a03a']}, view:.3,
+  parts:[
+   {name:'Pack', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x13
+!stuff: Stuff very firmly as you close, pressing into the corners so the pack stands up and the base is flat.
+(sc, dec)*12
+dec*12
+dec*6
+!close:`},
+   {name:'Flap', color:'B', conform:true, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6`, at:{round:4.6, angle:0}, sew:'Sew the flap flat over the front of the top.'},
+   {name:'Pocket', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+!stuff: Stuff lightly so the pocket stays soft.`, at:{round:13.8, angle:0}, stuff:.6, sink:.5, sew:'Sew the open end to the lower front, close to the base.'},
+   {name:'Strap', color:'B', rows:`
+mr 6
+sc 6 | x11`, at:{round:5.4, angles:[155,-155]}, aimRel:[.05,-1], mix:1, flat:.5, sink:.4, sew:'Flatten and sew from the top of the back down to the base.'},
+   {name:'Bedroll', color:'C', rows:`
+mr 6
+inc*6
+(sc, inc)*6 | B
+sc 18 | B
+sc 18
+sc 18 | B
+sc 18
+sc 18 | B
+!stuff: Stuff firmly into a tight roll.`, at:{round:.8, angles:[90,-90]}, aim:[1,0,0], mix:1, stuff:1, sink:.5, sew:'Sew the two halves of the roll end to end across the top, striped rounds matching.'},
+   {name:'Bottle', color:'D', rows:`
+mr 6
+inc*6
+sc 12 | x4
+!stuff: Stuff lightly.`, at:{round:16.5, angle:90}, aim:[.15,1,0], mix:.9, stuff:.7, sink:.5, sew:'Sew upright to the side.'}
+  ],
+  extras:[{id:'buckle', kind:'dot', color:'#c9a03a', spots:[[8.6,0]], size:.4, text:'Sew a brass buckle on the flap.'},
+          {id:'pocketflap', kind:'line', color:'#b9552f', on:'Pocket', front:true, lines:[[[1.6,-60],[1.6,0],[1.6,60]]], text:'Embroider a rust line for the pocket flap.'}] },
+
+{ id:'football', name:'Football', cat:'play', level:1, blurb:'Pointed ends, white stripes, laces',
+  yarn:{A:['Leather','#8a4a26'],B:['Chalk','#f6f3ec']}, view:1.0,
+  parts:[{name:'Football', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
+mr 6
+(sc, inc)*3
+(sc 2, inc)*3
+(sc 3, inc)*3
+(sc 4, inc)*3 | B
+(sc 5, inc)*3 | B
+(sc 6, inc)*3
+(sc 7, inc)*3
+(sc 8, inc)*3
+sc 30 | x4
+(sc 8, dec)*3
+(sc 7, dec)*3
+(sc 6, dec)*3
+(sc 5, dec)*3 | B
+(sc 4, dec)*3 | B
+!stuff: Stuff firmly now and keep adding as you go, so both ends stay pointed and the middle is plump.
+(sc 3, dec)*3
+(sc 2, dec)*3
+(sc, dec)*3
+dec*3
+!close:`}],
+  extras:[{id:'laces', kind:'line', color:'#f6f3ec', lines:[[[9,180],[18,180]],[[10.6,172],[10.6,188]],[[12.2,172],[12.2,188]],[[13.8,172],[13.8,188]],[[15.4,172],[15.4,188]]], text:'With white yarn, stitch one long line along the top and four short bars across it for the laces.'}] },
+
+{ id:'bowlingpin', name:'Bowling Pin', cat:'play', level:1, blurb:'Worked top down, red neck stripes',
+  yarn:{A:['Pin white','#f7f4ee'],B:['Stripe red','#d8332e']}, view:.3,
+  parts:[{name:'Pin', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12 | x2
+! Two red stripes on the neck.
+sc 12 | x2 | B
+sc 12 | x2
+sc 12 | x2 | B
+!stuff: Stuff the head and neck very firmly before you go on, so the neck stays slim and straight.
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+(sc 4, dec)*6
+sc 30 | x3
+(sc 3, dec)*6
+sc 24 | x2
+!stuff: Stuff the belly very firmly so the pin is plump and the base stays flat.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`}],
+  extras:[] },
+
+{ id:'spinningtop', name:'Spinning Top', cat:'play', level:1, blurb:'Striped body, point and tiny stand',
+  yarn:{A:['Sky','#3b9be0'],B:['Sun','#f6c933'],C:['Poppy','#e0453a'],D:['Beech','#c98f56']}, view:.3,
+  parts:[{name:'Top', root:true, color:'D', rows:`
+mr 6
+sc 6 | x3
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6 | A
+(sc 3, inc)*6 | A
+(sc 4, inc)*6 | B
+sc 36 | x2 | B
+(sc 4, dec)*6 | C
+sc 30 | x1 | C
+(sc 3, dec)*6 | A
+sc 24 | A
+(sc 2, dec)*6 | B
+(sc, dec)*6 | C
+!stuff: Stuff the wide body very firmly, then the point; work the last rounds tight so it stays sturdy.
+sc 12 | D
+dec*6 | D
+!close:`}],
+  extras:[] },
+
+{ id:'pawn', name:'Chess Pawn', cat:'play', level:1, blurb:'Ball head, collar, flared base',
+  yarn:{A:['Ivory','#f1e7cf']}, view:.3,
+  parts:[{name:'Pawn', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24 | x2
+(sc 2, dec)*6
+(sc, dec)*6
+!stuff: Stuff the ball head very firmly now.
+sc 12
+! The collar: increase, one round, decrease.
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 2, dec)*6
+(sc, dec)*6
+sc 12 | x4
+!stuff: Stuff the slim waist firmly so it does not bend.
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x3
+(sc 2, dec)*9
+sc 27
+!stuff: Stuff the base very firmly so it is flat and heavy.
+(sc, dec)*9
+(sc, dec)*6
+dec*6
+!close:`}],
+  extras:[] },
+
+{ id:'drum', name:'Toy Drum', cat:'play', level:2, blurb:'Gold rims, zigzag cord, two sticks',
+  yarn:{A:['Cream','#f3e9d2'],B:['Drum red','#cf3a34'],C:['Gold','#e3b53f'],D:['Beech','#c98f56'],E:['Cord white','#fbfaf6']}, view:.35,
+  parts:[
+   {name:'Drum', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48 | x2 | C
+sc 48 | x7 | B
+sc 48 | x2 | C
+!stuff: Stuff the drum firmly and evenly so the sides stay straight, and press the top and bottom flat.
+(sc 2, dec)*12
+(sc, dec)*12
+dec*12
+dec*6
+!close:`},
+   {name:'Drumstick', color:'D', rows:`
+mr 4
+inc*4
+dec*4
+sc 4 | x12`, at:{round:2.2, angles:[150,-150]}, aim:[.42,.1,1], mix:1, stuff:.5, sink:.4, sew:'Stuff the ball tip lightly and lay a stick on each side of the top, tips pointing out, and sew the ends down.'}
+  ],
+  extras:[{id:'cord', kind:'line', color:'#fbfaf6', pts:[[11.2,-180],[14.1,-170],[17,-160],[14.1,-150],[11.2,-140],[14.1,-130],[17,-120],[14.1,-110],[11.2,-100],[14.1,-90],[17,-80],[14.1,-70],[11.2,-60],[14.1,-50],[17,-40],[14.1,-30],[11.2,-20],[14.1,-10],[17,0],[14.1,10],[11.2,20],[14.1,30],[17,40],[14.1,50],[11.2,60],[14.1,70],[17,80],[14.1,90],[11.2,100],[14.1,110],[17,120],[14.1,130],[11.2,140],[14.1,150],[17,160],[14.1,170],[11.2,180]], text:'With white yarn, zigzag a cord round the red sides between the gold rims.'}] },
+
+{ id:'trophy', name:'Trophy', cat:'play', level:2, blurb:'Cup, stem, base, handles and star',
+  yarn:{A:['Gold','#e8b93c'],B:['Dark gold','#a9791f'],C:['Walnut','#4a2f22'],D:['Star white','#fff7dc']}, view:.3,
+  parts:[
+   {name:'Trophy', root:true, color:'A', rows:`
+mr 6 | B
+inc*6 | B
+(sc, inc)*6 | B
+(sc 2, inc)*6 | B
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36 | x4
+(sc 4, dec)*6
+sc 30 | x2
+(sc 3, dec)*6
+(sc 2, dec)*6
+!stuff: Stuff the cup firmly; the first rounds are the dark inside of the cup.
+(sc, dec)*6
+sc 12 | x5
+!stuff: Stuff the slim stem very firmly so it stands straight.
+(sc, inc)*6 | C
+(sc 2, inc)*6 | C
+sc 24 | x2 | C
+(sc 3, inc)*6 | C
+sc 30 | x3 | C
+(sc 3, dec)*6 | C
+(sc 2, dec)*6 | C
+!stuff: Stuff the stepped base very firmly so the trophy stands flat.
+(sc, dec)*6 | C
+dec*6 | C
+!close:`},
+   {name:'Handle', color:'A', rows:`
+mr 6
+sc 6 | x7`, at:{round:6.5, angles:[88,-88]}, aim:[1,.9,0], mix:.9, bend:1.8, stuff:.8, sink:.5, sew:'Stuff lightly, curl round and sew each end to the side of the cup, one on each side.'}
+  ],
+  extras:[{id:'star', kind:'line', color:'#fff7dc', pts:[[6.1,0],[8.200000000000001,6.9],[8.3,27.4],[9.700000000000001,11.1],[11.9,16.9],[10.600000000000001,0],[11.9,-16.9],[9.700000000000001,-11.1],[8.3,-27.4],[8.200000000000001,-6.9],[6.1,0]], text:'With pale yarn, embroider a five-point star on the front of the cup.'}] },
+
+{ id:'burger', name:'Burger', cat:'food', level:2, blurb:'Six layers stacked in one piece',
+  yarn:{A:['Bun','#d99a4e'],B:['Lettuce','#6cbb45'],C:['Tomato','#d9382c'],D:['Cheese','#f6c431'],E:['Patty','#5a3320'],F:['Seed','#f7ecd0']}, view:.3,
+  parts:[{name:'Burger', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+(sc 7, inc)*6
+(sc 8, inc)*6
+sc 60
+! Lettuce: increase well past the edge so it ruffles.
+(sc, inc)*30 | B
+(sc, dec)*30 | B
+! Tomato.
+sc 60 | C
+! Cheese: pokes out a little.
+(sc 4, inc)*12 | D
+(sc 4, dec)*12 | D
+! Patty.
+sc 60 | x2 | E
+! Bottom bun.
+sc 60
+!stuff: Stuff the burger firmly but keep it low: press it flat between your hands as you fill it.
+(sc 3, dec)*12
+(sc 2, dec)*12
+(sc, dec)*12
+dec*12
+dec*6
+!close:`}],
+  extras:[{id:'seeds', kind:'dot', color:'#f7ecd0', spots:[[3,30],[3,-40],[4.6,100],[4.6,-95],[5.4,0],[6,55],[6,-60],[7.4,25],[7.4,-28],[8,92],[8,-88],[3,170],[6.8,140],[6.8,-145],[8.4,-10]], size:.3, text:'Embroider small cream seeds across the top bun with short stitches.'}] },
+
+{ id:'pineapple', name:'Pineapple', cat:'food', level:2, blurb:'Diamond lines and a spiky crown',
+  yarn:{A:['Gold','#f0b92c'],B:['Leaf green','#4f9a3a'],C:['Brown','#8c5a1f']}, view:.3,
+  parts:[
+   {name:'Body', root:true, color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x9
+(sc 3, dec)*6
+sc 24
+!stuff: Stuff the body firmly and evenly into an oval.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Outer leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x4`, at:{spots:[[.5,0],[.5,60],[.5,120],[.5,180],[.5,-120],[.5,-60]]}, aimRel:[.9,1], mix:.8, flat:.3, sink:.6, sew:'Flatten and sew six round the top, leaning outward.'},
+   {name:'Inner leaf', color:'B', rows:`
+mr 4
+(sc, inc)*2
+(sc 2, inc)*2
+sc 8 | x6`, at:{spots:[[.4,30],[.4,150],[.4,-90]]}, aimRel:[.25,1], mix:.85, flat:.3, sink:.6, sew:'Flatten and sew three between the others, upright.'}
+  ],
+  extras:[{id:'diamonds', kind:'line', color:'#8c5a1f', lines:[[[13,-200],[15,-180],[17,-160]],[[9,-200],[11,-180],[13,-160],[15,-140],[17,-120]],[[5,-200],[7,-180],[9,-160],[11,-140],[13,-120],[15,-100],[17,-80]],[[3,-180],[5,-160],[7,-140],[9,-120],[11,-100],[13,-80],[15,-60],[17,-40]],[[3,-140],[5,-120],[7,-100],[9,-80],[11,-60],[13,-40],[15,-20],[17,0]],[[3,-100],[5,-80],[7,-60],[9,-40],[11,-20],[13,0],[15,20],[17,40]],[[3,-60],[5,-40],[7,-20],[9,0],[11,20],[13,40],[15,60],[17,80]],[[3,-20],[5,0],[7,20],[9,40],[11,60],[13,80],[15,100],[17,120]],[[3,20],[5,40],[7,60],[9,80],[11,100],[13,120],[15,140],[17,160]],[[3,60],[5,80],[7,100],[9,120],[11,140],[13,160],[15,180],[17,200]],[[3,100],[5,120],[7,140],[9,160],[11,180],[13,200]],[[3,140],[5,160],[7,180],[9,200]],[[3,180],[5,200]],[[3,-100],[5,-120],[7,-140],[9,-160],[11,-180],[13,-200]],[[3,-60],[5,-80],[7,-100],[9,-120],[11,-140],[13,-160],[15,-180],[17,-200]],[[3,-20],[5,-40],[7,-60],[9,-80],[11,-100],[13,-120],[15,-140],[17,-160]],[[3,20],[5,0],[7,-20],[9,-40],[11,-60],[13,-80],[15,-100],[17,-120]],[[3,60],[5,40],[7,20],[9,0],[11,-20],[13,-40],[15,-60],[17,-80]],[[3,100],[5,80],[7,60],[9,40],[11,20],[13,0],[15,-20],[17,-40]],[[3,140],[5,120],[7,100],[9,80],[11,60],[13,40],[15,20],[17,0]],[[3,180],[5,160],[7,140],[9,120],[11,100],[13,80],[15,60],[17,40]],[[5,200],[7,180],[9,160],[11,140],[13,120],[15,100],[17,80]],[[9,200],[11,180],[13,160],[15,140],[17,120]],[[13,200],[15,180],[17,160]]], text:'With brown yarn, stitch long diagonal lines both ways round the body to make diamonds.'},
+          {id:'dots', kind:'dot', color:'#8c5a1f', spots:[[5,0],[5,80],[5,-80],[7,60],[7,-60],[7,20],[7,-20],[9,0],[9,80],[9,-80],[9,40],[9,-40],[11,60],[11,-60],[13,0],[13,80],[13,-80],[15,20],[15,-20],[15,60],[15,-60]], size:.2, text:'Add a small brown dot in some of the diamonds.'}] }
 ];
 
 /* =====================================================================
@@ -4055,7 +5630,9 @@ function expandRows(text, defColor){
    Each round is a ring whose rest circumference is count x stitch width,
    rounds are one row-height apart along the fabric, and stuffing pushes out.
    ===================================================================== */
+const SIM=new Map();      // many parts share their rounds (an arm, a foot, an egg): each shape is solved once
 function simulate(counts, closed, stuff){
+  const key=counts.join(',')+'|'+(closed?1:0)+'|'+stuff, hit=SIM.get(key); if(hit) return hit;
   const N=counts.length, K=N+1+(closed?1:0);
   const R=counts.map(n=>n*W/TAU);
   const r=new Float64Array(K), y=new Float64Array(K), fr=new Float64Array(K), fy=new Float64Array(K);
@@ -4071,7 +5648,7 @@ function simulate(counts, closed, stuff){
   for(let it=0; it<3500; it++){
     fr.fill(0); fy.fill(0);
     for(let k=0;k<K-1;k++){
-      const dx=r[k+1]-r[k], dy=y[k+1]-y[k], d=Math.hypot(dx,dy)||1e-6, f=km*C[k]*(d-L[k])/d;
+      const dx=r[k+1]-r[k], dy=y[k+1]-y[k], d=Math.sqrt(dx*dx+dy*dy)||1e-6, f=km*C[k]*(d-L[k])/d;
       fr[k]+=f*dx; fy[k]+=f*dy; fr[k+1]-=f*dx; fy[k+1]-=f*dy;
     }
     for(let i=1;i<=N;i++){
@@ -4079,7 +5656,7 @@ function simulate(counts, closed, stuff){
       fr[i]-=(e>0?kh:kh*kc)*e;
       if(p>0){
         const a=i-1, b=Math.min(i+1,K-1);
-        let tr=r[b]-r[a], ty=y[b]-y[a]; const l=Math.hypot(tr,ty)||1; tr/=l; ty/=l;
+        let tr=r[b]-r[a], ty=y[b]-y[a]; const l=Math.sqrt(tr*tr+ty*ty)||1; tr/=l; ty/=l;
         fr[i]+=p*r[i]*H*(-ty); fy[i]+=p*r[i]*H*tr;
       }
     }
@@ -4091,7 +5668,7 @@ function simulate(counts, closed, stuff){
     }
   }
   const y0=y[0]; for(let k=0;k<K;k++) y[k]-=y0;
-  return {r,y,N,K,closed};
+  const out={r,y,N,K,closed}; SIM.set(key,out); return out;
 }
 function mkProfile(counts, closed, stuff){
   const s=simulate(counts,closed,stuff), N=s.N, K=s.K;
@@ -4205,7 +5782,7 @@ function buildCreature(def){
             const k0=Math.floor(t), f=t-k0; let rho=Rr(k0)+(Rr(k0+1)-Rr(k0))*f; if(t<1) rho=Math.max(rho,Rr(1)*.8);
             const rd3=T1.clone().multiplyScalar(Math.sin(ph)).addScaledVector(T2,Math.cos(ph));
             const Q=S.p.clone().addScaledVector(rd3,rho);
-            const ql=Q.clone().applyMatrix4(new THREE.Matrix4().copy(host.m).invert());
+            const ql=Q.clone().applyMatrix4(c.hinv||(c.hinv=new THREE.Matrix4().copy(host.m).invert()));
             let best=rnd, bd=1e9; const span=rho/H+1.5;
             for(let tt=Math.max(.5,rnd-span); tt<=Math.min(host.prof.N,rnd+span); tt+=.04){ const d=Math.abs(host.prof.raw(tt)[1]-ql.y); if(d<bd){bd=d;best=tt;} }
             const sp=surf(host,best,Math.atan2(ql.x,ql.z)/DEG);
@@ -4238,7 +5815,7 @@ function buildCreature(def){
   });
   // extras: eyes, embroidery
   const extras=[];
-  for(const e of def.extras){
+  for(const e of def.extras||[]){
     const info=e.on?byName[e.on]:rootCopy.info;
     for(const c of info.copies){
       const cnt=info.counts[Math.max(0,Math.min(info.N-1,Math.round(e.round)-1))];
@@ -4587,8 +6164,33 @@ function placeCamera(){
 const built={};
 const getCreature=id=>built[id]||(built[id]=buildCreature(CREATURES.find(c=>c.id===id)));
 const grid=$('#grid');
+const CM=.75;      // one stitch-width in centimetres, in chunky yarn
+// How long a pattern takes: its stitches at your pace, plus the time that is not stitching
+// (starting each piece, stuffing, closing, sewing on, eyes and embroidery).
+let RATE=12; try{ const v=+localStorage.getItem('lbl-rate'); if(v===8||v===12||v===18) RATE=v; }catch(e){}
+function timing(cr){
+  if(cr.ovAt) return cr;
+  const n=cr.steps.length, ov=new Float32Array(n+1), ext=new Set(cr.extras.map(x=>x.stepRef)); let last=null;
+  cr.steps.forEach((s,i)=>{
+    let m=.5;
+    if(s.kind==='st'){ m=0; if(s.copy!==last){ m=2; last=s.copy; } }
+    else if(s.key==='sew') m=s.copy.info.pd.conform?9:6;
+    else if(s.key==='stuff'||s.key==='close') m=2;
+    else if(s.fin||ext.has(s)) m=4;
+    ov[i+1]=ov[i]+m;
+  });
+  cr.ovAt=ov; return cr;
+}
+function minutesLeft(cr,i=0){ timing(cr); const n=cr.steps.length; return (cr.instAt[n]-cr.instAt[i])/RATE+cr.ovAt[n]-cr.ovAt[i]; }
+function fmtTime(min){
+  if(min<50) return Math.max(5,Math.round(min/5)*5)+' minutes';
+  const h=min/60; if(h>=5.75) return Math.round(h)+' hours';
+  const q=Math.round(h*2)/2, w=Math.floor(q);
+  return (q%1?(w||'')+'½':String(w))+(q===1?' hour':' hours');
+}
+function cardFacts(def,cr){ const el=grid.querySelector(`[data-id="${def.id}"] .facts`); if(el) el.textContent=`${cr.insts.length.toLocaleString('en-US')} stitches · ${cr.heightCm} cm · about ${fmtTime(minutesLeft(cr))}`; }
 const LVL=['','Beginner','Easy','A bit more','Big build'];
-const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['food','Food'],['things','Things']];
+const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['food','Food'],['things','Things'],['vehicles','Vehicles'],['space','Space'],['home','Home'],['camp','Outdoors'],['play','Toys and games']];
 const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat===key)})).filter(c=>c.defs.length);      // the gallery, one shelf per category
 { const chip=(key,label,n)=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'; b.dataset.c=key; b.setAttribute('aria-pressed',String(key==='all')); b.innerHTML=`${label}<small>${n}</small>`; $('#cats').appendChild(b); };
   chip('all','All',CREATURES.length);
@@ -4597,7 +6199,7 @@ const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat==
     const sec=document.createElement('section'); sec.className='cat'; sec.dataset.cat=c.key; sec.innerHTML=`<h2>${c.label} <small></small></h2><div class="grid"></div>`;
     for(const def of c.defs){
       const b=document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=def.id;
-      b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="lvl">${[1,2,3,4].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
+      b.innerHTML=`<span class="thumb"><span class="ph"></span></span><span class="meta"><span class="nm">${def.name}</span><span class="sub">${def.blurb}</span><span class="facts"></span><span class="lvl">${[1,2,3,4].map(i=>`<i class="${i<=def.level?'on':''}"></i>`).join('')} ${LVL[def.level]}</span><span class="prog" hidden><i></i></span><span class="state"></span></span>`;
       b.addEventListener('click',()=>{ location.hash=def.id; });
       sec.lastChild.appendChild(b);
     }
@@ -4641,7 +6243,7 @@ function renderThumb(def){
   const {url,cr}=snap(def);
   const img=new Image(); img.alt=''; img.src=url;
   const t=grid.querySelector(`[data-id="${def.id}"] .thumb`); t.textContent=''; t.appendChild(img);
-  const sub=grid.querySelector(`[data-id="${def.id}"] .sub`); sub.textContent=`${def.blurb} · ${cr.insts.length} stitches`;
+  cardFacts(def,cr);
 }
 let thumbQueue=SHELF.flatMap(c=>c.defs);      // pictures are made in the order the shelves show them
 function thumbTick(){
@@ -5093,7 +6695,7 @@ function renderNow(){
   let b='GO', cls='', title=cr.def.name, formula=`${cr.insts.length} stitches in ${cr.copies.length} ${cr.copies.length>1?'pieces':'piece'}`, action='Press play to watch it grow, or switch to Step and move one stitch at a time.', count='', bar=0, hooks=false;
   const st = S.cur>0 ? cr.steps[S.cur-1] : null;
   if(st && S.cur>=total && (S.done||S.mode==='lapse')){
-    b='✓'; cls='note'; title=`${cr.def.name}, finished`; formula=`${cr.insts.length} stitches · about ${cr.heightCm} cm tall in chunky yarn`; action='That is the whole build. Slow it down to crochet along, or tap any round in the pattern below to jump there.'; bar=1;
+    b='✓'; cls='note'; title=`${cr.def.name}, finished`; formula=`${cr.insts.length} stitches · about ${cr.heightCm} cm tall in chunky yarn · about ${fmtTime(minutesLeft(cr))} to make`; action='That is the whole build. Slow it down to crochet along, or tap any round in the pattern below to jump there.'; bar=1;
   }else if(st){
     const info=st.copy.info;
     title=`${partLabel(st.copy)} · Round ${st.round+1} of ${info.N}`;
@@ -5131,7 +6733,7 @@ function buildPieces(cr){
 // where you are: one dot per stitch of the round in hand, a running total, each piece, and the rounds you have finished
 function renderTrack(){
   const cr=S.cr, vis=cr.instAt[S.cur], n=cr.insts.length, st=S.cur>0?cr.steps[S.cur-1]:null, c=st?st.copy:cr.copies[0], ci=cr.copies.indexOf(c);
-  $('#tTxt').textContent=`${vis} of ${n} stitches`; $('#tBar').style.width=(vis/n*100).toFixed(1)+'%';
+  $('#tTxt').textContent=`${vis} of ${n} stitches`+(S.cur<cr.steps.length?` · about ${fmtTime(minutesLeft(cr,S.cur))} left`:''); $('#tBar').style.width=(vis/n*100).toFixed(1)+'%';
   if(S.mode==='lapse' && S.playing) return;                                    // the time-lapse is too quick to count along with
   const strip=$('#strip'), key=st&&!(S.cur>=cr.steps.length&&S.done)?ci+':'+st.round:'';
   if(key!==S.stripKey){
@@ -5203,6 +6805,7 @@ function buildMaterials(cr){
   li('', '4 mm crochet hook, stitch marker, yarn needle');
   li('', 'Fiberfill stuffing');
   li('', `Finished size: about ${cr.heightCm} cm tall`);
+  li('', `Time: about ${fmtTime(minutesLeft(cr))} at ${RATE} stitches a minute, with stuffing and sewing up`);
   host.appendChild(ul);
 }
 
@@ -5403,12 +7006,228 @@ function frame(now){
   renderer.render(scene,camera);
 }
 
+/* =====================================================================
+   THE LINE-UP: every pattern standing together, to scale
+   Each one wears a light skin, one vertex per stitch, so the whole collection is a few hundred
+   thousand triangles and turns freely. It has its own small renderer above the gallery.
+   ===================================================================== */
+function skinGeo(cr){
+  const P=[],Nv=[],C=[],I=[],LP=[],LC=[], pal={}, t=new V3(), nn=new V3(), col=new THREE.Color();
+  for(const k in cr.def.yarn) pal[k]=new THREE.Color(cr.def.yarn[k][1]);
+  const vert=(p,n,c,k)=>{ P.push(p.x,p.y,p.z); Nv.push(n.x,n.y,n.z); C.push(c.r*k,c.g*k,c.b*k); return P.length/3-1; };
+  const tri=(a,b,c)=>{      // wound so that it faces the way its corners do
+    const ax=P[a*3],ay=P[a*3+1],az=P[a*3+2], ux=P[b*3]-ax,uy=P[b*3+1]-ay,uz=P[b*3+2]-az, vx=P[c*3]-ax,vy=P[c*3+1]-ay,vz=P[c*3+2]-az;
+    const d=(uy*vz-uz*vy)*(Nv[a*3]+Nv[b*3]+Nv[c*3])+(uz*vx-ux*vz)*(Nv[a*3+1]+Nv[b*3+1]+Nv[c*3+1])+(ux*vy-uy*vx)*(Nv[a*3+2]+Nv[b*3+2]+Nv[c*3+2]);
+    if(d<0) I.push(a,c,b); else I.push(a,b,c);
+  };
+  for(const c of cr.copies){
+    const info=c.info, off=P.length/3-c.first;
+    for(let k=c.first;k<c.last;k++){ const s=cr.insts[k]; vert(t.copy(s.p).addScaledVector(s.n,.18),s.n,pal[s.color],.9+.14*((k*7919)%97)/97); }      // no two stitches quite the same shade
+    for(let i=0;i<info.N-1;i++){      // zip each round to the next
+      const a0=off+c.first+info.rstart[i], na=info.counts[i], b0=a0+na, nb=info.counts[i+1]; let a=0,b=0;
+      while(a<na||b<nb){ if(a<na && (b>=nb || (a+1)*nb<=(b+1)*na)){ tri(a0+a%na,b0+b%nb,a0+(a+1)%na); a++; } else { tri(a0+a%na,b0+b%nb,b0+(b+1)%nb); b++; } }
+    }
+    c.plugs.forEach((pg,pi)=>{ const i=pi?info.N-1:0, r0=off+c.first+info.rstart[i], n=info.counts[i], v=vert(pg.p,pg.n,pal[pg.color],.86); for(let j=0;j<n;j++) tri(v,r0+j,r0+(j+1)%n); });
+  }
+  const ico=skinGeo.ico||(skinGeo.ico=new THREE.IcosahedronGeometry(1,1)), ip=ico.attributes.position, q=new THREE.Quaternion(), zAx=new V3(0,0,1), pt=new V3(), dark=new THREE.Color('#17131d');
+  const blob=(p,n,sx,sy,sz,c)=>{
+    q.setFromUnitVectors(zAx,n); const base=P.length/3;
+    for(let i=0;i<ip.count;i++){
+      t.set(ip.getX(i)*sx,ip.getY(i)*sy,ip.getZ(i)*sz).applyQuaternion(q); nn.set(ip.getX(i),ip.getY(i),ip.getZ(i)).applyQuaternion(q);
+      P.push(p.x+t.x,p.y+t.y,p.z+t.z); Nv.push(nn.x,nn.y,nn.z); C.push(c.r,c.g,c.b);
+    }
+    for(let i=0;i<ip.count;i+=3) I.push(base+i,base+i+1,base+i+2);
+  };
+  for(const x of cr.extras){
+    const e=x.e, size=e.size||.58;
+    if(e.kind==='line'){ col.set(e.color); for(const pl of x.lines) for(let i=0;i<pl.length-1;i++){ LP.push(pl[i].x,pl[i].y,pl[i].z,pl[i+1].x,pl[i+1].y,pl[i+1].z); LC.push(col.r,col.g,col.b,col.r,col.g,col.b); } }
+    else for(const s of x.pts){
+      if(e.kind==='eye') blob(pt.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.12+.3),s.n,size,size,size*.8,dark);
+      else blob(pt.copy(s.p).addScaledVector(s.n,.5),s.n,size,size*.8,size*.35,col.set(e.color));
+    }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(Nv,3)); geo.setAttribute('color',new THREE.Float32BufferAttribute(C,3));
+  geo.setIndex(I); geo.computeBoundingSphere(); geo.computeBoundingBox();
+  let lines=null;
+  if(LP.length){ lines=new THREE.BufferGeometry(); lines.setAttribute('position',new THREE.Float32BufferAttribute(LP,3)); lines.setAttribute('color',new THREE.Float32BufferAttribute(LC,3)); }
+  return {geo,lines};
+}
+const LINEUP=(()=>{
+  const host=$('#lineup'), cv=$('#lu'), tip=$('#luTip'), msg=$('#luMsg'), items=[], SQ=10/CM;      // floor squares are 10 cm
+  let ren=null; try{ ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}); }catch(e){ host.hidden=true; }
+  const scn=new THREE.Scene(), camL=new THREE.PerspectiveCamera(15,2,20,30000), ray=new THREE.Raycaster();
+  const matL=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.92,metalness:0});
+  const matHi=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.92,metalness:0,emissive:0x4a3a52});
+  const lineMat=new THREE.LineBasicMaterial({vertexColors:true});
+  const blobMat=new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,toneMapped:false}), blobGeo=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2);
+  scn.add(new THREE.HemisphereLight(0xffffff,0xb7bdd6,1.5)); { const sun=new THREE.DirectionalLight(0xfff1dd,1.9); sun.position.set(-4,7,6); scn.add(sun); }
+  const st={az:0,el:.46,zoom:1,fit:300,fitNow:300,fresh:0,home:new V3(),tgt:new V3(),goal:new V3(),W:1,D:1,H:1,hover:null,ptrs:new Map(),moved:0,touched:0,ready:false,seen:false,raf:0,t0:0,w:1,h:1};
+  const _v=new V3(), _p=new THREE.Vector2(), floorPl=new THREE.Plane(new V3(0,1,0),0);
+  const gridMat=new THREE.LineBasicMaterial({color:getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#d9deea',transparent:true,opacity:.85});
+  const HINT='All to scale: the floor squares are 10 cm. Drag to turn, tap one to jump to its pattern.', HINT_IN='Drag to move about, shift-drag to turn, tap one to jump to its pattern.';
+  function mkItem(def,cr){
+    const {geo,lines}=skinGeo(cr), a=-(def.view??.45), ca=Math.cos(a), sa=Math.sin(a); let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;
+    for(const s of cr.insts){ const x=s.p.x*ca+s.p.z*sa, z=-s.p.x*sa+s.p.z*ca; if(x<x0)x0=x; if(x>x1)x1=x; if(z<z0)z0=z; if(z>z1)z1=z; }
+    const g=new THREE.Group(), mesh=new THREE.Mesh(geo,matL); g.add(mesh); if(lines) g.add(new THREE.LineSegments(lines,lineMat));
+    g.rotation.y=a; g.visible=false;
+    return {def,cr,g,mesh,w:x1-x0+1.4,d:z1-z0+1.4,h:cr.box.max.y-cr.box.min.y+1,cx:(x0+x1)/2,cz:(z0+z1)/2,y0:cr.box.min.y-.55,box:new THREE.Box3(),X:0,Z:0,born:0};
+  }
+  // smallest at the front, tallest at the back, the tallest of each row in its middle. Run again whenever more have been built: everyone shuffles along.
+  let grid3=null;
+  function layout(){
+    const gap=3.2, want=clamp((st.w/st.h)*.5,.6,1.5), now=performance.now(); items.sort((a,b)=>a.h-b.h);      // the floor is seen at a slant, so it is about as deep as it is wide
+    let total=0, wmax=0; for(const it of items){ total+=it.w+gap; wmax=Math.max(wmax,it.w+gap); }
+    const arrange=rowW=>{
+      const rows=[]; let cur=[], cw=0, D=0, W=0;
+      for(const it of items){ if(cur.length && cw+it.w+gap>rowW){ rows.push(cur); cur=[]; cw=0; } cur.push(it); cw+=it.w+gap; }
+      if(cur.length) rows.push(cur);
+      for(const r of rows){ r.depth=Math.max(...r.map(it=>it.d))+gap+1.5; D+=r.depth; W=Math.max(W,r.reduce((a,it)=>a+it.w+gap,0)); }
+      return {rows,D,W};
+    };
+    let lo=wmax, hi=total; for(let k=0;k<18;k++){ const m=(lo+hi)/2, a=arrange(m); if(a.W/a.D<want) lo=m; else hi=m; }
+    const {rows,D}=arrange(hi);
+    let z=D/2, W=0, H=0;
+    for(const r of rows){
+      const seq=[]; r.slice().reverse().forEach((it,i)=>{ if(i%2) seq.unshift(it); else seq.push(it); });
+      const rw=r.reduce((s,it)=>s+it.w+gap,0); let x=-rw/2; W=Math.max(W,rw);
+      for(const it of seq){
+        it.X=x+(it.w+gap)/2; it.Z=z-r.depth/2; x+=it.w+gap; H=Math.max(H,it.h);
+        it.box.min.set(it.X-it.w/2,0,it.Z-it.d/2); it.box.max.set(it.X+it.w/2,it.h,it.Z+it.d/2);
+        if(!it.sh){      // new arrival: it pops up where it belongs
+          it.px=it.X; it.pz=it.Z; it.born=now+(st.fresh++)*14;
+          it.sh=new THREE.Mesh(blobGeo,blobMat); it.sh.scale.set(it.w*1.5,1,it.d*1.5); it.sh.renderOrder=1; it.sh.visible=false; scn.add(it.sh,it.g);
+        }
+      }
+      z-=r.depth;
+    }
+    st.fresh=0; st.W=W; st.D=D; st.H=H; st.home.set(0,H*.2,0); if(st.zoom<=1.001){ st.goal.copy(st.home); if(!st.ready) st.tgt.copy(st.home); }
+    // the floor: a 10 cm grid
+    const gx=Math.ceil((W/2+SQ)/SQ)*SQ, gz=Math.ceil((D/2+SQ)/SQ)*SQ, L=[];
+    for(let x=-gx;x<=gx+.01;x+=SQ) L.push(x,0,-gz,x,0,gz);
+    for(let zz=-gz;zz<=gz+.01;zz+=SQ) L.push(-gx,0,zz,gx,0,zz);
+    if(grid3){ scn.remove(grid3); grid3.geometry.dispose(); }
+    const gg=new THREE.BufferGeometry(); gg.setAttribute('position',new THREE.Float32BufferAttribute(L,3));
+    grid3=new THREE.LineSegments(gg,gridMat); scn.add(grid3);
+    fit(); if(!st.ready){ st.fitNow=st.fit; st.ready=true; }
+  }
+  function place(dist){ const ce=Math.cos(st.el), az=st.az+(st.sway||0); camL.position.set(st.tgt.x+dist*ce*Math.sin(az),st.tgt.y+dist*Math.sin(st.el),st.tgt.z+dist*ce*Math.cos(az)); camL.lookAt(st.tgt); camL.updateMatrixWorld(); }
+  function fit(){      // the nearest the camera can sit with the whole floor in the picture
+    let lo=20, hi=30000; const sv=st.tgt.clone(), sway=st.sway; st.tgt.copy(st.home); st.sway=0;
+    for(let k=0;k<26;k++){
+      const d=(lo+hi)/2; place(d); let ok=true;
+      for(let i=0;i<8&&ok;i++){ _v.set((i&1?1:-1)*st.W/2,i&2?st.H:0,(i&4?1:-1)*st.D/2).project(camL); if(Math.abs(_v.x)>.96||_v.y>.9||_v.y<-.78) ok=false; }
+      if(ok) hi=d; else lo=d;
+    }
+    st.fit=hi; st.tgt.copy(sv); st.sway=sway;
+  }
+  function size(){
+    const w=host.clientWidth, h=host.clientHeight; if(!w||!h||!ren) return false;
+    if(w!==st.w||h!==st.h||!st.sized){ st.w=w; st.h=h; st.sized=true; ren.setPixelRatio(Math.min(devicePixelRatio||1,2)); ren.setSize(w,h,false); camL.aspect=w/h; camL.updateProjectionMatrix(); if(st.ready) fit(); }
+    return true;
+  }
+  function setRay(cx,cy){ const r=cv.getBoundingClientRect(); _p.set((cx-r.left)/r.width*2-1,-((cy-r.top)/r.height*2-1)); ray.setFromCamera(_p,camL); }
+  function pick(cx,cy){
+    setRay(cx,cy); const hits=[];
+    for(const it of items){ if(!it.g.visible) continue; const h=ray.ray.intersectBox(it.box,_v); if(h) hits.push([h.distanceToSquared(ray.ray.origin),it]); }
+    hits.sort((a,b)=>a[0]-b[0]);
+    for(const [,it] of hits.slice(0,4)) if(ray.intersectObject(it.mesh,false).length) return it;      // the one you are really pointing at…
+    return hits.length?hits[0][1]:null;                                                               // …or the nearest whose space you are in
+  }
+  function floorAt(cx,cy,out){ setRay(cx,cy); return ray.ray.intersectPlane(floorPl,out); }
+  function zoomAt(cx,cy,f){
+    const a=new V3(), b=new V3(), had=floorAt(cx,cy,a); st.zoom=clamp(st.zoom*f,1,10); st.touched=performance.now();
+    cv.style.touchAction=st.zoom>1.05?'none':'pan-y'; msg.textContent=st.zoom>1.05?HINT_IN:HINT;
+    if(st.zoom<=1.001){ st.zoom=1; st.goal.copy(st.home); return; }
+    place(st.fitNow/st.zoom); if(had && floorAt(cx,cy,b)){ st.tgt.x=clamp(st.tgt.x+a.x-b.x,-st.W/2,st.W/2); st.tgt.z=clamp(st.tgt.z+a.z-b.z,-st.D/2,st.D/2); st.tgt.y=st.home.y/Math.sqrt(st.zoom); st.goal.copy(st.tgt); }
+  }
+  function showTip(it){
+    st.hover=it; for(const o of items) o.mesh.material=o===it?matHi:matL; cv.classList.toggle('over',!!it);
+    if(!it){ tip.hidden=true; return; }
+    tip.innerHTML='<b></b><span></span>'; tip.firstChild.textContent=it.def.name; tip.lastChild.textContent=`${it.cr.heightCm} cm tall · about ${fmtTime(minutesLeft(it.cr))}`; tip.hidden=false;
+  }
+  function moveTip(){
+    const it=st.hover; if(!it) return; _v.set(it.X,it.h+1.5,it.Z).project(camL);
+    tip.style.left=clamp((_v.x+1)/2*st.w,70,st.w-70)+'px'; tip.style.top=Math.max(46,(1-_v.y)/2*st.h)+'px';
+  }
+  function frame(now){
+    st.raf=0; if(!st.seen||!st.ready||$('#home').hidden) return;
+    if(size()){
+      const idle=now-st.touched>3500 && !st.ptrs.size && !st.hover && !reduceMotion;
+      st.swayK=(st.swayK||0)+((idle?1:0)-(st.swayK||0))*.03; st.sway=.16*Math.sin(now*.00022)*st.swayK;
+      st.tgt.lerp(st.goal,.12);
+      for(const it of items){
+        if(!it.sh) continue;
+        if(!it.done){ const u=clamp((now-it.born)/420,0,1); if(u>0){ it.g.visible=it.sh.visible=true; it.g.scale.setScalar(Math.max(.001,reduceMotion?1:1-Math.pow(1-u,3)*(1-2.2*u*(1-u)))); } if(u>=1){ it.g.scale.setScalar(1); it.done=true; } }
+        const k=reduceMotion?1:.16; it.px+=(it.X-it.px)*k; it.pz+=(it.Z-it.pz)*k;
+        it.g.position.set(it.px-it.cx,-it.y0,it.pz-it.cz); it.sh.position.set(it.px,.06,it.pz);
+      }
+      st.fitNow+=(st.fit-st.fitNow)*(reduceMotion?1:.1);
+      place(st.fitNow/st.zoom); ren.render(scn,camL); moveTip();
+    }
+    st.raf=requestAnimationFrame(frame);
+  }
+  const kick=()=>{ if(!st.raf && ren) st.raf=requestAnimationFrame(frame); };
+  if(ren){
+    // if the panel had no size when its patterns were built (a background tab, a pane still opening), set them out when it does
+    const settle=()=>{ if(items.length && items.some(it=>!it.sh) && size()) layout(); kick(); };
+    new IntersectionObserver(es=>{ st.seen=es[0].isIntersecting; settle(); }).observe(host);
+    if(window.ResizeObserver) new ResizeObserver(settle).observe(host);
+    cv.addEventListener('pointerdown',e=>{ st.ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY}); st.moved=0; st.downAt=performance.now(); st.touched=st.downAt; try{ cv.setPointerCapture(e.pointerId); }catch(err){} });
+    cv.addEventListener('pointermove',e=>{
+      const p=st.ptrs.get(e.pointerId);
+      if(!p){ if(st.ready && e.pointerType==='mouse'){ const it=pick(e.clientX,e.clientY); if(it!==st.hover) showTip(it); } return; }
+      const dx=e.clientX-p.x, dy=e.clientY-p.y; st.touched=performance.now();
+      if(st.ptrs.size===2){
+        const o=[...st.ptrs.entries()].find(q=>q[0]!==e.pointerId)[1], d0=Math.hypot(p.x-o.x,p.y-o.y), d1=Math.hypot(e.clientX-o.x,e.clientY-o.y);
+        if(d0>8) zoomAt((e.clientX+o.x)/2,(e.clientY+o.y)/2,d1/d0);
+      }else if(st.zoom>1.05 && !e.shiftKey){      // zoomed in: take hold of the floor and move it
+        const a=new V3(), b=new V3(); if(floorAt(p.x,p.y,a) && floorAt(e.clientX,e.clientY,b)){ st.tgt.x=clamp(st.tgt.x+a.x-b.x,-st.W/2,st.W/2); st.tgt.z=clamp(st.tgt.z+a.z-b.z,-st.D/2,st.D/2); st.goal.copy(st.tgt); place(st.fitNow/st.zoom); }
+      }else{ st.az=clamp(st.az-dx*.006,-1.35,1.35); if(e.pointerType==='mouse') st.el=clamp(st.el+dy*.004,.12,1.3); }
+      st.moved+=Math.abs(dx)+Math.abs(dy); p.x=e.clientX; p.y=e.clientY; if(st.moved>8 && st.hover) showTip(null);
+    });
+    const up=e=>{
+      const had=st.ptrs.delete(e.pointerId); if(!had||e.type==='pointercancel') return;
+      if(st.ready && st.moved<8 && performance.now()-st.downAt<600 && !st.ptrs.size){ const it=pick(e.clientX,e.clientY); if(it) jumpToCard(it.def.id); }
+    };
+    cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
+    cv.addEventListener('pointerleave',()=>{ if(!st.ptrs.size) showTip(null); });
+    cv.addEventListener('wheel',e=>{ if(!(e.ctrlKey||e.metaKey)) return; e.preventDefault(); zoomAt(e.clientX,e.clientY,Math.exp(-e.deltaY*.012)); },{passive:false});
+    cv.addEventListener('dblclick',e=>zoomAt(e.clientX,e.clientY,1.8));
+    const mid=()=>{ const r=cv.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height*.55]; };
+    $('#luIn').addEventListener('click',()=>zoomAt(...mid(),1.6)); $('#luOut').addEventListener('click',()=>zoomAt(...mid(),1/1.6));
+  }
+  // build every pattern a few at a time, so the page stays live; the card under each one gets its numbers as it is built,
+  // and the line-up fills in a dozen at a time
+  function start(then){
+    const q=CREATURES.slice(), N=q.length; let laid=0;
+    (function step(){
+      if(S.cr){ setTimeout(step,500); return; }
+      const t0=performance.now();
+      while(q.length && performance.now()-t0<12){ const def=q.shift(); try{ const cr=getCreature(def.id); cardFacts(def,cr); if(ren) items.push(mkItem(def,cr)); }catch(err){ console.error(err); } }
+      if(ren && items.length && (!q.length || items.length-laid>=12) && size()){ layout(); laid=items.length; kick(); }
+      if(q.length){ msg.textContent=`Setting out all ${N}… ${N-q.length}`; setTimeout(step,0); return; }
+      st.touched=performance.now(); msg.textContent=HINT; then();
+    })();
+  }
+  return {start,items,st,refresh:()=>{ if(st.hover) showTip(st.hover); }};
+})();
+function jumpToCard(id){
+  if((S.cat||'all')!=='all'||S.filter){ S.cat='all'; S.filter=''; [...$('#cats').children].forEach(q=>q.setAttribute('aria-pressed',String(q.dataset.c==='all'))); document.querySelectorAll('#filters button').forEach(q=>q.setAttribute('aria-pressed','false')); refreshCards(); }
+  const el=grid.querySelector(`[data-id="${id}"]`); if(!el) return;
+  el.scrollIntoView({behavior:reduceMotion?'auto':'smooth',block:'center'}); el.classList.add('flash'); try{ el.focus({preventScroll:true}); }catch(e){}
+  setTimeout(()=>el.classList.remove('flash'),2200);
+}
+
+$('#rate').value=String(RATE);
+$('#rate').addEventListener('change',e=>{ RATE=+e.target.value; try{ localStorage.setItem('lbl-rate',String(RATE)); }catch(err){} for(const d of CREATURES) if(built[d.id]) cardFacts(d,built[d.id]); LINEUP.refresh(); });
+
 /* routing: one view per creature, named in the hash */
 function route(){ const id=location.hash.replace('#',''); if(id && CREATURES.some(c=>c.id===id)) openCreature(id); else if(S.cr) closeStudio(); }
 addEventListener('hashchange',route);
 addEventListener('pagehide',saveProgress);
-window.__lbl={snap,S,CREATURES,getCreature,cam,XP,Q,U,key,rim,renderer,scene,yarnMat,strandMat,setCursor,setExpert,setMode};
-refreshCards(); route(); setTimeout(thumbTick,60);
+window.__lbl={LINEUP,snap,S,CREATURES,getCreature,cam,XP,Q,U,key,rim,renderer,scene,yarnMat,strandMat,setCursor,setExpert,setMode};
+refreshCards(); route(); LINEUP.start(()=>setTimeout(thumbTick,60));
 })();
 </script>
 </body>

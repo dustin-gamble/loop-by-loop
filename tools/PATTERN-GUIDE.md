@@ -20,7 +20,7 @@ Check it with `node tools/validate.js <yourfile>.js` and fix every ERROR. Read t
 ```
 
 `level`: 1 beginner, 2 easy, 3 a bit more, 4 a big build (see the last section). `blurb`: under 40 characters, says what is distinctive about making it.
-`cat` is given to you.
+`cat` is the shelf it goes on: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, food, things, vehicles, space, home, camp or play.
 
 ## Rounds
 
@@ -187,3 +187,28 @@ one letter per part. Run it after every change, and keep changing the pattern un
 - a part's "sewn on at" point is on the surface of its host, not floating.
 
 Every stuffed part of a big build needs a `!stuff:` note with a sentence of real advice (how firmly, which end).
+
+## Objects (things that are not creatures)
+
+Everything is made of rounds, so every piece is a shape you could turn on a lathe: balls, eggs, cones, tubes, drums,
+discs. Build an object out of those and it will look right. Boxes do not exist: round the idea off (a round cottage, a
+barrel-bodied car, a drum-shaped gift).
+
+- A drum or can (flat ends, straight sides): increase by 6 every round until it is wide enough (that is the flat top),
+  work straight rounds for the side, decrease by 6 every round to close (the flat bottom). Stuffing rounds the corners a
+  little. More than 6 increases a round makes a ruffle; fewer makes a cone.
+- A cone (roof, flame, nose): add 2 or 3 stitches every round or every other round.
+- Stack pieces upward from the top of the root with `at:{round:.5, angle:0}, aim:[0,1,0], mix:1`.
+- A disc ACROSS its own axis (a plate, a rotor, a brim, Saturn's ring): a flat circle, `mr 6`, `inc*6`, `(sc, inc)*6`...
+  with no straight rounds and no stuffing. It lies flat on whatever it is aimed away from. For a ring round a ball, aim
+  it up from the top of the ball and sink it until its middle is at the ball's middle.
+- A disc ALONG its own axis (a wheel, a coin, a clock face, a sail): a closed ball or open cup squashed with
+  `flat:.3`, its axis aimed along the disc (straight down for a wheel) and `face:[x,y,z]` set to the way the disc
+  should look (`face:[1,0,0]` for a wheel on the side of a car; x is mirrored for the other one of a pair).
+- Color does a lot of the work on objects: bands, a different color for the first or last rounds, windows and doors as
+  `conform` patches or dots, lines for seams and spokes.
+- An object has no face unless a face helps (a kettle does not need eyes). Leave `extras` to details that belong there.
+- It must stand: check what `look.js` lists as touching the floor.
+
+Use `node tools/look.js <yourfile>.js` exactly as the big-builds section describes. Levels 1-3 should total 300 to 1,500
+stitches; only patterns marked as a big build go over 2,200.
