@@ -15,7 +15,7 @@ const APP = process.argv[2], WRITE = process.argv.includes('--write');
 const arg = n => { const a = process.argv.find(x => x.startsWith('--' + n + '=')); return a ? a.split('=')[1] : null; };
 const ONLY = arg('only') ? arg('only').split(',') : null, BOTTOM = arg('bottom') == null ? 1 : +arg('bottom'), VERBOSE = process.argv.includes('--verbose');
 // patterns whose straight sides or flat faces are the point, and parts that are discs, wheels or lids whatever they are on
-const SKIP_ID = new Set((arg('skip') || 'pencil,car,tractor,train,satellite,candle,mug,cottage,yarnbasket,backpack,drum,present,sunflower,robot,broccoli').split(','));
+const SKIP_ID = new Set((arg('skip') || 'pencil,car,jeep,bronco,r1t,r1s,modely,cybertruck,beetle,vwbus,mini,porsche911,tractor,train,satellite,candle,mug,cottage,yarnbasket,backpack,drum,present,sunflower,robot,broccoli').split(','));
 const SKIP_PART = /wheel|saucer|brim|lid|base|plate|disc|ring|tier|roof|shell|cap\b|hat|bun|patty|pot|rim|sail|wing|fin|flipper|frill|tail|nose cone|cone|horn|beak|bill|snout|trunk/i;
 let html = fs.readFileSync(APP, 'utf8');
 

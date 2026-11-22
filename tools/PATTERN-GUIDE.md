@@ -20,7 +20,7 @@ Check it with `node tools/validate.js <yourfile>.js` and fix every ERROR. Read t
 ```
 
 `level`: 1 beginner, 2 easy, 3 a bit more, 4 a big build (see the last section). `blurb`: under 40 characters, says what is distinctive about making it.
-`cat` is the shelf it goes on: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, veg (fruit and veg), xmas, food, things, vehicles, space, home, camp or play.
+`cat` is the shelf it goes on: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, veg (fruit and veg), xmas, food, things, vehicles, cars, space, home, camp or play.
 
 ## Rounds
 
@@ -115,7 +115,8 @@ On a part used as a host (`at.on`), small rounds are near its tip and angle 0 is
 {id:'ribs', kind:'line', color:'#c8601a', lines:[[[1,30],[9,30]],[[1,90],[9,90]]], text:'...'}   // several lines
 ```
 
-Points are `[round, angle]` on the host. Every `dot` and `line` needs `text`. Eyes on the root use the `!eyes:` note
+Points are `[round, angle]` on the host. Every `dot` and `line` needs `text`. A line is a single strand, .1 thick;
+`w:.17` makes it a bold one (a light bar, a stripe, the slots of a grille). Eyes on the root use the `!eyes:` note
 in the root's rows as the moment they are fitted, so use `EGGP` or leave the note out if the eyes go on another part.
 Eyes default to size .58; use .42-.5 on small heads. Eyes over a patch need `lift:.35`.
 
@@ -222,6 +223,14 @@ barrel-bodied car, a drum-shaped gift).
   `conform` patches or dots, lines for seams and spokes.
 - An object has no face unless a face helps (a kettle does not need eyes). Leave `extras` to details that belong there.
 - It must stand: check what `look.js` lists as touching the floor.
+- A car (read `jeep`, `r1t` and `beetle`): the body is a drum lying down (`rot:[Math.PI/2,0,0]`), 30 around, with
+  `flat:.82` to press it wider than tall and `stuff:.5` so its front and back faces stay flat. Round 1 is the nose. The
+  cabin is an open cup on top (`at:{round:13, angle:180}, aim:[0,1,0], mix:1`): a flat roof, three rounds of glass,
+  one round of body color, with `flat:.7, face:[1,0,0]` to make it longer than it is wide and `stuff:.1` to keep the
+  roof flat. Wheels are closed discs at angles +-46, `aim:[1,0,0], mix:1`, hub color first. Lamps are one-round
+  `conform` rings; the grille, light bars and tail lights are embroidery on the first and last rounds of the body.
+  On the nose, angle 180 is up and +-90 are the sides, so a point x to the right and y up from the middle of the face is
+  at angle atan2(x, -y) and about hypot(x, y) rounds from the middle.
 
 Use `node tools/look.js <yourfile>.js` exactly as the big-builds section describes. Levels 1-3 should total 300 to 1,500
 stitches; only patterns marked as a big build go over 2,200.

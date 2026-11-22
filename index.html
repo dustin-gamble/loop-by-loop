@@ -6,7 +6,7 @@
 <title>Loop by Loop Crochet Studio</title>
 <meta name="description" content="A 3D crochet stitch-along. Pick an amigurumi pattern, watch it grow, then follow the hook and the yarn through every stitch in slow motion.">
 <meta property="og:title" content="Loop by Loop">
-<meta property="og:description" content="A 3D crochet stitch-along: 150 amigurumi patterns, animals, fruit and veg, Christmas and more, all standing together to scale, every stitch shown as real yarn.">
+<meta property="og:description" content="A 3D crochet stitch-along: 160 amigurumi patterns, animals, fruit and veg, Christmas and more, all standing together to scale, every stitch shown as real yarn.">
 <meta property="og:image" content="https://dustingamble.com/loop-by-loop/preview.jpg">
 <link rel="canonical" href="https://dustingamble.com/loop-by-loop/">
 <script>if(location.hostname==='dustin-gamble.github.io') location.replace('https://dustingamble.com/loop-by-loop/'+location.search+location.hash);</script>
@@ -281,6 +281,7 @@ dialog#classic::backdrop{background:rgba(16,10,30,.55)}
   <footer>
     Every model is drawn from its own pattern: each loop you see is one stitch in the written rounds, in the order you make it.
     These are original beginner patterns in the single-crochet-in-the-round style, with stitch counts checked to add up. They have not been test-crocheted, so trust your hands if a shape wants an extra round.
+    The cars are modelled on real ones and named for them. Those names belong to their makers, who had nothing to do with these patterns.
   </footer>
 </main>
 
@@ -4182,7 +4183,7 @@ dec*6 | S
           {id:'bars', kind:'line', color:'#4b5563', on:'Lantern', front:true, lines:[[[4,-50],[9,-50]],[[4,0],[9,0]],[[4,50],[9,50]]], text:'Stitch three dark upright bars across the lantern glass.'}] },
 
 /* ---------- beyond creatures: vehicles, space, home, outdoors, toys ---------- */
-{ id:'car', name:'Little Car', cat:'vehicles', level:2, blurb:'Round body, dome cabin, four wheels',
+{ id:'car', name:'Little Car', cat:'cars', level:2, blurb:'Round body, dome cabin, four wheels',
   yarn:{A:['Cherry','#d8342f'],B:['Glass','#9fd3ee'],C:['Tyre','#2f2d33'],D:['Hub','#e8e4da'],E:['Lamp','#ffd84a'],F:['Tail lamp','#ff6a3d']}, view:1.0,
   parts:[
    {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], rows:`
@@ -4222,6 +4223,539 @@ dec*6 | C
   extras:[
    {id:'headlights', kind:'dot', color:'#ffd84a', spots:[[2.2,135],[2.2,-135]], size:.5, text:'Embroider a yellow headlight each side at the front.'},
    {id:'taillights', kind:'dot', color:'#ff6a3d', spots:[[22.2,140],[22.2,-140]], size:.45, text:'Embroider an orange tail light each side at the back.'}
+  ] },
+
+{ id:'jeep', name:'Jeep Wrangler', cat:'cars', level:3, blurb:'Seven-slot grille, spare on the back',
+  yarn:{A:['Trail green','#88a854'],B:['Hard top','#2b2b30'],C:['Tire','#2f2d33'],D:['Steel','#8d929b'],E:['Glass','#9fd3ee'],F:['Lamp','#fff6cf'],G:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.82, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x14
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Hard top', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36
+sc 36 | x3 | E
+sc 36 | A
+!stuff: Stuff the top lightly so the roof stays flat and the sides stand up.`, at:{round:13.6, angle:180}, aim:[0,1,0], mix:1, flat:.72, face:[1,0,0], stuff:.1, sink:1.3, sew:'Sew the open end on top of the body, toward the back, so the hood is left clear in front.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[8,46],[8,-46],[16.2,46],[16.2,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Spare wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:23.4, angle:180}, aim:[0,0,-1], mix:1, stuff:1, sink:.9, sew:'Sew the open side of the spare flat on the back of the body.'},
+   {name:'Bumper', color:'B', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.5, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'},
+   {name:'Headlight', color:'F', conform:true, rows:`
+mr 6`, at:{spots:[[3.7,110],[3.7,-110]]}, sew:'Pull the ring shut. Sew a ring flat on each side of the front, level with the top of the grille.'}
+  ],
+  extras:[
+   {id:'grille', kind:'line', color:'#2b2b30', w:.19, lines:[[[3.3,-148],[1.8,-82]],[[3,-158],[1.2,-77]],[[2.9,-168],[.6,-66]],[[2.8,180],[.3,0]],[[2.9,168],[.6,66]],[[3,158],[1.2,77]],[[3.3,148],[1.8,82]]], text:'Embroider seven short upright stitches side by side between the headlights, for the grille.'},
+   {id:'taillights', kind:'dot', color:'#d8342f', spots:[[20.2,80],[20.2,-80]], size:.42, text:'Embroider a red tail light each side of the spare wheel.'}
+  ] },
+
+{ id:'bronco', name:'Ford Bronco', cat:'cars', level:3, blurb:'Round lamps on a white bar, white roof',
+  yarn:{A:['Orange','#ef8a2e'],B:['White','#f6f4ee'],C:['Tire','#2f2d33'],D:['Steel','#8d929b'],E:['Glass','#9fd3ee'],F:['Bumper','#3a3b41'],G:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.82, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x14
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Roof', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42
+sc 42 | x3 | E
+sc 42 | A
+!stuff: Stuff the top lightly so the roof stays flat and the sides stand up.`, at:{round:12.8, angle:180}, aim:[0,1,0], mix:1, flat:.64, face:[1,0,0], stuff:.1, sink:1.3, sew:'Sew the open end along the top of the body, leaving a short hood in front.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[8,46],[8,-46],[16.2,46],[16.2,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Spare wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{round:23.4, angle:180}, aim:[0,0,-1], mix:1, stuff:1, sink:.9, sew:'Sew the open side of the spare flat on the back of the body.'},
+   {name:'Bumper', color:'F', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.5, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'},
+   {name:'Headlight', color:'B', conform:true, rows:`
+mr 6`, at:{spots:[[3.4,110],[3.4,-110]]}, sew:'Pull the ring shut. Sew a ring flat on each side of the front.'}
+  ],
+  extras:[
+   {id:'grille', kind:'line', color:'#f6f4ee', w:.17, lines:[[[2.5,-126],[1.5,180],[2.5,126]],[[2.2,-114],[.9,180],[2.2,114]]], text:'Embroider two white lines side by side from one headlight to the other, for the grille bar.'},
+   {id:'taillights', kind:'dot', color:'#d8342f', spots:[[20.2,80],[20.2,-80]], size:.42, text:'Embroider a red tail light each side of the spare wheel.'}
+  ] },
+
+{ id:'r1t', name:'Rivian R1T', cat:'cars', level:3, blurb:'Oval lamps, a light bar and a truck bed',
+  yarn:{A:['Forest green','#3e7257'],B:['Dark glass','#22262e'],C:['Tire','#2f2d33'],D:['Graphite','#5d616b'],E:['Light','#f6f7f4'],F:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.82, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x16
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Cab', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+sc 36
+sc 36 | x3 | B
+sc 36
+!stuff: Stuff the cab lightly so the roof stays flat.`, at:{round:10.4, angle:180}, aim:[0,1,0], mix:1, flat:.72, face:[1,0,0], stuff:.1, sink:1.3, sew:'Sew the open end on top of the body, a little in front of the middle.'},
+   {name:'Bed', color:'A', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6 | D
+(sc 2, inc)*6 | D
+(sc 3, inc)*6
+sc 30 | x3
+!stuff: Stuff the bed lightly so its dark top stays flat.`, at:{round:18.2, angle:180}, aim:[0,1,0], mix:1, flat:.8, face:[1,0,0], stuff:.1, sink:2, sew:'Sew the open end on top of the body behind the cab, dark side up.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[8,46],[8,-46],[18.2,46],[18.2,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Bumper', color:'D', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.5, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'}
+  ],
+  extras:[
+   {id:'lightbar', kind:'line', color:'#f6f7f4', w:.15, pts:[[4.2,-119],[2.6,-151],[2.6,151],[4.2,119]], text:'Embroider one white line right across the front, near the top, for the light bar.'},
+   {id:'lamps', kind:'line', color:'#f6f7f4', w:.17, lines:[[[4,131],[4.1,122],[3.8,105],[3.5,86],[3.1,77],[2.5,85],[2.5,112],[3.3,130],[4,131]],[[4,-131],[3.3,-130],[2.5,-112],[2.5,-85],[3.1,-77],[3.5,-86],[3.8,-105],[4.1,-122],[4,-131]]], text:'Embroider an upright white oval at each end of the light bar, for the headlights.'},
+   {id:'tailbar', kind:'line', color:'#d8342f', w:.15, pts:[[21.9,-114],[23.8,-146],[23.8,146],[21.9,114]], text:'Embroider one red line right across the back, for the tail light.'}
+  ] },
+
+{ id:'r1s', name:'Rivian R1S', cat:'cars', level:3, blurb:'Oval lamps, a light bar, one long roof',
+  yarn:{A:['Rivian blue','#3f6fa8'],B:['Dark glass','#22262e'],C:['Tire','#2f2d33'],D:['Graphite','#5d616b'],E:['Light','#f6f7f4'],F:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.82, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x16
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Roof', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48
+sc 48 | x3 | B
+sc 48
+!stuff: Stuff the roof lightly so it stays long and flat.`, at:{round:14.2, angle:180}, aim:[0,1,0], mix:1, flat:.58, face:[1,0,0], stuff:.1, sink:1.3, sew:'Sew the open end along the top of the body, leaving a short hood in front.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[8,46],[8,-46],[18.2,46],[18.2,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Bumper', color:'D', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.5, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'}
+  ],
+  extras:[
+   {id:'lightbar', kind:'line', color:'#f6f7f4', w:.15, pts:[[4.2,-119],[2.6,-151],[2.6,151],[4.2,119]], text:'Embroider one white line right across the front, near the top, for the light bar.'},
+   {id:'lamps', kind:'line', color:'#f6f7f4', w:.17, lines:[[[4,131],[4.1,122],[3.8,105],[3.5,86],[3.1,77],[2.5,85],[2.5,112],[3.3,130],[4,131]],[[4,-131],[3.3,-130],[2.5,-112],[2.5,-85],[3.1,-77],[3.5,-86],[3.8,-105],[4.1,-122],[4,-131]]], text:'Embroider an upright white oval at each end of the light bar, for the headlights.'},
+   {id:'tailbar', kind:'line', color:'#d8342f', w:.15, pts:[[21.9,-114],[23.8,-146],[23.8,146],[21.9,114]], text:'Embroider one red line right across the back, for the tail light.'}
+  ] },
+
+{ id:'modely', name:'Tesla Model Y', cat:'cars', level:2, blurb:'Smooth, no grille, a glass roof',
+  yarn:{A:['Pearl white','#f3f2ee'],B:['Dark glass','#22262e'],C:['Tire','#2f2d33'],D:['Graphite','#5d616b'],E:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.8, stuff:.8, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30 | x14
+!stuff: Stuff firmly as you go so the body is smooth and plump, then press it a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Glass roof', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+sc 48
+sc 48 | x2 | A
+!stuff: Stuff the roof lightly so it is one long, low dome.`, at:{round:12.6, angle:180}, aim:[0,1,0], mix:1, flat:.5, face:[1,0,0], stuff:.6, sink:1.7, sew:'Sew the open end along the top of the body, a little behind the middle.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+sc 18
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[7.4,44],[7.4,-44],[17.4,44],[17.4,-44]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'}
+  ],
+  extras:[
+   {id:'headlights', kind:'line', color:'#22262e', w:.16, lines:[[[2.1,140],[3.2,124],[5.3,121]],[[2.1,-140],[3.2,-124],[5.3,-121]]], text:'Embroider a slim dark headlight each side of the nose, lifting a little toward the corners.'},
+   {id:'intake', kind:'line', color:'#22262e', w:.13, pts:[[3,-32],[2.7,0],[3,32]], text:'Embroider one short dark line low on the nose.'},
+   {id:'taillights', kind:'line', color:'#d8342f', w:.16, lines:[[[23.9,139],[22.8,124],[22.1,111]],[[23.9,-139],[22.8,-124],[22.1,-111]]], text:'Embroider a slim red tail light each side of the back.'}
+  ] },
+
+{ id:'cybertruck', name:'Tesla Cybertruck', cat:'cars', level:3, blurb:'A steel wedge with one sharp peak',
+  yarn:{A:['Steel','#a4a9b1'],B:['Dark glass','#22262e'],C:['Tire','#2f2d33'],D:['Graphite','#4a4d55'],E:['Light','#ffffff'],F:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.76, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x14
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Peak', color:'A', rows:`
+mr 5 | B
+inc*5 | B
+(sc, inc)*5 | B
+(sc 2, inc)*5 | B
+(sc 3, inc)*5 | B
+(sc 4, inc)*5 | B
+(sc 5, inc)*5
+(sc 6, inc)*5
+(sc 7, inc)*5
+(sc 8, inc)*5
+sc 50 | x3
+!stuff: Stuff the peak lightly and pinch the top to a ridge.`, at:{round:11.4, angle:180}, aim:[0,1,.14], mix:1, flat:.56, face:[1,0,0], stuff:0, sink:2.7, sew:'Sew the open end along the top of the body, with the peak nearer the front than the back.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+(sc 2, inc)*6
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[8,46],[8,-46],[16.2,46],[16.2,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Bumper', color:'D', rows:`
+mr 6
+sc 6 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.3, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'}
+  ],
+  extras:[
+   {id:'lightbar', kind:'line', color:'#ffffff', w:.17, pts:[[4.7,-120],[3,-153],[3,153],[4.7,120]], text:'Embroider one white line right across the top of the front, for the light bar.'},
+   {id:'tailbar', kind:'line', color:'#d8342f', w:.17, pts:[[19.3,-120],[21,-153],[21,153],[19.3,120]], text:'Embroider one red line right across the top of the back, for the tail light.'}
+  ] },
+
+{ id:'beetle', name:'VW Beetle', cat:'cars', level:3, blurb:'One big dome and four round fenders',
+  yarn:{A:['Sky blue','#62a9dd'],B:['Cream','#f3ecd8'],C:['Tire','#2f2d33'],D:['Hubcap','#f3ecd8'],E:['Glass','#bfe3f4'],F:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.86, stuff:1, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30 | x12
+!stuff: Stuff firmly as you go so the body is smooth and plump, then press it a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Dome', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6 | E
+sc 36 | x2 | E
+(sc 5, inc)*6
+sc 42 | x2
+!stuff: Stuff the dome firmly so it is one round hump.`, at:{round:12.4, angle:180}, aim:[0,1,0], mix:1, flat:.64, face:[1,0,0], stuff:.9, sink:1.8, sew:'Sew the open end on top of the body, a little behind the middle.'},
+   {name:'Fender', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+sc 18 | x3
+!stuff: Stuff the fender lightly.`, at:{spots:[[7.2,80],[7.2,-80],[15.4,80],[15.4,-80]]}, aim:[0,1,0], mix:1, stuff:.7, sink:1.5, sew:'Sew a fender to the side of the body over each wheel, open side down.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+sc 18
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[7.2,44],[7.2,-44],[15.4,44],[15.4,-44]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Front bumper', color:'B', rows:`
+mr 5
+sc 5 | x9
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.1, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:4.85, sew:'Sew the bumper across the bottom of the front.'},
+   {name:'Headlight', color:'B', conform:true, rows:`
+mr 6`, at:{spots:[[3.4,118],[3.4,-118]]}, sew:'Pull the ring shut. Sew a ring flat on each side of the nose, up near the hood.'}
+  ],
+  extras:[
+   {id:'taillights', kind:'dot', color:'#d8342f', spots:[[20.6,94],[20.6,-94]], size:.45, text:'Embroider a red tail light each side of the back.'}
+  ] },
+
+{ id:'vwbus', name:'VW Bus', cat:'cars', level:3, blurb:'Two colors, a V on the nose',
+  yarn:{A:['Turquoise','#35a79c'],B:['Cream','#f3ecd8'],C:['Tire','#2f2d33'],D:['Hubcap','#f3ecd8'],E:['Glass','#bfe3f4'],F:['Lamp','#fff6cf'],G:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.95, stuff:.5, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+sc 30 | x15
+!stuff: Stuff firmly as you go, right out into the flat front and back, then press the body a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Top', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+(sc 6, inc)*6
+(sc 7, inc)*6
+sc 54
+sc 54 | x3 | E
+sc 54
+!stuff: Stuff the top lightly so the long roof stays flat.`, at:{round:12, angle:180}, aim:[0,1,0], mix:1, flat:.55, face:[1,0,0], stuff:.1, sink:1.4, sew:'Sew the open end along the whole top of the body, from the front to the back.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+sc 18
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[7.6,42],[7.6,-42],[16.6,42],[16.6,-42]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Bumper', color:'B', rows:`
+mr 5
+sc 5 | x10
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:3.9, angle:0}, aim:[1,0,0], mix:1, stuff:.6, sink:5.3, sew:'Sew the bumper across the bottom of the front.'},
+   {name:'Headlight', color:'F', conform:true, rows:`
+mr 6`, at:{spots:[[3.4,69],[3.4,-69]]}, sew:'Pull the ring shut. Sew a ring flat low on each side of the front.'},
+   {name:'Badge', color:'B', conform:true, rows:`
+mr 6`, at:{spots:[[1,180]]}, sew:'Pull the ring shut. Sew the ring flat in the middle of the front, where the V comes to its point.'}
+  ],
+  extras:[
+   {id:'vee', kind:'line', color:'#f3ecd8', w:.25, lines:[[[12,-133],[2.6,-126],[.7,-62]],[[12,133],[2.6,126],[.7,62]]], text:'Embroider a big cream V on the front, from the top corners down to a point below the badge.'},
+   {id:'taillights', kind:'dot', color:'#d8342f', spots:[[21.3,69],[21.3,-69]], size:.42, text:'Embroider a red tail light low on each side of the back.'}
+  ] },
+
+{ id:'mini', name:'Mini Cooper', cat:'cars', level:2, blurb:'White roof, two stripes on the hood',
+  yarn:{A:['Chili red','#c9372c'],B:['White','#f6f4ee'],C:['Tire','#2f2d33'],D:['Hubcap','#f6f4ee'],E:['Glass','#9fd3ee'],F:['Lamp','#fff6cf'],G:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.84, stuff:.8, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30 | x11
+!stuff: Stuff firmly as you go so the body is smooth and plump, then press it a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Roof', color:'B', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6
+(sc 4, inc)*6
+(sc 5, inc)*6
+sc 42
+sc 42 | x3 | E
+sc 42 | A
+!stuff: Stuff the top lightly so the roof stays flat and the sides stand up.`, at:{round:12.4, angle:180}, aim:[0,1,0], mix:1, flat:.66, face:[1,0,0], stuff:.1, sink:1.3, sew:'Sew the open end on top of the body, leaving a short hood in front.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+sc 18
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[6.8,44],[6.8,-44],[14.8,44],[14.8,-44]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Headlight', color:'F', conform:true, rows:`
+mr 6`, at:{spots:[[3.3,112],[3.3,-112]]}, sew:'Pull the ring shut. Sew a ring flat on each side of the nose.'}
+  ],
+  extras:[
+   {id:'stripes', kind:'line', color:'#f6f4ee', w:.2, lines:[[[2.6,166],[5,168],[7.2,168]],[[2.6,-166],[5,-168],[7.2,-168]]], text:'Embroider two white stripes side by side along the hood, from the windshield to the nose.'},
+   {id:'grille', kind:'line', color:'#2f2d33', w:.14, lines:[[[.4,180],[1.1,102],[1.6,81],[1.3,57],[.9,0],[1.3,-57],[1.6,-81],[1.1,-102],[.4,-180]]], text:'Embroider a small dark oval between and below the headlights, for the grille.'},
+   {id:'taillights', kind:'dot', color:'#d8342f', spots:[[19.5,94],[19.5,-94]], size:.42, text:'Embroider a red tail light each side of the back.'}
+  ] },
+
+{ id:'porsche911', name:'Porsche 911', cat:'cars', level:3, blurb:'Low, with a roof that runs to the tail',
+  yarn:{A:['Racing yellow','#f4c20d'],B:['Glass','#9fd3ee'],C:['Tire','#2f2d33'],D:['Silver','#c9ccd1'],E:['Lamp','#f8fbff'],F:['Tail red','#d8342f']}, view:.7,
+  parts:[
+   {name:'Body', root:true, color:'A', rot:[Math.PI/2,0,0], flat:.72, stuff:.8, rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+sc 24
+(sc 3, inc)*6
+sc 30 | x14
+!stuff: Stuff firmly as you go so the body is smooth and plump, then press it a little flat so it sits wider than it is tall.
+(sc 3, dec)*6
+sc 24
+(sc 2, dec)*6
+(sc, dec)*6
+dec*6
+!close:`},
+   {name:'Roof', color:'A', rows:`
+mr 6
+inc*6
+(sc, inc)*6
+(sc 2, inc)*6
+(sc 3, inc)*6 | B
+(sc 4, inc)*6 | B
+sc 36 | B
+(sc 5, inc)*6
+sc 42 | x2
+!stuff: Stuff the roof lightly so it is one low, smooth hump.`, at:{round:14.2, angle:180}, aim:[0,1,-.2], mix:1, flat:.56, face:[1,0,0], stuff:.6, sink:1.9, sew:'Sew the open end along the top of the body, toward the back, so the roof runs down to the tail.'},
+   {name:'Wheel', color:'C', rows:`
+mr 6 | D
+inc*6 | D
+(sc, inc)*6
+sc 18
+!stuff: Stuff the wheel firmly so it is a fat disc.
+(sc, dec)*6
+dec*6
+!close:`, at:{spots:[[7.4,46],[7.4,-46],[17.4,46],[17.4,-46]]}, aim:[1,0,0], mix:1, stuff:1, sink:.9, sew:'Sew the open side of a wheel low on each side of the body, two at the front and two at the back, all level.'},
+   {name:'Ducktail', color:'A', rows:`
+mr 5
+sc 5 | x8
+!stuff: Stuff it lightly as you go.
+!close:`, at:{round:20.6, angle:180}, aim:[1,0,0], mix:1, stuff:.6, sink:4.4, sew:'Sew the little roll across the top of the tail.'},
+   {name:'Headlight', color:'E', conform:true, rows:`
+mr 6`, at:{spots:[[3.5,115],[3.5,-115]]}, sew:'Pull the ring shut. Sew a ring flat on each side of the nose, up on the fenders.'}
+  ],
+  extras:[
+   {id:'tailbar', kind:'line', color:'#d8342f', w:.16, pts:[[22.2,-106],[24.2,-135],[24.2,135],[22.2,106]], text:'Embroider one red line right across the back, for the tail light.'}
   ] },
 
 { id:'tractor', name:'Tractor', cat:'vehicles', level:3, blurb:'Big back wheels and a cab',
@@ -7458,7 +7992,7 @@ function makeView(cr){
     const e=x.e, objs=[];
     if(e.kind==='line'){
       const mat=strandMat.clone(); mat.color.set(e.color);
-      for(const pl of x.lines) objs.push(new THREE.Mesh(strandGeo(pl,.1,Math.max(12,pl.length*5),7),mat));
+      for(const pl of x.lines) objs.push(new THREE.Mesh(strandGeo(pl,e.w||.1,Math.max(12,pl.length*5),7),mat));
     }else for(const s of x.pts){
       const qt=new THREE.Quaternion().setFromUnitVectors(new V3(0,0,1),s.n), es=e.kind==='eye'?lk.st.e:'', size=(e.size||.58)*(e.kind==='eye'?EYE*(es==='big'?1.4:1):1);
       if(es==='sleepy'||es==='happy'){ const mat=strandMat.clone(); mat.color.set(0x1d1820); objs.push(new THREE.Mesh(strandGeo(eyeArc(s,size,es==='happy'),.12,12,7),mat)); }
@@ -7558,7 +8092,7 @@ function fmtTime(min){
 }
 function cardFacts(def,cr){ const el=grid.querySelector(`[data-id="${def.id}"] .facts`), z=sizeOf(def.id); if(el) el.textContent=`${cr.insts.length.toLocaleString('en-US')} stitches · ${fmtLen(cr.heightCm*z.k)} · about ${fmtTime(minutesLeft(cr,0,z))}`+(z===FULL?'':` · at ${z.l} size`); }
 const LVL=['','Beginner','Easy','A bit more','Big build'];
-const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['veg','Fruit and veg'],['xmas','Christmas'],['food','Food'],['things','Things'],['vehicles','Vehicles'],['space','Space'],['home','Home'],['camp','Outdoors'],['play','Toys and games']];
+const CATS=[['farm','Farm'],['woodland','Woodland'],['pets','Pets'],['ocean','Ocean'],['polar','Polar'],['safari','Safari'],['garden','Garden'],['makebelieve','Make-believe'],['veg','Fruit and veg'],['xmas','Christmas'],['food','Food'],['things','Things'],['vehicles','Vehicles'],['cars','Cars'],['space','Space'],['home','Home'],['camp','Outdoors'],['play','Toys and games']];
 const SHELF=CATS.map(([key,label])=>({key,label,defs:CREATURES.filter(d=>d.cat===key)})).filter(c=>c.defs.length);      // the gallery, one shelf per category
 { const chip=(key,label,n)=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'; b.dataset.c=key; b.setAttribute('aria-pressed',String(key==='all')); b.innerHTML=`${label}<small>${n}</small>`; $('#cats').appendChild(b); };
   chip('all','All',CREATURES.length);
@@ -8357,7 +8891,7 @@ function classicText(cr){
       for(const nt of info.notes) if(nt.after===i){ const t=noteText(nt); if(t) L.push('    '+t); }
       if(i===info.N) break;
       let j=i; while(j+1<info.N && info.rounds[j+1].src===info.rounds[i].src && info.rounds[j+1].color===info.rounds[i].color && !info.notes.some(n=>n.after===j+1)) j++;
-      const rd=info.rounds[i]; if(rd.color!==colNow){ L.push(`    Change to ${yarn[rd.color][0]}.`); colNow=rd.color; }
+      const rd=info.rounds[i]; if(rd.color!==colNow){ L.push(`    ${i?'Change to':'Start with'} ${yarn[rd.color][0]}.`); colNow=rd.color; }
       L.push(`  ${i===j?`Rnd ${i+1}`:`Rnds ${i+1}-${j+1}`}: ${word(rd.src,i?info.rounds[i-1].n:0)} [${rd.n}]`);
       i=j+1;
     }
@@ -8628,7 +9162,7 @@ function skinGeo(cr){
   for(const x of cr.extras){
     const e=x.e, es=e.kind==='eye'?lk.st.e:'', size=(e.size||.58)*(e.kind==='eye'?EYE*(es==='big'?1.4:1):1);
     if(es==='sleepy'||es==='happy'){ for(const s of x.pts){ const v0=L.col.length; tubeInto(L,eyeArc(s,size,es==='happy'),{rad:.12,segs:10,radial:5}); for(let i=v0;i<L.col.length;i+=3){ L.col[i]=dark.r; L.col[i+1]=dark.g; L.col[i+2]=dark.b; } } }
-    else if(e.kind==='line'){ col.set(e.color); for(const pl of x.lines){ const v0=L.col.length; tubeInto(L,pl,{rad:.1,segs:Math.max(6,pl.length*3),radial:5}); for(let i=v0;i<L.col.length;i+=3){ L.col[i]=col.r; L.col[i+1]=col.g; L.col[i+2]=col.b; } } }
+    else if(e.kind==='line'){ col.set(e.color); for(const pl of x.lines){ const v0=L.col.length; tubeInto(L,pl,{rad:e.w||.1,segs:Math.max(6,pl.length*3),radial:5}); for(let i=v0;i<L.col.length;i+=3){ L.col[i]=col.r; L.col[i+1]=col.g; L.col[i+2]=col.b; } } }
     else for(const s of x.pts){
       if(e.kind==='eye'){
         pt.copy(s.p).addScaledVector(s.n,(e.lift||0)+size*.1+.3); blob(bits.eye,pt,s.n,size,size,size*.72,dark);

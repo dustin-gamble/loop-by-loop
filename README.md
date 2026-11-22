@@ -1,8 +1,9 @@
 # Loop by Loop
 
-A 3D crochet stitch-along. Pick one of 150 amigurumi patterns, on seventeen shelves, watch it grow in a time-lapse, then
+A 3D crochet stitch-along. Pick one of 160 amigurumi patterns, on eighteen shelves, watch it grow in a time-lapse, then
 crochet along one stitch at a time while the model shows every strand of yarn. Animals, and things that are not:
-a teapot, a quadcopter, Saturn, a campfire, a pickle with a face, Santa. Sixteen are big builds of 2,600 to 4,000 stitches.
+a teapot, a quadcopter, Saturn, a campfire, a pickle with a face, Santa, and a shelf of real cars (a Jeep, a Rivian,
+a Tesla Model Y, a VW Bus). Sixteen are big builds of 2,600 to 4,000 stitches.
 
 **Live:** https://dustingamble.com/loop-by-loop/
 
@@ -13,7 +14,8 @@ The whole thing is one self-contained page, `index.html`. It needs internet once
 from jsDelivr and two Google Fonts. Nothing is sent anywhere; progress is kept in the browser.
 
 These are original beginner patterns in the single-crochet-in-the-round style. The stitch counts are
-checked to add up, but the patterns have not been test-crocheted.
+checked to add up, but the patterns have not been test-crocheted. The cars are modelled on real ones and named for
+them; those names belong to their makers, who had nothing to do with these patterns.
 
 ## Using it
 
@@ -126,9 +128,10 @@ sc 30 | B            this round in yarn B
 - Parts attach to a host with `at:{round, angle}`, `at:{round, angles:[…]}` or `at:{spots:[[round, angle], …]}`,
   and are aimed with `aim` / `aimRel`, `mix`, `flat`, `bend`, `sink`, `stuff`. `conform:true` sews a flat
   circle onto the host. `at.on` names another part as the host.
-- `extras` add safety eyes, embroidered dots (`spots` for many) and lines (`lines` for many).
+- `extras` add safety eyes, embroidered dots (`spots` for many) and lines (`lines` for many; `w` makes a line
+  thicker than the usual .1, for a light bar or a stripe).
 - `cat` files a pattern on a shelf in the gallery: farm, woodland, pets, ocean, polar, safari, garden, makebelieve, veg, xmas,
-  food, things, vehicles, space, home, camp, play.
+  food, things, vehicles, cars, space, home, camp, play.
 - The look aimed for is the beginner-kit kind of cute: one round body, small glossy bead eyes about a stitch across
   (`EYE`), tiny features, cheeks. Bigger eyes were tried and read as bug-eyed.
   A face reads best with the eyes about a sixth of the round apart (`apart` is in stitches of that round), on the
@@ -143,6 +146,11 @@ sc 30 | B            this round in yarn B
   the shoulders curve. `node tools/round.js index.html` reworks the stitch counts of flat-capped parts that way, keeping
   every part's number of rounds (so eyes, limbs and notes stay on the rounds they were on). It was run once over the
   catalog; patterns whose straight sides are the point (the pencil, the mug, the train) are left alone.
+- **Cars** are all built the same way (see the `jeep` or `beetle` pattern): the body is a drum or a pod lying on its
+  side, pressed a little flat (`flat` on the root, with `stuff` under 1 to keep the front and back faces flat); the
+  cabin is an open cup sewn on top with a band of glass worked into its rounds, squashed long with `flat` and
+  `face:[1,0,0]`; the wheels are fat discs aimed sideways. What makes each one its own car is on the front face:
+  seven slots for the Jeep, upright ovals and a light bar for the Rivian, nothing at all for the Tesla.
 - `tools/PATTERN-GUIDE.md` is the full guide to writing one. `node tools/validate.js <file>` checks a file of new
   patterns (stitch counts, attachments, sizes) before they go into the page, and `node tools/look.js <file>` builds
   them with the page's own code and prints front, side and top views as text, one letter per part
